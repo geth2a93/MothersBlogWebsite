@@ -1,9 +1,10 @@
-from flask import Flask
+from flask import Flask, jsonify
 from flask_cors import CORS
 from os import path
-from website.views import books_bp, blog_bp
+#from website.views import books_bp, blog_bp
 from website.__init__ import db, DB_NAME
 from website.models import *
+from website.functions import get_genres, get_books_by_genre, get_blog_posts
 
 def create_app():
     app = Flask(__name__)
@@ -11,18 +12,19 @@ def create_app():
     app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
     db.init_app(app)
 
-    app.register_blueprint(books_bp)
-    app.register_blueprint(blog_bp)
-
     CORS(app)
 
     return app
 
 app = create_app()
 
-with app.app_context():
-    if not path.exists(DB_NAME):
-        db.create_all()
+@app.route("/")
+def home():
+    return jsonify({"message": "Welcome to the home page"})
+
+@app.route("/blog")
+def get_blog_posts_route():
+    return jsonify(get_blog_posts())
 
 if __name__ == "__main__":
     app.run(debug=True, port=5055)

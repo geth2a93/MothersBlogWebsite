@@ -1,0 +1,21 @@
+.container {
+  max-width: 700px;
+  margin: 40px auto;
+  font-family: Arial, sans-serif;
+}
+
+.post {
+  margin-bottom: 25px;
+}
+
+.date {
+  display: block;
+  color: gray;
+  font-size: 0.85rem;
+  margin-bottom: 10px;
+}
+
+.empty {
+  text-align: center;
+  color: gray;
+}
