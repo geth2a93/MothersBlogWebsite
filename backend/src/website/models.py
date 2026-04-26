@@ -14,13 +14,14 @@ class BlogPost(db.Model):
     title = db.Column(db.String(50), nullable=False)
     content = db.Column(db.Text, nullable=False)
     date_created = db.Column(db.DateTime, default=datetime.utcnow)
-    blog_image_urls = db.Column(db.String(200))
+    blog_image_urls = db.relationship('Blog_Images', lazy=True)
     tags = db.relationship('Tags', backref='blog', lazy=True)
 
 class Book(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), nullable=False)
     synopsis = db.Column(db.Text, nullable=False)
+    genre = db.Column(db.Integer, nullable=False) #04 based on which book, YA =1 Romance = 2, 0 middle grade 3 anthologies.
     book_image_url = db.Column(db.String(200), nullable=True)
     buy_links = db.relationship('BuyLinks', backref='book', lazy=True)
     reviews = db.relationship('Reviews', backref='book', lazy=True)

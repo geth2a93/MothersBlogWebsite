@@ -17,6 +17,9 @@ def upload_cover():
 
     return jsonify({"image_url": url}), 200
 
+@views.route("/", methods=["GET"])
+def test():
+    return jsonify(get_blog_posts())
 
 @views.route("/blog/uploadimage", methods=["POST"])
 @login_required
