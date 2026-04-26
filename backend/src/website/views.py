@@ -3,10 +3,10 @@ from flask_login import login_required, current_user
 from website.file_storage import save_file
 from .functions import get_genres, get_books_by_genre, get_blog_posts
 
-book = Blueprint("book", __name__)
-blog = Blueprint('blog', __name__)
+views = Blueprint('views', __name__) 
 
-@book.route("/book/uploadcover", methods=["POST"])
+@views.route("/book/uploadcover", methods=["POST"])
+@login_required
 def upload_cover():
     file = request.files.get("image")
 
@@ -18,7 +18,8 @@ def upload_cover():
     return jsonify({"image_url": url}), 200
 
 
-@blog.route("/blog/uploadimage", methods=["POST"])
+@views.route("/blog/uploadimage", methods=["POST"])
+@login_required
 def upload_image():
     file = request.files.get("image")
 

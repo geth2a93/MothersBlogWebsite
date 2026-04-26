@@ -1,5 +1,9 @@
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask import request, jsonify
+from flask import request, jsonify, Blueprint
+from flask_login import login_required, current_user
+from . import db
+
+auth = Blueprint('auth', __name__)
 
 @auth.route('/login', methods=['POST'])
 def login():
@@ -8,14 +12,15 @@ def login():
     if not data or not data.get('username') or not data.get('password'):
         return jsonify({"error": "Missing credentials"}), 400
 
-    user = User.query.filter_by(username=data['username']).first()
+    #user = User.query.filter_by(username=data['username']).first()
 
-    if user and check_password_hash(user.password, data['password']):
-        return jsonify({"message": "Logged in"}), 200
+    #if user and check_password_hash(user.password, data['password']):
+        #return jsonify({"message": "Logged in"}), 200
 
     return jsonify({"error": "Invalid credentials"}), 401
 
 @auth.route('/admin-reset-password', methods=['POST'])
+@login_required
 def admin_reset_password():
     data = request.get_json()
     db.session.commit()
