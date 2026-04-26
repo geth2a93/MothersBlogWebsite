@@ -28,7 +28,3 @@ def upload_image():
         return jsonify({"error": "No file"}), 400
 
     return jsonify({"image_url": url}), 200
-
-
-
-
