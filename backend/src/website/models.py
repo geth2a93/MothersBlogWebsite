@@ -24,6 +24,7 @@ class Book(db.Model):
     genre = db.Column(db.Integer, nullable=False) #04 based on which book, YA =1 Romance = 2, 0 middle grade 3 anthologies.
     book_image_url = db.Column(db.String(200), nullable=True)
     buy_links = db.relationship('BuyLinks', backref='book', lazy=True)
+    date_added = db.Column(db.DateTime, default=datetime.utcnow)
     reviews = db.relationship('Reviews', backref='book', lazy=True)
 
 class Subscribers(db.Model):
