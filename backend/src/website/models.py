@@ -7,22 +7,21 @@ class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True, unique=True)
     username = db.Column(db.String(25), unique=True)
     password = db.Column(db.String(200), nullable=False)
-    email = db.Column(db.String(50))
+    email = db.Column(db.String(50), nullable=False)
    
 class BlogPost(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(50), nullable=False)
     content = db.Column(db.Text, nullable=False)
     date_created = db.Column(db.DateTime, default=datetime.utcnow)
-    blog_image_urls = db.relationship('Blog_Images', lazy=True)
+    blog_image_urls = db.relationship('Blog_Images', backref='blog_post', lazy=True)
     tags = db.relationship('Tags', backref='blog', lazy=True)
 
 class Book(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), nullable=False)
     synopsis = db.Column(db.Text, nullable=False)
-    genre = db.Column(db.Integer, nullable=False) #04 based on which book, YA =1 Romance = 2, 0 middle grade 3 anthologies.
-    book_image_url = db.Column(db.String(200), nullable=True)
+    genre = db.Column(db.String(20), nullable=False) 
     buy_links = db.relationship('BuyLinks', backref='book', lazy=True)
     date_added = db.Column(db.DateTime, default=datetime.utcnow)
     reviews = db.relationship('Reviews', backref='book', lazy=True)
@@ -30,8 +29,12 @@ class Book(db.Model):
 class Subscribers(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(50), nullable=False)
-    name = db.Column(db.String(20), nullable=True)#if someone doesnt add a name use email until @ symbol to say hello to
+    name = db.Column(db.String(20), nullable=True)#if someone doesnt add a name use email until @ symbol to say hello to in email
 
+class AboutMe(db.Model): 
+    id = db.Column(db.Integer, primary_key=True)
+    content = db.Column(db.Text, nullable=False) 
+    updated_at = db.Column(db.DateTime, default=datetime.utcnow)
 
 class Tags(db.Model):
     id = db.Column(db.Integer, primary_key=True)
