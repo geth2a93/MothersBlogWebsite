@@ -4,12 +4,14 @@ import "./App.css";
 function App() {
   const [posts, setPosts] = useState([]);
 
-  useEffect(() => {
-    fetch("http://localhost:5055/api")
-      .then((res) => res.json())
-      .then((data) => setPosts(data))
-      .catch((err) => console.error(err));
-  }, []);
+useEffect(() => {
+  fetch("http://localhost:5055/api")
+    .then(res => res.json())
+    .then(data => {
+      setPosts(Array.isArray(data) ? data : [data]);
+    })
+    .catch(err => console.error(err));
+}, []);
 
   return (
     <div className="container">
@@ -24,7 +26,7 @@ function App() {
           </p>
 
           <div className="tags">
-            {post.tags.map((tag, i) => (
+            {post.tags?.map((tag, i) => (
               <span className="tag" key={i}>
                 #{tag}
               </span>
