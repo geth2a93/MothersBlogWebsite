@@ -3,9 +3,8 @@ from .models import Book, BlogPost
 def get_home_latest_content():
     latest_book = Book.query.order_by(Book.date_added.desc()).first()
     latest_blog = BlogPost.query.order_by(BlogPost.date_created.desc()).first()
-
-    if latest_book and (latest_book.date_added > latest_blog.date_created):
-        return {
+    data = {
+        "book": {
             "type": "book",
             "id": latest_book.id,
             "title": latest_book.title,
@@ -13,19 +12,19 @@ def get_home_latest_content():
             "genre": latest_book.genre,
             "image": latest_book.book_image_url,
             "date": latest_book.date_added.isoformat()
-        }
+        } if latest_book else None,
 
-    if latest_blog:
-        return {            
+        "blog": {
             "type": "blog",
             "id": latest_blog.id,
             "title": latest_blog.title,
             "content": latest_blog.content,
             "tags": [t.content for t in latest_blog.tags],
             "date": latest_blog.date_created.isoformat()
-        }
+        } if latest_blog else None
+    }
 
-    return None
+    return data
 
 def get_books_by_genre(genre): #all books in the genre
     books = Book.query.filter_by(genre=genre).all()
@@ -35,10 +34,9 @@ def get_books_by_genre(genre): #all books in the genre
             "id": b.id,
             "title": b.title,
             "genre": b.genre,
-            "synopsis": b.synopsis,
+            "synopsis": b.synopsis[:300],
             "book_image_url": b.book_image_url,
             "buy_links": [{"id": l.id, "url": l.links_url} for l in b.buy_links],
-            "reviews": [{"id": r.id, "link_url": r.link_url, "name": r.name, "title": r.title, "content": r.content, "rating": r.rating} for r in b.reviews]
         })
     return data
 
@@ -48,8 +46,9 @@ def get_books_by_title(title):
     data = {
         "id": book.id,
         "title": book.title,
-        "synopsis": book.synopsis,
         "genre": book.genre,
+        "synopsis": book.synopsis,
+        "book_image_url": b.book_image_url,
         "buy_links": [{"id": l.id, "url": l.links_url} for l in book.buy_links],
         "reviews": [{"id": r.id, "link_url": r.link_url, "name": r.name, "title": r.title, "content": r.content, "rating": r.rating} for r in book.reviews]
     }
@@ -62,10 +61,10 @@ def get_blog_posts(page, per_page=5): #infinite scroll
         "posts": [{
             "id": p.id,
             "title": p.title,
-            "content": p.content[:200],
+            "content": p.content[:300],
             "tags": [t.content for t in p.tags],
             "date_created": p.date_created.isoformat(),
-            "images": [(i.link_url, i.ownership) for i in p.blog_image_urls]
+            "image": [(i.link_url, i.ownership, i.title_image) for i in p.blog_image_urls if i.title_image]
             
         } for p in pagination.items],
         "has_next": pagination.has_next,

@@ -22,6 +22,7 @@ class Book(db.Model):
     title = db.Column(db.String(100), nullable=False)
     synopsis = db.Column(db.Text, nullable=False)
     genre = db.Column(db.String(20), nullable=False) 
+    book_image_url = db.Column(db.String(20), nullable=False)
     buy_links = db.relationship('BuyLinks', backref='book', lazy=True)
     date_added = db.Column(db.DateTime, default=datetime.utcnow)
     reviews = db.relationship('Reviews', backref='book', lazy=True)
@@ -61,3 +62,4 @@ class Blog_Images(db.Model):
     link_url = db.Column(db.String(200), nullable=False)
     ownership = db.Column(db.Boolean, default=False) #true owned false not
     blog_id = db.Column(db.Integer, db.ForeignKey('blog_post.id'), nullable=False)
+    title_image = db.Column(db.Boolean, default=False) #true if title image else false 

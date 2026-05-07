@@ -1,6 +1,87 @@
-<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="books.db" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="structure browser pragmas query" current="1"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="100"/><column_width id="3" width="1636"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="2" parent="0"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><table title="buy_links" custom_title="0" dock_id="1" table="4,9:mainbuy_links"/><dock_state state="000000ff00000000fd00000001000000020000024800000215fc0100000001fb000000160064006f0063006b00420072006f00770073006500310100000000000002480000011e00ffffff000002480000000000000004000000040000000800000008fc00000000"/><default_encoding codec=""/><browse_table_settings><table schema="main" name="blog__images" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort><column index="3" mode="0"/></sort><column_widths><column index="1" value="35"/><column index="2" value="50"/><column index="3" value="66"/><column index="4" value="217"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="book" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="35"/><column index="2" value="71"/><column index="3" value="103"/><column index="4" value="41"/><column index="5" value="239"/><column index="6" value="159"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="buy_links" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="35"/><column index="2" value="311"/><column index="3" value="55"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table></browse_table_settings></tab_browse><tab_sql><sql name="SQL 1*">
-INSERT INTO buy_links (links_url, book_id) VALUES
-('https://buy.com/book1/a', 1),
-('https://buy.com/book1/b', 1),
-('https://buy.com/book2/a', 2),
-('https://buy.com/book2/b', 2);</sql><current_tab id="0"/></tab_sql></sqlb_project>
+<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="books.db" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="structure browser pragmas query" current="1"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="100"/><column_width id="3" width="1636"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><table title="book" custom_title="0" dock_id="1" table="4,4:mainbook"/><dock_state state="000000ff00000000fd0000000100000002000005bb00000390fc0100000001fb000000160064006f0063006b00420072006f00770073006500310100000000000005bb0000012300ffffff000002690000000000000004000000040000000800000008fc00000000"/><default_encoding codec=""/><browse_table_settings><table schema="main" name="about_me" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="35"/><column index="2" value="52"/><column index="3" value="74"/><column index="4" value="90"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="blog__images" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="35"/><column index="2" value="300"/><column index="3" value="66"/><column index="4" value="51"/><column index="5" value="73"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="blog_post" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="35"/><column index="2" value="287"/><column index="3" value="300"/><column index="4" value="159"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="book" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="35"/><column index="2" value="239"/><column index="3" value="300"/><column index="4" value="103"/><column index="5" value="295"/><column index="6" value="159"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="buy_links" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="35"/><column index="2" value="300"/><column index="3" value="55"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="reviews" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="35"/><column index="2" value="239"/><column index="3" value="111"/><column index="4" value="167"/><column index="5" value="300"/><column index="6" value="42"/><column index="7" value="55"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="subscribers" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="35"/><column index="2" value="199"/><column index="3" value="55"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table></browse_table_settings></tab_browse><tab_sql><sql name="SQL 1*">-- =========================
+-- ADDITIONAL BOOKS
+-- 2 MORE FOR EACH GENRE
+-- =========================
+
+INSERT INTO book (title, synopsis, genre, book_image_url, date_added)
+VALUES
+
+-- =========================
+-- ROMANCE
+-- =========================
+
+(
+'Letters Beneath the Rain',
+'Lorem ipsum dolor sit amet, consectetur adipiscing elit. A heartfelt romance unfolds between two strangers exchanging anonymous letters during a storm-filled summer. As secrets surface and emotions deepen, both must decide whether love is worth risking the lives they carefully built for themselves.',
+'Romance',
+'/static/uploads/romance_book2.jpg',
+'2026-04-08 13:25:00'
+),
+
+(
+'The Ocean Between Us',
+'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Two former lovers reunite years later while restoring a coastal inn threatened by financial ruin. Old memories, unresolved heartbreak, and unexpected second chances force them to confront the feelings they left behind.',
+'Romance',
+'/static/uploads/romance_book3.jpg',
+'2026-04-05 17:40:00'
+),
+
+-- =========================
+-- YOUNG ADULT
+-- =========================
+
+(
+'Falling Into Midnight',
+'Lorem ipsum dolor sit amet, consectetur adipiscing elit. A group of teenagers discovers an abandoned underground train station beneath their city, uncovering mysteries connected to disappearances dating back decades. Their investigation slowly begins changing reality around them.',
+'Young Adult',
+'/static/uploads/ya_book2.jpg',
+'2026-04-03 10:15:00'
+),
+
+(
+'The Summer We Stopped Time',
+'Lorem ipsum dolor sit amet, consectetur adipiscing elit. During one unforgettable summer, four friends attempt to hold onto childhood as graduation approaches. Hidden fears, fractured friendships, and first love reshape their futures forever.',
+'Young Adult',
+'/static/uploads/ya_book3.jpg',
+'2026-03-30 15:50:00'
+),
+
+-- =========================
+-- MIDDLE GRADE
+-- =========================
+
+(
+'The Lantern Keeper',
+'Lorem ipsum dolor sit amet, consectetur adipiscing elit. A curious young boy inherits a magical lantern capable of revealing forgotten memories hidden throughout his village. As strange shadows emerge at night, he must uncover the truth behind an ancient legend.',
+'Middle Grade',
+'/static/uploads/middlegrade_book2.jpg',
+'2026-03-28 09:20:00'
+),
+
+(
+'Mapmakers of Alder Creek',
+'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Three friends stumble upon a living map that changes every night, guiding them toward hidden locations, puzzles, and long-lost secrets buried beneath their quiet town.',
+'Middle Grade',
+'/static/uploads/middlegrade_book3.jpg',
+'2026-03-24 11:35:00'
+),
+
+-- =========================
+-- ANTHOLOGIES
+-- =========================
+
+(
+'Echoes After Dark',
+'Lorem ipsum dolor sit amet, consectetur adipiscing elit. A chilling anthology blending psychological horror, surreal fantasy, and emotional storytelling. Each tale explores fear, memory, and the strange moments that linger long after midnight.',
+'Anthologies',
+'/static/uploads/anthology_book2.jpg',
+'2026-03-20 18:10:00'
+),
+
+(
+'Whispers in Empty Rooms',
+'Lorem ipsum dolor sit amet, consectetur adipiscing elit. A collection of atmospheric short stories exploring grief, isolation, and supernatural encounters. Each story presents characters struggling to confront both internal and external darkness.',
+'Anthologies',
+'/static/uploads/anthology_book3.jpg',
+'2026-03-15 20:45:00'
+);</sql><current_tab id="0"/></tab_sql></sqlb_project>
