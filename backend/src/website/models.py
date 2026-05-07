@@ -35,6 +35,7 @@ class AboutMe(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.Text, nullable=False) 
     updated_at = db.Column(db.DateTime, default=datetime.utcnow)
+    abtme_pic_url = db.Column(db.String(200))
 
 class Tags(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -60,6 +61,3 @@ class Blog_Images(db.Model):
     link_url = db.Column(db.String(200), nullable=False)
     ownership = db.Column(db.Boolean, default=False) #true owned false not
     blog_id = db.Column(db.Integer, db.ForeignKey('blog_post.id'), nullable=False)
-
-
-

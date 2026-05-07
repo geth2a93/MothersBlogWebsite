@@ -27,15 +27,21 @@ def blog_feed():
 def blog_post(id):
     return jsonify(get_blog_by_id(id))
 
-@api.route("/book/<string:genre>")
+@api.route("/book/genre/<string:genre>", methods=["GET"])
 def books_by_genre(genre):
-    return jsonify()
+    return jsonify(get_books_by_genre(genre))
 
-@api.route("/about", methods=["GET"])
+
+@api.route("/book/title/<string:title>", methods=["GET"])
+def book_by_title(title):
+    return jsonify(get_books_by_title(title))
+
+@api.route("/aboutme", methods=["GET"])
 def about():
     about = AboutMe.query.first()
 
     return jsonify({
         "content": about.content,
-        "author_image": current_app.config["AUTHOR_IMAGE_URL"]
+        "Pic": about.pic
     })
+
