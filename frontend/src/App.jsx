@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 
+// notes: blog photos should print out "credit to: url", under pic if not owned (true is owned, false is not),
 function App() {
   const [posts, setPosts] = useState([]);
 
