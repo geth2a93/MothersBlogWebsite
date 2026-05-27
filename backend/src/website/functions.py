@@ -38,7 +38,7 @@ def get_home_latest_content():
     return data
 
 def get_newest_book_for_each_genre():
-    genres = ["Young Adult", "Middle Grade", "Romance", "Anthologies"]
+    genres = ["Young Adult", "Middle Grade", "Romance", "Short Stories"]
 
     data = []
 
@@ -97,7 +97,7 @@ def get_blog_posts(page, per_page=5): #5 per page
             "title": p.title,
             "preview": p.preview,
             "tags": [t.content for t in p.tags],
-            "titlepic": p.titlepic
+            "titlepic": p.title_pic
             
         } for p in pagination.items],
         "has_next": pagination.has_next,
@@ -108,24 +108,26 @@ def get_blog_posts(page, per_page=5): #5 per page
 
 def get_blog_by_id(id):
     p = BlogPost.query.get_or_404(id)
-
     blocks = []
 
     for b in p.content_blocks:
         blocks.append({
-            "type": b.type,
             "content": b.content,
             "image_url": b.image_url,
             "alignment": b.alignment,
+            "size": b.size,
+            "ownership": b.ownership,
             "order": b.order
         })
 
     return {
         "id": p.id,
         "title": p.title,
-        "content": blocks,
+        "preview": p.preview,
+        "title_pic": p.title_pic,
         "tags": [t.content for t in p.tags],
-        "date_created": p.date_created.isoformat()
+        "date_created": p.date_created.isoformat(),
+        "content_blocks": blocks
     }
 
 

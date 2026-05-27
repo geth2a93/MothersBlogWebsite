@@ -23,9 +23,10 @@ class BlogContentBlock(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     blog_id = db.Column(db.Integer, db.ForeignKey("blog_post.id"))
     order = db.Column(db.Integer, nullable=False)
-    type = db.Column(db.String(20), nullable=False)
     content = db.Column(db.Text)
     image_url = db.Column(db.String(500))
+    size = db.Column(db.Integer)
+    ownership = db.Column(db.Boolean)
     alignment = db.Column(db.String(10))
 
 class Book(db.Model):
@@ -67,12 +68,6 @@ class Reviews(db.Model):
     content = db.Column(db.Text, nullable=False)
     rating = db.Column(db.Integer, nullable=False)
     book_id = db.Column(db.Integer, db.ForeignKey('book.id'), nullable=False)
-
-class Blog_Images(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    link_url = db.Column(db.String(200), nullable=False)
-    ownership = db.Column(db.Boolean, default=False) #true owned false not
-    blog_id = db.Column(db.Integer, db.ForeignKey('blog_post.id'), nullable=False)
 
 class Website_Images(db.Model):
     id = db.Column(db.Integer, primary_key=True)
