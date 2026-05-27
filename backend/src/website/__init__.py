@@ -12,9 +12,12 @@ def create_app():
     app = Flask(__name__)
     app.config['SECRET_KEY'] = "key"
     app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///books.db"
-    app.config["AUTHOR_IMAGE_URL"] = "website/static/uploads/authorpicture.jpg" #temp for testing later change to buckey g drive or whatever
 
-    #to be used later
+    app.config["UPLOAD_FOLDER"] = os.path.join("website", "static", "uploads")
+    app.config["MAX_CONTENT_LENGTH"] = 5 * 1024 * 1024
+    app.config["ALLOWED_EXTENSIONS"] = {"png", "jpg", "jpeg", "webp"}
+    
+    #ingore for now
     #app.config['SECRET_KEY'] = os.environ.get("SECRET_KEY", "dev-key") 
     #app.config['STORAGE_TYPE'] = os.getenv("STORAGE_TYPE", "local")
     #app.config["UPLOAD_FOLDER"] = "website/static/uploads"

@@ -1,10 +1,16 @@
-from .models import Book, BlogPost
+from .models import *
 
 def get_home_latest_content():
     latest_book = Book.query.order_by(Book.date_added.desc()).first()
     latest_blog = BlogPost.query.order_by(BlogPost.date_created.desc()).first()
+
     data = {
-        "book": {
+        "book": None,
+        "blog": None
+    }
+
+    if latest_book:
+        data["book"] = {
             "type": "book",
             "id": latest_book.id,
             "title": latest_book.title,
@@ -12,17 +18,43 @@ def get_home_latest_content():
             "genre": latest_book.genre,
             "image": latest_book.book_image_url,
             "date": latest_book.date_added.isoformat()
-        } if latest_book else None,
+        }
 
-        "blog": {
+    if latest_blog:
+        blog_data = {
             "type": "blog",
             "id": latest_blog.id,
             "title": latest_blog.title,
-            "content": latest_blog.content,
             "tags": [t.content for t in latest_blog.tags],
-            "date": latest_blog.date_created.isoformat()
-        } if latest_blog else None
-    }
+            "date": latest_blog.date_created.isoformat(),
+            "title_pic": latest_blog.title_pic
+        }
+
+        if latest_blog.preview:
+            blog_data["preview"] = latest_blog.preview
+
+        data["blog"] = blog_data
+
+    return data
+
+def get_newest_book_for_each_genre():
+    genres = ["Young Adult", "Middle Grade", "Romance", "Anthologies"]
+
+    data = []
+
+    for genre in genres:
+        b = (Book.query.filter_by(genre=genre).order_by(Book.date_added.desc()).first())
+
+        if b:
+            data.append({
+                "id": b.id,
+                "title": b.title,
+                "genre": b.genre,
+                "synopsis": b.synopsis,
+                "book_image_url": b.book_image_url,
+                "buy_links": [{ "id": l.id, "url": l.links_url} for l in b.buy_links],
+                "date_added": b.date_added
+            })
 
     return data
 
@@ -34,9 +66,10 @@ def get_books_by_genre(genre): #all books in the genre
             "id": b.id,
             "title": b.title,
             "genre": b.genre,
-            "synopsis": b.synopsis[:300],
+            "synopsis": b.synopsis,
             "book_image_url": b.book_image_url,
             "buy_links": [{"id": l.id, "url": l.links_url} for l in b.buy_links],
+            "date_added": b.date_added
         })
     return data
 
@@ -48,23 +81,23 @@ def get_books_by_title(title):
         "title": book.title,
         "genre": book.genre,
         "synopsis": book.synopsis,
-        "book_image_url": b.book_image_url,
+        "book_image_url": book.book_image_url,
         "buy_links": [{"id": l.id, "url": l.links_url} for l in book.buy_links],
-        "reviews": [{"id": r.id, "link_url": r.link_url, "name": r.name, "title": r.title, "content": r.content, "rating": r.rating} for r in book.reviews]
+        "reviews": [{"id": r.id, "link_url": r.link_url, "name": r.name, "title": r.title, "content": r.content, "rating": r.rating} for r in book.reviews],
+        "date_added": book.date_added
     }
     return data
 
-def get_blog_posts(page, per_page=5): #infinite scroll
+def get_blog_posts(page, per_page=5): #5 per page
     pagination = BlogPost.query.order_by(BlogPost.date_created.desc()).paginate(page=page, per_page=per_page, error_out=False)
 
     data = {
         "posts": [{
             "id": p.id,
             "title": p.title,
-            "content": p.content[:300],
+            "preview": p.preview,
             "tags": [t.content for t in p.tags],
-            "date_created": p.date_created.isoformat(),
-            "image": [(i.link_url, i.ownership, i.title_image) for i in p.blog_image_urls if i.title_image]
+            "titlepic": p.titlepic
             
         } for p in pagination.items],
         "has_next": pagination.has_next,
@@ -73,16 +106,28 @@ def get_blog_posts(page, per_page=5): #infinite scroll
 
     return data
 
-def get_blog_by_id(id): #grab specific blog post
+def get_blog_by_id(id):
     p = BlogPost.query.get_or_404(id)
 
-    data = {
+    blocks = []
+
+    for b in p.content_blocks:
+        blocks.append({
+            "type": b.type,
+            "content": b.content,
+            "image_url": b.image_url,
+            "alignment": b.alignment,
+            "order": b.order
+        })
+
+    return {
         "id": p.id,
         "title": p.title,
-        "content": p.content,
+        "content": blocks,
         "tags": [t.content for t in p.tags],
-        "date_created": p.date_created.isoformat(),
-        "images": [(i.link_url, i.ownership) for i in p.blog_image_urls]
+        "date_created": p.date_created.isoformat()
     }
 
-    return data
+
+#def get_teaching_resources_by_book(title):
+#def get_teaching_resources():

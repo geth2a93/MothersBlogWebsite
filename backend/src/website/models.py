@@ -12,17 +12,28 @@ class User(db.Model, UserMixin):
 class BlogPost(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(50), nullable=False)
-    content = db.Column(db.Text, nullable=False)
     date_created = db.Column(db.DateTime, default=datetime.utcnow)
-    blog_image_urls = db.relationship('Blog_Images', backref='blog_post', lazy=True)
     tags = db.relationship('Tags', backref='blog', lazy=True)
+    preview = db.Column(db.Text)
+    title_pic = db.Column(db.String(200), nullable=False)
+
+    content_blocks = db.relationship("BlogContentBlock", backref="blog_post", order_by="BlogContentBlock.order")
+
+class BlogContentBlock(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    blog_id = db.Column(db.Integer, db.ForeignKey("blog_post.id"))
+    order = db.Column(db.Integer, nullable=False)
+    type = db.Column(db.String(20), nullable=False)
+    content = db.Column(db.Text)
+    image_url = db.Column(db.String(500))
+    alignment = db.Column(db.String(10))
 
 class Book(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), nullable=False)
     synopsis = db.Column(db.Text, nullable=False)
     genre = db.Column(db.String(20), nullable=False) 
-    book_image_url = db.Column(db.String(20), nullable=False)
+    book_image_url = db.Column(db.String(200), nullable=False)
     buy_links = db.relationship('BuyLinks', backref='book', lazy=True)
     date_added = db.Column(db.DateTime, default=datetime.utcnow)
     reviews = db.relationship('Reviews', backref='book', lazy=True)
@@ -62,4 +73,40 @@ class Blog_Images(db.Model):
     link_url = db.Column(db.String(200), nullable=False)
     ownership = db.Column(db.Boolean, default=False) #true owned false not
     blog_id = db.Column(db.Integer, db.ForeignKey('blog_post.id'), nullable=False)
-    title_image = db.Column(db.Boolean, default=False) #true if title image else false 
+
+class Website_Images(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    logo_image_url = db.Column(db.String(200))
+    banner_image_url = db.Column(db.String(200))
+    
+class TeachingResource(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    book_title = db.Column(db.String(200), nullable=False)
+
+    word_list = db.Column(db.Text, nullable=False)
+    activities = db.Column(db.Text, nullable=False)
+    questions = db.Column(db.Text, nullable=False)
+    supplies = db.Column(db.Text, nullable=False)
+    objectives = db.Column(db.Text, nullable=False)
+    procedures = db.Column(db.Text, nullable=False)
+
+    video_links = db.relationship('TeachingResourceVideoLink', backref='resource', lazy=True)
+    book_links = db.relationship('TeachingResourceBookLink', backref='resource', lazy=True)
+
+
+class TeachingResourceVideoLink(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    resource_id = db.Column(db.Integer, db.ForeignKey('teaching_resource.id'),nullable=False)
+    video_link = db.Column(db.String(200), nullable=False)
+    video_title = db.Column(db.String(200), nullable=False)
+
+
+class TeachingResourceBookLink(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    resource_id = db.Column(db.Integer, db.ForeignKey('teaching_resource.id'), nullable=False)
+    book_link = db.Column(db.Text, nullable=False)
+
+
+
+
+
