@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import "./Home.css";
+import "./Components.css";
+import "./Styles.css"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faFacebook,
@@ -34,9 +36,20 @@ function App() {
   if (!homeData) {
     return <div>No content available.</div>;
   }
-  const { book, blog, author_image } = homeData;
+  // const { book, blog, author_image } = homeData;
 
-  
+  const { latest, banner_image } = homeData;
+  const book = latest?.book;
+  const blog = latest?.blog;
+
+
+  const truncateText = (text, maxLength) => {
+  if (!text) return "";
+  return text.length > maxLength
+    ? text.substring(0, maxLength) + "..."
+    : text;
+};
+
   return (
     <div className="app">
 
@@ -46,6 +59,7 @@ function App() {
           Charlotte Bennardo
         </div>
 
+
         <ul className="nav-links">
           <li><a href="/" >About Me</a></li>
           <li><a href="/blog">My Blog</a></li>
@@ -54,10 +68,15 @@ function App() {
         </ul>
       </nav>
 
+      {/* Hero Banner */}
       <section className="hero">
-        <div className="hero-placeholder">
-          Hero Image Placeholder
-        </div>
+        {banner_image ? (
+          <img src={banner_image} alt="Website Banner" className="hero-image" />
+        ) : (
+          <div className="hero-placeholder">
+            Hero Image Placeholder
+          </div>
+        )}
       </section>
 
     {/* Coming Soon */}
@@ -65,18 +84,24 @@ function App() {
         <div className="coming-soon-content">
           <div className="coming-soon-text">
             <h1>COMING SOON</h1>
-            <h2>Upcoming Book Title</h2>
-            <p>
-            Lorem Ipsum is simply dummy text of the printing and typesetting industry Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, 
-            when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap 
-            into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages,
-            and more recently with desktop publishing software
-            </p>
+             <h2>{book.title}</h2>
+            <p>{truncateText(book?.synopsis, 250)}</p>
 
           <button className="read-more-btn"> Read More </button>
           </div>
 
-          <div className="coming-soon-image"> 600 × 600 Image </div>
+          {book?.image ? (
+            <img
+              src={book.image}
+              alt={book.title}
+              className="coming-soon-image"
+            />
+          ) : (
+            <div className="coming-soon-image">
+              No Image Available
+            </div>
+          )}
+
         </div>
       </section>
 
@@ -84,15 +109,28 @@ function App() {
       <section className="home-newest">
         <div className="home-newest-content">
         
-          <div className="home-newest-image"> 600 × 600 Image </div>
+           {blog?.title_pic ? (
+            <img
+              src={blog.title_pic}
+              alt={blog.title}
+              className="home-newest-image"
+            />
+          ) : (
+            <div className="home-newest-image">
+              No Image Available
+            </div>
+          )}
+
            <div className="home-newest-text">
-            <h2>Lorem Ipsum is</h2>
-             <p>
-            Lorem Ipsum is simply dummy text of the printing and typesetting industry Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, 
-            when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap 
-            into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages,
-            and more recently with desktop publishing software
-            </p>
+             {blog ? (
+              <>
+                <h2>{blog.title}</h2>
+                <p>{truncateText(blog?.preview, 200)}</p>
+              </>
+            ) : (
+              <p>No recent blog posts.</p>
+            )}
+
           </div>
         </div>
       </section>
@@ -101,12 +139,12 @@ function App() {
       <footer className="footer">
         <div className="newsletter">
 
-          <h3>Subscribe to my newsletter</h3>
+          <h3>Subscribe to my newsletter.</h3>
           <p> Sign up for news and exclusive content.</p>
 
           <div className="newsletter-form">
-            <input type="email" placeholder="Example@example.com" />
-            <button> Sign Up </button>
+            <input className= "news-input" type="email" placeholder="Example@example.com" />
+            <button className="sign-btn"> Sign Up </button>
           </div>
         </div>
 
