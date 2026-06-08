@@ -38,7 +38,7 @@ def get_home_latest_content():
     return data
 
 def get_newest_book_for_each_genre():
-    genres = ["Young Adult", "Middle Grade", "Romance", "Short Stories"]
+    genres = ["Young Adult", "Middle Grade", "Romance", "Short Story"]
 
     data = []
 

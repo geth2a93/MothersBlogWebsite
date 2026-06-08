@@ -47,8 +47,8 @@ class Book(db.Model):
 
 class Awards(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    pic_of_award = db.Column(db.String(200), primary_key=True)
-    title = db.Column(db.String(200), primary_key=True)
+    pic_of_award = db.Column(db.String(200))
+    title = db.Column(db.String(200))
     book_id = db.Column(db.Integer, db.ForeignKey('book.id'), nullable=False)
 
 class Subscribers(db.Model):
@@ -76,7 +76,7 @@ class BuyLinks(db.Model):
 class Reviews(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     link_url = db.Column(db.String(200), nullable=True)
-    name = db.Column(db.String(25), nullable=False)
+    name = db.Column(db.String(25), nullable=True)
     title = db.Column(db.String(50), nullable=True)
     content = db.Column(db.Text, nullable=True)
     rating = db.Column(db.Integer, nullable=True)
