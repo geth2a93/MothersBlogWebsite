@@ -16,6 +16,8 @@ class BlogPost(db.Model):
     tags = db.relationship('Tags', backref='blog', lazy=True)
     preview = db.Column(db.Text)
     title_pic = db.Column(db.String(200), nullable=False)
+    ownership = db.Column(db.Boolean, nullable=False)
+    name_of_owner = db.Column(db.String(200))
 
     content_blocks = db.relationship("BlogContentBlock", backref="blog_post", order_by="BlogContentBlock.order")
 
@@ -23,14 +25,17 @@ class BlogContentBlock(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     blog_id = db.Column(db.Integer, db.ForeignKey("blog_post.id"))
     order = db.Column(db.Integer, nullable=False)
+    title_of_block = db.Column(db.Text)
     content = db.Column(db.Text)
-    image_url = db.Column(db.String(500))
+    image_url = db.Column(db.String(200))
     size = db.Column(db.Integer)
     ownership = db.Column(db.Boolean)
+    name_of_owner = db.Column(db.String(200), nullable=False)
     alignment = db.Column(db.String(10))
 
 class Book(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    isbn = db.Column(db.String(15), nullable=False)
     title = db.Column(db.String(100), nullable=False)
     synopsis = db.Column(db.Text, nullable=False)
     genre = db.Column(db.String(20), nullable=False) 
@@ -38,6 +43,13 @@ class Book(db.Model):
     buy_links = db.relationship('BuyLinks', backref='book', lazy=True)
     date_added = db.Column(db.DateTime, default=datetime.utcnow)
     reviews = db.relationship('Reviews', backref='book', lazy=True)
+    awards = db.relationship('Awards', backref='book', lazy=True)
+
+class Awards(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    pic_of_award = db.Column(db.String(200), primary_key=True)
+    title = db.Column(db.String(200), primary_key=True)
+    book_id = db.Column(db.Integer, db.ForeignKey('book.id'), nullable=False)
 
 class Subscribers(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -58,15 +70,16 @@ class Tags(db.Model):
 class BuyLinks(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     links_url = db.Column(db.String(200))
+    name_of_site = db.Column(db.String(50))
     book_id = db.Column(db.Integer, db.ForeignKey('book.id'), nullable=False)
 
 class Reviews(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    link_url = db.Column(db.String(200), nullable=False)
+    link_url = db.Column(db.String(200), nullable=True)
     name = db.Column(db.String(25), nullable=False)
     title = db.Column(db.String(50), nullable=True)
-    content = db.Column(db.Text, nullable=False)
-    rating = db.Column(db.Integer, nullable=False)
+    content = db.Column(db.Text, nullable=True)
+    rating = db.Column(db.Integer, nullable=True)
     book_id = db.Column(db.Integer, db.ForeignKey('book.id'), nullable=False)
 
 class Website_Images(db.Model):
@@ -77,7 +90,6 @@ class Website_Images(db.Model):
 class TeachingResource(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     book_title = db.Column(db.String(200), nullable=False)
-
     word_list = db.Column(db.Text, nullable=False)
     activities = db.Column(db.Text, nullable=False)
     questions = db.Column(db.Text, nullable=False)
