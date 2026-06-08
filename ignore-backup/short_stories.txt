@@ -1,0 +1,94 @@
+Beware the Little White Rabbit...
+An anthology celebrating the 150th anniversary of Lewis Carroll's Alice in Wonderland. This collection of short stories ranges from Civil War era steampunk to sci fi to everything in between. A copy is even in the Lewis Carroll Museum in London! Published by Leap Books, my story is Alice Through the Wormhole. Alice is a space nomad and when a giant rabbit-like species steals her exotic—and costly—tea, she chases that rodent and must solve a riddle to catch the thief...
+“This is a must read for all fairy tale fans, who have dreamed of following Alice into the rabbit hole and seeing where it might lead them.”
+“This is a great tribute to the 150th Anniversary of the original Alice in Wonderland, with stories, in different genres, settings, and time-periods, by some very talented authors.”
+“Huzzahs for Beware the Little White Rabbit, a collection of thirteen YA short stories which capture the essence of Lewis Carroll’s Alice in thirteen different ways... My two favorites were the SF entries: Charlotte Bennardo’s Alice Through the Wormhole and David Turnbull’s Alice, Last of the Beating Hearts (how exciting can Alice get!).”
+Beware the Little White Rabbit: 2015, ISBN:  9781616030421
+Genre: Short Story
+
+INSERT INTO book (
+    id,
+    isbn,
+    title,
+    synopsis,
+    genre,
+    book_image_url,
+    date_added
+) VALUES (
+    1,
+    '9781616030421',
+    'Beware the Little White Rabbit...',
+    'An anthology celebrating the 150th anniversary of Lewis Carroll's Alice in Wonderland. This collection of short stories ranges from Civil War era steampunk to sci fi to everything in between. A copy is even in the Lewis Carroll Museum in London! Published by Leap Books, my story is Alice Through the Wormhole. Alice is a space nomad and when a giant rabbit-like species steals her exotic—and costly—tea, she chases that rodent and must solve a riddle to catch the thief...',
+    'Short Story',
+    '\MothersWebsite\static\uploads\books\beware_the_little_white_rabbit.jpg',
+    '2015'
+);
+
+INSERT INTO awards (
+    id,
+    pic_of_award,
+    title,
+    book_id
+) VALUES
+(
+    1,
+    'https://example.com/goodreads_award.png',
+    'Goodreads Choice Award Nominee',
+    1
+),
+(
+    2,
+    'https://example.com/best_fiction.png',
+    'Best Fiction Selection 2021',
+    1
+);
+
+INSERT INTO buy_links (
+    id,
+    links_url,
+    name_of_site,
+    book_id
+) VALUES
+(
+    1,
+    'https://www.amazon.com/Beware-Little-Rabbit-Alice-Wonderland/dp/1616030429',
+    'Amazon',
+    1
+);
+
+INSERT INTO reviews (
+    id,
+    link_url,
+    name,
+    title,
+    content,
+    rating,
+    book_id
+) VALUES
+(
+    1,
+    NULL,
+    NULL,
+    NULL,
+    '“This is a must read for all fairy tale fans, who have dreamed of following Alice into the rabbit hole and seeing where it might lead them.”',
+    NULL,
+    1
+),
+(
+    2,
+    NULL,
+    NULL,
+    NULL,
+    '“This is a great tribute to the 150th Anniversary of the original Alice in Wonderland, with stories, in different genres, settings, and time-periods, by some very talented authors.”',
+    NULL,
+    1
+),
+(
+    3,
+    NULL,
+    NULL,
+    NULL,
+    '“Huzzahs for Beware the Little White Rabbit, a collection of thirteen YA short stories which capture the essence of Lewis Carroll’s Alice in thirteen different ways... My two favorites were the SF entries: Charlotte Bennardo’s Alice Through the Wormhole and David Turnbull’s Alice, Last of the Beating Hearts (how exciting can Alice get!).”',
+    NULL,
+    1
+);

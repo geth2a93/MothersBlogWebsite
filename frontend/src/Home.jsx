@@ -13,7 +13,7 @@ import {
   faLinkedin
 } from "@fortawesome/free-brands-svg-icons";
 
-function App() {
+function Home() {
   const [homeData, setHomeData] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -167,4 +167,4 @@ function App() {
   );
 }
 
-export default App;
+export default Home;
