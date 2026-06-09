@@ -1,1 +1,5 @@
 backend/src/instance/books.sqbpro
+*.db
+*.jpg
+*.png
+*.db

@@ -90,17 +90,19 @@ body {
 }
 
 .coming-soon-image {
-  width: 100%;
-  max-width: 600px;
-  height: auto;
+  width: min(600px, 100%);
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+}
+
+.coming-soon-placeholder {
+  width: min(600px, 100%);
+  aspect-ratio: 1 / 1;
 
   border: 3px dashed #999;
-
   display: flex;
-  justify-content: center;
   align-items: center;
-
-  font-size: 1.5rem;
+  justify-content: center;
 }
 
 /* HOME NEWEST SECTION */
@@ -132,7 +134,7 @@ body {
   width: 500px;
   height: 500px;
 
-  border: 3px dashed #999;
+  border: 3px dashed #8b8b8b;
 
   display: flex;
   justify-content: center;

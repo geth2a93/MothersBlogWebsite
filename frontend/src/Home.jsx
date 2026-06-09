@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import "./Home.css";
 import "./Components.css";
 import "./Styles.css"
+import {Layout} from "./Components.jsx"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faFacebook,
@@ -53,20 +54,7 @@ function Home() {
   return (
     <div className="app">
 
-    {/* Navigation Bar */}
-      <nav className="navbar">
-        <div className="logo">
-          Charlotte Bennardo
-        </div>
-
-
-        <ul className="nav-links">
-          <li><a href="/" >About Me</a></li>
-          <li><a href="/blog">My Blog</a></li>
-          <li><a href="/books">My Books</a></li>
-          <li><a href="/resources">Teaching Resources</a></li>
-        </ul>
-      </nav>
+    <Layout>
 
       {/* Hero Banner */}
       <section className="hero">
@@ -83,27 +71,39 @@ function Home() {
       <section className="coming-soon">
         <div className="coming-soon-content">
           <div className="coming-soon-text">
+
             <h1>COMING SOON</h1>
-             <h2>{book.title}</h2>
-            <p>{truncateText(book?.synopsis, 250)}</p>
+            <h2> {book?.title}
+            {!book && (
+              <p>No Title available.</p> 
+              )} 
+            </h2>
+
+            <p>{truncateText(book?.synopsis, 250)}
+             {!book && (
+              <p>No book data available.</p> 
+              )}
+            </p>
 
           <button className="read-more-btn"> Read More </button>
           </div>
 
           {book?.image ? (
             <img
-              src={book.image}
-              alt={book.title}
+              src={book?.image}
+              alt={book?.title}
               className="coming-soon-image"
             />
           ) : (
-            <div className="coming-soon-image">
+            <div className="coming-soon-placeholder">
               No Image Available
             </div>
           )}
-
+        
         </div>
       </section>
+
+        
 
     {/* Home Newest */}
       <section className="home-newest">
@@ -124,7 +124,7 @@ function Home() {
            <div className="home-newest-text">
              {blog ? (
               <>
-                <h2>{blog.title}</h2>
+                <h2>{blog?.title}</h2>
                 <p>{truncateText(blog?.preview, 200)}</p>
               </>
             ) : (
@@ -135,34 +135,7 @@ function Home() {
         </div>
       </section>
       
-      {/* Footer */}
-      <footer className="footer">
-        <div className="newsletter">
-
-          <h3>Subscribe to my newsletter.</h3>
-          <p> Sign up for news and exclusive content.</p>
-
-          <div className="newsletter-form">
-            <input className= "news-input" type="email" placeholder="Example@example.com" />
-            <button className="sign-btn"> Sign Up </button>
-          </div>
-        </div>
-
-        <div className="socials">
-          <h3>Follow Me!</h3>
-
-          <div className="social-links">
-            <a href="https://facebook.com" target="_blank" rel="noreferrer"><FontAwesomeIcon icon={faFacebook}/></a>
-            <a href="https://linkedin.com" target="_blank" rel="noreferrer"><FontAwesomeIcon icon={faLinkedin}/></a>
-            <a href="https://threads.net" target="_blank" rel="noreferrer"><FontAwesomeIcon icon={faThreads} /></a>
-            <a href="https://x.com" target="_blank" rel="noreferrer"><FontAwesomeIcon icon={faXTwitter}/></a>
-            <a href="https://bsky.app" target="_blank" rel="noreferrer"><FontAwesomeIcon icon={faBluesky}/></a>
-            <a href="https://instagram.com" target="_blank" rel="noreferrer"><FontAwesomeIcon icon={faInstagram} /></a>
-            <a href="https://pinterest.com" target="_blank" rel="noreferrer"><FontAwesomeIcon icon={faPinterest} /></a> 
-          </div>
-
-        </div>
-      </footer>
+      </Layout>
     </div>
   );
 }
