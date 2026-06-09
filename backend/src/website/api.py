@@ -11,9 +11,8 @@ api = Blueprint('api', __name__, url_prefix="/api")
 @api.route("/website-settings", methods=["GET"]) 
 def site_settings():
     s = Website_Images.query.first()
-
     return jsonify({
-        "logo": s.logo_image_url
+        "logo": build_url(s.logo_image_url)
     })
 
 
@@ -27,7 +26,7 @@ def home():
 
     return jsonify({
         "latest": latest,
-        "banner_image": site_images.banner_image_url
+        "banner_image": build_url(site_images.banner_image_url)
     })
 
 
@@ -83,6 +82,6 @@ def about():
 
     return jsonify({
         "content": about.content,
-        "author_image": about.abtme_pic_url
+        "author_image": build_url(about.abtme_pic_url)
     })
 
