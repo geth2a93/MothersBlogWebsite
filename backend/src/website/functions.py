@@ -1,4 +1,10 @@
 from .models import *
+from flask import request
+
+def build_url(path):
+    if not path:
+        return None
+    return request.url_root.rstrip("/") + "/" + path.lstrip("/")
 
 def get_home_latest_content():
     latest_book = Book.query.order_by(Book.date_added.desc()).first()
@@ -16,7 +22,7 @@ def get_home_latest_content():
             "title": latest_book.title,
             "synopsis": latest_book.synopsis,
             "genre": latest_book.genre,
-            "image": latest_book.book_image_url,
+            "image": build_url(latest_book.book_image_url),
             "date": latest_book.date_added.isoformat()
         }
 
@@ -27,7 +33,7 @@ def get_home_latest_content():
             "title": latest_blog.title,
             "tags": [t.content for t in latest_blog.tags],
             "date": latest_blog.date_created.isoformat(),
-            "title_pic": latest_blog.title_pic
+            "title_pic": build_url(latest_blog.title_pic)
         }
 
         if latest_blog.preview:
@@ -51,7 +57,7 @@ def get_newest_book_for_each_genre():
                 "title": b.title,
                 "genre": b.genre,
                 "synopsis": b.synopsis,
-                "book_image_url": b.book_image_url,
+                "book_image_url": build_url(b.book_image_url),
                 "buy_links": [{ "id": l.id, "url": l.links_url} for l in b.buy_links],
                 "date_added": b.date_added
             })
@@ -67,7 +73,7 @@ def get_books_by_genre(genre): #all books in the genre
             "title": b.title,
             "genre": b.genre,
             "synopsis": b.synopsis,
-            "book_image_url": b.book_image_url,
+            "book_image_url": build_url(b.book_image_url),
             "buy_links": [{"id": l.id, "url": l.links_url} for l in b.buy_links],
             "date_added": b.date_added
         })
@@ -81,7 +87,7 @@ def get_books_by_title(title):
         "title": book.title,
         "genre": book.genre,
         "synopsis": book.synopsis,
-        "book_image_url": book.book_image_url,
+        "book_image_url": build_url(book.book_image_url),
         "buy_links": [{"id": l.id, "url": l.links_url} for l in book.buy_links],
         "reviews": [{"id": r.id, "link_url": r.link_url, "name": r.name, "title": r.title, "content": r.content, "rating": r.rating} for r in book.reviews],
         "date_added": book.date_added
@@ -97,7 +103,7 @@ def get_blog_posts(page, per_page=5): #5 per page
             "title": p.title,
             "preview": p.preview,
             "tags": [t.content for t in p.tags],
-            "titlepic": p.title_pic
+            "titlepic": build_url(p.title_pic)
             
         } for p in pagination.items],
         "has_next": pagination.has_next,
@@ -113,7 +119,7 @@ def get_blog_by_id(id):
     for b in p.content_blocks:
         blocks.append({
             "content": b.content,
-            "image_url": b.image_url,
+            "image_url": build_url(b.image_url),
             "alignment": b.alignment,
             "size": b.size,
             "ownership": b.ownership,
@@ -124,7 +130,7 @@ def get_blog_by_id(id):
         "id": p.id,
         "title": p.title,
         "preview": p.preview,
-        "title_pic": p.title_pic,
+        "title_pic": build_url(p.title_pic),
         "tags": [t.content for t in p.tags],
         "date_created": p.date_created.isoformat(),
         "content_blocks": blocks
