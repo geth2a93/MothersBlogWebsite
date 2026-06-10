@@ -8,108 +8,111 @@ body {
   position: relative
 }
 
-/* -- debug --
-* {
+
+/* * {
   outline: 1px solid red;
 } */
 
 /* HERO */
 .hero {
-  width: 100%;
-  height: 800px;
-
   display: flex;
   justify-content: center;
   align-items: center;
+  object-fit: contain;
+  width:100%;
+  
+  margin: 0 auto; 
+    
 }
-
-.hero-placeholder {
+.hero img{
   width: 100%;
-  height: 100%;
-
-  border: 3px solid #000000;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  font-size: 2rem;
+  height: auto;
+  object-fit: contain;
 }
 
 /* COMING SOON SECTION */
 .coming-soon {
+  
   width: 100%;
-  height: 800px;
-
-  background-color: var(--color-accent);
-
+  height: 620px;
+  margin: 0 auto;
+  
+  padding-top: 100px;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
+  background-color: var(--color-accent);
 }
 
 .coming-soon-content {
-  width: min(1400px, 90%);
-
+  width: min(1400px, 70%);
+  height: 90%;
   display: flex;
   justify-content: space-between;
-  align-items: center;
-
-  gap: 100px;
+  align-items: flex-start;
 }
 
 .coming-soon-text {
-  width: 50%;
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  font-weight: bold;
+  
 }
 
 .coming-soon-text h1 {
   color: var(--color-blue);
-
-  font-size: 4rem;
-
-  margin-bottom: 30px;
-
+  font-size: 4.4rem;
   text-align: left;
+  line-height: 1.2;
 }
 
 .coming-soon-text h2 {
   color: black;
-  font-size: 2rem;
-  
-  margin-bottom: 30px;
-
+  font-size: 2.5rem;
   text-align: left;
+  line-height: 1.3;
 }
 
 .coming-soon-text p {
-  font-size: 1.1rem;
+  width: 85%;
+  font-size: 1.3rem;
+  padding-top: 7px;
 
-  line-height: 1.8;
+  line-height: 1.6;
 
   text-align: left;
 }
 
-.coming-soon-image {
-  width: min(600px, 100%);
-  aspect-ratio: 1 / 1;
-  object-fit: cover;
-}
-
-.coming-soon-placeholder {
-  width: min(600px, 100%);
-  aspect-ratio: 1 / 1;
-
-  border: 3px dashed #999;
+.book-cover-container {
+  height: auto;
+  width: 400px;
+  
   display: flex;
-  align-items: center;
   justify-content: center;
+   
+  
 }
+
+.coming-soon-image {
+  width: 65%;
+  height: auto;
+  display: block;
+  outline: 2px solid rgb(80, 80, 80);
+  object-fit: contain;
+  
+  
+}
+
+
 
 /* HOME NEWEST SECTION */
 
 .home-newest {
-  width: 100%;
-  height: 800px;
+  width: 90%;
+  height: 600px;
+  margin: 0 auto; 
 
   background-color: var(--color-background);
 
@@ -132,9 +135,8 @@ body {
 
 .home-newest-image {
   width: 500px;
-  height: 500px;
-
-  border: 3px dashed #8b8b8b;
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
 
   display: flex;
   justify-content: center;

@@ -3,49 +3,77 @@ import { useParams } from "react-router-dom";
 
 import "./BlogPostFull.css";
 import "./Components.css";
-import "./Styles.css"
-import {Layout} from "./Components.jsx"
-
+import "./Styles.css";
+import { Layout } from "./Components.jsx";
 
 function BlogPost() {
     const { id } = useParams();
+
     const [post, setPost] = useState(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        fetch(`/api/blog/${id}`)
-            .then((res) => res.json())
+        fetch(`http://localhost:5055/api/blog/${id}`)
+            .then((res) => {
+                if (!res.ok) {
+                    throw new Error(`HTTP ${res.status}`);
+                }
+
+                return res.json();
+            })
             .then((data) => {
+                console.log("BLOG DATA:", data);
                 setPost(data);
                 setLoading(false);
             })
             .catch((err) => {
-                console.error(err);
+                console.error("Failed to load blog:", err);
                 setLoading(false);
             });
-    }, [id]); 
+    }, [id]);
 
-     if (loading) {
-        return <p>Loading...</p>; }
+    if (loading) {
+        return (
+            <Layout>
+                <p>Loading...</p>
+            </Layout>
+        );
+    }
 
     if (!post) {
-        return <p>Blog post not found.</p>; }
+        return (
+            <Layout>
+                <p>Blog post not found.</p>
+            </Layout>
+        );
+    }
 
-    const sortedBlocks = [...post?.content_blocks].sort(
+    const sortedBlocks = [...(post.content_blocks || [])].sort(
         (a, b) => a.order - b.order
     );
 
     return (
         <Layout>
-        <div className="blog-post-page">
-            <div className="blog-post-container">
-                <h1 className="blog-post-title"> {post.title} </h1>
+            <div className="blog-post-page">
+                <div className="blog-post-container">
 
-                {post.preview && (
-                    <h2 className="blog-post-preview"> {post.preview} </h2> )}
+                    <h1 className="blog-post-title">
+                        {post.title}
+                    </h1>
 
-                {post.title_pic && (
-                    <img src={post.title_pic} alt={post.title} className="blog-title-image" />)}
+                    {post.preview && (
+                        <h2 className="blog-post-preview">
+                            {post.preview}
+                        </h2>
+                    )}
+
+                    {post.title_pic && (
+                        <img
+                            src={post.title_pic}
+                            alt={post.title}
+                            className="blog-title-image"
+                        />
+                    )}
 
                     {sortedBlocks.map((block) => {
                         const hasImage = Boolean(block.image_url);
@@ -53,14 +81,26 @@ function BlogPost() {
 
                         return (
                             <div
-                                key={block.order ?? index}
+                                key={block.order}
                                 className={`blog-block ${block.alignment || "left"}`}
                             >
                                 {hasImage && (
-                                    <div className={`image-container size-${block.size || 2}`}>
-                                        <img src={block.image_url} alt="" className="blog-image"/>
+                                    <div
+                                        className="image-container"
+                                        style={{
+                                            maxWidth: block.size
+                                                ? `${block.size}px`
+                                                : "100%"
+                                        }}
+                                    >
+                                        <img
+                                            src={block.image_url}
+                                            alt=""
+                                            className="blog-image"
+                                        />
                                     </div>
                                 )}
+
                                 {hasText && (
                                     <div className="text-container">
                                         {block.content}
@@ -69,10 +109,10 @@ function BlogPost() {
                             </div>
                         );
                     })}
+                </div>
             </div>
-        </div>
-    </Layout>
-    );  
+        </Layout>
+    );
 }
 
 export default BlogPost;

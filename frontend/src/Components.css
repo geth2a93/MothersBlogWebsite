@@ -133,17 +133,18 @@
 }
 
 .read-more-btn {
-  margin-top: 15px;
+  width: 150px;
+  margin-top: 20px;
 
   background-color: #EA9A28;
   color: white;
 
   border: none;
 
-  padding: 10px 22px;
+  padding: 10px 20px;
 
   font-size: 0.95rem;
-  font-weight: 500;
+  font-weight: bold;
 
   cursor: pointer;
 }

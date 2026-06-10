@@ -62,7 +62,7 @@ function Home() {
           <img src={banner_image} alt="Website Banner" className="hero-image" />
         ) : (
           <div className="hero-placeholder">
-            Hero Image Placeholder
+            No banner available.
           </div>
         )}
       </section>
@@ -79,15 +79,16 @@ function Home() {
               )} 
             </h2>
 
-            <p>{truncateText(book?.synopsis, 250)}
+            <p>{truncateText(book?.synopsis, 1000)}
              {!book && (
               <p>No book data available.</p> 
               )}
             </p>
 
-          <button className="read-more-btn"> Read More </button>
+          <button className="read-more-btn"  style={{display: "block", }}> Read More </button>
           </div>
-
+          
+          <div className="book-cover-container">
           {book?.image ? (
             <img
               src={book?.image}
@@ -99,6 +100,7 @@ function Home() {
               No Image Available
             </div>
           )}
+          </div>
         
         </div>
       </section>
@@ -125,7 +127,8 @@ function Home() {
              {blog ? (
               <>
                 <h2>{blog?.title}</h2>
-                <p>{truncateText(blog?.preview, 200)}</p>
+                <p>{truncateText(blog?.preview, 1000)}</p>
+                <button className="read-more-btn" > Read More </button>
               </>
             ) : (
               <p>No recent blog posts.</p>
