@@ -1,24 +1,30 @@
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask import request, jsonify, Blueprint, current_app
 from werkzeug.utils import secure_filename
-from flask_login import login_required
+from flask_login import login_required, login_user
 from datetime import datetime
-import os, uuid
+import os, uuid, json
 from . import db
 from .models import *
+from .functions import *
 
-auth = Blueprint('auth', __name__)
 
-@auth.route('/login', methods=['POST'])
+auth = Blueprint('auth', __name__,  url_prefix="/auth")
+
+@auth.route("/login", methods=["POST"])
 def login():
     data = request.get_json()
 
-    if not data or not data.get('username') or not data.get('password'):
-        return jsonify({"error": "Missing credentials"}), 400
+    if not data:
+        return jsonify({"error": "Missing JSON"}), 400
 
-    user = User.query.filter_by(username=data['username']).first()
+    username = data.get("username")
+    password = data.get("password")
 
-    if user and check_password_hash(user.password, data['password']):
+    user = User.query.filter_by(username=username).first()
+
+    if user and check_password_hash(user.password, password):
+        login_user(user)
         return jsonify({"message": "Logged in"}), 200
 
     return jsonify({"error": "Invalid credentials"}), 401
@@ -33,7 +39,7 @@ def edit_about_me():
         return jsonify({
             "content": about.content,
             "updated_at": about.updated_at.isoformat(),
-            "abtme_pic_url": about.abtme_pic_url
+            "abtme_pic_url": build_url(about.abtme_pic_url)
         })
   
     content = request.form.get("content")
@@ -46,11 +52,12 @@ def edit_about_me():
     if file and file.filename != "":
 
         filename = secure_filename(file.filename)
-        upload_folder = os.path.join("website", "static", "uploads")
+        upload_folder = os.path.join("static", "uploads", "author picture")
         os.makedirs(upload_folder, exist_ok=True)
         filepath = os.path.join(upload_folder, filename)
         file.save(filepath)
-        about.abtme_pic_url = f"uploads/{filename}"
+        about.abtme_pic_url = f"/static/uploads/{filename}"
+        
 
     about.updated_at = datetime.utcnow()
 
@@ -58,7 +65,7 @@ def edit_about_me():
 
     return jsonify({
         "message": "About Me updated",
-        "abtme_pic_url": about.abtme_pic_url
+        "abtme_pic_url": build_url(about.abtme_pic_url)
     }), 200
 
 @auth.route("/admin/websiteresources", methods=["GET", "PUT"])
@@ -68,8 +75,8 @@ def edit_site_resources():
 
     if request.method == "GET":
         return jsonify({
-            "logo_image": resources.logo_image_url,
-            "banner_image": resources.banner_image_url
+            "logo_image": build_url(resources.logo_image_url),
+            "banner_image": build_url(resources.banner_image_url)
         })
   
     image_type = request.form.get("image_type")
@@ -78,27 +85,10 @@ def edit_site_resources():
     if not file or file.filename == "":
         return jsonify({"error": "No image uploaded"}), 400
 
-    upload_folder = os.path.join("website", "static", "uploads")
+    upload_folder = os.path.join("static", "uploads", "website_resources")
     os.makedirs(upload_folder, exist_ok=True)
 
-    #delete old image
-    old_path = None
-
-    if image_type == "logo":
-        old_path = resources.logo_image_url
-
-    elif image_type == "banner":
-        old_path = resources.banner_image_url
-
-    if old_path:
-        full_old_path = os.path.join(
-            "website",
-            "static",
-            old_path.replace("static/", "")
-        )
-
-        if os.path.exists(full_old_path):
-            os.remove(full_old_path)
+    #above is new linking to pathways change others *change others to this*
 
     #save new image
     filename = secure_filename(file.filename)
@@ -106,7 +96,7 @@ def edit_site_resources():
     filepath = os.path.join(upload_folder, filename)
 
     file.save(filepath)
-
+    #delete old news to be added
     new_url = f"/static/uploads/{filename}"
 
     #update db
@@ -120,5 +110,5 @@ def edit_site_resources():
 
     return jsonify({
         "message": "Image updated",
-        "image_url": new_url
+        "image_url": build_url(new_url)
     }), 200

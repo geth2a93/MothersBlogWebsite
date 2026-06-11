@@ -25,12 +25,15 @@
     text-align: center;
 
     margin-bottom: 15px;
+    color:#0F7BA8
 }
 
 .blog-post-preview {
     text-align: center;
+    font-size: 1.2rem;
 
     margin-bottom: 30px;
+    
 }
 
 .blog-title-image {
@@ -82,20 +85,16 @@
 /* IMAGE*/
 
 .blog-image {
-    display: block;
-
-    width: 100%;
-
+    max-width: 100%;
     height: auto;
-    object-fit: contain;
+    width: auto;
 }
-
 
 /* TEXT */
 
 .text-container {
     flex: 1;
-    padding: 1.5rem;
+    padding: .3rem;
 
     line-height: 1.6;
 }

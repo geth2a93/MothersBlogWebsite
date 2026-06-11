@@ -1,20 +1,6 @@
-import { useEffect, useState } from "react";
+import ContentListPage from "./ContentListPage.jsx";
+import "./Content.css"
 
-import "./Components.css";
-import "./Styles.css"
-import {Layout, PreviewCard} from "./Components.jsx"
-
-function BlogBookList({
-    items,
-    renderItem
-}) {
-    return (
-        <Layout>
-        <div className="preview-list">
-            {items.map(renderItem)}
-        </div>
-        </Layout>
-    );
+export default function BlogsList() {
+  return <ContentListPage type="blog" />;
 }
-
-export default BlogBookList;

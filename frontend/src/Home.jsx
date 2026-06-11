@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import "./Home.css";
 import "./Components.css";
 import "./Styles.css"
-import {Layout} from "./Components.jsx"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faFacebook,
@@ -17,9 +18,10 @@ import {
 function Home() {
   const [homeData, setHomeData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("http://localhost:5055/api/")
+    fetch("/api")
       .then((res) => res.json())
       .then((data) => {
         setHomeData(data);
@@ -37,11 +39,11 @@ function Home() {
   if (!homeData) {
     return <div>No content available.</div>;
   }
-  // const { book, blog, author_image } = homeData;
-
+  
   const { latest, banner_image } = homeData;
   const book = latest?.book;
   const blog = latest?.blog;
+  
 
 
   const truncateText = (text, maxLength) => {
@@ -51,10 +53,11 @@ function Home() {
     : text;
 };
 
+
+
   return (
     <div className="app">
 
-    <Layout>
 
       {/* Hero Banner */}
       <section className="hero">
@@ -85,7 +88,8 @@ function Home() {
               )}
             </p>
 
-          <button className="read-more-btn"  style={{display: "block", }}> Read More </button>
+          <button className="read-more-btn" onClick={() => navigate(`/books/${book?.id}`)} style={{display: "block"} }> 
+            Read More </button>
           </div>
           
           <div className="book-cover-container">
@@ -101,11 +105,9 @@ function Home() {
             </div>
           )}
           </div>
-        
+          
         </div>
       </section>
-
-        
 
     {/* Home Newest */}
       <section className="home-newest">
@@ -128,7 +130,8 @@ function Home() {
               <>
                 <h2>{blog?.title}</h2>
                 <p>{truncateText(blog?.preview, 1000)}</p>
-                <button className="read-more-btn" > Read More </button>
+                <button className="read-more-btn"  onClick={() => navigate(`/blog/${blog?.id}`)}
+                  > Read More </button>
               </>
             ) : (
               <p>No recent blog posts.</p>
@@ -138,7 +141,6 @@ function Home() {
         </div>
       </section>
       
-      </Layout>
     </div>
   );
 }

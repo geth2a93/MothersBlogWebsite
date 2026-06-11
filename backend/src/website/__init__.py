@@ -25,7 +25,7 @@ def create_app():
 
     db.init_app(app)
 
-    CORS(app)
+    CORS(app, supports_credentials=True)
 
     from .api import api
     from .auth import auth

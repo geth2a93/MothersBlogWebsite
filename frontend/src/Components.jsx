@@ -1,4 +1,6 @@
 import "./Components.css";
+import { Outlet } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "./Styles.css"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -11,16 +13,18 @@ import {
   faLinkedin
 } from "@fortawesome/free-brands-svg-icons";
 
+
+
 export function Navbar() {
   return (
     <nav className="navbar">
-      <div className="logo">Charlotte Bennardo</div>
+      <Link to="/" className="logo"> Charlotte Bennardo </Link>
 
       <ul className="nav-links">
-        <li><a href="/">About Me</a></li>
-        <li><a href="/blog">My Blog</a></li>
-        <li><a href="/books">My Books</a></li>
-        <li><a href="/resources">Teaching Resources</a></li>
+        <li><Link to="/">About Me</Link></li>
+        <li><Link to="/blog">My Blog</Link></li>
+        <li><Link to="/books">My Books</Link></li>
+        <li><Link to="/resources">Teaching Resources</Link></li>
       </ul>
     </nav>
   );
@@ -43,42 +47,28 @@ export function Footer() {
         <h3>Follow Me!</h3>
 
         <div className="social-links">
-          <a href="https://facebook.com"><FontAwesomeIcon icon={faFacebook} /></a>
-          <a href="https://linkedin.com"><FontAwesomeIcon icon={faLinkedin} /></a>
-          <a href="https://threads.net"><FontAwesomeIcon icon={faThreads} /></a>
-          <a href="https://x.com"><FontAwesomeIcon icon={faXTwitter} /></a>
-          <a href="https://bsky.app"><FontAwesomeIcon icon={faBluesky} /></a>
-          <a href="https://instagram.com"><FontAwesomeIcon icon={faInstagram} /></a>
-          <a href="https://pinterest.com"><FontAwesomeIcon icon={faPinterest} /></a>
+          <a href="https://facebook.com"  target="_blank"  rel="noopener noreferrer"><FontAwesomeIcon icon={faFacebook} /></a>
+          <a href="https://linkedin.com"  target="_blank"  rel="noopener noreferrer"><FontAwesomeIcon icon={faLinkedin} /></a>
+          <a href="https://threads.net"  target="_blank"  rel="noopener noreferrer"><FontAwesomeIcon icon={faThreads} /></a>
+          <a href="https://x.com"  target="_blank"  rel="noopener noreferrer"><FontAwesomeIcon icon={faXTwitter} /></a>
+          <a href="https://bsky.app"  target="_blank"  rel="noopener noreferrer"><FontAwesomeIcon icon={faBluesky} /></a>
+          <a href="https://instagram.com"  target="_blank"  rel="noopener noreferrer"><FontAwesomeIcon icon={faInstagram} /></a>
+          <a href="https://pinterest.com"  target="_blank"  rel="noopener noreferrer"><FontAwesomeIcon icon={faPinterest} /></a>
         </div>
       </div>
     </footer>
   );
 }
 
-export function PreviewCard({
-  title, image, preview, link})
-  {
-  return (
-  <div className = "preview-card"> 
-      <img src={image}alt={title}className="preview-card-image"/>
-
-    <div className="preview-card-content"> 
-      <h2>{title}</h2>
-      <p>{preview}</p> 
-      <a href={link}> Read More </a> 
-    </div>
-  </div>
-  );
-}
-
-export function Layout({ children }) {
+export default function Layout() {
   return (
     <>
       <Navbar />
-      <main className="page-content">
-        {children}
+
+      <main>
+        <Outlet />
       </main>
+
       <Footer />
     </>
   );
