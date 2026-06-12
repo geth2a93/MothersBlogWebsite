@@ -63,18 +63,12 @@ def book_by_title(title):
 
 @api.route("/teachingresources", methods=["GET"])
 def teaching():
-    #return jsonify(get_teaching_resources)
-    return jsonify()
-#blocks
+    return jsonify(get_teaching_resources)
+
 
 @api.route("/teachingresources/<string:title>", methods=["GET"])
 def teaching_by_title(title):
-    return jsonify()
-    #return jsonify(get_teaching_resources_by_book(title))
-#singles
-
-
-
+    return jsonify(get_teaching_resources_by_book(title))
 
 @api.route("/aboutme", methods=["GET"])
 def about():
