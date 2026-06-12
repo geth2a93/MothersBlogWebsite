@@ -3,3 +3,4 @@ backend/src/instance/books.sqbpro
 *.jpg
 *.png
 *.db
+*.db-journal

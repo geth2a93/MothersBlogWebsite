@@ -105,7 +105,9 @@ def get_blog_posts(page, per_page=5): #5 per page
             "title": p.title,
             "preview": p.preview,
             "tags": [t.content for t in p.tags],
-            "titlepic": build_url(p.title_pic)
+            "titlepic": build_url(p.title_pic),
+            "ownnership": p.ownership,
+            "name_of_owner": p.name_of_owner
             
         } for p in pagination.items],
         "has_next": pagination.has_next,
@@ -120,11 +122,13 @@ def get_blog_by_id(id):
 
     for b in p.content_blocks:
         blocks.append({
+            "block title": b.title_of_block,
             "content": b.content,
             "image_url": build_url(b.image_url),
             "alignment": b.alignment,
             "size": b.size,
             "ownership": b.ownership,
+            "name_of_owner": b.name_of_owner,
             "order": b.order
         })
 
