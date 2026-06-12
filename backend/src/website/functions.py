@@ -106,6 +106,7 @@ def get_blog_posts(page, per_page=5): #5 per page
             "id": p.id,
             "title": p.title,
             "preview": p.preview,
+            "date": p.date_created.isoformat(),
             "tags": [t.content for t in p.tags],
             "titlepic": build_url(p.title_pic),
             "ownnership": p.ownership,
