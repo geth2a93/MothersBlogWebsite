@@ -106,7 +106,6 @@ def get_blog_posts(page, per_page=5): #5 per page
             "id": p.id,
             "title": p.title,
             "preview": p.preview,
-            "date": p.date_created,
             "tags": [t.content for t in p.tags],
             "titlepic": build_url(p.title_pic),
             "ownnership": p.ownership,
@@ -126,7 +125,7 @@ def get_blog_by_date(date):
 
     for b in p.content_blocks:
         blocks.append({
-            "block title": b.title_of_block,
+            "blocktitle": b.title_of_block,
             "content": b.content,
             "image_url": build_url(b.image_url),
             "alignment": b.alignment,
@@ -143,6 +142,8 @@ def get_blog_by_date(date):
         "title_pic": build_url(p.title_pic),
         "tags": [t.content for t in p.tags],
         "date_created": p.date_created.isoformat(),
+        "ownership": p.ownership,
+        "name_of_owner": p.name_of_owner,
         "content_blocks": blocks
     }
 

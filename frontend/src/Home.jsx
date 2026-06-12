@@ -82,13 +82,13 @@ function Home() {
               )} 
             </h2>
 
-            <p>{truncateText(book?.synopsis, 1000)}
+            <p>{truncateText(book?.synopsis, 500)}
              {!book && (
               <p>No book data available.</p> 
               )}
             </p>
 
-          <button className="read-more-btn" onClick={() => navigate(`/books/${book?.id}`)} style={{display: "block"} }> 
+          <button className="read-more-btn"  onClick={() => navigate(`/books/title/${book.title.replaceAll(" ", "-")}`)} > 
             Read More </button>
           </div>
           
@@ -129,8 +129,10 @@ function Home() {
              {blog ? (
               <>
                 <h2>{blog?.title}</h2>
-                <p>{truncateText(blog?.preview, 1000)}</p>
-                <button className="read-more-btn"  onClick={() => navigate(`/blog/${blog?.id}`)}
+                <p className="content-date"> {new Date(latest.blog.date).toLocaleDateString()}</p>
+                <p>{truncateText(blog?.preview, 500)}</p>
+                
+                <button className="read-more-btn"  onClick={() => navigate(`/blog/${blog.date.split("T")[0]}`)}
                   > Read More </button>
               </>
             ) : (

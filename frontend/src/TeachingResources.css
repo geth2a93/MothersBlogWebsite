@@ -1,0 +1,103 @@
+@import "./Styles.css";
+
+
+/* =========================
+   FULL PAGE (matches Blog/Book)
+   ========================= */
+
+.teaching-page {
+  width: 100%;
+  min-height: 100vh;
+
+  padding: 70px 20px;
+
+  display: flex;
+  justify-content: center;
+
+}
+
+.teaching-container {
+  width: 100%;
+  max-width: 1000px;
+
+  background: #fff;
+
+  padding: 55px;
+
+  box-shadow:
+    0 -3px 10px rgba(0, 0, 0, 0.15),
+    0 3px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* TITLE */
+.teaching-title {
+  text-align: center;
+  color: #0F7BA8;
+
+  font-size: 2.8rem;
+  margin-bottom: 25px;
+}
+
+/* COVER */
+.teaching-cover {
+  display: block;
+
+  margin: 0 auto 40px auto;
+
+  max-width: 350px;
+  width: 100%;
+
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  border-radius: 6px;
+}
+
+/* SECTIONS */
+.teaching-section {
+  margin: 25px 0;
+}
+
+.section-title {
+  color: #0F7BA8;
+  font-size: 1.6rem;
+
+  margin: 25px 0 10px 0;
+
+  text-align: center;
+}
+
+.teaching-text {
+  font-size: 1.2rem;
+  line-height: 1.6;
+
+  white-space: pre-wrap;
+}
+
+/* LINKS */
+.link-item {
+  margin: 10px 0;
+  text-align: center;
+}
+
+.link-item a {
+  color: #EA9A28;
+  text-decoration: none;
+}
+
+/* MOBILE */
+@media (max-width: 900px) {
+  .content-card {
+    flex-direction: column;
+    padding: 40px 20px;
+  }
+
+  .content-card-text {
+    margin-left: 0;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+  }
+
+  .teaching-container {
+    padding: 20px;
+  }
+}

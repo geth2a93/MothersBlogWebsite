@@ -5,7 +5,8 @@ import "./BlogPostFull.css";
 import "./Styles.css";
 
 function BlogPost() {
-    const { id } = useParams();
+    const { date } = useParams();
+    console.log("DATE PARAM:", date);
 
     const [post, setPost] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -24,7 +25,7 @@ function BlogPost() {
     
 
      useEffect(() => {
-        fetch(`/api/blog/${id}`)
+        fetch(`/api/blog/${date}`)
             .then((res) => {
                 if (!res.ok) {
                     throw new Error(`HTTP ${res.status}`);
@@ -38,7 +39,7 @@ function BlogPost() {
             .catch((err) => {
                 setLoading(false);
             });
-    }, [id]); 
+    }, [date]); 
 
     if (loading) {
         return <p>Loading...</p>;
@@ -58,12 +59,11 @@ function BlogPost() {
         <div className="blog-post-page">
             <div className="blog-post-container">
 
-                <h1 className="blog-post-title">{post.title}</h1>
-
-                {post.preview && (
-                    <h2 className="blog-post-preview">
-                        {post.preview}
-                    </h2>
+                <h1 className="blog-post-title"> {post.title}</h1>
+                {post.date_created && (
+                    <p className="blog-post-date">
+                      {new Date(post.date_created).toLocaleDateString()}
+                    </p>
                 )}
 
                 {post.title_pic && (
@@ -72,6 +72,18 @@ function BlogPost() {
                         alt={post.title}
                         className="blog-title-image"
                     />
+                )}
+
+                {!post.ownership && post.name_of_owner && (
+                    <p className="image-attribution">
+                        Image courtesy of {post.name_of_owner}
+                    </p>
+                )}
+
+                {post.preview && (
+                    <h2 className="blog-post-preview">
+                        {post.preview}
+                    </h2>
                 )}
 
                 {sortedBlocks.map((block) => {
@@ -99,23 +111,44 @@ function BlogPost() {
                                         alt=""
                                         className="blog-image"
                                         onLoad={(e) =>
-                                            handleImageLoad(
-                                                e,
-                                                ratioKey
-                                            )
+                                            handleImageLoad(e, ratioKey)
                                         }
                                     />
+
+                                {!block.ownership && block.name_of_owner && (
+                                    <p className="image-attribution">
+                                        Image courtesy of {block.name_of_owner}
+                                    </p>
+                                    )}
+                                    
                                 </div>
                             )}
 
                             {hasText && (
                                 <div className="text-container">
+                                    {block.blocktitle && (
+                                        <h2 className="blog-block-title">
+                                            {block.blocktitle}
+                                        </h2>
+                                        
+                                    )}
                                     {block.content}
                                 </div>
                             )}
+
+                            
                         </div>
                     );
                 })}
+                {post.tags?.length > 0 && (
+  <div className="blog-tags-bottom">
+    {post.tags.map((tag, i) => (
+      <span key={i} className="tag-pill">
+        {tag}
+      </span>
+    ))}
+  </div>
+)}
             </div>
         </div>
     );

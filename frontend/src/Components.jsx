@@ -16,29 +16,47 @@ import {
 
 export function Navbar() {
   const [logo, setLogo] = useState(null);
-  
+  const [genreOpen, setGenreOpen] = useState(false);
+
   useEffect(() => {
     fetch("http://localhost:5055/api/website-settings")
       .then(res => res.json())
-      .then(data => {
-        setLogo(data.logo);
-      })
-      .catch(err => console.error(err));
+      .then(data => setLogo(data.logo))
+      .catch(console.error);
   }, []);
 
   return (
     <nav className="navbar">
-
-      <div className = 'logo-container'>
+      <div className="logo-container">
         <img src={logo} className="logo-image" />
-        <Link to="/" className="logo"> Charlotte Bennardo </Link>
+        <Link to="/" className="logo">Charlotte Bennardo</Link>
       </div>
 
       <ul className="nav-links">
+       
+
         <li><Link to="/about">About Me</Link></li>
         <li><Link to="/blog">My Blog</Link></li>
-        <li><Link to="/books">My Books</Link></li>
-        <li><Link to="/resources">Teaching Resources</Link></li>
+         <li
+          className="dropdown-wrapper"
+          onMouseEnter={() => setGenreOpen(true)}
+          onMouseLeave={() => setGenreOpen(false)}
+        >
+          <Link to="/books">My Books</Link>
+
+          {genreOpen && (
+            <div className="dropdown-menu">
+              <Link to="/books/Young-Adult">Young Adult</Link>
+              <Link to="/books/Middle-Grade">Middle Grade</Link>
+              <Link to="/books/Romance">Romance</Link>
+              <Link to="/books/Short-Story">Short Story</Link>
+            </div>
+          )}
+        </li>
+
+
+
+        <li><Link to="/teachingresources">Teaching Resources</Link></li>
       </ul>
     </nav>
   );

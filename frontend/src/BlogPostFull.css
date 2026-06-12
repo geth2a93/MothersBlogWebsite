@@ -105,6 +105,26 @@
     font-size: 1.2rem;
 }
 
+.blog-post-date {
+  margin-top: 6px;
+  opacity: 0.7;
+  font-size: 14px;
+}
+
+.blog-tags-bottom {
+  margin-top: 40px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tag-pill {
+  font-size: 11px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: #eee;
+}
+
 /* MOBILE */
 
 @media (max-width: 768px) {

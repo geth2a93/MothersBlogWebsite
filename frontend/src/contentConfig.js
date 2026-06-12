@@ -9,7 +9,11 @@ export const contentConfig = {
       title: post.title,
       preview: post.preview,
       image: post.titlepic || post.title_pic,
-      link: `/blog/${post.id}`
+      link: `/blog/${post.date.split("T")[0]}`,
+
+      date: post.date,
+      tags: post.tags || []
+
     })
   },
 
@@ -23,7 +27,7 @@ export const contentConfig = {
       title: book.title,
       preview: book.synopsis,
       image: book.book_image_url,
-      link: `/book/${book.id}`
+      link: `/books/title/${book.title.replaceAll(" ", "-")}`
     })
   },
 
@@ -38,7 +42,7 @@ export const contentConfig = {
     title: book.title,
     preview: book.synopsis,
     image: book.book_image_url,
-    link: `/book/${book.title.replaceAll(" ", "-")}`
+    link: `/books/title/${book.title.replaceAll(" ", "-")}`
   })
 },
 
@@ -54,8 +58,23 @@ export const contentConfig = {
     title: book.title,
     preview: book.synopsis,
     image: book.book_image_url,
-    link: `/book/${book.title.replaceAll(" ", "-")}`
+    link: `/books/title/${book.title.replaceAll(" ", "-")}`
   })
+},
+
+teaching: {
+  title: "Teaching Resources",
+  endpoint: "http://localhost:5055/api/teachingresources",
+  itemKey: null,
+
+  mapItem: (item) => ({
+  id: item.title,
+  title: item.title,
+  preview: "Click to view resource",
+  image: item.book_image_url,
+  slug: item.title.replaceAll(" ", "-"),
+  link: `/teachingresources/${item.title.replaceAll(" ", "-")}`
+})
 }
 
 };

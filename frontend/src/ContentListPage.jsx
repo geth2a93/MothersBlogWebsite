@@ -1,14 +1,18 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useParams } from "react";
 import ContentCard from "./ContentCard.jsx";
 import { contentConfig } from "./contentConfig";
 import "./Styles.css"
 
+
 export default function ContentListPage({ type, genre }) {
+  
   const config = contentConfig[type];
 
   const [items, setItems] = useState([]);
   const [page, setPage] = useState(1);
   const [hasNext, setHasNext] = useState(false);
+
+  
 
 useEffect(() => {
   const endpoint =
@@ -25,7 +29,7 @@ useEffect(() => {
     .then(data => {
       const rawItems = Array.isArray(data)
         ? data
-        : data?.[config.itemKey];
+        : data?.[config.itemKey]  ?? data;;
 
       if (!rawItems) {
         console.error("No items found:", data);
@@ -36,7 +40,7 @@ useEffect(() => {
 
       setHasNext(data.has_next ?? false);
     });
-}, [page, type]);
+}, [page, type, genre]);
 
   return (
     <div className="content-page">
@@ -56,6 +60,9 @@ useEffect(() => {
             link={item.link}
             type = {type}
             backgroundColor={index % 2 === 0 ? "#FFFFFF" : "#fff8f2"}
+
+            date={item.date}
+            tags={item.tags}
           />
         ))}
 
