@@ -1,3 +1,4 @@
+import { useState, useEffect, useRef } from "react";
 export default function ContentCard({
   title,
   image,
@@ -6,6 +7,15 @@ export default function ContentCard({
   backgroundColor,
   type
 }) {
+
+const [imageLoaded, setImageLoaded] = useState(false);
+const imgRef = useRef(null);
+useEffect(() => {
+    if (imgRef.current?.complete) {
+        setImageLoaded(true);
+    }
+}, [image]);
+
   return (
     <div className="content-card" style={{ backgroundColor }}>
 
@@ -14,9 +24,11 @@ export default function ContentCard({
         }`} >
 
         {image ? (
-          <img src={image} alt={title}  className={`content-card-image ${ 
-            type === "book" ? "book-image": "blog-image"
-         }`} />
+          <img  ref={imgRef} src={image} alt={title} 
+          onLoad={() => setImageLoaded(true)} 
+          className={`content-card-image ${ type === "book" ? "book-image": "blog-image" } 
+          ${imageLoaded ? "loaded" : ""}`}
+          />
 
         ) : (
           <div className="content-card-placeholder">
@@ -26,7 +38,7 @@ export default function ContentCard({
       </div>
 
       <div className="content-card-text">
-        <h2>{title}</h2>
+        <h1>{title}</h1>
         <p>{preview}</p>
 
         <button

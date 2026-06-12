@@ -17,7 +17,7 @@ def login():
 
     if not data:
         return jsonify({"error": "Missing JSON"}), 400
-
+    
     username = data.get("username")
     password = data.get("password")
 

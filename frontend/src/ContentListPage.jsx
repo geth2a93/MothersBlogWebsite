@@ -3,7 +3,7 @@ import ContentCard from "./ContentCard.jsx";
 import { contentConfig } from "./contentConfig";
 import "./Styles.css"
 
-export default function ContentListPage({ type }) {
+export default function ContentListPage({ type, genre }) {
   const config = contentConfig[type];
 
   const [items, setItems] = useState([]);
@@ -11,27 +11,31 @@ export default function ContentListPage({ type }) {
   const [hasNext, setHasNext] = useState(false);
 
 useEffect(() => {
-  fetch(`${config.endpoint}?page=${page}`)
+  const endpoint =
+    typeof config.endpoint === "function"
+      ? config.endpoint(genre)
+      : config.endpoint;
+
+  const url = config.paginate
+    ? `${endpoint}?page=${page}`
+    : endpoint;
+
+  fetch(url)
     .then(res => res.json())
     .then(data => {
-      console.log("API RESPONSE:", data);
-      console.log("BLOG RAW DATA:", data.posts);
-      console.log("FIRST POST:", data.posts?.[0]);
-
       const rawItems = Array.isArray(data)
         ? data
         : data?.[config.itemKey];
 
       if (!rawItems) {
-        console.error("No items found. Check API shape:", data);
+        console.error("No items found:", data);
         return;
       }
 
       setItems(rawItems.map(config.mapItem));
 
       setHasNext(data.has_next ?? false);
-    })
-    .catch(console.error);
+    });
 }, [page, type]);
 
   return (
@@ -51,14 +55,16 @@ useEffect(() => {
             preview={item.preview}
             link={item.link}
             type = {type}
-            backgroundColor={index % 2 === 0 ? "#FFFFFF" : "#E6FBFF"}
+            backgroundColor={index % 2 === 0 ? "#FFFFFF" : "#fff8f2"}
           />
         ))}
 
       </div>
+      
 
+      {type === "blog" && (
       <div className="pagination">
-
+        
         <button
           onClick={() => setPage(p => Math.max(p - 1, 1))}
           disabled={page === 1}
@@ -76,6 +82,6 @@ useEffect(() => {
         </button>
 
       </div>
+      )} 
     </div>
-  );
-}
+  )}

@@ -1,6 +1,7 @@
 import "./Components.css";
 import { Outlet } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
 import "./Styles.css"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -13,15 +14,28 @@ import {
   faLinkedin
 } from "@fortawesome/free-brands-svg-icons";
 
-
-
 export function Navbar() {
+  const [logo, setLogo] = useState(null);
+  
+  useEffect(() => {
+    fetch("http://localhost:5055/api/website-settings")
+      .then(res => res.json())
+      .then(data => {
+        setLogo(data.logo);
+      })
+      .catch(err => console.error(err));
+  }, []);
+
   return (
     <nav className="navbar">
-      <Link to="/" className="logo"> Charlotte Bennardo </Link>
+
+      <div className = 'logo-container'>
+        <img src={logo} className="logo-image" />
+        <Link to="/" className="logo"> Charlotte Bennardo </Link>
+      </div>
 
       <ul className="nav-links">
-        <li><Link to="/">About Me</Link></li>
+        <li><Link to="/about">About Me</Link></li>
         <li><Link to="/blog">My Blog</Link></li>
         <li><Link to="/books">My Books</Link></li>
         <li><Link to="/resources">Teaching Resources</Link></li>
@@ -47,8 +61,11 @@ export function Footer() {
         <h3>Follow Me!</h3>
 
         <div className="social-links">
-          <a href="https://facebook.com"  target="_blank"  rel="noopener noreferrer"><FontAwesomeIcon icon={faFacebook} /></a>
-          <a href="https://linkedin.com"  target="_blank"  rel="noopener noreferrer"><FontAwesomeIcon icon={faLinkedin} /></a>
+          <a href="https://facebook.com"  
+            target="_blank" rel="noopener noreferrer">
+            <FontAwesomeIcon icon={faFacebook} />
+          </a>
+          <a href="https://www.linkedin.com/in/charlotte-bennardo-a2223143/"  target="_blank"  rel="noopener noreferrer"><FontAwesomeIcon icon={faLinkedin} /></a>
           <a href="https://threads.net"  target="_blank"  rel="noopener noreferrer"><FontAwesomeIcon icon={faThreads} /></a>
           <a href="https://x.com"  target="_blank"  rel="noopener noreferrer"><FontAwesomeIcon icon={faXTwitter} /></a>
           <a href="https://bsky.app"  target="_blank"  rel="noopener noreferrer"><FontAwesomeIcon icon={faBluesky} /></a>

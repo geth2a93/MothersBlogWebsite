@@ -1,0 +1,38 @@
+.about-page {
+    background: #E6FBFF;
+    min-height: 100vh;
+    padding: 80px 5%;
+}
+
+.about-container {
+    max-width: 1200px;
+    margin: 0 auto;
+
+    display: flex;
+    gap: 50px;
+    align-items: flex-start;
+}
+
+.about-image img {
+    width: 350px;
+    max-width: 100%;
+    border-radius: 12px;
+    object-fit: cover;
+}
+
+.about-content {
+    flex: 1;
+}
+
+.about-content h1 {
+    font-family: "Alegreya", serif;
+    font-size: 3rem;
+    margin-bottom: 20px;
+}
+
+.about-content p {
+    font-family: "Alegreya Sans", sans-serif;
+    font-size: 1.2rem;
+    line-height: 1.8;
+    white-space: pre-wrap;
+}

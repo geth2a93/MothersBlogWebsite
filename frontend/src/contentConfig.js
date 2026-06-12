@@ -25,5 +25,37 @@ export const contentConfig = {
       image: book.book_image_url,
       link: `/book/${book.id}`
     })
-  }
+  },
+
+  allBooks: {
+  title: "Books",
+  endpoint: "http://localhost:5055/api/books",
+  itemKey: "books",
+  paginate: false,
+
+  mapItem: (book) => ({
+    id: book.id,
+    title: book.title,
+    preview: book.synopsis,
+    image: book.book_image_url,
+    link: `/book/${book.title.replaceAll(" ", "-")}`
+  })
+},
+
+  booksByGenre: {
+  title: "Books by Genre",
+  endpoint: (genre) =>
+    `http://localhost:5055/api/books/${genre}`,
+  itemKey: null,
+  paginate: false,
+
+  mapItem: (book) => ({
+    id: book.id,
+    title: book.title,
+    preview: book.synopsis,
+    image: book.book_image_url,
+    link: `/book/${book.title.replaceAll(" ", "-")}`
+  })
+}
+
 };
