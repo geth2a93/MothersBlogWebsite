@@ -89,13 +89,13 @@ class Website_Images(db.Model):
     
 class TeachingResource(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    book_title = db.Column(db.String(200), nullable=False)
-    word_list = db.Column(db.Text, nullable=False)
-    activities = db.Column(db.Text, nullable=False)
-    questions = db.Column(db.Text, nullable=False)
-    supplies = db.Column(db.Text, nullable=False)
-    objectives = db.Column(db.Text, nullable=False)
-    procedures = db.Column(db.Text, nullable=False)
+    book_title = db.Column(db.String(200), nullable=False)#done this way because she might add teaching resources on books that dont exist
+    word_list = db.Column(db.Text, nullable=True)
+    activities = db.Column(db.Text, nullable=True)
+    questions = db.Column(db.Text, nullable=True)
+    supplies = db.Column(db.Text, nullable=True)
+    objectives = db.Column(db.Text, nullable=True)
+    procedures = db.Column(db.Text, nullable=True)
 
     video_links = db.relationship('TeachingResourceVideoLink', backref='resource', lazy=True)
     book_links = db.relationship('TeachingResourceBookLink', backref='resource', lazy=True)
@@ -111,7 +111,8 @@ class TeachingResourceVideoLink(db.Model):
 class TeachingResourceBookLink(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     resource_id = db.Column(db.Integer, db.ForeignKey('teaching_resource.id'), nullable=False)
-    book_link = db.Column(db.Text, nullable=False)
+    book_link = db.Column(db.String(200), nullable=False)
+    book_title = db.Column(db.String(200), nullable=False)
 
 
 

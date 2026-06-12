@@ -44,7 +44,7 @@ def get_home_latest_content():
     return data
 
 def get_newest_book_for_each_genre():
-    genres = ["Young Adult", "Middle Grade", "Romance", "Short Story"]
+    genres = ["Young Adult", "Middle Grade", "Romance", "Short Story"] #owner doesnt write any new genres otherwise would be a query statement also could be define globally
 
     data = []
 
@@ -58,14 +58,15 @@ def get_newest_book_for_each_genre():
                 "genre": b.genre,
                 "synopsis": b.synopsis,
                 "book_image_url": build_url(b.book_image_url),
-                "buy_links": [{ "id": l.id, "url": l.links_url} for l in b.buy_links],
+                "buy_links": [{ "id": l.id, "url": l.links_url} for l in b.buy_links], 
                 "date_added": b.date_added
             })
 
     return data
 
 def get_books_by_genre(genre): #all books in the genre
-    books = Book.query.filter_by(genre=genre).all()
+    formatted_genre = genre.replace("-", " ").genre()
+    books = Book.query.filter_by(genre=formatted_genre).all() #404 error if genre no exist
     data = []
     for b in books:
         data.append({
@@ -88,9 +89,10 @@ def get_books_by_title(title):
         "genre": book.genre,
         "synopsis": book.synopsis,
         "book_image_url": build_url(book.book_image_url),
-        "buy_links": [{"id": l.id, "url": l.links_url} for l in book.buy_links],
-        "reviews": [{"id": r.id, "link_url": r.link_url, "name": r.name, "title": r.title, "content": r.content, "rating": r.rating} for r in book.reviews],
-        "date_added": book.date_added
+        "buy_links": [{ "url": l.links_url} for l in book.buy_links],
+        "reviews": [{"link_url": r.link_url, "name": r.name, "title": r.title, "content": r.content, "rating": r.rating} for r in book.reviews],
+        "date_added": book.date_added,
+        "awards": [{"award_url": build_url(a.pic_of_award), "award_title": a.title} for a in book.awards],
     }
     return data
 
@@ -137,5 +139,34 @@ def get_blog_by_id(id):
     }
 
 
-#def get_teaching_resources_by_book(title):
-#def get_teaching_resources():
+def get_teaching_resources_by_book(title):
+    t = TeachingResource.query.filter_by(book_title=title).first_or_404()
+    b = Book.query.filter_by(title=t.book_title).first()
+
+    return {
+        "book_title": t.book_title,
+        "book_image_url": (b.book_image_url if b else None),
+        "word_list": t.word_list,
+        "activities": t.activities,
+        "questions": t.questions,
+        "supplies": t.supplies,
+        "objectives": t.objectives,
+        "procedures": t.procedures,
+        "video_links": [{"video_title": video.video_title, "video_link": video.video_link} for video in t.video_links],
+        "book_links": [{"book_link": bl.book_link, "book_title": bl.book_title} for bl in t.book_links]
+    }
+
+def get_teaching_resources():
+    titles = TeachingResource.query.all()
+
+    data = []
+
+    for t in titles:
+        book = Book.query.filter_by(title=t.book_title).first() #find if title is a book title, may not be
+
+        data.append({
+            "title": t.book_title,
+            "book_image_url": (book.book_image_url if book else None)
+        })
+
+    return data
