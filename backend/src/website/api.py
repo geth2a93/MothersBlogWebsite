@@ -1,6 +1,5 @@
 from flask import Blueprint, request, jsonify, current_app
 from .models import AboutMe
-from flask_login import login_required
 from .functions import *
 
 api = Blueprint('api', __name__, url_prefix="/api") 
@@ -38,9 +37,9 @@ def blog_feed():
     page = request.args.get("page", 1, type=int)
     return jsonify(get_blog_posts(page))
 
-@api.route("/blog/<int:id>", methods=["GET"])
-def blog_post(id):
-    return jsonify(get_blog_by_id(id))
+@api.route("/blog/<string:date>", methods=["GET"])
+def blog_post(date):
+    return jsonify(get_blog_by_date(date))
 
 
 
@@ -63,7 +62,7 @@ def book_by_title(title):
 
 @api.route("/teachingresources", methods=["GET"])
 def teaching():
-    return jsonify(get_teaching_resources)
+    return jsonify(get_teaching_resources())
 
 
 @api.route("/teachingresources/<string:title>", methods=["GET"])

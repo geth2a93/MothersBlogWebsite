@@ -15,9 +15,10 @@ class BlogPost(db.Model):
     date_created = db.Column(db.DateTime, default=datetime.utcnow)
     tags = db.relationship('Tags', backref='blog', lazy=True)
     preview = db.Column(db.Text)
-    title_pic = db.Column(db.String(200), nullable=False)
+    title_pic = db.Column(db.String(200), nullable=False) #delete nullable, when adding new blog posts, picture or video must exist, not both
     ownership = db.Column(db.Boolean, nullable=False)
     name_of_owner = db.Column(db.String(200))
+    #video_url = db.Column(db.String(200), nullable=True) insta/fb
 
     content_blocks = db.relationship("BlogContentBlock", backref="blog_post", order_by="BlogContentBlock.order")
 
@@ -32,6 +33,7 @@ class BlogContentBlock(db.Model):
     ownership = db.Column(db.Boolean)
     name_of_owner = db.Column(db.String(200), nullable=False)
     alignment = db.Column(db.String(10))
+    #video_url = db.Column(db.String(200), nullable=True)
 
 class Book(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -113,8 +115,3 @@ class TeachingResourceBookLink(db.Model):
     resource_id = db.Column(db.Integer, db.ForeignKey('teaching_resource.id'), nullable=False)
     book_link = db.Column(db.String(200), nullable=False)
     book_title = db.Column(db.String(200), nullable=False)
-
-
-
-
-

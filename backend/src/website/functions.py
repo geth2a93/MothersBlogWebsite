@@ -1,5 +1,6 @@
 from .models import *
 from flask import request
+from sqlalchemy import func
 
 def build_url(path):
     if not path:
@@ -65,7 +66,7 @@ def get_newest_book_for_each_genre():
     return data
 
 def get_books_by_genre(genre): #all books in the genre
-    formatted_genre = genre.replace("-", " ").genre()
+    formatted_genre = genre.replace("-", " ").title()
     books = Book.query.filter_by(genre=formatted_genre).all() #404 error if genre no exist
     data = []
     for b in books:
@@ -81,7 +82,8 @@ def get_books_by_genre(genre): #all books in the genre
     return data
 
 def get_books_by_title(title):
-    formatted_title = title.replace("-", " ").title() #url is book-title, db is Book Title
+    formatted_title = title.replace("-", " ") #url is book-title, db is Book Title
+
     book = Book.query.filter_by(title=formatted_title).first()
     data = {
         "id": book.id,
@@ -104,6 +106,7 @@ def get_blog_posts(page, per_page=5): #5 per page
             "id": p.id,
             "title": p.title,
             "preview": p.preview,
+            "date": p.date_created,
             "tags": [t.content for t in p.tags],
             "titlepic": build_url(p.title_pic),
             "ownnership": p.ownership,
@@ -116,8 +119,9 @@ def get_blog_posts(page, per_page=5): #5 per page
 
     return data
 
-def get_blog_by_id(id):
-    p = BlogPost.query.get_or_404(id)
+def get_blog_by_date(date):
+    formatted_date = date.replace("-", " ")
+    p = BlogPost.query.filter(func.date(BlogPost.date_created) == date).first_or_404()
     blocks = []
 
     for b in p.content_blocks:
@@ -144,7 +148,8 @@ def get_blog_by_id(id):
 
 
 def get_teaching_resources_by_book(title):
-    t = TeachingResource.query.filter_by(book_title=title).first_or_404()
+    formatted_title = title.replace("-", " ")
+    t = TeachingResource.query.filter_by(book_title=formatted_title).first_or_404()
     b = Book.query.filter_by(title=t.book_title).first()
 
     return {
