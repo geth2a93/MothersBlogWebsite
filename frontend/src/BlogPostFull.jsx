@@ -132,7 +132,8 @@ function BlogPost() {
                                         </h2>
                                         
                                     )}
-                                    {block.content}
+                                    <p className="blog-block-content">
+                                     {block.content} </p>
                                 </div>
                             )}
 

@@ -84,7 +84,7 @@ function Home() {
 
             <p>{truncateText(book?.synopsis, 500)}
              {!book && (
-              <p>No book data available.</p> 
+              <p >No book data available.</p> 
               )}
             </p>
 

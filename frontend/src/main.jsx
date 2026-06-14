@@ -32,17 +32,12 @@ createRoot(document.getElementById("root")).render(
         <Route path="/books/:genre" element={<BooksGenreWrapper />} />
         <Route path="/books/title/:title" element={<BookDetail />} />
 
-        <Route path="/login" element={<Login />} />
-
-        <Route
-          path="/teachingresources"
-          element={<ContentListPage type="teaching" />}
-        />
-
-        <Route path="/teachingresources/:title" element={<TeachingResourceFull />}
-        />
+        <Route path="/teachingresources" element={<ContentListPage type="teaching" />} />
+        <Route path="/teachingresources/:title" element={<TeachingResourceFull />} />
 
       </Route>
+
+      <Route path="/login" element={<Login />} />
     </Routes>
   </BrowserRouter>
 );

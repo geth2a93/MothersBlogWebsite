@@ -73,6 +73,8 @@ def teaching_by_title(title):
 def about():
     about = AboutMe.query.first()
 
+    print("DB value:", about.abtme_pic_url)
+
     return jsonify({
         "content": about.content,
         "author_image": build_url(about.abtme_pic_url)

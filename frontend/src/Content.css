@@ -1,3 +1,4 @@
+@import "./Styles.css";
 .content-page {
   width: 100%;
 }
@@ -28,17 +29,23 @@
 .content-card {
   width: 80%;
   min-height: 550px;
-   
   margin: 0 auto;
   display: flex;
   align-items: center;
   justify-content: center;
-  
   border: 1px solid #d7d7d7;
-} 
+  gap: 40px;
+}
 
+.content-card-title a {
+  text-decoration: none;
+  color: inherit;
+}
 
-
+.content-card-title a:hover {
+  text-decoration: underline;
+  color: #0F7BA8;
+}
 /* IMAGE */
 .content-card-image-container {
   width: 100%;
@@ -88,6 +95,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
+
 }
 
 .content-card-text h2 {

@@ -1,3 +1,5 @@
+
+
 .blog-post-page {
     width: 100%;
     min-height: 100vh;
@@ -35,9 +37,12 @@
 
 .blog-post-preview {
     text-align: center;
-    font-size: 1.3rem;
+    font-size: 1.2rem;
 
     margin-bottom: 30px;
+    white-space: pre-line;
+
+    font-weight: normal;
     
 }
 
@@ -55,6 +60,18 @@
 
 .blog-block {
     margin: 25px 0;
+}
+
+.blog-block-content {
+  font-family: 'Alegreya Sans', sans-serif;
+  color: #4B4B4B;
+  white-space: pre-line;
+}
+
+.blog-post-date{
+    font-size: 2rem;
+    margin: 10px 0;
+    text-align: center;
 }
 
 .blog-block.left {

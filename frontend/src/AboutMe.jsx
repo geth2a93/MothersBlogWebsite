@@ -24,6 +24,7 @@ export default function About() {
 
   return (
     <div className="about-page">
+
       <div className="about-container">
         {about?.author_image && (
           <div className="about-image">
@@ -38,7 +39,9 @@ export default function About() {
           <h1>About the Author</h1>
           <p>{about?.content}</p>
         </div>
+
       </div>
+      
     </div>
   );
 }

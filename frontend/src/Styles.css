@@ -16,6 +16,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+
 }
 
 html, body, #root {
@@ -41,4 +42,5 @@ h1,h2,h3,h4,h5,h6 {
 p {
   font-family: 'Alegreya Sans', sans-serif;
   color: #4B4B4B;
+  
 }
