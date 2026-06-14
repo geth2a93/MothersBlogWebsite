@@ -4,3 +4,4 @@ backend/src/instance/books.sqbpro
 *.png
 *.db
 *.db-journal
+*.webp

@@ -37,7 +37,7 @@ class BlogContentBlock(db.Model):
 
 class Book(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    isbn = db.Column(db.String(15), nullable=False)
+    isbn = db.Column(db.String(15), nullable=True)
     title = db.Column(db.String(100), nullable=False)
     synopsis = db.Column(db.Text, nullable=False)
     genre = db.Column(db.String(20), nullable=False) 
