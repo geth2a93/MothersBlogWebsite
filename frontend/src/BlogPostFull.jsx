@@ -49,8 +49,6 @@ function BlogPost() {
         return <p>Blog post not found.</p>;
     } 
 
-        
-
     const sortedBlocks = [...(post.content_blocks || [])].sort(
         (a, b) => a.order - b.order
     );
@@ -135,21 +133,19 @@ function BlogPost() {
                                     <p className="blog-block-content">
                                      {block.content} </p>
                                 </div>
-                            )}
-
-                            
+                            )} 
                         </div>
                     );
                 })}
                 {post.tags?.length > 0 && (
-  <div className="blog-tags-bottom">
-    {post.tags.map((tag, i) => (
-      <span key={i} className="tag-pill">
-        {tag}
-      </span>
-    ))}
-  </div>
-)}
+                    <div className="blog-tags-bottom">
+                        {post.tags.map((tag, i) => (
+                            <span key={i} className="tag-pill">
+                        {tag}
+                    </span>
+                ))}
+            </div>
+            )}
             </div>
         </div>
     );

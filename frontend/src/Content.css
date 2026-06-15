@@ -106,12 +106,12 @@
 .content-card-text p {
   font-size: 1.2rem;
   line-height: 1.6;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
 }
 
 /* BUTTON */
 .content-card-button {
-  padding: 12px 28px;
+  padding: 10px 20px;
   border: none;
   cursor: pointer;
 
@@ -119,10 +119,12 @@
   color: white;
 
   transition: opacity 0.2s ease;
+  margin-bottom: 10px;
 }
 
 .content-card-button:hover {
   opacity: 0.85;
+  background: #e7ac5a;
 }
 
 /* PAGINATION */
@@ -147,14 +149,17 @@
 
 .content-card-button:hover {
   opacity: 0.85;
+  background: #EA9A28;
+  color: white;
 }
 
 .pagination button:disabled {
   opacity: 0.6;
 }
 
-.pagination button:disabled {
+.pagination button:hover {
   opacity: 0.85;
+  background: #e7ac5a;
 }
 
 .book-image-container {
@@ -180,10 +185,9 @@
   object-fit: contain;
 }
 
-
 .blog-card-date {
   font-size: 13px;
-  opacity: 0.7;
+  opacity: 0.8;
   margin-top: 4px;
 }
 

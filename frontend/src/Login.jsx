@@ -17,11 +17,12 @@ function Login() {
         setLoading(true);
 
         try {
-            fetch("http://localhost:5055/auth/login", {
-    method: "POST",
-    headers: {
+        fetch("http://localhost:5055/auth/login", {
+        credentials: "include",
+        method: "POST",
+        headers: {
         "Content-Type": "application/json"
-    },
+        },
     body: JSON.stringify({
         username,
         password

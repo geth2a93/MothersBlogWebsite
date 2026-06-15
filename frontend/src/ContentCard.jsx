@@ -49,7 +49,7 @@ export default function ContentCard({
       )}
 
       <div className="content-card-text">
-        <h1 className="content-card-title"> <a href={link}>{title}</a></h1>
+        <h1 className="content-card-title"> <a href={link}>{title}</a> </h1>
 
         {date && (
           <p className="blog-card-date">
@@ -59,7 +59,7 @@ export default function ContentCard({
 
         {hasText && (
           <>
-            <p>{truncateText(preview, 250)}</p>
+            <p >{truncateText(preview, 250)}</p>
 
             {!showImageOnly && (
               <button
