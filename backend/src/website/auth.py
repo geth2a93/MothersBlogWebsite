@@ -21,6 +21,9 @@ def login():
     username = data.get("username")
     password = data.get("password")
 
+    if not username or not password:
+        return jsonify({"error": "Missing credentials"}), 400
+
     user = User.query.filter_by(username=username).first()
 
     if user and check_password_hash(user.password, password):
@@ -28,6 +31,26 @@ def login():
         return jsonify({"message": "Logged in"}), 200
 
     return jsonify({"error": "Invalid credentials"}), 401
+
+@auth.route("/createuser", methods=["POST"])
+def createuser():
+    data = request.get_json()
+
+    if not data:
+        return jsonify({"error": "Missing JSON"}), 400
+    
+    username = data.get("username")
+    password = data.get("password")
+    email = data.get("email")
+    hashed = generate_password_hash(password)
+
+    newUser = User(username=username, password=hashed, email=email)
+    db.session.add(newUser)
+    db.session.commit()
+
+    return jsonify({"message": "success"}), 200
+
+
 
 @auth.route("/admin/aboutme", methods=["GET", "PUT"])
 @login_required
@@ -50,10 +73,9 @@ def edit_about_me():
     file = request.files.get("image")
 
     if file and file.filename != "":
-
         filename = secure_filename(file.filename)
-        upload_folder = os.path.join("static", "uploads", "author picture")
-        os.makedirs(upload_folder, exist_ok=True)
+        upload_folder = os.path.join(current_app.config["UPLOAD_FOLDER"],"website_resources")
+        #os.makedirs(upload_folder, exist_ok=True)
         filepath = os.path.join(upload_folder, filename)
         file.save(filepath)
         about.abtme_pic_url = f"/static/uploads/{filename}"
