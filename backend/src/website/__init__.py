@@ -52,8 +52,10 @@ def create_app():
 
     from .api import api
     from .auth import auth
+    from .admin import admin
     app.register_blueprint(api)
     app.register_blueprint(auth)
+    app.register_blueprint(admin)
 
     with app.app_context():
         db.create_all()
