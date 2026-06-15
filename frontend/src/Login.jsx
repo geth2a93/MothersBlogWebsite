@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
-
-function Login() {
+export default function Login() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const navigate = useNavigate();
 
     const [error, setError] = useState("");
     const [message, setMessage] = useState("");
@@ -17,24 +18,21 @@ function Login() {
         setLoading(true);
 
         try {
-        fetch("http://localhost:5055/auth/login", {
-        credentials: "include",
-        method: "POST",
-        headers: {
-        "Content-Type": "application/json"
-        },
-    body: JSON.stringify({
-        username,
-        password
-    })
-});
+            const response = await fetch("http://localhost:5055/auth/login", {
+            credentials: "include",
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+                },
+            body: JSON.stringify({
+            username,
+            password
+        })
+    });
+        const text = await response.text();
+        console.log("RAW RESPONSE:", text);
 
-            
-
-            const text = await response.text();
-            console.log("RAW RESPONSE:", text);
-
-            let data;
+        let data;
             try {
                 data = JSON.parse(text);
             } catch {
@@ -45,7 +43,9 @@ function Login() {
 
             if (response.ok) {
                 setMessage(data.message || "Login successful");
+                navigate("/adminhome"); 
                 setError("");
+
             } else {
                 setError(data.error || "Login failed");
                 setMessage("");
@@ -97,5 +97,3 @@ function Login() {
         </div>
     );
 }
-
-export default Login;

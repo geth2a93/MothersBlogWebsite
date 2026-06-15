@@ -15,6 +15,7 @@ import BooksGenreWrapper from './BooksGenre.jsx'
 import BookDetail from './BookFull.jsx'
 import TeachingResourceFull from './TeachingResourceFull.jsx'
 import ContentListPage from "./ContentListPage";
+import AdminHome from "./AdminHome";
 
 
 
@@ -40,6 +41,7 @@ createRoot(document.getElementById("root")).render(
 
       <Route path="/login" element={<Login />} />
       <Route path="/createuser" element={<CreateUser />} />
+      <Route path="/adminhome" element={<AdminHome />} />
     </Routes>
   </BrowserRouter>
 );
