@@ -39,7 +39,7 @@ def edit_about_me():
         os.makedirs(upload_folder, exist_ok=True)
         filepath = os.path.join(upload_folder, filename)
         file.save(filepath)
-        about.abtme_pic_url = f"/static/uploads/website_resources{filename}"
+        about.abtme_pic_url = f"/static/uploads/website_resources/{filename}"
 
     about.updated_at = datetime.utcnow()
 
@@ -73,7 +73,7 @@ def edit_site_resources():
     os.makedirs(upload_folder, exist_ok=True)
     filepath = os.path.join(upload_folder, filename)
     file.save(filepath)
-    new_url = f"/static/uploads/website_resources{filename}"
+    new_url = f"/static/uploads/website_resources/{filename}"
     #maybe add removal options for it 
     #check box, remove previous banner or logo?
 
