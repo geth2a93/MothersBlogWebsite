@@ -37,10 +37,9 @@ def blog_feed():
     page = request.args.get("page", 1, type=int)
     return jsonify(get_blog_posts(page))
 
-@api.route("/blog/<string:date>", methods=["GET"])
-def blog_post(date):
-    return jsonify(get_blog_by_date(date))
-
+@api.route("/blog/<string:slug>", methods=["GET"])
+def blog_post(slug):
+    return jsonify(get_blog_by_slug(slug))
 
 
 #book routes

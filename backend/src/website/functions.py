@@ -1,6 +1,8 @@
 from .models import *
 from flask import request
 from sqlalchemy import func
+from datetime import datetime, timezone
+import re
 
 def build_url(path):
     if not path:
@@ -8,8 +10,9 @@ def build_url(path):
     return request.url_root.rstrip("/") + "/" + path.lstrip("/")
 
 def get_home_latest_content():
+    now = datetime.now(timezone.utc)
     latest_book = Book.query.order_by(Book.date_added.desc()).first()
-    latest_blog = BlogPost.query.order_by(BlogPost.date_created.desc()).first()
+    latest_blog = BlogPost.query.filter(BlogPost.date_created <= now).order_by(BlogPost.date_created.desc()).first()
 
     data = {
         "book": None,
@@ -32,9 +35,11 @@ def get_home_latest_content():
             "type": "blog",
             "id": latest_blog.id,
             "title": latest_blog.title,
+            "slug": latest_blog.slug,
             "tags": [t.content for t in latest_blog.tags],
             "date": latest_blog.date_created.isoformat(),
-            "title_pic": build_url(latest_blog.title_pic)
+            "titlepic": build_url(latest_blog.title_media_content_url),
+            "url_content_type": latest_blog.url_content_type,
         }
 
         if latest_blog.preview:
@@ -87,6 +92,7 @@ def get_books_by_title(title):
     book = Book.query.filter_by(title=formatted_title).first()
     data = {
         "id": book.id,
+        "isbn": book.isbn,
         "title": book.title,
         "genre": book.genre,
         "synopsis": book.synopsis,
@@ -99,9 +105,8 @@ def get_books_by_title(title):
     return data
 
 def get_blog_posts(page, per_page=5): #5 per page
-    #dont show dates that havent come
-    pagination = BlogPost.query.order_by(BlogPost.date_created.desc()).paginate(page=page, per_page=per_page, error_out=False)
-
+    now = datetime.now(timezone.utc)
+    pagination = BlogPost.query.filter(BlogPost.date_created <= now).order_by(BlogPost.date_created.desc()).paginate(page=page, per_page=per_page, error_out=False)
     data = {
         "posts": [{
             "id": p.id,
@@ -109,7 +114,8 @@ def get_blog_posts(page, per_page=5): #5 per page
             "preview": p.preview,
             "date": p.date_created.isoformat(),
             "tags": [t.content for t in p.tags],
-            "titlepic": build_url(p.title_pic),
+            "titlepic": build_url(p.title_media_content_url),
+            "url_content_type": p.url_content_type,
             "ownnership": p.ownership,
             "name_of_owner": p.name_of_owner
             
@@ -120,29 +126,29 @@ def get_blog_posts(page, per_page=5): #5 per page
 
     return data
 
-def get_blog_by_date(date):
-    formatted_date = date.replace("-", " ")
-    p = BlogPost.query.filter(func.date(BlogPost.date_created) == date).first_or_404()
-    #dont show dates that havent come
-    blocks = []
+def get_blog_by_slug(slug):
+    p = BlogPost.query.filter_by(slug=slug).first_or_404()
 
+    blocks = []
     for b in p.content_blocks:
         blocks.append({
             "blocktitle": b.title_of_block,
             "content": b.content,
-            "image_url": build_url(b.image_url),
+            "content_url": build_url(b.media_content_url),
+            "url_content_type": b.url_content_type,
             "alignment": b.alignment,
-            "size": b.size,
             "ownership": b.ownership,
             "name_of_owner": b.name_of_owner,
             "order": b.order
         })
 
     return {
-        "id": p.id,
+        "id": p.id, 
         "title": p.title,
+        "slug": p.slug,
         "preview": p.preview,
-        "title_pic": build_url(p.title_pic),
+        "title_url": build_url(p.title_media_content_url), #going to need to change based off type in url content type
+        "url_content_type": p.url_content_type,
         "tags": [t.content for t in p.tags],
         "date_created": p.date_created.isoformat(),
         "ownership": p.ownership,
@@ -171,7 +177,6 @@ def get_teaching_resources_by_book(title):
 
 def get_teaching_resources():
     titles = TeachingResource.query.all()
-
     data = []
 
     for t in titles:
@@ -183,3 +188,9 @@ def get_teaching_resources():
         })
 
     return data
+
+def slugify(text):
+    text = text.lower()
+    text = re.sub(r"[^a-z0-9\s-]", "", text)
+    text = re.sub(r"\s+", "-", text)
+    return text.strip("-")

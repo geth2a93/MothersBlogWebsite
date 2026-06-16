@@ -1,6 +1,6 @@
 from . import db
 from flask_login import UserMixin
-from datetime import datetime
+from datetime import datetime, timezone
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True, unique=True)
@@ -11,13 +11,14 @@ class User(db.Model, UserMixin):
 class BlogPost(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(50), nullable=False)
-    date_created = db.Column(db.DateTime, default=datetime.utcnow)
+    slug = db.Column(db.String(120), unique=True, nullable=False, index=True)
+    date_created = db.Column(db.DateTime)
     tags = db.relationship('Tags', backref='blog', lazy=True)
     preview = db.Column(db.Text)
-    title_pic = db.Column(db.String(200), nullable=False) #delete nullable, when adding new blog posts, picture or video must exist, not both
-    ownership = db.Column(db.Boolean, nullable=False)
+    title_media_content_url = db.Column(db.String(2000))
+    url_content_type = db.Column(db.String(20)) #picture, youtube link, fb link, insta link
+    ownership = db.Column(db.Boolean)
     name_of_owner = db.Column(db.String(200))
-    #video_url = db.Column(db.String(200), nullable=True) insta/fb
 
     content_blocks = db.relationship("BlogContentBlock", backref="blog_post", order_by="BlogContentBlock.order")
 
@@ -27,20 +28,20 @@ class BlogContentBlock(db.Model):
     order = db.Column(db.Integer, nullable=False)
     title_of_block = db.Column(db.Text)
     content = db.Column(db.Text)
-    image_url = db.Column(db.String(200))
-    size = db.Column(db.Integer)
+    media_content_url = db.Column(db.String(2000))
+    url_content_type = db.Column(db.String(20)) #picture, youtube link, fb link, insta link, threads
     ownership = db.Column(db.Boolean)
-    name_of_owner = db.Column(db.String(200), nullable=False)
+    name_of_owner = db.Column(db.String(200))
     alignment = db.Column(db.String(10))
-    #video_url = db.Column(db.String(200), nullable=True)
 
+#also slugify, and genre will be a relationship
 class Book(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     isbn = db.Column(db.String(15), nullable=True)
     title = db.Column(db.String(100), nullable=False)
-    synopsis = db.Column(db.Text, nullable=False)
-    genre = db.Column(db.String(20), nullable=False) 
-    book_image_url = db.Column(db.String(200), nullable=False)
+    synopsis = db.Column(db.Text)
+    genre = db.Column(db.String(20), nullable=False) #we defined 4 genres, theres going to be more, scifi, fatanasy, check how front end routing works -> more pages more genres.
+    book_image_url = db.Column(db.String(200))
     buy_links = db.relationship('BuyLinks', backref='book', lazy=True)
     date_added = db.Column(db.DateTime, default=datetime.utcnow)
     reviews = db.relationship('Reviews', backref='book', lazy=True)
@@ -114,3 +115,17 @@ class TeachingResourceBookLink(db.Model):
     resource_id = db.Column(db.Integer, db.ForeignKey('teaching_resource.id'), nullable=False)
     book_link = db.Column(db.String(200), nullable=False)
     book_title = db.Column(db.String(200), nullable=False)
+
+class SubscriberEmail(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    date_to_send = db.Column(db.DateTime)
+    created_at = db.Column(db.DateTime, default=datetime.now(timezone.utc))
+    message = db.Column(db.Text)
+    email_pics = db.relationship('EmailPics', backref='subscriberemail', lazy=True)
+
+class EmailPics(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    image_url = db.Column(db.String(500), nullable=False)
+    email_id = db.Column(db.Integer, db.ForeignKey('subscriber_email.id'), nullable=False)
+
+
