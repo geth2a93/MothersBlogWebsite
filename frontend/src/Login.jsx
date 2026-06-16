@@ -43,7 +43,7 @@ export default function Login() {
 
             if (response.ok) {
                 setMessage(data.message || "Login successful");
-                navigate("/adminhome"); 
+                navigate("/admin"); 
                 setError("");
 
             } else {

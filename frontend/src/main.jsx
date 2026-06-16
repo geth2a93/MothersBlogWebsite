@@ -16,14 +16,14 @@ import BookDetail from './BookFull.jsx'
 import TeachingResourceFull from './TeachingResourceFull.jsx'
 import ContentListPage from "./ContentListPage";
 import AdminHome from "./AdminHome";
-
+import AdminAboutMe from "./AdminAboutMe";
+import AdminWebResources from "./AdminWebResources"
 
 
 createRoot(document.getElementById("root")).render(
   <BrowserRouter>
     <Routes>
       <Route element={<Layout />}>
-
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
 
@@ -38,10 +38,12 @@ createRoot(document.getElementById("root")).render(
         <Route path="/teachingresources/:title" element={<TeachingResourceFull />} />
 
       </Route>
+        <Route path="/login" element={<Login />} />
+        <Route path="/createuser" element={<CreateUser />} />
 
-      <Route path="/login" element={<Login />} />
-      <Route path="/createuser" element={<CreateUser />} />
-      <Route path="/adminhome" element={<AdminHome />} />
+      <Route path="/admin" element={<AdminHome />} />
+      <Route path="/admin/aboutme" element={<AdminAboutMe />} />
+      <Route path="/admin/websiteresources" element={<AdminWebResources />} />
     </Routes>
   </BrowserRouter>
 );
