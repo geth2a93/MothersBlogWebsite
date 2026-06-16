@@ -28,7 +28,7 @@ def create_app():
 
     
     app.config["UPLOAD_FOLDER"] = os.getenv("UPLOAD_FOLDER", os.path.join(os.path.dirname(__file__), "static", "uploads"))
-    app.config["MAX_CONTENT_LENGTH"] = 5 * 1024 * 1024
+    app.config["MAX_CONTENT_LENGTH"] = 5 * 1024 * 1024 #maybe two diff sizes for max banner size, max blog photo size?
     app.config["UPLOAD_EXTENSIONS"] = {"png", "jpg", "jpeg", "webp"}
 
     #old

@@ -9,10 +9,14 @@ from .functions import *
 
 admin = Blueprint('admin', __name__,  url_prefix="/admin")
 
-@admin.route("/admin/editaboutme", methods=["GET", "PUT"])
+#@admin.route("/admin", methods=["GET", "PUT"])
+#@login_required
+#def adminhome():
+
+
+@admin.route("/editaboutme", methods=["GET", "PUT"])
 @login_required
 def edit_about_me():
-
     about = AboutMe.query.first()
 
     if request.method == "GET":
@@ -32,11 +36,10 @@ def edit_about_me():
     if file and file.filename != "":
         filename = secure_filename(file.filename)
         upload_folder = os.path.join(current_app.config["UPLOAD_FOLDER"],"website_resources")
-        #os.makedirs(upload_folder, exist_ok=True)
+        os.makedirs(upload_folder, exist_ok=True)
         filepath = os.path.join(upload_folder, filename)
         file.save(filepath)
-        about.abtme_pic_url = f"/static/uploads/{filename}"
-        
+        about.abtme_pic_url = f"/static/uploads/website_resources{filename}"
 
     about.updated_at = datetime.utcnow()
 
@@ -47,7 +50,7 @@ def edit_about_me():
         "abtme_pic_url": build_url(about.abtme_pic_url)
     }), 200
 
-@admin.route("/admin/websiteresources", methods=["GET", "PUT"])
+@admin.route("/websiteresources", methods=["GET", "PUT"])
 @login_required
 def edit_site_resources():
     resources = Website_Images.query.first()
@@ -59,24 +62,20 @@ def edit_site_resources():
         })
   
     image_type = request.form.get("image_type")
-    file = request.files.get("image")
+    file = request.files.get("image")#check size return too large if too large
 
-    if not file or file.filename == "":
-        return jsonify({"error": "No image uploaded"}), 400
+    if not file or file.filename == "": #breakable?
+        return jsonify({"error": "No image uploaded"}), 400 
 
-    upload_folder = os.path.join("static", "uploads", "website_resources")
-    os.makedirs(upload_folder, exist_ok=True)
-
-    #above is new linking to pathways change others *change others to this*
-
-    #save new image
+    #more error checking need
     filename = secure_filename(file.filename)
-
+    upload_folder = os.path.join(current_app.config["UPLOAD_FOLDER"],"website_resources")
+    os.makedirs(upload_folder, exist_ok=True)
     filepath = os.path.join(upload_folder, filename)
-
     file.save(filepath)
-    #delete old news to be added
-    new_url = f"/static/uploads/{filename}"
+    new_url = f"/static/uploads/website_resources{filename}"
+    #maybe add removal options for it 
+    #check box, remove previous banner or logo?
 
     #update db
     if image_type == "logo":

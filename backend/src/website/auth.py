@@ -1,6 +1,6 @@
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask import request, jsonify, Blueprint, current_app
-from flask_login import login_required, login_user
+from flask_login import login_required, login_user, logout_user
 from datetime import datetime
 import os, uuid, json
 from . import db
@@ -33,6 +33,7 @@ def login():
 @auth.route("/logout", methods=["POST"])
 @login_required
 def logout():
+    logout_user()
     return
 
 
