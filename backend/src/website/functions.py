@@ -30,7 +30,7 @@ def get_home_latest_content():
             "date": latest_book.date_added.isoformat()
         }
     if(latest_blog.url_content_type) == "image":
-        title_media=build_url(p.title_media_content_url)
+        title_media=build_url(latest_blog.title_media_content_url)
     elif(latest_blog.url_content_type) == "insta" or "fb":
         title_media=latest_blog.title_media_content_url
     else:
@@ -124,6 +124,7 @@ def get_blog_posts(page, per_page=5): #5 per page
 
         posts.append({
             "id": p.id,
+            "slug": p.slug,
             "title": p.title,
             "preview": p.preview,
             "date": p.date_created.isoformat(),
