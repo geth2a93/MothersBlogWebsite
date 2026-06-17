@@ -29,7 +29,12 @@ def get_home_latest_content():
             "image": build_url(latest_book.book_image_url),
             "date": latest_book.date_added.isoformat()
         }
-
+    if(latest_blog.url_content_type) == "image":
+        title_media=build_url(p.title_media_content_url)
+    elif(latest_blog.url_content_type) == "insta" or "fb":
+        title_media=latest_blog.title_media_content_url
+    else:
+        title_media = None
     if latest_blog:
         blog_data = {
             "type": "blog",
@@ -38,7 +43,7 @@ def get_home_latest_content():
             "slug": latest_blog.slug,
             "tags": [t.content for t in latest_blog.tags],
             "date": latest_blog.date_created.isoformat(),
-            "titlepic": build_url(latest_blog.title_media_content_url),
+            "title_media": title_media,
             "url_content_type": latest_blog.url_content_type,
         }
 
@@ -107,54 +112,34 @@ def get_books_by_title(title):
 def get_blog_posts(page, per_page=5): #5 per page
     now = datetime.now(timezone.utc)
     pagination = BlogPost.query.filter(BlogPost.date_created <= now).order_by(BlogPost.date_created.desc()).paginate(page=page, per_page=per_page, error_out=False)
-    data = {
-        "posts": [{
+
+    posts = []
+    for p in pagination.items:
+        if p.url_content_type == "image":
+            title_media = build_url(p.title_media_content_url)
+        elif p.url_content_type in ["insta", "fb"]:
+            title_media = p.title_media_content_url
+        else:
+            title_media = None
+
+        posts.append({
             "id": p.id,
             "title": p.title,
             "preview": p.preview,
             "date": p.date_created.isoformat(),
             "tags": [t.content for t in p.tags],
-            "titlepic": build_url(p.title_media_content_url),
+            "title_media": title_media,
             "url_content_type": p.url_content_type,
-            "ownnership": p.ownership,
-            "name_of_owner": p.name_of_owner
-            
-        } for p in pagination.items],
-        "has_next": pagination.has_next,
-        "page": page
-    }
-
-    return data
-
-def get_blog_by_slug(slug):
-    p = BlogPost.query.filter_by(slug=slug).first_or_404()
-
-    blocks = []
-    for b in p.content_blocks:
-        blocks.append({
-            "blocktitle": b.title_of_block,
-            "content": b.content,
-            "content_url": build_url(b.media_content_url),
-            "url_content_type": b.url_content_type,
-            "alignment": b.alignment,
-            "ownership": b.ownership,
-            "name_of_owner": b.name_of_owner,
-            "order": b.order
+            "ownership": p.ownership,
+            "name_of_owner": p.name_of_owner,
         })
+    
 
-    return {
-        "id": p.id, 
-        "title": p.title,
-        "slug": p.slug,
-        "preview": p.preview,
-        "title_url": build_url(p.title_media_content_url), #going to need to change based off type in url content type
-        "url_content_type": p.url_content_type,
-        "tags": [t.content for t in p.tags],
-        "date_created": p.date_created.isoformat(),
-        "ownership": p.ownership,
-        "name_of_owner": p.name_of_owner,
-        "content_blocks": blocks
-    }
+    return {"posts":posts,
+        "has_next": pagination.has_next,
+        "page": page}
+
+
 
 
 def get_teaching_resources_by_book(title):
@@ -194,3 +179,46 @@ def slugify(text):
     text = re.sub(r"[^a-z0-9\s-]", "", text)
     text = re.sub(r"\s+", "-", text)
     return text.strip("-")
+
+def get_blog_by_slug(slug):
+    p = BlogPost.query.filter_by(slug=slug).first_or_404()
+    if(p.url_content_type) == "image":
+        title_media=build_url(p.title_media_content_url)
+    elif(p.url_content_type) == "insta" or "fb":
+        title_media=p.title_media_content_url
+    else:
+        title_media = None
+
+    blocks = []
+    for b in p.content_blocks:
+        if(b.url_content_type) == "image":
+            media_content_url=build_url(b.media_content_url)
+        elif(b.url_content_type) == "insta" or "fb":
+            media_content_url=b.media_content_url
+        else:
+            media_content_url = None
+        blocks.append({
+            "blocktitle": b.title_of_block,
+            "content": b.content,
+            "media_content_url": media_content_url,
+            "url_content_type": b.url_content_type,
+            "alignment": b.alignment,
+            "ownership": b.ownership,
+            "name_of_owner": b.name_of_owner,
+            "order": b.order
+        })
+
+    return {
+        "id": p.id, 
+        "title": p.title,
+        "slug": p.slug,
+        "preview": p.preview,
+        "title_media": title_media,
+        "url_content_type": p.url_content_type,
+        "tags": [t.content for t in p.tags],
+        "date_created": p.date_created.isoformat(),
+        "ownership": p.ownership,
+        "name_of_owner": p.name_of_owner,
+        "content_blocks": blocks
+    }
+
