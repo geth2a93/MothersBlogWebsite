@@ -1,16 +1,64 @@
 import { useState, useEffect, useRef } from "react";
+import {
+  InstagramEmbed,
+  FacebookEmbed,
+} from "react-social-media-embed";
 
 export default function ContentCard({
   title,
-  image,
+  title_media,
+  url_content_type,
   preview,
   link,
   backgroundColor,
   type,
   date,
-  tags
+  tags,
+  slug,
 }) {
-  const [imageLoaded, setImageLoaded] = useState(false);
+
+const renderMedia = () => {
+  if (!title_media) return null;
+
+  switch (url_content_type) {
+    case "image":
+      return (
+        <img
+          src={title_media}
+          alt={title}
+          onLoad={() => setMediaLoaded(true)}
+          className={`content-card-image ${
+            type === "book" ? "book-image" : "blog-image"} ${
+             mediaLoaded ? "loaded" : ""}
+          }`}
+        />
+      );
+
+    case "instagram":
+      setTimeout(() => setMediaLoaded(true), 600);
+      return (
+        <div
+        onLoad={() => setMediaLoaded(true)} 
+        style={{ display: "flex", justifyContent: "center" }}>
+          <InstagramEmbed url={title_media} width={350} />
+        </div>
+      );
+
+    case "facebook":
+      return (
+        <div
+        onLoad={() => setMediaLoaded(true)}
+        style={{ display: "flex", justifyContent: "center" }}>
+          <FacebookEmbed url={title_media} width={500} />
+        </div>
+      );
+
+    default:
+      return null;
+    }
+  };
+
+  const [mediaLoaded, setMediaLoaded] = useState(false);
   const imgRef = useRef(null);
 
   const truncateText = (text, maxLength) => {
@@ -20,31 +68,20 @@ export default function ContentCard({
       : text;
   };
 
-  const hasImage = Boolean(image);
+  const hasMedia = Boolean(title_media);
   const hasText = Boolean(preview && preview.trim().length > 0);
-  const showImageOnly = hasImage && !hasText;
+  const showMediaOnly = hasMedia && !hasText;
 
   useEffect(() => {
-    if (imgRef.current?.complete) {
-      setImageLoaded(true);
-    }
-  }, [image]);
+   setMediaLoaded(false);
+  }, [title_media, url_content_type]);
 
   return (
     <div className="content-card" style={{ backgroundColor }}>
-      {hasImage && (
+      {title_media && (
         <div
-          className={`content-card-image-container ${
-            type === "book" ? "book-image-container" : "blog-image-container"
-          }`}
-        >
-          <img
-            ref={imgRef} src={image} alt={title}
-            onLoad={() => setImageLoaded(true)}
-            className={`content-card-image ${
-              type === "book" ? "book-image" : "blog-image"
-            } ${imageLoaded ? "loaded" : ""}`}
-          />
+          className= "content-card-image-container">
+            {renderMedia()}
         </div>
       )}
 
@@ -61,7 +98,7 @@ export default function ContentCard({
           <>
             <p >{truncateText(preview, 250)}</p>
 
-            {!showImageOnly && (
+            {!showMediaOnly && (
               <button
                 className="content-card-button"
                 onClick={() => (window.location.href = link)} >

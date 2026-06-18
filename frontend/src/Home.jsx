@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams  } from "react-router-dom";
 
 import "./Home.css";
 import "./Components.css";
@@ -18,6 +18,8 @@ import {
 function Home() {
   const [homeData, setHomeData] = useState(null);
   const [loading, setLoading] = useState(true);
+
+  const { slug } = useParams();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -113,9 +115,9 @@ function Home() {
       <section className="home-newest">
         <div className="home-newest-content">
         
-           {blog?.title_pic ? (
+           {blog?.title_media ? (
             <img
-              src={blog.title_pic}
+              src={blog.title_media}
               alt={blog.title}
               className="home-newest-image"
             />
@@ -132,7 +134,7 @@ function Home() {
                 <p className="content-date"> {new Date(latest.blog.date).toLocaleDateString()}</p>
                 <p>{truncateText(blog?.preview, 500)}</p>
                 
-                <button className="read-more-btn"  onClick={() => navigate(`/blog/${blog.date.split("T")[0]}`)}
+                <button className="read-more-btn"  onClick={() => navigate(`/blog/${blog.slug}`)}
                   > Read More </button>
               </>
             ) : (

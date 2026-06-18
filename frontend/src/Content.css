@@ -48,9 +48,9 @@
 }
 /* IMAGE */
 .content-card-image-container {
-  width: 100%;
+  height:auto;
+  width: 40%;
   aspect-ratio: 3 / 2;
-  height: 400px;
 
   flex-shrink: 0;
   overflow: hidden;
@@ -58,8 +58,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
+
   border-radius: 8px;
-  background-color: #ffffff00;
 }
 
 .content-card-image {
@@ -68,9 +68,12 @@
   object-fit: cover;
   object-position: center;
 
+
   opacity: 0;
-  transition: opacity .35s ease;
+  transition: opacity 0.4s ease, transform 0.4s ease;
 }
+
+
 
 .content-card-image.loaded {
     opacity: 1;

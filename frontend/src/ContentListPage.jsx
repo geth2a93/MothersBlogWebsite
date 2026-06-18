@@ -40,6 +40,18 @@ useEffect(() => {
     });
 }, [page, type, genre]);
 
+const testItem = {
+  id: 999,
+  title: "Test Instagram",
+  title_media: "https://www.instagram.com/p/CUbHfhpswxt/",
+  url_content_type: "instagram",
+  preview: "Testing embed",
+  link: "#",
+  tags: []
+};
+
+const itemsToRender = [testItem, ...items];
+
   return (
     <div className="content-page">
 
@@ -49,11 +61,14 @@ useEffect(() => {
 
       <div className="content-list">
 
-        {items.map((item, index) => (
+        {itemsToRender.map((item, index) => (
           <ContentCard
             key={item.id}
             title={item.title}
             image={item.image}
+            title_media={item.title_media}
+            url_content_type={item.url_content_type}
+            
             preview={item.preview}
             link={item.link}
             type = {type}

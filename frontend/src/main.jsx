@@ -7,7 +7,7 @@ import CreateUser from "./CreateUser.jsx";
 
 import Home from './Home.jsx';
 import Layout from "./Components.jsx";
-import BlogPost from './BlogPostFull.jsx';
+import BlogPostFull from './BlogPostFull.jsx';
 import BlogsList from './BlogsList.jsx';
 import BooksList from './BooksList.jsx';
 import About from './AboutMe.jsx'
@@ -18,6 +18,9 @@ import ContentListPage from "./ContentListPage";
 import AdminHome from "./AdminHome";
 import AdminAboutMe from "./AdminAboutMe";
 import AdminWebResources from "./AdminWebResources"
+import Embed from "./media.jsx"
+import BlogEditor from "./BlogEditor";
+import BlogPreview from "./BlogPreview";
 
 
 createRoot(document.getElementById("root")).render(
@@ -27,7 +30,7 @@ createRoot(document.getElementById("root")).render(
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
 
-        <Route path="/blog/:date" element={<BlogPost />} />
+        <Route path="/blog/:slug" element={<BlogPostFull />} />
         <Route path="/blog" element={<BlogsList />} />
 
         <Route path="/books" element={<BooksList />} />
@@ -36,6 +39,7 @@ createRoot(document.getElementById("root")).render(
 
         <Route path="/teachingresources" element={<ContentListPage type="teaching" />} />
         <Route path="/teachingresources/:title" element={<TeachingResourceFull />} />
+        <Route path="/embed" element={<Embed />} />
 
       </Route>
         <Route path="/login" element={<Login />} />
@@ -44,6 +48,9 @@ createRoot(document.getElementById("root")).render(
       <Route path="/admin" element={<AdminHome />} />
       <Route path="/admin/aboutme" element={<AdminAboutMe />} />
       <Route path="/admin/websiteresources" element={<AdminWebResources />} />
+      <Route path="/admin/blog-editor" element={<BlogEditor />} />
+      <Route path="/admin/blog-preview" element={<BlogPreview />}
+/>
     </Routes>
   </BrowserRouter>
 );

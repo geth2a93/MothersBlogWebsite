@@ -8,8 +8,9 @@ export const contentConfig = {
       id: post.id,
       title: post.title,
       preview: post.preview,
-      image: post.titlepic || post.title_pic,
-      link: `/blog/${post.date.split("T")[0]}`,
+      title_media: post.title_media,
+      url_content_type: post.url_content_type,
+      link: `/blog/${post.slug}`,
 
       date: post.date,
       tags: post.tags || []
