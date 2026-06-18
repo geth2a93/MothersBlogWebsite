@@ -212,7 +212,7 @@ def new_blog_post():
         db.session.rollback()
         return jsonify({"error": str(e)}), 500
 
-    return jsonify({"message": "Blog post created","blog_id": blog.id}), 200
+    return jsonify({"message": "Blog post created","blog_id": blog.id, "slug": blog.slug}), 200
 
 def generate_unique_slug(model, text):
     base_slug = slugify(text)

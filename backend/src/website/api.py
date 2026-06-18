@@ -43,6 +43,17 @@ def blog_post(slug):
 
 
 #book routes
+@api.route("/genres")
+def get_genres():
+    genres = Genre.query.order_by(Genre.genre).all()
+
+    return jsonify([
+        {
+            "id": genre.id,
+            "name": genre.genre
+        }
+        for genre in genres
+    ])
 
 @api.route("/books", methods=["GET"])
 def newest_books_by_genre():

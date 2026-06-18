@@ -13,13 +13,13 @@ class BlogPost(db.Model):
     title = db.Column(db.String(50), nullable=False)
     slug = db.Column(db.String(120), unique=True, nullable=False, index=True)
     date_created = db.Column(db.DateTime)
-    tags = db.relationship('Tags', backref='blog', lazy=True)
     preview = db.Column(db.Text)
     title_media_content_url = db.Column(db.String(2000))
     url_content_type = db.Column(db.String(20)) #picture, youtube link, fb link, insta link
     ownership = db.Column(db.Boolean)
     name_of_owner = db.Column(db.String(200))
-
+    
+    tags = db.relationship('Tags', backref='blog', lazy=True)
     content_blocks = db.relationship("BlogContentBlock", backref="blog_post", order_by="BlogContentBlock.order")
 
 class BlogContentBlock(db.Model):
@@ -34,18 +34,27 @@ class BlogContentBlock(db.Model):
     name_of_owner = db.Column(db.String(200))
     alignment = db.Column(db.String(10))
 
-#also slugify, and genre will be a relationship
+
+book_genres = db.Table('book_genres', db.Column('book_id', db.Integer, db.ForeignKey('book.id'), primary_key=True), db.Column('genre_id', db.Integer, db.ForeignKey('genre.id'), primary_key=True))
+
 class Book(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    isbn = db.Column(db.String(15), nullable=True)
+    isbn = db.Column(db.String(15))
     title = db.Column(db.String(100), nullable=False)
     synopsis = db.Column(db.Text)
-    genre = db.Column(db.String(20), nullable=False) #we defined 4 genres, theres going to be more, scifi, fatanasy, check how front end routing works -> more pages more genres.
     book_image_url = db.Column(db.String(200))
-    buy_links = db.relationship('BuyLinks', backref='book', lazy=True)
     date_added = db.Column(db.DateTime, default=datetime.utcnow)
+
+    genres = db.relationship('Genre', secondary=book_genres, back_populates='books')
+    buy_links = db.relationship('BuyLinks', backref='book', lazy=True)
     reviews = db.relationship('Reviews', backref='book', lazy=True)
     awards = db.relationship('Awards', backref='book', lazy=True)
+
+class Genre(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    genre = db.Column(db.String(50), unique=True, nullable=False)
+
+    books = db.relationship('Book', secondary=book_genres, back_populates='genres')
 
 class Awards(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -127,5 +136,3 @@ class EmailPics(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     image_url = db.Column(db.String(500), nullable=False)
     email_id = db.Column(db.Integer, db.ForeignKey('subscriber_email.id'), nullable=False)
-
-

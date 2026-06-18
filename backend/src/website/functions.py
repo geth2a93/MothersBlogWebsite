@@ -25,13 +25,13 @@ def get_home_latest_content():
             "id": latest_book.id,
             "title": latest_book.title,
             "synopsis": latest_book.synopsis,
-            "genre": latest_book.genre,
+            #"genre": latest_book.genre,
             "image": build_url(latest_book.book_image_url),
             "date": latest_book.date_added.isoformat()
         }
     if(latest_blog.url_content_type) == "image":
         title_media=build_url(latest_blog.title_media_content_url)
-    elif(latest_blog.url_content_type) == "insta" or "fb":
+    elif(latest_blog.url_content_type) in ["instagram", "facebook", "threads", "youtube"]:
         title_media=latest_blog.title_media_content_url
     else:
         title_media = None
@@ -117,7 +117,7 @@ def get_blog_posts(page, per_page=5): #5 per page
     for p in pagination.items:
         if p.url_content_type == "image":
             title_media = build_url(p.title_media_content_url)
-        elif p.url_content_type in ["insta", "fb"]:
+        elif p.url_content_type in ["instagram", "facebook", "threads", "youtube"]:
             title_media = p.title_media_content_url
         else:
             title_media = None
@@ -185,7 +185,7 @@ def get_blog_by_slug(slug):
     p = BlogPost.query.filter_by(slug=slug).first_or_404()
     if(p.url_content_type) == "image":
         title_media=build_url(p.title_media_content_url)
-    elif(p.url_content_type) == "insta" or "fb":
+    elif(p.url_content_type) in ["instagram", "facebook", "threads", "youtube"]:
         title_media=p.title_media_content_url
     else:
         title_media = None
@@ -194,7 +194,7 @@ def get_blog_by_slug(slug):
     for b in p.content_blocks:
         if(b.url_content_type) == "image":
             media_content_url=build_url(b.media_content_url)
-        elif(b.url_content_type) == "insta" or "fb":
+        elif(b.url_content_type) in ["instagram", "facebook", "threads", "youtube"]:
             media_content_url=b.media_content_url
         else:
             media_content_url = None
