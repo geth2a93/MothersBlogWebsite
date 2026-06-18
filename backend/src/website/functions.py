@@ -25,7 +25,7 @@ def get_home_latest_content():
             "id": latest_book.id,
             "title": latest_book.title,
             "synopsis": latest_book.synopsis,
-            #"genre": latest_book.genre,
+            "genres": [g.genre for g in latest_book.genres],
             "image": build_url(latest_book.book_image_url),
             "date": latest_book.date_added.isoformat()
         }
@@ -55,40 +55,40 @@ def get_home_latest_content():
     return data
 
 def get_newest_book_for_each_genre():
-    genres = ["Young Adult", "Middle Grade", "Romance", "Short Story"] #owner doesnt write any new genres otherwise would be a query statement also could be define globally
-
     data = []
 
-    for genre in genres:
-        b = (Book.query.filter_by(genre=genre).order_by(Book.date_added.desc()).first())
+    for genre in Genre.query.order_by(Genre.genre).all():
+        b = (Book.query.join(Book.genres) .filter(Genre.id == genre.id).order_by(Book.date_added.desc()).first())
 
         if b:
             data.append({
                 "id": b.id,
                 "title": b.title,
-                "genre": b.genre,
+                "genre": genre.genre,
                 "synopsis": b.synopsis,
                 "book_image_url": build_url(b.book_image_url),
-                "buy_links": [{ "id": l.id, "url": l.links_url} for l in b.buy_links], 
-                "date_added": b.date_added
+                "buy_links": [{"id": l.id, "url": l.links_url} for l in b.buy_links],
+                "date_added": b.date_added.isoformat()
             })
 
     return data
 
-def get_books_by_genre(genre): #all books in the genre
+def get_books_by_genre(genre):  # all books in the genre
     formatted_genre = genre.replace("-", " ").title()
-    books = Book.query.filter_by(genre=formatted_genre).all() #404 error if genre no exist
+    books = (Book.query.join(Book.genres).filter(Genre.genre == formatted_genre).order_by(Book.date_added.desc()).all())
+
     data = []
     for b in books:
         data.append({
             "id": b.id,
             "title": b.title,
-            "genre": b.genre,
+            "genres": [g.genre for g in b.genres],
             "synopsis": b.synopsis,
             "book_image_url": build_url(b.book_image_url),
             "buy_links": [{"id": l.id, "url": l.links_url} for l in b.buy_links],
-            "date_added": b.date_added
+            "date_added": b.date_added.isoformat()
         })
+
     return data
 
 def get_books_by_title(title):
@@ -99,7 +99,7 @@ def get_books_by_title(title):
         "id": book.id,
         "isbn": book.isbn,
         "title": book.title,
-        "genre": book.genre,
+        "genre": [g.genre for g in book.genres],
         "synopsis": book.synopsis,
         "book_image_url": build_url(book.book_image_url),
         "buy_links": [{ "url": l.links_url} for l in book.buy_links],

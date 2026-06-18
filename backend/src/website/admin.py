@@ -168,15 +168,15 @@ def new_blog_post():
         for index, block in enumerate(content_blocks):
             block_url_content_type = block.get("url_content_type")
         
-            if block_url_content_type is None:
+            if block_url_content_type == "None":
                 ownership_block = True
                 name_block = None
                 media_content_url = None
 
             elif block_url_content_type == "image":
-                file = request.files.get(f"image_{index}")
+                file = request.files.get(f"image_{index}")#?
                 if not file:
-                    return jsonify({"error": "Missing image file in block"}), 400
+                    return jsonify({"error": "Missing image file in block"}), 400 #here
                 
                 ownership_block = block.get("ownership", True)
                 if ownership_block:
@@ -202,8 +202,13 @@ def new_blog_post():
 
             else:
                 return jsonify({"error": "Invalid block content type"}), 400
+            title_of_block=block.get("title_of_block")
+            content=block.get("content")
+            if not any([title_of_block, content, media_content_url]):
+                return jsonify({"error": "Block cannot be empty"}), 400
+ 
             
-            new_block = BlogContentBlock(blog_id=blog.id, order=block.get("order", index), title_of_block=block.get("title_of_block"), content=block.get("content"), media_content_url=media_content_url,
+            new_block = BlogContentBlock(blog_id=blog.id, order=block.get("order", index), title_of_block=title_of_block, content=content, media_content_url=media_content_url,
                 url_content_type=block_url_content_type, ownership=ownership_block, name_of_owner=name_block, alignment=block.get("alignment"))
             db.session.add(new_block)
         
