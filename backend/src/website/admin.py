@@ -1,7 +1,7 @@
 from flask import request, jsonify, Blueprint, current_app
 from werkzeug.utils import secure_filename
 from flask_login import login_required
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 import os, json
 from . import db
 from .models import *
@@ -105,7 +105,7 @@ def new_blog_post():
         date = datetime.fromisoformat(date_upload)
     else:
         date = datetime.now(timezone.utc)
-
+    preview_date = date + timedelta(days=365)# future
     title= data.get("title")
     if not title:
         return jsonify({"error": "No title"}), 400 
@@ -152,7 +152,7 @@ def new_blog_post():
     
     
     try:
-        blog = BlogPost(title=title, slug=slug, preview=preview, title_media_content_url=title_media_content_url, url_content_type=url_content_type, ownership=ownership, name_of_owner=name, date_created=date)
+        blog = BlogPost(title=title, slug=slug, preview=preview, title_media_content_url=title_media_content_url, url_content_type=url_content_type, ownership=ownership, name_of_owner=name, date_created=preview_date)
         db.session.add(blog)
         db.session.flush()
         tags = request.form.getlist("tags")
@@ -178,7 +178,7 @@ def new_blog_post():
                 if not file:
                     return jsonify({"error": "Missing image file in block"}), 400 #here
                 
-                ownership_block = block.get("ownership", True)
+                ownership_block = block.get("ownership", "true").lower() == "true"
                 if ownership_block:
                     name_block = None
                 else:
@@ -213,11 +213,20 @@ def new_blog_post():
             db.session.add(new_block)
         
         db.session.commit()
+        
+       
     except Exception as e:
         db.session.rollback()
         return jsonify({"error": str(e)}), 500
+    
+    published = request.form
+    preview_accepted=published.get("preview_accepted", "false").lower() == "true"
+    if preview_accepted:
+        p = BlogPost.query.filter_by(slug=slug).first_or_404()
+        p.date_created=date
+        db.session.commit()
 
-    return jsonify({"message": "Blog post created","blog_id": blog.id, "slug": blog.slug}), 200
+    return jsonify({"message": "Blog post created", "slug": blog.slug}), 200
 
 def generate_unique_slug(model, text):
     base_slug = slugify(text)
