@@ -129,6 +129,7 @@ class SubscriberEmail(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     date_to_send = db.Column(db.DateTime)
     created_at = db.Column(db.DateTime, default=datetime.now(timezone.utc))
+    subject = db.Column(db.Text)
     message = db.Column(db.Text)
     email_pics = db.relationship('EmailPics', backref='subscriberemail', lazy=True)
 
