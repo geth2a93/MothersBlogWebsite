@@ -10,7 +10,6 @@ export default function BlogPostFull() {
     const [post, setPost] = useState(null);
     const [loading, setLoading] = useState(true);
 
-    
 
     useEffect(() => {
         fetch(`/api/blog/${slug}`)

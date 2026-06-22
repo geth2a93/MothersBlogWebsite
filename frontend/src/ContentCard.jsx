@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import {
   InstagramEmbed,
   FacebookEmbed,
+  YouTubeEmbed
 } from "react-social-media-embed";
 
 export default function ContentCard({
@@ -40,7 +41,17 @@ const renderMedia = () => {
         <div
         onLoad={() => setMediaLoaded(true)} 
         style={{ display: "flex", justifyContent: "center" }}>
-          <InstagramEmbed url={title_media} width={350} />
+          <InstagramEmbed url={title_media} width={350}  height = {400}/>
+        </div>
+      );
+
+    case "youtube":
+      setTimeout(() => setMediaLoaded(true), 600);
+      return (
+        <div
+        onLoad={() => setMediaLoaded(true)} 
+        style={{ display: "flex", justifyContent: "center" }}>
+          <YouTubeEmbed url={title_media} width={450} height = {300}/>
         </div>
       );
 

@@ -20,7 +20,7 @@ import AdminAboutMe from "./AdminAboutMe";
 import AdminWebResources from "./AdminWebResources"
 import Embed from "./media.jsx"
 import BlogEditor from "./BlogEditor";
-import BlogPreview from "./BlogPreview";
+// import BlogPreview from "./BlogPreview";
 
 
 createRoot(document.getElementById("root")).render(
@@ -49,8 +49,7 @@ createRoot(document.getElementById("root")).render(
       <Route path="/admin/aboutme" element={<AdminAboutMe />} />
       <Route path="/admin/websiteresources" element={<AdminWebResources />} />
       <Route path="/admin/blog-editor" element={<BlogEditor />} />
-      <Route path="/admin/blog-preview" element={<BlogPreview />}
-/>
+      
     </Routes>
   </BrowserRouter>
 );

@@ -10,9 +10,7 @@ import "./BlogPostFull.css";
 import "./Styles.css";
 
 export default function BlogRender({ post }) {
-  if (!post) return <div>Loading preview...</div>;
-
-  console.log("BLOG POST:", post);
+  if (!post) return null;
 
   const [imageRatios, setImageRatios] = useState({});
 
@@ -26,19 +24,10 @@ export default function BlogRender({ post }) {
     }));
   };
 
-  // =========================
-  // SAFE MEDIA RESOLVER
-  // =========================
-  const getSrc = (block) =>
-    block.media_content_url?.trim() ||
-    block.image_preview_url ||
-    null;
-
-  const renderMedia = (block, ratioKey) => {
-    const src = getSrc(block);
+  const renderMedia = (src, type, ratioKey) => {
     if (!src) return null;
 
-    switch (block.url_content_type) {
+    switch (type) {
       case "image":
         return (
           <img
@@ -52,7 +41,7 @@ export default function BlogRender({ post }) {
       case "instagram":
         return (
           <div className="embed-wrapper">
-            <InstagramEmbed url={src} width="400px" />
+            <InstagramEmbed url={src} width="100%" />
           </div>
         );
 
@@ -70,6 +59,7 @@ export default function BlogRender({ post }) {
           </div>
         );
 
+      case "threads":
       case "X":
         return (
           <div className="embed-wrapper">
@@ -82,76 +72,63 @@ export default function BlogRender({ post }) {
     }
   };
 
-  // =========================
-  // SORT BLOCKS SAFELY
-  // =========================
+  const titleSrc =
+    typeof post.title_media === "string"
+      ? post.title_media
+      : null;
+  const titleType =
+  post.url_content_type ||
+  "image";
+
   const sortedBlocks = [...(post.content_blocks || [])].sort(
     (a, b) => (a.order ?? 0) - (b.order ?? 0)
   );
-
-  // =========================
-  // HERO IMAGE (SINGLE SOURCE)
-  // =========================
- const hero = post.hero?.preview_url || null;
 
   return (
     <div className="blog-post-page">
       <div className="blog-post-container">
 
-        {/* TITLE */}
         <h1 className="blog-post-title">{post.title}</h1>
 
-        {/* DATE */}
         {post.date_created && (
           <p className="blog-post-date">
             {new Date(post.date_created).toLocaleDateString()}
           </p>
         )}
 
-        {/* HERO IMAGE */}
-        {hero && (
-          <img
-            src={hero}
-            alt={post.title}
-            className="blog-title-image"
-          />
+        {titleSrc && (
+        <div className="blog-title-media">
+            {renderMedia(titleSrc, titleType, "title-media")}
+        </div>
         )}
-
-        {/* OWNER CREDIT */}
-        {!post.ownership && post.name_of_owner && (
+        
+        {post.ownership === false && post.name_of_owner && (
           <p className="image-attribution">
             Image courtesy of {post.name_of_owner}
           </p>
         )}
 
-        {/* PREVIEW TEXT */}
         {post.preview && (
           <h2 className="blog-post-preview">
             {post.preview}
           </h2>
         )}
 
-        {/* CONTENT BLOCKS */}
         {sortedBlocks.map((block) => {
-          const src = getSrc(block);
+          const src = block.media_content_url;
+          const type = block.url_content_type;
 
-          const hasMedia = Boolean(src);
-          const hasText = Boolean(block.content);
-
-          const ratioKey = `${block.order}-${block.media_content_url}`;
+          const ratioKey = `${block.order}-${src}`;
           const ratio = imageRatios[ratioKey];
 
-          const showAttribution =
-            hasMedia &&
-            block.ownership === false &&
-            block.name_of_owner;
+          const hasMedia = !!src;
+          const hasText = !!block.content;
 
           return (
             <div
               key={block.order}
               className={`blog-block ${block.alignment || "left"}`}
             >
-              {/* MEDIA */}
               {hasMedia && (
                 <div
                   className="image-container"
@@ -160,9 +137,9 @@ export default function BlogRender({ post }) {
                     flex: ratio ? (ratio > 1.2 ? 1.6 : 1) : 1
                   }}
                 >
-                  {renderMedia(block, ratioKey)}
+                  {renderMedia(src, type, ratioKey)}
 
-                  {showAttribution && (
+                  {block.ownership === false && block.name_of_owner && (
                     <p className="image-attribution">
                       Image courtesy of {block.name_of_owner}
                     </p>
@@ -170,12 +147,11 @@ export default function BlogRender({ post }) {
                 </div>
               )}
 
-              {/* TEXT */}
               {hasText && (
                 <div className="text-container">
-                  {block.title_of_block && (
+                  {block.blocktitle && (
                     <h2 className="blog-block-title">
-                      {block.title_of_block}
+                      {block.blocktitle}
                     </h2>
                   )}
 
@@ -188,7 +164,6 @@ export default function BlogRender({ post }) {
           );
         })}
 
-        {/* TAGS */}
         {post.tags?.length > 0 && (
           <div className="blog-tags-bottom">
             {post.tags.map((tag, i) => (

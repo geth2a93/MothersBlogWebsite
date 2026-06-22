@@ -1,27 +1,45 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import ContentBlockEditor from "./ContentBlockEditor";
-import { createEmptyBlock } from "./blogHelper";
 
-// =========================
-// DEFAULT STATE (SOURCE OF TRUTH)
-// =========================
+const createEmptyBlock = (order = 0) => ({
+  order,
+  title_of_block: "",
+  content: "",
+  alignment: "center",
+
+  url_content_type: null, // image | youtube | etc
+  media_content_url: "",
+
+  file: null,
+  preview_url: null,
+
+  ownership: {
+    is_owner: true,
+    name: ""
+  }
+});
+
 const defaultBlog = {
   title: "",
   preview: "",
-  date: "",
-  tags: [],
-  url_content_type: "None",
-  ownership: true,
-  name_of_owner: "",
-  title_image: null,
 
-  hero: {
+  status: "draft", // draft | scheduled | published
+
+  publish_date: "",
+
+  tags: [],
+
+  title_media: {
+    type: "none",
     file: null,
     preview_url: null,
-    ownership: true,
-    owner_name: ""
+    url: "",
+
+    ownership: {
+      is_owner: true,
+      name: ""
+    }
   },
 
   content_blocks: []
@@ -29,75 +47,46 @@ const defaultBlog = {
 
 export default function BlogEditor() {
   const navigate = useNavigate();
+  const [blog, setBlog] = useState(defaultBlog);
+  const [tagInput, setTagInput] = useState("");
 
-  // =========================
-  // SAFE HYDRATION (LOCALSTORAGE FIX)
-  // =========================
-  const [blog, setBlog] = useState(() => {
-    const saved = localStorage.getItem("draftBlog");
+  const addTag = () => {
+  const tag = tagInput.trim();
 
-    if (!saved) return defaultBlog;
+  if (!tag) return;
 
-    try {
-      const parsed = JSON.parse(saved);
+  if (blog.tags.includes(tag)) return;
 
-      return {
-        ...defaultBlog,
-        ...parsed,
-        hero: {
-          ...defaultBlog.hero,
-          ...(parsed.hero || {})
-        },
-        content_blocks: parsed.content_blocks || []
-      };
-    } catch (e) {
-      return defaultBlog;
-    }
-  });
+  setBlog(prev => ({
+    ...prev,
+    tags: [...prev.tags, tag]
+  }));
 
-  // =========================
-  // AUTO SAVE (SAFE - NO FILE STORAGE)
-  // =========================
-  useEffect(() => {
-    const safeBlog = {
-      ...blog,
-      hero: {
-        ...blog.hero,
-        file: null // File cannot be stored in localStorage
-      }
-    };
+  setTagInput("");
+};
 
-    localStorage.setItem("draftBlog", JSON.stringify(safeBlog));
-  }, [blog]);
+const removeTag = (tagToRemove) => {
+  setBlog(prev => ({
+    ...prev,
+    tags: prev.tags.filter(tag => tag !== tagToRemove)
+  }));
+};
 
-  // =========================
-  // HERO IMAGE HANDLER
-  // =========================
-  const handleHeroImage = (e) => {
-    const file = e.target.files[0];
+
+  const handleHeroFile = (e) => {
+    const file = e.target.files?.[0];
     if (!file) return;
 
-    const previewUrl = URL.createObjectURL(file);
-
-    setBlog((prev) => {
-      if (prev.hero.preview_url) {
-        URL.revokeObjectURL(prev.hero.preview_url);
+    setBlog((prev) => ({
+      ...prev,
+      title_media: {
+        ...prev.title_media,
+        file,
+        preview_url: URL.createObjectURL(file)
       }
-
-      return {
-        ...prev,
-        hero: {
-          ...prev.hero,
-          file,
-          preview_url: previewUrl
-        }
-      };
-    });
+    }));
   };
 
-  // =========================
-  // BLOCK OPERATIONS
-  // =========================
   const addBlock = () => {
     setBlog((prev) => ({
       ...prev,
@@ -108,14 +97,14 @@ export default function BlogEditor() {
     }));
   };
 
-  const updateBlock = (index, updatedBlock) => {
+  const updateBlock = (index, updated) => {
     setBlog((prev) => {
-      const updated = [...prev.content_blocks];
-      updated[index] = updatedBlock;
+      const copy = [...prev.content_blocks];
+      copy[index] = updated;
 
       return {
         ...prev,
-        content_blocks: updated
+        content_blocks: copy
       };
     });
   };
@@ -127,21 +116,213 @@ export default function BlogEditor() {
     }));
   };
 
-  // =========================
-  // PREVIEW NAVIGATION
-  // =========================
-  const handlePreview = () => {
-    navigate("/admin/blog-preview");
+
+  const setHeroType = (type) => {
+    setBlog((prev) => ({
+      ...prev,
+      title_media: {
+        ...prev.title_media,
+        type
+      }
+    }));
   };
 
-  // =========================
-  // UI
-  // =========================
-  return (
+  const setHeroOwnership = (isOwner) => {
+    setBlog((prev) => ({
+      ...prev,
+      title_media: {
+        ...prev.title_media,
+        ownership: {
+          ...prev.title_media.ownership,
+          is_owner: isOwner
+        }
+      }
+    }));
+  };
+
+  const setHeroOwnerName = (name) => {
+    setBlog((prev) => ({
+      ...prev,
+      title_media: {
+        ...prev.title_media,
+        ownership: {
+          ...prev.title_media.ownership,
+          name
+        }
+      }
+    }));
+  };
+
+
+  const saveDraft = async () => {
+  const formData = buildFormData();
+
+  const res = await fetch(
+    "http://localhost:5055/admin/newblogpost",
+    {
+      method: "PUT",
+      credentials: "include",
+      body: formData
+    }
+  );
+
+  const data = await res.json();
+
+  if (!res.ok) {
+    throw new Error(data.error);
+  }
+
+  return data.slug;
+};
+
+const buildFormData = (previewAccepted = false) => {
+  const formData = new FormData();
+
+  formData.append("title", blog.title);
+  formData.append("preview", blog.preview);
+
+  if (blog.publish_date) {
+    formData.append("date", blog.publish_date);
+  }
+
+  formData.append(
+    "preview_accepted",
+    previewAccepted
+  );
+
+  blog.tags.forEach(tag => {
+    formData.append("tags", tag);
+  });
+
+  formData.append(
+    "url_content_type",
+    blog.title_media.type === "none"
+      ? "None"
+      : blog.title_media.type
+  );
+
+  if (blog.title_media.type === "image") {
+    formData.append(
+      "ownership",
+      blog.title_media.ownership.is_owner ? "true" : "false"
+    );
+
+    formData.append(
+      "name_of_owner",
+      blog.title_media.ownership.name || ""
+    );
+
+    if (blog.title_media.file) {
+      formData.append(
+        "title_image",
+        blog.title_media.file
+      );
+    }
+  }
+
+  if (
+    ["youtube", "instagram", "facebook", "threads"]
+      .includes(blog.title_media.type)
+  ) {
+    formData.append(
+      "title_media_content_url",
+      blog.title_media.url
+    );
+  }
+
+  const cleanedBlocks =
+    blog.content_blocks.map((block, index) => ({
+      order: index,
+      title_of_block: block.title_of_block,
+      content: block.content,
+      alignment: block.alignment,
+      url_content_type: block.url_content_type,
+      media_content_url: block.media_content_url,
+      ownership: block.ownership.is_owner ? "true" : "false",
+      name_of_owner: block.ownership.name
+    }));
+
+  formData.append(
+    "content_blocks",
+    JSON.stringify(cleanedBlocks)
+  );
+
+  blog.content_blocks.forEach((block, index) => {
+    if (
+      block.url_content_type === "image" &&
+      block.file
+    ) {
+      formData.append(
+        `image_${index}`,
+        block.file
+      );
+    }
+  });
+
+  return formData;
+};
+
+const handlePreview = async () => {
+  try {
+    const formData = buildFormData(false);
+
+    const res = await fetch(
+      "http://localhost:5055/admin/newblogpost",
+      {
+        method: "PUT",
+        credentials: "include",
+        body: formData
+      }
+    );
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      alert(data.error || "Preview failed");
+      return;
+    }
+
+    navigate(`/admin/blog-preview/${data.slug}`);
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+const isEmbed =
+  ["youtube", "instagram", "facebook", "threads"]
+  .includes(blog.title_media.type);
+
+const handlePublish = async () => {
+  try {
+    const formData = buildFormData(true);
+
+    const res = await fetch(
+      "http://localhost:5055/admin/newblogpost",
+      {
+        method: "PUT",
+        credentials: "include",
+        body: formData
+      }
+    );
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      alert(data.error || "Publish failed");
+      return;
+    }
+
+    alert("Published!");
+  } catch (err) {
+    console.error(err);
+    alert("Publish failed");
+  }
+};
+
+return (
     <div>
       <h1>Create Blog</h1>
 
-      {/* TITLE */}
       <input
         placeholder="Title"
         value={blog.title}
@@ -153,7 +334,6 @@ export default function BlogEditor() {
         }
       />
 
-      {/* PREVIEW TEXT */}
       <textarea
         placeholder="Preview"
         value={blog.preview}
@@ -164,108 +344,239 @@ export default function BlogEditor() {
           }))
         }
       />
+      <h2>Publishing</h2>
 
-      {/* =========================
-          HERO MEDIA
-      ========================= */}
-      <h2>Hero Media</h2>
+<input
+  type="datetime-local"
+  value={blog.publish_date}
+  onChange={(e) =>
+    setBlog(prev => ({
+      ...prev,
+      publish_date: e.target.value
+    }))
+  }
+/>
 
-      <input type="file" onChange={handleHeroImage} />
+<h2>Tags</h2>
+  <input value={tagInput}
+  placeholder="Add tag"
+  onChange={(e) => setTagInput(e.target.value)}
+/>
 
-      {blog.hero.preview_url && (
-        <div style={{ marginTop: "10px" }}>
-          <p>Current hero image:</p>
+<button onClick={addTag}>
+  Add Tag
+</button>
 
-          <img
-            src={blog.hero.preview_url}
-            alt="Hero preview"
-            style={{
-              maxWidth: "400px",
-              height: "auto",
-              borderRadius: "8px"
-            }}
+<div className="tag-container">
+  {blog.tags.map((tag) => (
+    <span
+      key={tag}
+      className="tag-pill"
+      onClick={() => removeTag(tag)}
+      style={{ cursor: "pointer" }}
+    >
+      {tag} ✕
+    </span>
+  ))}
+</div>
+
+<h2>Title Media</h2>
+  <select
+    value={blog.title_media.type}
+      onChange={(e) => setHeroType(e.target.value)}>
+      <option value="none">None</option>
+      <option value="image">Image</option>
+      <option value="youtube">Youtube</option>
+      <option value="instagram">Instagram</option>
+      <option value="facebook">Facebook</option>
+      <option value="threads">Threads</option>
+    </select>
+
+  {isEmbed &&(
+    <input
+      placeholder="Paste link here"
+      value={blog.title_media.url}
+      onChange={(e) =>
+        setBlog(prev => ({
+        ...prev,
+        title_media: {
+          ...prev.title_media,
+          url: e.target.value
+        }
+      }))
+    }
+  />
+  )}
+
+  {blog.title_media.type === "image" && (
+        <>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleHeroFile}
           />
 
-          <button
-            type="button"
-            onClick={() =>
-              setBlog((prev) => {
-                if (prev.hero.preview_url) {
-                  URL.revokeObjectURL(prev.hero.preview_url);
-                }
-
-                return {
-                  ...prev,
-                  hero: {
-                    ...prev.hero,
-                    file: null,
-                    preview_url: null
-                  }
-                };
-              })
-            }
-          >
-            Remove Hero Image
-          </button>
-
-          <label>
-            <input
-              type="checkbox"
-              checked={blog.hero.ownership}
-              onChange={(e) =>
-                setBlog((prev) => ({
-                  ...prev,
-                  hero: {
-                    ...prev.hero,
-                    ownership: e.target.checked
-                  }
-                }))
-              }
-            />
-            I own this image
-          </label>
-
-          {!blog.hero.ownership && (
-            <input
-              placeholder="Owner name"
-              value={blog.hero.owner_name}
-              onChange={(e) =>
-                setBlog((prev) => ({
-                  ...prev,
-                  hero: {
-                    ...prev.hero,
-                    owner_name: e.target.value
-                  }
-                }))
-              }
+          {blog.title_media.preview_url && (
+            <img
+              src={blog.title_media.preview_url}
+              width="300"
+              alt="hero preview"
             />
           )}
-        </div>
+          
+          <select
+            value={blog.title_media.ownership.is_owner ? "true" : "false"}
+            onChange={(e) =>
+              setHeroOwnership(e.target.value === "true")
+            }
+          >
+            <option value="true">Mine</option>
+            <option value="false">Other</option>
+          </select>
+
+          {!blog.title_media.ownership.is_owner && (
+            <input
+              placeholder="Owner name"
+              value={blog.title_media.ownership.name}
+              onChange={(e) => setHeroOwnerName(e.target.value)}
+            />
+          )}
+        </>
       )}
 
-      {/* =========================
-          CONTENT BLOCKS
-      ========================= */}
+
       <h2>Content Blocks</h2>
 
       {blog.content_blocks.map((block, index) => (
-        <ContentBlockEditor
-          key={block.id || index}
-          block={block}
-          index={index}
-          updateBlock={updateBlock}
-          removeBlock={removeBlock}
-        />
+        <div key={index} style={{ border: "3px solid #5a5a5a", margin: 10 }}>
+          <input
+            placeholder="Block title"
+            value={block.title_of_block}
+            onChange={(e) =>
+              updateBlock(index, {
+                ...block,
+                title_of_block: e.target.value
+              })
+            }
+          />
+
+          <textarea
+            placeholder="Content"
+            value={block.content || ""}
+            onChange={(e) =>
+              updateBlock(index, {
+                ...block,
+                content: e.target.value
+              })
+            }
+          />
+
+          <select value={block.alignment}
+              onChange={(e) =>
+              updateBlock(index, {
+                ...block,
+                alignment: e.target.value
+              })
+            }
+          >
+            <option value="left">Left</option>
+            <option value="center">Center</option>
+            <option value="right">Right</option>
+          </select>
+
+          <select
+            value={block.url_content_type || ""}
+            onChange={(e) =>
+              updateBlock(index, {
+                ...block,
+                url_content_type: e.target.value || null
+              })
+            }
+          >
+            <option value="">None</option>
+            <option value="image">Image</option>
+            <option value="youtube">Youtube</option>
+            <option value="instagram">Instagram</option>
+            <option value="facebook">Facebook</option>
+            <option value="threads">Threads</option>
+          </select>
+
+
+          {block.url_content_type && block.url_content_type !== "image" && block.url_content_type !== "" && (
+        <input
+          type="text"
+          placeholder="Paste link (YouTube, Instagram, X, etc.)"
+          value={block.media_content_url}
+          onChange={(e) =>
+            updateBlock(index, {
+            ...block,
+            media_content_url: e.target.value
+          })
+        }
+      />
+  )}
+          {block.url_content_type === "image" && (
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e) => {
+                const file = e.target.files?.[0];
+                if (!file) return;
+
+                updateBlock(index, {
+                  ...block,
+                  file,
+                  preview_url: URL.createObjectURL(file)
+                });
+              }}
+            />
+          )}
+          
+          {block.preview_url && (
+            <img src={block.preview_url} width="200" />
+          )}
+
+          <select
+            value={block.ownership.is_owner ? "true" : "false"}
+            onChange={(e) =>
+              updateBlock(index, {
+                ...block,
+                ownership: {
+                  ...block.ownership,
+                  is_owner: e.target.value === "true"
+                }
+              })
+            }
+          >
+            <option value="true">Mine</option>
+            <option value="false">Other</option>
+          </select>
+
+          {!block.ownership.is_owner && (
+            <input
+              placeholder="Owner name"
+              value={block.ownership.name}
+              onChange={(e) =>
+                updateBlock(index, {
+                  ...block,
+                  ownership: {
+                    ...block.ownership,
+                    name: e.target.value
+                  }
+                })
+              }
+            />
+          )}
+
+          <button onClick={() => removeBlock(index)}>
+            Delete Block
+          </button>
+        </div>
       ))}
 
-      <button type="button" onClick={addBlock}>
-        Add Block
-      </button>
-
-      {/* PREVIEW */}
-      <button type="button" onClick={handlePreview}>
-        Preview
-      </button>
+      <button onClick={addBlock}>Add Block</button>
+      <button onClick={handlePreview}> Preview </button>
+      <button type="button" onClick={handlePublish}> Publish </button>
     </div>
   );
 }
