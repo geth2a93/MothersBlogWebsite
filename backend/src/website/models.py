@@ -18,7 +18,8 @@ class BlogPost(db.Model):
     url_content_type = db.Column(db.String(20)) #picture, youtube link, fb link, insta link
     ownership = db.Column(db.Boolean)
     name_of_owner = db.Column(db.String(200))
-    
+    published = db.Column(db.Boolean, default=False, nullable=False)
+
     tags = db.relationship('Tags', backref='blog', lazy=True)
     content_blocks = db.relationship("BlogContentBlock", backref="blog_post", order_by="BlogContentBlock.order")
 
@@ -44,7 +45,6 @@ class Book(db.Model):
     synopsis = db.Column(db.Text)
     book_image_url = db.Column(db.String(200))
     date_added = db.Column(db.DateTime, default=datetime.utcnow)
-
     genres = db.relationship('Genre', secondary=book_genres, back_populates='books')
     buy_links = db.relationship('BuyLinks', backref='book', lazy=True)
     reviews = db.relationship('Reviews', backref='book', lazy=True)

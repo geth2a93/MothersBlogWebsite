@@ -110,8 +110,6 @@ def new_blog_post():
     else:
         date = datetime.now(timezone.utc)
 
-    preview_date = date + timedelta(days=365)
-
     title = data.get("title")
     if not title:
         return jsonify({"error": "No title"}), 400
@@ -127,6 +125,7 @@ def new_blog_post():
     else:
         slug = generate_unique_slug(BlogPost, title)
         blog = BlogPost()
+        blog.title = title
         blog.slug = slug
         db.session.add(blog)
         db.session.flush()
@@ -176,7 +175,8 @@ def new_blog_post():
     blog.url_content_type = url_content_type
     blog.ownership = ownership
     blog.name_of_owner = name
-    blog.date_created = preview_date
+    blog.date_created = date
+    blog.published = False
 
     Tags.query.filter_by(blog_id=blog.id).delete()
 
@@ -249,17 +249,20 @@ def new_blog_post():
 
     db.session.commit()
 
+    return jsonify({"message": "Blog post saved", "blog_id": blog.id, "slug": blog.slug,}), 200 
+
+@admin.route("/newblogpostpreview/<string:slug>", methods=["PUT"])
+@login_required
+def new_blog_post_preview(slug):
+    data = request.form
+    p = BlogPost.query.filter_by(slug=slug).first_or_404()
+    p.published = True
     preview_accepted = data.get("preview_accepted", "false").lower() == "true"
-
     if preview_accepted:
-        blog.date_created = date
+        p.published = True
         db.session.commit()
-
-    return jsonify({
-        "message": "Blog post saved",
-        "blog_id": blog.id,
-        "slug": blog.slug
-    }), 200200
+    return jsonify({"message": "Blog post published", "blog_id": p.id, "slug": p.slug,}), 200 
+    
 
 def generate_unique_slug(model, text):
     base_slug = slugify(text)

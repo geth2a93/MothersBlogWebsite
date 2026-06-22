@@ -10,9 +10,8 @@ def build_url(path):
     return request.url_root.rstrip("/") + "/" + path.lstrip("/")
 
 def get_home_latest_content():
-    now = datetime.now(timezone.utc)
     latest_book = Book.query.order_by(Book.date_added.desc()).first()
-    latest_blog = BlogPost.query.filter(BlogPost.date_created <= now).order_by(BlogPost.date_created.desc()).first()
+    latest_blog = BlogPost.query.filter(BlogPost.published == True).order_by(BlogPost.date_created.desc()).first()
 
     data = {
         "book": None,
@@ -110,8 +109,8 @@ def get_books_by_title(title):
     return data
 
 def get_blog_posts(page, per_page=5): #5 per page
-    now = datetime.now(timezone.utc)
-    pagination = BlogPost.query.filter(BlogPost.date_created <= now).order_by(BlogPost.date_created.desc()).paginate(page=page, per_page=per_page, error_out=False)
+  
+    pagination = BlogPost.query.filter(BlogPost.published == True).order_by(BlogPost.date_created.desc()).paginate(page=page, per_page=per_page, error_out=False)
 
     posts = []
     for p in pagination.items:
