@@ -251,18 +251,14 @@ def new_blog_post():
 
     return jsonify({"message": "Blog post saved", "blog_id": blog.id, "slug": blog.slug,}), 200 
 
-@admin.route("/newblogpostpreview/<string:slug>", methods=["PUT"])
+@admin.route("/newblogpostpreview/<string:slug>", methods=["POST"])
 @login_required
 def new_blog_post_preview(slug):
-    data = request.form
     p = BlogPost.query.filter_by(slug=slug).first_or_404()
     p.published = True
-    preview_accepted = data.get("preview_accepted", "false").lower() == "true"
-    if preview_accepted:
-        p.published = True
-        db.session.commit()
-    return jsonify({"message": "Blog post published", "blog_id": p.id, "slug": p.slug,}), 200 
-    
+    db.session.commit()
+
+    return jsonify({"message": "Blog post published", "blog_id": p.id, "slug": p.slug,})
 
 def generate_unique_slug(model, text):
     base_slug = slugify(text)

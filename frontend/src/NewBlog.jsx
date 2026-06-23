@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 
@@ -21,6 +21,8 @@ const createEmptyBlock = (order = 0) => ({
 });
 
 const defaultBlog = {
+  id: null,
+  slug: null,
   title: "",
   preview: "",
 
@@ -45,16 +47,54 @@ const defaultBlog = {
   content_blocks: []
 };
 
-export default function BlogEditor() {
+
+
+export default function NewBlog() {
   const navigate = useNavigate();
-  const [blog, setBlog] = useState(defaultBlog);
   const [tagInput, setTagInput] = useState("");
+
+  const [blog, setBlog] = useState(() => {
+  const saved =
+    localStorage.getItem("blogDraft");
+
+  if (!saved) {
+    return defaultBlog;
+  }
+
+  try {
+    return JSON.parse(saved);
+  } catch {
+    return defaultBlog;
+  }
+});
+
+useEffect(() => {
+  const safeBlog = {
+    ...blog,
+
+    // strip files (they break localStorage)
+    title_media: {
+      ...blog.title_media,
+      file: null
+    },
+
+    content_blocks: blog.content_blocks.map(block => ({
+      ...block,
+      file: null
+    }))
+  };
+
+  localStorage.setItem(
+    "blogDraft",
+    JSON.stringify(safeBlog)
+  );
+}, [blog]);
+
 
   const addTag = () => {
   const tag = tagInput.trim();
 
   if (!tag) return;
-
   if (blog.tags.includes(tag)) return;
 
   setBlog(prev => ({
@@ -139,7 +179,7 @@ const removeTag = (tagToRemove) => {
       }
     }));
   };
-
+  
   const setHeroOwnerName = (name) => {
     setBlog((prev) => ({
       ...prev,
@@ -175,30 +215,24 @@ const removeTag = (tagToRemove) => {
   return data.slug;
 };
 
-const buildFormData = (previewAccepted = false) => {
+const buildFormData = () => {
   const formData = new FormData();
 
   formData.append("title", blog.title);
   formData.append("preview", blog.preview);
 
-  if (blog.publish_date) {
-    formData.append("date", blog.publish_date);
-  }
+  /* if (blog.id) {
+  formData.append("blog_id", blog.id);
+  } */
 
-  formData.append(
-    "preview_accepted",
-    previewAccepted
-  );
+  formData.append("date", blog.publish_date);
 
   blog.tags.forEach(tag => {
     formData.append("tags", tag);
   });
 
   formData.append(
-    "url_content_type",
-    blog.title_media.type === "none"
-      ? "None"
-      : blog.title_media.type
+    "url_content_type", blog.title_media.type
   );
 
   if (blog.title_media.type === "image") {
@@ -236,7 +270,7 @@ const buildFormData = (previewAccepted = false) => {
       title_of_block: block.title_of_block,
       content: block.content,
       alignment: block.alignment,
-      url_content_type: block.url_content_type,
+      url_content_type: block.url_content_type || "None",
       media_content_url: block.media_content_url,
       ownership: block.ownership.is_owner ? "true" : "false",
       name_of_owner: block.ownership.name
@@ -265,7 +299,6 @@ const buildFormData = (previewAccepted = false) => {
 const handlePreview = async () => {
   try {
     const formData = buildFormData(false);
-
     const res = await fetch(
       "http://localhost:5055/admin/newblogpost",
       {
@@ -281,7 +314,11 @@ const handlePreview = async () => {
       alert(data.error || "Preview failed");
       return;
     }
-
+        setBlog(prev => ({
+  ...prev,
+  id: data.blog_id,
+  slug: data.slug
+}));
     navigate(`/admin/blog-preview/${data.slug}`);
   } catch (err) {
     console.error(err);
@@ -295,7 +332,7 @@ const isEmbed =
 const handlePublish = async () => {
   try {
     const formData = buildFormData(true);
-
+    
     const res = await fetch(
       "http://localhost:5055/admin/newblogpost",
       {
@@ -306,11 +343,18 @@ const handlePublish = async () => {
     );
 
     const data = await res.json();
-
+    console.log("POST OBJECT:", post);
+    console.log("POST ID:", post?.id);
     if (!res.ok) {
       alert(data.error || "Publish failed");
       return;
     }
+
+    setBlog(prev => ({
+  ...prev,
+  id: data.blog_id,
+  slug: data.slug
+}));
 
     alert("Published!");
   } catch (err) {
@@ -333,9 +377,9 @@ return (
           }))
         }
       />
-
+    <div>
       <textarea
-        placeholder="Preview"
+        placeholder="Add Paragraph 1"
         value={blog.preview}
         onChange={(e) =>
           setBlog((prev) => ({
@@ -344,7 +388,8 @@ return (
           }))
         }
       />
-      <h2>Publishing</h2>
+      <h2>Publishing Date</h2>
+    </div>
 
 <input
   type="datetime-local"
@@ -536,6 +581,7 @@ return (
             <img src={block.preview_url} width="200" />
           )}
 
+          {block.url_content_type == "image"  && (
           <select
             value={block.ownership.is_owner ? "true" : "false"}
             onChange={(e) =>
@@ -550,7 +596,9 @@ return (
           >
             <option value="true">Mine</option>
             <option value="false">Other</option>
+            
           </select>
+          )}
 
           {!block.ownership.is_owner && (
             <input
@@ -575,8 +623,13 @@ return (
       ))}
 
       <button onClick={addBlock}>Add Block</button>
+
+    <div>
       <button onClick={handlePreview}> Preview </button>
-      <button type="button" onClick={handlePublish}> Publish </button>
+      <button onClick={() => { localStorage.clear(); window.location.href = "/admin/blog-editor"; alert("Local storage cleared"); }}>
+        Clear Form
+      </button>
     </div>
+  </div>
   );
 }

@@ -18,7 +18,7 @@ export default function AdminHome() {
             </button>
 
             <button onClick={() => navigate("/admin/blog-editor")} >
-                Edit Blog
+                Add Blog
             </button>
         </div>
     );

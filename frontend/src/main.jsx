@@ -19,8 +19,8 @@ import AdminHome from "./AdminHome";
 import AdminAboutMe from "./AdminAboutMe";
 import AdminWebResources from "./AdminWebResources"
 import Embed from "./media.jsx"
-import BlogEditor from "./BlogEditor";
-// import BlogPreview from "./BlogPreview";
+import NewBlog from "./NewBlog.jsx";
+import BlogPreview from "./BlogPreview";
 
 
 createRoot(document.getElementById("root")).render(
@@ -48,7 +48,11 @@ createRoot(document.getElementById("root")).render(
       <Route path="/admin" element={<AdminHome />} />
       <Route path="/admin/aboutme" element={<AdminAboutMe />} />
       <Route path="/admin/websiteresources" element={<AdminWebResources />} />
-      <Route path="/admin/blog-editor" element={<BlogEditor />} />
+      <Route path="/admin/blog-editor" element={<NewBlog/>} />
+      <Route path="/admin/blog-editor/:slug" element={<NewBlog />} />
+
+      <Route path="/admin/blog-preview" element={<BlogPreview />} />
+      <Route path="/admin/blog-preview/:slug" element={<BlogPreview />} />
       
     </Routes>
   </BrowserRouter>
