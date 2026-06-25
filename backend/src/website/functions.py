@@ -188,7 +188,7 @@ def get_blog_by_slug(slug):
         title_media=p.title_media_content_url
     else:
         title_media = None
-
+    #add urls for edit blogpost
     blocks = []
     for b in p.content_blocks:
         if(b.url_content_type) == "image":
@@ -198,6 +198,7 @@ def get_blog_by_slug(slug):
         else:
             media_content_url = None
         blocks.append({
+            "block_content_url": b.media_content_url,#just used for edit otherwise ignore
             "blocktitle": b.title_of_block,
             "content": b.content,
             "media_content_url": media_content_url,
@@ -210,6 +211,7 @@ def get_blog_by_slug(slug):
 
     return {
         "id": p.id, 
+        "titlemediaurl": p.title_media_content_url, #just used for edit otherwise ignore
         "title": p.title,
         "slug": p.slug,
         "preview": p.preview,

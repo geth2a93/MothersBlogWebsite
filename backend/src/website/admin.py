@@ -270,3 +270,65 @@ def generate_unique_slug(model, text):
         counter += 1
 
     return slug
+
+@admin.route("/displayallblogs", methods=["GET"])
+@login_required
+def show_all_blogs():
+    blogs = BlogPost.query.order_by(BlogPost.date_created.desc()).all()
+
+    return jsonify({
+        "blogs": [
+            {
+                "id": blog.id,
+                "title": blog.title,
+                "slug": blog.slug,
+                "date_created": blog.date_created,
+                "published": blog.published
+            }
+            for blog in blogs
+        ]
+    })
+
+@admin.route("/editblog/<string:slug>", methods=["GET", "PUT"])
+@login_required
+def edit_blog(slug):
+    blog = BlogPost.query.filter_by(slug=slug).first_or_404()
+
+    if request.method == "GET":
+        return jsonify(get_blog_by_slug(slug))
+
+    data = request.get_json()
+
+    blog.title = data.get("title", blog.title)
+    blog.preview = data.get("preview", blog.preview)
+    blog.title_media_content_url = data.get("title_media_content_url", blog.title_media_content_url)
+    blog.url_content_type = data.get("url_content_type", blog.url_content_type)
+    blog.ownership = data.get("ownership", blog.ownership)
+    blog.name_of_owner = data.get("name_of_owner", blog.name_of_owner)
+    blog.published = data.get("published", blog.published)
+
+    Tags.query.filter_by(blog_id=blog.id).delete()
+
+    for tag_content in data.get("tags", []):
+        db.session.add(Tags(content=tag_content, blog_id=blog.id))
+
+    BlogContentBlock.query.filter_by(blog_id=blog.id).delete()
+
+    for index, block in enumerate(data.get("content_blocks", [])):
+        db.session.add(
+            BlogContentBlock(
+                blog_id=blog.id,
+                order=block.get("order", index),
+                title_of_block=block.get("title_of_block"),
+                content=block.get("content"),
+                media_content_url=block.get("media_content_url"),
+                url_content_type=block.get("url_content_type"),
+                ownership=block.get("ownership"),
+                name_of_owner=block.get("name_of_owner"),
+                alignment=block.get("alignment")
+            )
+        )
+
+    db.session.commit()
+
+    return jsonify({"message": "Success"}), 200
