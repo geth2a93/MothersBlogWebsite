@@ -116,7 +116,7 @@ def new_blog_post():
 
     preview = data.get("preview")
 
-    url_content_type = data.get("url_content_type")
+    title_url_content_type = data.get("title_url_content_type")
 
     if blog_id:
         blog = BlogPost.query.get(blog_id)
@@ -130,19 +130,19 @@ def new_blog_post():
         db.session.add(blog)
         db.session.flush()
 
-    if url_content_type == "None":
+    if title_url_content_type == "none":
         ownership = True
         name = None
         title_media_content_url = None
 
-    elif url_content_type in {"youtube", "instagram", "facebook", "threads"}:
+    elif title_url_content_type in {"youtube", "instagram", "facebook", "threads"}:
         ownership = True
         name = None
         title_media_content_url = data.get("title_media_content_url")
         if not title_media_content_url:
             return jsonify({"error": "Url Empty"}), 400
 
-    elif url_content_type == "image":
+    elif title_url_content_type == "image":
         file = request.files.get("title_image")
         if not file:
             return jsonify({"error": "Missing image file"}), 400
@@ -172,7 +172,7 @@ def new_blog_post():
     blog.title = title
     blog.preview = preview
     blog.title_media_content_url = title_media_content_url
-    blog.url_content_type = url_content_type
+    blog.url_content_type = title_url_content_type
     blog.ownership = ownership
     blog.name_of_owner = name
     blog.date_created = date
@@ -195,7 +195,7 @@ def new_blog_post():
 
         block_url_content_type = block.get("url_content_type")
 
-        if block_url_content_type == "None":
+        if block_url_content_type == "none":
             ownership_block = True
             name_block = None
             media_content_url = None
@@ -298,7 +298,7 @@ def edit_blog(slug):
         return jsonify(get_blog_by_slug(slug))
 
     data = request.get_json()
-
+    
     blog.title = data.get("title", blog.title)
     blog.preview = data.get("preview", blog.preview)
     blog.title_media_content_url = data.get("title_media_content_url", blog.title_media_content_url)
@@ -306,6 +306,7 @@ def edit_blog(slug):
     blog.ownership = data.get("ownership", blog.ownership)
     blog.name_of_owner = data.get("name_of_owner", blog.name_of_owner)
     blog.published = data.get("published", blog.published)
+    blog.slug = data.get("slug", blog.slug)
 
     Tags.query.filter_by(blog_id=blog.id).delete()
 
