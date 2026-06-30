@@ -144,7 +144,7 @@ def new_blog_post():
 
     elif title_url_content_type == "image":
         file = request.files.get("title_image")
-        if not file:
+        if not blog.title_media_content_url and file:
             return jsonify({"error": "Missing image file"}), 400
 
         ownership = data.get("ownership", "true").lower() == "true"
@@ -288,6 +288,16 @@ def show_all_blogs():
             for blog in blogs
         ]
     })
+
+@admin.route("/deleteblog/<string:slug>", methods=["GET"])
+@login_required
+def delete_blog(slug):
+    blog = BlogPost.query.filter_by(slug=slug).first_or_404()
+    Tags.query.filter_by(blog_id=blog.id).delete()
+    BlogContentBlock.query.filter_by(blog_id=blog.id).delete()
+    db.session.delete(blog)
+    db.session.commit()
+    return jsonify({"message": "Blog deleted"}), 200
 
 @admin.route("/editblog/<string:slug>", methods=["GET", "PUT"])
 @login_required
