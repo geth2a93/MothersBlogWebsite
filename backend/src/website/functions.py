@@ -108,7 +108,7 @@ def get_books_by_title(title):
     }
     return data
 
-def get_blog_posts(page, per_page=5): #5 per page
+def get_blog_posts(page, per_page=5):
   
     pagination = BlogPost.query.filter(BlogPost.published == True).order_by(BlogPost.date_created.desc()).paginate(page=page, per_page=per_page, error_out=False)
 

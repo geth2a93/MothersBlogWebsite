@@ -144,7 +144,7 @@ def new_blog_post():
 
     elif title_url_content_type == "image":
         file = request.files.get("title_image")
-        if not blog.title_media_content_url and file:
+        if not blog.title_media_content_url and not file:
             return jsonify({"error": "Missing image file"}), 400
 
         ownership = data.get("ownership", "true").lower() == "true"
@@ -155,16 +155,16 @@ def new_blog_post():
             name = data.get("name_of_owner")
             if not name:
                 return jsonify({"error": "Missing owner name"}), 400
+        if file:
+            ext = file.filename.rsplit(".", 1)[-1].lower()
+            upload_folder = os.path.join(current_app.config["UPLOAD_FOLDER"], "blog")
+            os.makedirs(upload_folder, exist_ok=True)
 
-        ext = file.filename.rsplit(".", 1)[-1].lower()
-        upload_folder = os.path.join(current_app.config["UPLOAD_FOLDER"], "blog")
-        os.makedirs(upload_folder, exist_ok=True)
+            filename = f"blog_{blog.slug}_title.{ext}"
+            filepath = os.path.join(upload_folder, filename)
 
-        filename = f"blog_{blog.slug}_title.{ext}"
-        filepath = os.path.join(upload_folder, filename)
-
-        file.save(filepath)
-        title_media_content_url = f"/static/uploads/blog/{filename}"
+            file.save(filepath)
+            title_media_content_url = f"/static/uploads/blog/{filename}"
 
     else:
         return jsonify({"error": "Invalid content type"}), 400
@@ -202,7 +202,7 @@ def new_blog_post():
 
         elif block_url_content_type == "image":
             file = request.files.get(f"image_{index}")
-            if not file:
+            if not file and not block.media_content_url:
                 return jsonify({"error": "Missing image file in block"}), 400
 
             ownership_block = block.get("ownership", "true").lower() == "true"
@@ -213,17 +213,17 @@ def new_blog_post():
                 name_block = block.get("name_of_owner")
                 if not name_block:
                     return jsonify({"error": "Missing owner name"}), 400
+            if file:
+                ext = file.filename.rsplit(".", 1)[-1].lower()
 
-            ext = file.filename.rsplit(".", 1)[-1].lower()
+                filename = f"blog_{blog.slug}_{index}.{ext}"
+                upload_folder = os.path.join(current_app.config["UPLOAD_FOLDER"], "blog")
+                os.makedirs(upload_folder, exist_ok=True)
 
-            filename = f"blog_{blog.slug}_{index}.{ext}"
-            upload_folder = os.path.join(current_app.config["UPLOAD_FOLDER"], "blog")
-            os.makedirs(upload_folder, exist_ok=True)
+                filepath = os.path.join(upload_folder, filename)
+                file.save(filepath)
 
-            filepath = os.path.join(upload_folder, filename)
-            file.save(filepath)
-
-            media_content_url = f"/static/uploads/blog/{filename}"
+                media_content_url = f"/static/uploads/blog/{filename}"
 
         elif block_url_content_type in {"youtube", "instagram", "facebook", "threads"}:
             ownership_block = True

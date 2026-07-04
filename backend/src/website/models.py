@@ -15,7 +15,7 @@ class BlogPost(db.Model):
     date_created = db.Column(db.DateTime)
     preview = db.Column(db.Text)
     title_media_content_url = db.Column(db.String(2000))
-    url_content_type = db.Column(db.String(20)) #picture, youtube link, fb link, insta link
+    url_content_type = db.Column(db.String(20)) #picture, youtube link, fb link, insta link also needs to be changed to title_url_content_type
     ownership = db.Column(db.Boolean)
     name_of_owner = db.Column(db.String(200))
     published = db.Column(db.Boolean, default=False, nullable=False)
@@ -29,8 +29,8 @@ class BlogContentBlock(db.Model):
     order = db.Column(db.Integer, nullable=False)
     title_of_block = db.Column(db.Text)
     content = db.Column(db.Text)
-    media_content_url = db.Column(db.String(2000))
-    url_content_type = db.Column(db.String(20)) #picture, youtube link, fb link, insta link, threads
+    media_content_url = db.Column(db.String(2000))  #add block infront of
+    url_content_type = db.Column(db.String(20)) #picture, youtube link, fb link, insta link, threads add
     ownership = db.Column(db.Boolean)
     name_of_owner = db.Column(db.String(200))
     alignment = db.Column(db.String(10))
