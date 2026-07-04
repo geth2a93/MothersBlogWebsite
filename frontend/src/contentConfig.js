@@ -3,6 +3,7 @@ export const contentConfig = {
     title: "Blog Posts",
     endpoint: "http://localhost:5055/api/blog",
     itemKey: "posts",
+    paginate: true,
 
     mapItem: (post) => ({
       id: post.id,
@@ -27,7 +28,8 @@ export const contentConfig = {
       id: book.id,
       title: book.title,
       preview: book.synopsis,
-      image: book.book_image_url,
+      title_media: book.book_image_url,
+      url_content_type: "image",
       link: `/books/title/${book.title.replaceAll(" ", "-")}`
     })
   },
@@ -42,7 +44,8 @@ export const contentConfig = {
     id: book.id,
     title: book.title,
     preview: book.synopsis,
-    image: book.book_image_url,
+    title_media: book.book_image_url,
+    url_content_type: "image",
     link: `/books/title/${book.title.replaceAll(" ", "-")}`
   })
 },

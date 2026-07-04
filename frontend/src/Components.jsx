@@ -25,6 +25,15 @@ export function Navbar() {
       .catch(console.error);
   }, []);
 
+  const [genres, setGenres] = useState([]);
+
+  useEffect(() => {
+    fetch("http://localhost:5055/api/genres")
+      .then((res) => res.json())
+      .then((data) => setGenres(data))
+      .catch((err) => console.error("Failed to load genres:", err));
+  }, []);
+
   return (
     <nav className="navbar">
       <div className="logo-container">
@@ -34,10 +43,10 @@ export function Navbar() {
 
       <ul className="nav-links">
        
-
         <li><Link to="/about">About Me</Link></li>
         <li><Link to="/blog">My Blog</Link></li>
-         <li
+
+        <li
           className="dropdown-wrapper"
           onMouseEnter={() => setGenreOpen(true)}
           onMouseLeave={() => setGenreOpen(false)}
@@ -46,10 +55,14 @@ export function Navbar() {
 
           {genreOpen && (
             <div className="dropdown-menu">
-              <Link to="/books/Young-Adult">Young Adult</Link>
-              <Link to="/books/Middle-Grade">Middle Grade</Link>
-              <Link to="/books/Romance">Romance</Link>
-              <Link to="/books/Short-Story">Short Story</Link>
+              {genres.map((genre) => (
+                <Link
+                  key={genre.id}
+                  to={`/books/${genre.name.replaceAll(" ", "-")}`}
+                >
+                  {genre.name}
+                </Link>
+               ))}
             </div>
           )}
         </li>
