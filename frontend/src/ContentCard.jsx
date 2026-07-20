@@ -21,7 +21,7 @@ export default function ContentCard({
 const renderMedia = () => {
   if (!title_media) return null;
 
-  switch (url_content_type) {
+  switch (url_content_type) { 
     case "image":
       return (
         <img

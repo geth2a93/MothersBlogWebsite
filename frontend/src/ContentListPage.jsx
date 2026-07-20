@@ -1,4 +1,5 @@
-import { useEffect, useState, useParams } from "react";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import ContentCard from "./ContentCard.jsx";
 import { contentConfig } from "./contentConfig";
 import "./Styles.css"
@@ -50,7 +51,7 @@ const testItem = {
   tags: []
 };
 
-const itemsToRender = [testItem, ...items];
+const itemsToRender = [...items];
 
   return (
     <div className="content-page">

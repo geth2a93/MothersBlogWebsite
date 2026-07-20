@@ -21,6 +21,7 @@ import AdminWebResources from "./AdminWebResources"
 import Embed from "./media.jsx"
 import NewBlog from "./NewBlog.jsx";
 import BlogPreview from "./BlogPreview";
+import AdminEditBlog from './AdminEditBlog.jsx';
 
 
 createRoot(document.getElementById("root")).render(
@@ -53,6 +54,8 @@ createRoot(document.getElementById("root")).render(
 
       <Route path="/admin/blog-preview" element={<BlogPreview />} />
       <Route path="/admin/blog-preview/:slug" element={<BlogPreview />} />
+
+      <Route path="/admin/blogs" element={<AdminEditBlog />} />
       
     </Routes>
   </BrowserRouter>

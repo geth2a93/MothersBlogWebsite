@@ -1,0 +1,92 @@
+.admin-container {
+  max-width: 900px;
+  margin: 5px auto;
+  padding: 24px;
+}
+
+.admin-container h1 {
+  font-family: "Alegreya", serif;
+  font-size: 32px;
+  margin-bottom: 10px;
+  color: #0F7BA8;
+}
+
+.admin-container p {
+  font-size: 16px;
+  opacity: 0.85;
+}
+
+
+
+.admin-card {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 20px;
+  margin-top: 20px;
+  /* box-shadow: 0 6px 18px rgba(0,0,0,0.08); */
+  border: 1px solid rgba(15, 123, 168, 0.15);
+}
+
+button {
+  background:#EA9A28;
+  color: white;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin: 6px 6px 6px 0;
+  font-weight: 600;
+  transition: 0.2s ease;
+}
+
+button:hover {
+  background: #0c5f80;
+}
+
+button.secondary {
+  background: #FFEEDE;
+  color: #333;
+}
+
+button.danger {
+  background: #d9534f;
+} 
+
+
+
+input, textarea, select {
+  width: 100%;
+  padding: 10px;
+  margin-top: 8px;
+  margin-bottom: 12px;
+  border-radius: 8px;
+  border: 1px solid #cfd8dc;
+  font-family: inherit;
+  font-size: 14px;
+  background: #fff;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 250px;
+  font-size: medium;
+}
+
+
+.tag-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.tag-pill {
+  padding: 6px 10px;
+  margin-bottom: 10px;
+  font-size: 12px;
+  display: inline-flex;
+  align-items: center;
+}
+
+
+

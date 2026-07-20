@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+
 
 
 const createEmptyBlock = (order = 0) => ({
@@ -66,9 +67,9 @@ export default function NewBlog() {
   } catch {
     return defaultBlog;
   }
-});
+}); 
 
-useEffect(() => {
+ useEffect(() => {
   const safeBlog = {
     ...blog,
 
@@ -88,7 +89,7 @@ useEffect(() => {
     "blogDraft",
     JSON.stringify(safeBlog)
   );
-}, [blog]);
+}, [blog]); 
 
 
   const addTag = () => {
@@ -221,9 +222,9 @@ const buildFormData = () => {
   formData.append("title", blog.title);
   formData.append("preview", blog.preview);
 
-  /* if (blog.id) {
+  if (blog.id) {
   formData.append("blog_id", blog.id);
-  } */
+  } 
 
   formData.append("date", blog.publish_date);
 
@@ -232,7 +233,7 @@ const buildFormData = () => {
   });
 
   formData.append(
-    "url_content_type", blog.title_media.type
+    "title_url_content_type", blog.title_media.type
   );
 
   if (blog.title_media.type === "image") {
@@ -270,11 +271,16 @@ const buildFormData = () => {
       title_of_block: block.title_of_block,
       content: block.content,
       alignment: block.alignment,
-      url_content_type: block.url_content_type || "None",
+      url_content_type: block.url_content_type || "none",
       media_content_url: block.media_content_url,
       ownership: block.ownership.is_owner ? "true" : "false",
       name_of_owner: block.ownership.name
     }));
+
+    console.log(
+  "CONTENT BLOCKS:",
+  JSON.stringify(cleanedBlocks, null, 2)
+);
 
   formData.append(
     "content_blocks",
@@ -299,6 +305,22 @@ const buildFormData = () => {
 const handlePreview = async () => {
   try {
     const formData = buildFormData(false);
+
+  console.log("FORM DATA");
+    for (const [key, value] of formData.entries()) {
+    console.log(
+      key,
+      value instanceof File
+        ? {
+            name: value.name,
+            size: value.size,
+            type: value.type
+          }
+        : value
+    );
+  }
+
+
     const res = await fetch(
       "http://localhost:5055/admin/newblogpost",
       {
@@ -364,9 +386,13 @@ const handlePublish = async () => {
 };
 
 return (
-    <div>
+
+  
+    <div className="admin-container">
       <h1>Create Blog</h1>
 
+
+      <div className="admin-card">
       <input
         placeholder="Title"
         value={blog.title}
@@ -493,7 +519,7 @@ return (
       <h2>Content Blocks</h2>
 
       {blog.content_blocks.map((block, index) => (
-        <div key={index} style={{ border: "3px solid #5a5a5a", margin: 10 }}>
+        <div key={index} className="admin-container">
           <input
             placeholder="Block title"
             value={block.title_of_block}
@@ -538,7 +564,7 @@ return (
               })
             }
           >
-            <option value="">None</option>
+            <option value="none">None</option>
             <option value="image">Image</option>
             <option value="youtube">Youtube</option>
             <option value="instagram">Instagram</option>
@@ -547,7 +573,7 @@ return (
           </select>
 
 
-          {block.url_content_type && block.url_content_type !== "image" && block.url_content_type !== "" && (
+        {block.url_content_type && block.url_content_type !== "image" && block.url_content_type !== "" && (
         <input
           type="text"
           placeholder="Paste link (YouTube, Instagram, X, etc.)"
@@ -630,6 +656,7 @@ return (
         Clear Form
       </button>
     </div>
+  </div>
   </div>
   );
 }

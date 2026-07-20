@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-
+import "./admin.css"
 export default function AdminAboutMe(){
     const [content, setContent] = useState("");
     const [image, setImage] = useState(null);
@@ -11,7 +11,7 @@ export default function AdminAboutMe(){
      useEffect(() => {
         fetch("http://localhost:5055/admin/editaboutme", {
             credentials: "include"
-        })
+        }) 
         .then(res => res.json())
             .then(data => {
                 setContent(data.content || "");
@@ -64,9 +64,11 @@ export default function AdminAboutMe(){
     };
 
     return (
-        <div style={{ maxWidth: "600px", margin: "auto" }}>
+         <div className="admin-container">
             <h1>Admin About Me</h1>
 
+
+            <div className="admin-card">
             <textarea
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
@@ -91,6 +93,7 @@ export default function AdminAboutMe(){
             </button>
 
             {message && <p>{message}</p>}
+        </div>
         </div>
         );
     };
