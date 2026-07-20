@@ -307,39 +307,148 @@ def edit_blog(slug):
     if request.method == "GET":
         return jsonify(get_blog_by_slug(slug))
 
-    data = request.get_json()
+    data = request.form
+    if not request.form and not request.files:
+        return jsonify({"error": "Missing data"}), 400
     
-    blog.title = data.get("title", blog.title)
+    title = data.get("title")
+    if not title:
+        return jsonify({"error": "No title"}), 400
+
+    blog.title = title
     blog.preview = data.get("preview", blog.preview)
-    blog.title_media_content_url = data.get("title_media_content_url", blog.title_media_content_url)
-    blog.url_content_type = data.get("url_content_type", blog.url_content_type)
-    blog.ownership = data.get("ownership", blog.ownership)
-    blog.name_of_owner = data.get("name_of_owner", blog.name_of_owner)
+
+
+    title_url_content_type = data.get("url_content_type", blog.url_content_type)
+    if title_url_content_type == "none":
+        blog.ownership = True
+        blog.name_of_owner = None
+        blog.title_media_content_url = None
+
+    elif title_url_content_type in {"youtube", "instagram", "facebook", "threads"}:
+        blog.ownership = True
+        blog.name_of_owner = None
+        title_media_content_url = data.get("title_media_content_url")
+        if not title_media_content_url:
+            return jsonify({"error": "Url Empty"}), 400
+        blog.title_media_content_url = title_media_content_url
+
+    elif title_url_content_type == "image":
+        file = request.files.get("title_image")
+        if not blog.title_media_content_url and not file:
+            return jsonify({"error": "Missing image file"}), 400
+
+        ownership = data.get("ownership", "true").lower() == "true"
+
+        if ownership:
+            blog.name_of_owner = None
+            blog.ownership = True
+        else:
+            name = data.get("name_of_owner")
+            if not name:
+                return jsonify({"error": "Missing owner name"}), 400
+            blog.ownership = False
+            blog.name_of_owner = name
+        if file:
+            ext = file.filename.rsplit(".", 1)[-1].lower()
+            upload_folder = os.path.join(current_app.config["UPLOAD_FOLDER"], "blog")
+            os.makedirs(upload_folder, exist_ok=True)
+
+            filename = f"blog_{blog.slug}_title.{ext}"
+            filepath = os.path.join(upload_folder, filename)
+
+            file.save(filepath)
+            title_media_content_url = f"/static/uploads/blog/{filename}"
+
+    else:
+        return jsonify({"error": "Invalid content type"}), 400
+
+
+    blog.title_media_content_url = title_media_content_url
+    blog.url_content_type = title_url_content_type
+
     blog.published = data.get("published", blog.published)
-    blog.slug = data.get("slug", blog.slug)
+    blog.slug = generate_unique_slug(BlogPost, title)
 
     Tags.query.filter_by(blog_id=blog.id).delete()
 
-    for tag_content in data.get("tags", []):
-        db.session.add(Tags(content=tag_content, blog_id=blog.id))
+    tags = request.form.getlist("tags")
+    for tag in tags:
+        db.session.add(Tags(content=tag, blog_id=blog.id))
 
     BlogContentBlock.query.filter_by(blog_id=blog.id).delete()
 
-    for index, block in enumerate(data.get("content_blocks", [])):
+    try:
+        content_blocks = json.loads(data.get("content_blocks", "[]"))
+    except json.JSONDecodeError:
+        return jsonify({"error": "Invalid content_blocks JSON"}), 400
+
+    for index, block in enumerate(content_blocks):
+        block_url_content_type = block.get("url_content_type")
+
+        if block_url_content_type == "none":
+            ownership_block = True
+            name_block = None
+            media_content_url = None
+
+        elif block_url_content_type == "image":
+            file = request.files.get(f"image_{index}")
+            if not file and not block.media_content_url:
+                return jsonify({"error": "Missing image file in block"}), 400
+
+            ownership_block = block.get("ownership", "true").lower() == "true"
+
+            if ownership_block:
+                name_block = None
+            else:
+                name_block = block.get("name_of_owner")
+                if not name_block:
+                    return jsonify({"error": "Missing owner name"}), 400
+            if file:
+                ext = file.filename.rsplit(".", 1)[-1].lower()
+
+                filename = f"blog_{blog.slug}_{index}.{ext}"
+                upload_folder = os.path.join(current_app.config["UPLOAD_FOLDER"], "blog")
+                os.makedirs(upload_folder, exist_ok=True)
+
+                filepath = os.path.join(upload_folder, filename)
+                file.save(filepath)
+
+                media_content_url = f"/static/uploads/blog/{filename}"
+
+        elif block_url_content_type in {"youtube", "instagram", "facebook", "threads"}:
+            ownership_block = True
+            name_block = None
+            media_content_url = block.get("media_content_url")
+
+            if not media_content_url:
+                return jsonify({"error": "Missing block URL"}), 400
+
+        else:
+            return jsonify({"error": "Invalid block content type"}), 400
+
+        title_of_block = block.get("title_of_block")
+        content = block.get("content")
+
+        if not any([title_of_block, content, media_content_url]):
+            return jsonify({"error": "Block cannot be empty"}), 400
         db.session.add(
             BlogContentBlock(
                 blog_id=blog.id,
                 order=block.get("order", index),
-                title_of_block=block.get("title_of_block"),
-                content=block.get("content"),
-                media_content_url=block.get("media_content_url"),
-                url_content_type=block.get("url_content_type"),
-                ownership=block.get("ownership"),
-                name_of_owner=block.get("name_of_owner"),
+                title_of_block=title_of_block,
+                content=content,
+                media_content_url=media_content_url,
+                url_content_type=block_url_content_type,
+                ownership=ownership_block,
+                name_of_owner=name_block,
                 alignment=block.get("alignment")
             )
         )
 
+    #add all error checking from new blog post to here current error is the fact that images upload as local host
+    # title could be emptied and thats an issue too.
+    #another issue is that slug needs to be regenerated on save when editting title call generate new slug after title is gathered before db.add() on edit 
     db.session.commit()
 
     return jsonify({"message": "Success"}), 200
