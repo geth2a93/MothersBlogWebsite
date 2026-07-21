@@ -15,7 +15,7 @@ const createEmptyBlock = (order = 0) => ({
   content: "",
   alignment: "center",
 
-  url_content_type: null,
+  url_content_type: "none",
   media_content_url: "",
 
   file: null,
@@ -550,7 +550,7 @@ const buildFormData=()=>{
         <h2>Title Media</h2>
 
 <select
-  value={blog.title_media.type}
+  value={blog.title_media.type || "none"}
   onChange={(e) =>
     updateHero("type", e.target.value)
   }
