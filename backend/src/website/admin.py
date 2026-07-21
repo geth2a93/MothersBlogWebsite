@@ -140,8 +140,11 @@ def new_blog_post():
         ownership = True
         name = None
         title_media_content_url = data.get("title_media_content_url")
+
         if not title_media_content_url:
             return jsonify({"error": "Url Empty"}), 400
+        if not url_check(title_media_content_url, title_url_content_type):
+                return jsonify({"error": "Type Mismatch between selected value and link value"}), 400
 
     elif title_url_content_type == "image":
         file = request.files.get("title_image")
@@ -233,6 +236,8 @@ def new_blog_post():
 
             if not media_content_url:
                 return jsonify({"error": "Missing block URL"}), 400
+            if not url_check(media_content_url, block_url_content_type):
+                return jsonify({"error": "Type Mismatch between selected value and link value"}), 400
 
         else:
             return jsonify({"error": "Invalid block content type"}), 400
@@ -334,6 +339,8 @@ def edit_blog(slug):
             title_media_content_url = data.get("title_media_content_url")
             if not title_media_content_url:
                 return jsonify({"error": "Url Empty"}), 400
+            if not url_check(title_media_content_url, title_url_content_type):
+                return jsonify({"error": "Type Mismatch between selected value and link value"}), 400
             blog.title_media_content_url = title_media_content_url
 
         elif title_url_content_type == "image":
@@ -428,6 +435,8 @@ def edit_blog(slug):
 
                 if not media_content_url:
                     return jsonify({"error": "Missing block URL"}), 400
+                if not url_check(media_content_url, block_url_content_type):
+                    return jsonify({"error": "Type Mismatch between selected value and link value"}), 400
 
             else:
                 return jsonify({"error": "Invalid block content type"}), 400
@@ -454,3 +463,15 @@ def edit_blog(slug):
     db.session.commit()
 
     return jsonify({"message": "Success"}), 200
+
+def url_check(media_content_url, url_content_type):
+    url = media_content_url.lower()
+    valid_urls = {
+        "youtube": ["youtube.com"],
+        "instagram": ["instagram.com"],
+        "facebook": ["facebook.com"],
+        "threads": ["threads.com"],
+        "x.com": ["x.com", "twitter.com"]
+    }
+
+    return any(site in url for site in valid_urls[url_content_type])
