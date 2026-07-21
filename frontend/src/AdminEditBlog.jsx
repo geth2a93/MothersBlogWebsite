@@ -35,7 +35,7 @@ export default function AdminEditBlog() {
 
     try {
       const response = await fetch(
-        `/api/admin/deleteblog/${slug}`,
+        `http://localhost:5055/admin/deleteblog/${slug}`,
         {
           credentials: "include",
         }
@@ -57,14 +57,7 @@ export default function AdminEditBlog() {
   return (
     <div className="admin-card">
       <div className="admin-section-header">
-        <h2>Blog Posts</h2>
-
-        <button
-          className="admin-btn"
-          onClick={() => navigate("/admin/blog-editor")}
-        >
-          + Add Blog Post
-        </button>
+        <h2>All Blog Posts</h2>
       </div>
 
       {loading ? (
@@ -106,7 +99,7 @@ export default function AdminEditBlog() {
                   <button
                     onClick={() =>
                       navigate(
-                        `/admin/blog-editor/${blog.slug}`
+                        `/admin/blog-edit/${blog.slug}`
                       )
                     }
                   >

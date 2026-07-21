@@ -78,7 +78,7 @@ export default function BlogPreview() {
       <BlogRender post={post} />
 
       <div style={{ marginTop: 20 }}>
-        <button onClick={() => navigate("/admin/blog-editor")}>
+        <button onClick={() => navigate("/admin/add-blog")}>
           Back To Editor
         </button>
 

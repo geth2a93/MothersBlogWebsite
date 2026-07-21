@@ -18,7 +18,7 @@ export default function AdminHome() {
                 Edit Web Resources
             </button>
 
-            <button onClick={() => navigate("/admin/blog-editor")} >
+            <button onClick={() => navigate("/admin/add-blog")} >
                 Add Blog
             </button>
 

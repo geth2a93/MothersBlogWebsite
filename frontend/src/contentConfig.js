@@ -15,7 +15,6 @@ export const contentConfig = {
 
       date: post.date,
       tags: post.tags || []
-
     })
   },
 

@@ -1,8 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
-
-
 const createEmptyBlock = (order = 0) => ({
   order,
   title_of_block: "",
@@ -652,7 +650,7 @@ return (
 
     <div>
       <button onClick={handlePreview}> Preview </button>
-      <button onClick={() => { localStorage.clear(); window.location.href = "/admin/blog-editor"; alert("Local storage cleared"); }}>
+      <button onClick={() => { localStorage.clear(); window.location.href = "/admin/add-blog"; alert("Local storage cleared"); }}>
         Clear Form
       </button>
     </div>
