@@ -6,6 +6,7 @@ import os, json
 from . import db
 from .models import *
 from .functions import *
+from .admin_functions import *
 
 admin = Blueprint('admin', __name__,  url_prefix="/admin")
 
@@ -159,6 +160,8 @@ def new_blog_post():
                 return jsonify({"error": "Missing owner name"}), 400
         if file:
             ext = file.filename.rsplit(".", 1)[-1].lower()
+            if ext not in current_app.config["UPLOAD_EXTENSIONS"]:
+                return jsonify({"error": "Invalid image type"}), 400
             upload_folder = os.path.join(current_app.config["UPLOAD_FOLDER"], "blog")
             os.makedirs(upload_folder, exist_ok=True)
 
@@ -217,7 +220,8 @@ def new_blog_post():
                     return jsonify({"error": "Missing owner name"}), 400
             if file:
                 ext = file.filename.rsplit(".", 1)[-1].lower()
-
+                if ext not in current_app.config["UPLOAD_EXTENSIONS"]:
+                    return jsonify({"error": "Invalid image type"}), 400
                 filename = f"blog_{blog.slug}_{index}.{ext}"
                 upload_folder = os.path.join(current_app.config["UPLOAD_FOLDER"], "blog")
                 os.makedirs(upload_folder, exist_ok=True)
@@ -263,17 +267,6 @@ def new_blog_post_preview(slug):
     db.session.commit()
 
     return jsonify({"message": "Blog post published", "blog_id": p.id, "slug": p.slug,})
-
-def generate_unique_slug(model, text):
-    base_slug = slugify(text)
-    slug = base_slug
-    counter = 1
-
-    while model.query.filter_by(slug=slug).first():
-        slug = f"{base_slug}-{counter}"
-        counter += 1
-
-    return slug
 
 @admin.route("/displayallblogs", methods=["GET"])
 @login_required
@@ -324,6 +317,15 @@ def edit_blog(slug):
     blog.title = title
     blog.preview = data.get("preview", blog.preview)
 
+    date = datetime.fromisoformat(data.get("date"))
+
+    if date > datetime.now(timezone.utc):
+        blog.published = False
+    else:
+        blog.published = data.get("published", blog.published)
+
+    blog.date_created = date
+
 
     title_url_content_type = data.get("title_url_content_type", blog.url_content_type)
 
@@ -360,6 +362,8 @@ def edit_blog(slug):
             blog.name_of_owner = name
         if file:
             ext = file.filename.rsplit(".", 1)[-1].lower()
+            if ext not in current_app.config["UPLOAD_EXTENSIONS"]:
+                return jsonify({"error": "Invalid image type"}), 400
             upload_folder = os.path.join(current_app.config["UPLOAD_FOLDER"], "blog")
             os.makedirs(upload_folder, exist_ok=True)
 
@@ -375,7 +379,6 @@ def edit_blog(slug):
 
     blog.url_content_type = title_url_content_type
 
-    blog.published = data.get("published", blog.published)
     blog.slug = generate_unique_slug(BlogPost, title)
 
     Tags.query.filter_by(blog_id=blog.id).delete()
@@ -419,7 +422,8 @@ def edit_blog(slug):
                     return jsonify({"error": f"Missing owner name for block {index +1}"}), 400
             if file:
                 ext = file.filename.rsplit(".", 1)[-1].lower()
-
+                if ext not in current_app.config["UPLOAD_EXTENSIONS"]:
+                    return jsonify({"error": "Invalid image type"}), 400
                 filename = f"blog_{blog.slug}_{index}.{ext}"
                 upload_folder = os.path.join(current_app.config["UPLOAD_FOLDER"], "blog")
                 os.makedirs(upload_folder, exist_ok=True)
@@ -465,14 +469,130 @@ def edit_blog(slug):
 
     return jsonify({"message": "Success"}), 200
 
-def url_check(media_content_url, url_content_type):
-    url = media_content_url.lower()
-    valid_urls = {
-        "youtube": ["youtube.com"],
-        "instagram": ["instagram.com"],
-        "facebook": ["facebook.com"],
-        "threads": ["threads.com"],
-        "x.com": ["x.com", "twitter.com"]
-    }
+#large block for pictures needs to be moved to functions and standardized, same with adding the data - should mnake 3 functions out of methods
 
-    return any(site in url for site in valid_urls[url_content_type])
+@admin.route("/editbook/<string:title>", methods=["GET", "PUT"])
+@login_required
+def edit_book(title):
+    spaced_title = title.replace("-", " ")
+    book= Book.query.filter_by(title=spaced_title).first_or_404()
+
+
+    if request.method == "GET":
+        return jsonify(get_books_by_title(title))
+
+
+    try:
+        data = request.form
+        if not request.form and not request.files:
+            return jsonify({"error": "Missing data"}), 400
+    
+        book_title = data.get("title")
+        if not book_title:
+            return jsonify({"error": "No title"}), 400
+    
+        book.title = book_title
+        book.synopsis = data.get("synopsis", book.synopsis)
+    
+        isbn = data.get("isbn", "").strip()
+        if isbn and len(isbn.replace("-", "")) not in (10,13):
+            return jsonify({"error": "Invalid ISBN length"}),400
+    
+        if isbn and not all(c.isdigit() or c == "-" for c in isbn):
+            return jsonify({"error": "Invalid Isbn contains restricted chars"}), 400
+    
+        book.isbn = isbn if isbn else book.isbn
+
+
+        date = data.get("date")
+        if date:
+            book.date_added = datetime.fromisoformat(date)
+
+        book.genres.clear()
+        genres = request.form.getlist("Genres")
+
+        for genre_name in genres:
+            genre = Genre.query.filter_by(genre=genre_name).first()
+
+            if genre is None:
+                genre = Genre(genre=genre_name)
+                db.session.add(genre)
+                db.session.flush()
+
+            book.genres.append(genre)
+
+        try:
+            buy_links = json.loads(request.form.get("buy_links", "[]"))
+        except json.JSONDecodeError:
+            return jsonify({"error":"Invalid buy links data"}),400
+    
+        BuyLinks.query.filter_by(book_id=book.id).delete()
+    
+        for link in buy_links:
+            if not link.get("links_url") or not link.get("name_of_site"):
+                return jsonify({"error":"Invalid buy link"}),400
+            db.session.add(BuyLinks(links_url=link["links_url"], name_of_site=link["name_of_site"],book_id=book.id ))
+
+    
+        try:
+            reviews = json.loads(request.form.get("reviews", "[]"))
+        except json.JSONDecodeError:
+            return jsonify({"error":"Invalid reviews data"}),400
+    
+        Reviews.query.filter_by(book_id=book.id).delete()
+
+        for review in reviews: 
+            rating=int(review["rating"]) if review.get("rating") else None #note must be set to null, 1,2,3,4,5 on frontend
+            db.session.add(Reviews(link_url=review.get("link_url"), name=review.get("name"), title=review.get("title"), content=review.get("content"), rating=rating, book_id=book.id))
+    
+        upload_folder = os.path.join(current_app.config["UPLOAD_FOLDER"], "books", "covers")
+        os.makedirs(upload_folder, exist_ok=True)
+        file = request.files.get("cover_image")
+
+        if file:
+            ext = file.filename.rsplit(".", 1)[-1].lower()
+            if ext not in current_app.config["UPLOAD_EXTENSIONS"]:
+                return jsonify({"error": "Invalid image type"}), 400
+            safe_title = "".join(c for c in book.title if c.isalnum() or c in "-_")
+            filename = f"book_{book.id}_{safe_title}.{ext}"
+
+            filepath = os.path.join(upload_folder, filename)
+            file.save(filepath)
+            cover_pic_url = f"/static/uploads/books/covers/{filename}"
+            book.book_image_url = cover_pic_url
+
+
+        try:
+            awards = json.loads(request.form.get("awards", "[]"))
+        except json.JSONDecodeError:
+            return jsonify({"error":"Invalid awards data"}),400
+
+        Awards.query.filter_by(book_id=book.id).delete()
+    
+        upload_folder = os.path.join(current_app.config["UPLOAD_FOLDER"], "books", "awards")
+        os.makedirs(upload_folder, exist_ok=True)
+
+        for index, award in enumerate(awards):
+
+            award_title = award.get("title")
+            pic_url = award.get("pic_of_award")
+            file = request.files.get(f"award_image_{index}")
+
+            if file:
+                ext = file.filename.rsplit(".", 1)[-1].lower()
+                if ext not in current_app.config["UPLOAD_EXTENSIONS"]:
+                    return jsonify({"error": "Invalid image type"}), 400
+                filename = f"book_{book.id}_award_{index}.{ext}"
+                filepath = os.path.join(upload_folder, filename)
+                file.save(filepath)
+                pic_url = f"/static/uploads/books/awards/{filename}"
+
+            db.session.add(Awards(title=award_title,  pic_of_award=pic_url, book_id=book.id))
+
+        db.session.commit()
+
+        return jsonify({"message": "Success"}), 200
+    
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": str(e)}), 400
