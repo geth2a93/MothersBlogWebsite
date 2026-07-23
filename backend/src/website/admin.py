@@ -596,3 +596,45 @@ def edit_book(title):
     except Exception as e:
         db.session.rollback()
         return jsonify({"error": str(e)}), 400
+
+
+@admin.route("/displayallbooks", methods=["GET"])
+@login_required
+def show_all_books():
+    books = Book.query.order_by(Book.date_added.desc()).all()
+
+    return jsonify({
+        "books": [
+            {
+                "id": book.id,
+                "title": book.title,
+                "isbn": book.isbn,
+                "date_added": book.date_added,
+                "genres": [g.genre for g in book.genres]
+            }
+            for book in books
+        ]
+    })
+
+@admin.route("/deletebook/<string:title>", methods=["GET"])
+@login_required
+def delete_book(title):
+    spaced_title = title.replace("-", " ")
+    book = Book.query.filter_by(title=spaced_title).first_or_404()
+    genres = list(book.genres)
+
+    BuyLinks.query.filter_by(book_id=book.id).delete()
+    Reviews.query.filter_by(book_id=book.id).delete()
+    Awards.query.filter_by(book_id=book.id).delete()
+    book.genres.clear()
+
+    db.session.delete(book)
+    db.session.flush()
+
+    for genre in genres:
+        if not genre.books:
+            db.session.delete(genre)
+
+    db.session.commit()
+
+    return jsonify({"message": "Book deleted"}), 200
