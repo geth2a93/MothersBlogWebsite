@@ -638,3 +638,133 @@ def delete_book(title):
     db.session.commit()
 
     return jsonify({"message": "Book deleted"}), 200
+
+@admin.route("/newbook", methods=["PUT"])
+@login_required
+def add_book():
+    try:
+        data = request.form
+        if not request.form and not request.files:
+            return jsonify({"error": "Missing data"}), 400
+        book = Book()
+
+    
+        book_title = data.get("title")
+        if Book.query.filter_by(title=book_title).first():
+            return jsonify({"error": "Book already exists"}), 400
+        if not book_title:
+            return jsonify({"error": "No title"}), 400
+        book.title = book_title
+
+        db.session.add(book)
+        db.session.flush()
+
+        synposis = data.get("synopsis")
+        if synposis:
+            book.synopsis = synposis
+    
+        isbn = data.get("isbn", "").strip()
+        if isbn and len(isbn.replace("-", "")) not in (10,13):
+            return jsonify({"error": "Invalid ISBN length"}),400
+    
+        if isbn and not all(c.isdigit() or c == "-" for c in isbn):
+            return jsonify({"error": "Invalid Isbn contains restricted chars"}), 400
+        if isbn:
+            book.isbn = isbn
+
+
+        date = data.get("date")
+        if date:
+            book.date_added = datetime.fromisoformat(date)
+
+        seen = set()
+
+        for genre_name in request.form.getlist("Genres"):
+            genre_name = genre_name.strip()
+
+            if not genre_name or genre_name in seen:
+                continue
+
+            seen.add(genre_name)
+
+            genre = Genre.query.filter_by(genre=genre_name).first()
+
+            if genre is None:
+                genre = Genre(genre=genre_name)
+                db.session.add(genre)
+
+            book.genres.append(genre)
+      
+
+        try:
+            buy_links = json.loads(request.form.get("buy_links", "[]"))
+        except json.JSONDecodeError:
+            return jsonify({"error":"Invalid buy links data"}),400
+    
+        for link in buy_links:
+            if not link.get("links_url") or not link.get("name_of_site"):
+                return jsonify({"error":"Invalid buy link"}),400
+            db.session.add(BuyLinks(links_url=link["links_url"], name_of_site=link["name_of_site"],book_id=book.id ))
+
+    
+        try:
+            reviews = json.loads(request.form.get("reviews", "[]"))
+        except json.JSONDecodeError:
+            return jsonify({"error":"Invalid reviews data"}),400
+    
+
+        for review in reviews: 
+            rating=int(review["rating"]) if review.get("rating") else None #note must be set to null, 1,2,3,4,5 on frontend
+            db.session.add(Reviews(link_url=review.get("link_url"), name=review.get("name"), title=review.get("title"), content=review.get("content"), rating=rating, book_id=book.id))
+    
+        upload_folder = os.path.join(current_app.config["UPLOAD_FOLDER"], "books", "covers")
+        os.makedirs(upload_folder, exist_ok=True)
+        file = request.files.get("cover_image")
+
+        if file:
+            ext = file.filename.rsplit(".", 1)[-1].lower()
+            if ext not in current_app.config["UPLOAD_EXTENSIONS"]:
+                return jsonify({"error": "Invalid image type"}), 400
+            safe_title = "".join(c for c in book.title if c.isalnum() or c in "-_")
+            filename = f"book_{book.id}_{safe_title}.{ext}"
+
+            filepath = os.path.join(upload_folder, filename)
+            file.save(filepath)
+            cover_pic_url = f"/static/uploads/books/covers/{filename}"
+            book.book_image_url = cover_pic_url
+
+
+        try:
+            awards = json.loads(request.form.get("awards", "[]"))
+        except json.JSONDecodeError:
+            return jsonify({"error":"Invalid awards data"}),400
+    
+        upload_folder = os.path.join(current_app.config["UPLOAD_FOLDER"], "books", "awards")
+        os.makedirs(upload_folder, exist_ok=True)
+
+        for index, award in enumerate(awards):
+
+            award_title = award.get("title")
+            if not award_title: 
+                return jsonify({"error": f"Missing title for award {index + 1}"}), 400
+            pic_url = award.get("pic_of_award")
+            file = request.files.get(f"award_image_{index}")
+
+            if file:
+                ext = file.filename.rsplit(".", 1)[-1].lower()
+                if ext not in current_app.config["UPLOAD_EXTENSIONS"]:
+                    return jsonify({"error": "Invalid image type"}), 400
+                filename = f"book_{book.id}_award_{index}.{ext}"
+                filepath = os.path.join(upload_folder, filename)
+                file.save(filepath)
+                pic_url = f"/static/uploads/books/awards/{filename}"
+
+            db.session.add(Awards(title=award_title,  pic_of_award=pic_url, book_id=book.id))
+
+        db.session.commit()
+
+        return jsonify({"message": f'Book "{book.title}" added'}), 200
+    
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": str(e)}), 400
