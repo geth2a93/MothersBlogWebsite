@@ -7,8 +7,10 @@ const normalizeBook = (data) => ({
   synopsis: data.synopsis || "",
 
   date_added: data.date_added
-    ? data.date_added.slice(0, 16)
-    : "",
+  ? new Date(data.date_added)
+      .toISOString()
+      .slice(0, 16)
+  : "",
 
   cover: {
     preview_url: data.book_image_url || "",
@@ -17,10 +19,10 @@ const normalizeBook = (data) => ({
 
   genres: data.genre || [],
 
-  buy_links: (data.buy_links || []).map(link => ({
-    name_of_site: link.name_of_site || "",
+buy_links: (data.buy_links || []).map(link => ({
+    name_of_site: link.name || "",
     links_url: link.url || ""
-  })),
+})),
 
   reviews: (data.reviews || []).map(review => ({
     link_url: review.link_url || "",

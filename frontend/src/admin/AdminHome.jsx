@@ -26,6 +26,13 @@ export default function AdminHome() {
                 Manage Existing Posts
             </button>
             
+            <button onClick={() => navigate("/admin/books")} >
+                Edit Books
+            </button>
+
+            <button onClick={() => navigate("/admin/newbook")} >
+                Current Books
+            </button>
             </div>
         </div>
     );

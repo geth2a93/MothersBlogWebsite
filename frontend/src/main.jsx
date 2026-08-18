@@ -26,6 +26,7 @@ import EditBlog from "./admin/EditBlog.jsx";
 
 import AdminEditBooks from "./admin/AdminEditBooks.jsx";
 import EditBook from "./admin/EditBook.jsx";
+import NewBook from './admin/AddBook.jsx';
 
 createRoot(document.getElementById("root")).render(
   <BrowserRouter>
@@ -43,14 +44,15 @@ createRoot(document.getElementById("root")).render(
 
         <Route path="/teachingresources" element={<ContentListPage type="teaching" />} />
         <Route path="/teachingresources/:title" element={<TeachingResourceFull />} />
-
       </Route>
-        <Route path="/login" element={<Login />} />
-        <Route path="/createuser" element={<CreateUser />} />
+
+      <Route path="/login" element={<Login />} />
+      <Route path="/createuser" element={<CreateUser />} />
 
       <Route path="/admin" element={<AdminHome />} />
       <Route path="/admin/aboutme" element={<AdminAboutMe />} />
       <Route path="/admin/websiteresources" element={<AdminWebResources />} />
+
       <Route path="/admin/add-blog" element={<NewBlog/>} />
       <Route path="/admin/add-blog/:slug" element={<NewBlog />} />
 
@@ -61,7 +63,6 @@ createRoot(document.getElementById("root")).render(
 
       <Route path="/admin/blog-editor" element={<NewBlog />} />
       <Route path="/admin/blog-editor/new" element={<NewBlog />} />
-
       <Route path="/admin/blog-edit/:slug" element={<EditBlog />} />
 
       <Route path="/admin/blogs" element={<AdminEditBlog />} />
@@ -69,9 +70,7 @@ createRoot(document.getElementById("root")).render(
 
       <Route path="/admin/books" element={<AdminEditBooks />} />
       <Route path="/admin/book-edit/:title" element={<EditBook />} />
-
-      
-      
+      <Route path="/admin/newbook" element={<NewBook />} />
     </Routes>
   </BrowserRouter>
 );
