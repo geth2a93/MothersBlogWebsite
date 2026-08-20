@@ -20,12 +20,11 @@ def site_settings():
 @api.route("/", methods=["GET"])
 def home():
     latest = get_home_latest_content()
-
     site_images = Website_Images.query.first()
 
     return jsonify({
         "latest": latest,
-        "banner_image": build_url(site_images.banner_image_url)
+        "banner_image": build_url(site_images.banner_image_url) if site_images else None
     })
 
 
