@@ -30,7 +30,7 @@ def get_home_latest_content():
         }
     if latest_blog and latest_blog.url_content_type == "image":
         title_media=build_url(latest_blog.title_media_content_url)
-    elif(latest_blog.url_content_type) in ["instagram", "facebook", "threads", "youtube"]:
+    elif latest_blog and (latest_blog.url_content_type) in ["instagram", "facebook", "threads", "youtube"]:
         title_media=latest_blog.title_media_content_url
     else:
         title_media = None
@@ -93,7 +93,7 @@ def get_books_by_genre(genre):  # all books in the genre
 def get_books_by_title(title):
     formatted_title = title.replace("-", " ") #url is book-title, db is Book Title
 
-    book = Book.query.filter_by(title=formatted_title).first()
+    book = Book.query.filter_by(title=formatted_title).first_or_404()
     data = {
         "id": book.id,
         "isbn": book.isbn,
