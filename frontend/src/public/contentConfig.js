@@ -1,7 +1,7 @@
 export const contentConfig = {
   blog: {
     title: "Blog Posts",
-    endpoint: "http://localhost:5055/api/blog",
+    endpoint: "/api/blog",
     itemKey: "posts",
     paginate: true,
 
@@ -20,7 +20,7 @@ export const contentConfig = {
 
   book: {
     title: "Books",
-    endpoint: "http://localhost:5055/api/books",
+    endpoint: "/api/books",
     itemKey: "books",
 
     mapItem: (book) => ({
@@ -35,7 +35,7 @@ export const contentConfig = {
 
   allBooks: {
   title: "Books",
-  endpoint: "http://localhost:5055/api/books",
+  endpoint: "/api/books",
   itemKey: "books",
   paginate: false,
 
@@ -52,7 +52,7 @@ export const contentConfig = {
   booksByGenre: {
   title: "Books by Genre",
   endpoint: (genre) =>
-    `http://localhost:5055/api/books/${genre}`,
+    `/api/books/${genre}`,
   itemKey: null,
   paginate: false,
 
@@ -67,7 +67,7 @@ export const contentConfig = {
 
 teaching: {
   title: "Teaching Resources",
-  endpoint: "http://localhost:5055/api/teachingresources",
+  endpoint: "/api/teachingresources",
   itemKey: null,
 
   mapItem: (item) => ({

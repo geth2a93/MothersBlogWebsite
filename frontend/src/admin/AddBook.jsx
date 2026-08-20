@@ -279,7 +279,7 @@ export default function NewBook() {
 
     try {
       const res = await fetch(
-        "http://localhost:5055/admin/newbook",
+        "/admin/newbook",
         {
           method: "PUT",
           credentials: "include",

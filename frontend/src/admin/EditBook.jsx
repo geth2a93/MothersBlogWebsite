@@ -151,7 +151,7 @@ console.log("FORM DATA");
   }
 
   const res = await fetch(
-    `http://localhost:5055/admin/editbook/${title}`,
+    `/admin/editbook/${title}`,
     {
       method: "PUT",
       credentials: "include",
@@ -179,7 +179,7 @@ useEffect(() => {
   const loadBook = async () => {
     try {
       const res = await fetch(
-        `http://localhost:5055/admin/editbook/${title}`,
+        `/admin/editbook/${title}`,
         {
           credentials: "include"
         }

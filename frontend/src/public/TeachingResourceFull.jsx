@@ -9,7 +9,7 @@ export default function TeachingResourceFull() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`http://localhost:5055/api/teachingresources/${title}`)
+    fetch(`/api/teachingresources/${title}`)
       .then(res => {
         if (!res.ok) throw new Error(res.status);
         return res.json();

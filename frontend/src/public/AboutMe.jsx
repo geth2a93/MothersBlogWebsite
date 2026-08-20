@@ -6,7 +6,7 @@ export default function About() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("http://localhost:5055/api/aboutme")
+    fetch("/api/aboutme")
       .then((res) => res.json())
       .then((data) => {
         setAbout(data);

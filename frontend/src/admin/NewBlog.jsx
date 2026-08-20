@@ -197,7 +197,7 @@ const removeTag = (tagToRemove) => {
   const formData = buildFormData();
 
   const res = await fetch(
-    "http://localhost:5055/admin/newblogpost",
+    "/admin/newblogpost",
     {
       method: "PUT",
       credentials: "include",
@@ -320,7 +320,7 @@ const handlePreview = async () => {
 
 
     const res = await fetch(
-      "http://localhost:5055/admin/newblogpost",
+      "/admin/newblogpost",
       {
         method: "PUT",
         credentials: "include",
@@ -354,7 +354,7 @@ const handlePublish = async () => {
     const formData = buildFormData(true);
     
     const res = await fetch(
-      "http://localhost:5055/admin/newblogpost",
+      "/admin/newblogpost",
       {
         method: "PUT",
         credentials: "include",

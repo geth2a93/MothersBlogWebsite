@@ -10,7 +10,7 @@ export default function BookDetail() {
   useEffect(() => {
     setLoading(true);
 
-    fetch(`http://localhost:5055/api/books/title/${title}`)
+    fetch(`/api/books/title/${title}`)
       .then(res => {
         if (!res.ok) {
           throw new Error(`HTTP ${res.status}`);

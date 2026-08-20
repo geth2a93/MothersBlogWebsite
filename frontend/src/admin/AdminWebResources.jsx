@@ -8,7 +8,7 @@ export default function AdminWebResources() {
     const [bannerFile, setBannerFile] = useState(null);
 
     useEffect(() => {
-        fetch("http://localhost:5055/admin/websiteresources", {
+        fetch("/admin/websiteresources", {
             credentials: "include"
         })
         .then(res => res.json())
@@ -25,7 +25,7 @@ export default function AdminWebResources() {
         formData.append("image_type", type);
         formData.append("image", file);
 
-        const res = await fetch("http://localhost:5055/admin/websiteresources", {
+        const res = await fetch("/admin/websiteresources", {
             method: "PUT",
             credentials: "include",
             body: formData

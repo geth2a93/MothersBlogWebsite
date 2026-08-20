@@ -14,7 +14,7 @@ export default function BlogPreview() {
     const load = async () => {
       try {
         const res = await fetch(
-          `http://localhost:5055/api/blog/${slug}`,
+          `/api/blog/${slug}`,
           {
             credentials: "include"
           }
@@ -43,7 +43,7 @@ export default function BlogPreview() {
  
   try {
     const res = await fetch(
-      `http://localhost:5055/admin/newblogpostpreview/${slug}`,
+      `/admin/newblogpostpreview/${slug}`,
       {
         method: "POST",
         credentials: "include"

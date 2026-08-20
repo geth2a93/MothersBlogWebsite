@@ -8,7 +8,7 @@
  
   try {
     const res = await fetch(
-      `http://localhost:5055/admin/newblogpostpreview/${slug}`,
+      `/admin/newblogpostpreview/${slug}`,
       {
         method: "POST",
         credentials: "include"

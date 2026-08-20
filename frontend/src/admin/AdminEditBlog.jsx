@@ -9,7 +9,7 @@ export default function AdminEditBlog() {
 
   const fetchBlogs = async () => {
     try {
-      const response = await fetch("http://localhost:5055/admin/displayallblogs", {
+      const response = await fetch("/admin/displayallblogs", {
         credentials: "include",
       });
 
@@ -35,7 +35,7 @@ export default function AdminEditBlog() {
 
     try {
       const response = await fetch(
-        `http://localhost:5055/admin/deleteblog/${slug}`,
+        `/admin/deleteblog/${slug}`,
         {
           credentials: "include",
         }

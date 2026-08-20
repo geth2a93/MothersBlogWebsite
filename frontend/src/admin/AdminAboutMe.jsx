@@ -9,7 +9,7 @@ export default function AdminAboutMe(){
     const [loading, setLoading] = useState(false);
 
      useEffect(() => {
-        fetch("http://localhost:5055/admin/editaboutme", {
+        fetch("/admin/editaboutme", {
             credentials: "include"
         }) 
         .then(res => res.json())
@@ -41,7 +41,7 @@ export default function AdminAboutMe(){
                 formData.append("image", image);
             }
 
-            const res = await fetch("http://localhost:5055/admin/editaboutme", {
+            const res = await fetch("/admin/editaboutme", {
                 method: "PUT",
                 credentials: "include",
                 body: formData

@@ -161,7 +161,7 @@ export default function EditBlog(){
     const loadBlog=async()=>{
       try{
         const res=await fetch(
-          `http://localhost:5055/admin/editblog/${slug}`,
+          `/admin/editblog/${slug}`,
           {
             credentials:"include"
           }
@@ -474,7 +474,7 @@ const buildFormData=()=>{
   }
 
   const res = await fetch(
-    `http://localhost:5055/admin/editblog/${slug}`,
+    `/admin/editblog/${slug}`,
     {
       method: "PUT",
       credentials: "include",

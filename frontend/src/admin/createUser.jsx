@@ -9,7 +9,7 @@ export default function CreateUser() {
     e.preventDefault();
 
     try {
-      const res = await fetch("http://localhost:5055/auth/createuser", {
+      const res = await fetch("/auth/createuser", {
         method: "POST",
         credentials: "include",
         headers: {

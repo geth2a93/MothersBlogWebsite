@@ -18,7 +18,7 @@ export default function Login() {
         setLoading(true);
 
         try {
-            const response = await fetch("http://localhost:5055/auth/login", {
+            const response = await fetch("/auth/login", {
             credentials: "include",
             method: "POST",
             headers: {

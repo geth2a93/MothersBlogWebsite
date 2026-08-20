@@ -10,7 +10,7 @@ export default function AdminEditBooks() {
   const fetchBooks = async () => {
     try {
       const response = await fetch(
-        "http://localhost:5055/admin/displayallbooks",
+        "/admin/displayallbooks",
         {
           credentials: "include",
         }
@@ -43,7 +43,7 @@ export default function AdminEditBooks() {
       const slug = title.replace(/\s+/g, "-");
 
       const response = await fetch(
-        `http://localhost:5055/admin/deletebook/${slug}`,
+        `/admin/deletebook/${slug}`,
         {
           credentials: "include",
         }
