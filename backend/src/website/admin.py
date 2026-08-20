@@ -19,6 +19,9 @@ admin = Blueprint('admin', __name__,  url_prefix="/admin")
 @login_required
 def edit_about_me():
     about = AboutMe.query.first()
+    if not about:
+        about = AboutMe()
+        db.session.add(about)
 
     if request.method == "GET":
         return jsonify({
@@ -55,7 +58,9 @@ def edit_about_me():
 @login_required
 def edit_site_resources():
     resources = Website_Images.query.first()
-    
+    if not resources:
+        resources = Website_Images()
+        db.session.add(resources)
     if request.method == "GET":
         return jsonify({
             "logo_image": build_url(resources.logo_image_url),
