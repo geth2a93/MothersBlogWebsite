@@ -82,11 +82,44 @@ def teaching_by_title(title):
 @api.route("/aboutme", methods=["GET"])
 def about():
     about = AboutMe.query.first()
-
-    print("DB value:", about.abtme_pic_url)
-
     return jsonify({
         "content": about.content,
         "author_image": build_url(about.abtme_pic_url)
     })
+
+@api.route("/addsub", methods=["POST"])
+def add_subscriber():
+    try:
+        data = request.get_json()
+
+        if not data:
+            return jsonify({"error": "Missing data"}), 400
+
+        email = data.get("email", "").strip()
+        name = data.get("name", "").strip()
+
+        if not email:
+            return jsonify({"error": "Email required"}), 400
+
+        if len(email) > 50:
+            return jsonify({"error": "Email address too long"}), 400
+
+        if name and len(name) > 20:
+            return jsonify({"error": "Name is too long"}), 400
+
+        existing_subscriber = Subscribers.query.filter_by(email=email).first()
+
+        if existing_subscriber:
+            return jsonify({"error": "This email is already subscribed"}), 409
+
+        subscriber = Subscribers(email=email, name=name if name else None)
+
+        db.session.add(subscriber)
+        db.session.commit()
+
+        return jsonify({"message": "Successfully subscribed"}), 201
+
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": str(e)}), 500
 

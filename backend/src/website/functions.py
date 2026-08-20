@@ -101,7 +101,7 @@ def get_books_by_title(title):
         "genre": [g.genre for g in book.genres],
         "synopsis": book.synopsis,
         "book_image_url": build_url(book.book_image_url),
-        "buy_links": [{ "url": l.links_url} for l in book.buy_links],
+        "buy_links": [{ "url": l.links_url, "name": l.name_of_site} for l in book.buy_links],
         "reviews": [{"link_url": r.link_url, "name": r.name, "title": r.title, "content": r.content, "rating": r.rating} for r in book.reviews],
         "date_added": book.date_added,
         "awards": [{"award_url": build_url(a.pic_of_award), "award_title": a.title} for a in book.awards],

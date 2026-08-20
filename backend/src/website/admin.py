@@ -33,14 +33,13 @@ def edit_about_me():
         about.content = content
 
     file = request.files.get("image")
-
     if file and file.filename != "":
-        filename = secure_filename(file.filename)
-        upload_folder = os.path.join(current_app.config["UPLOAD_FOLDER"],"website_resources")
-        os.makedirs(upload_folder, exist_ok=True)
-        filepath = os.path.join(upload_folder, filename)
-        file.save(filepath)
-        about.abtme_pic_url = f"/static/uploads/website_resources/{filename}"
+        url, error = upload_image(file, "website_resources", file.filename)
+
+    if error:
+        return jsonify({"error": error}), 400
+
+    about.abtme_pic_url = url
 
     about.updated_at = datetime.utcnow()
 
@@ -66,31 +65,21 @@ def edit_site_resources():
     image_type = request.form.get("image_type")
     file = request.files.get("image")#check size return too large if too large
 
-    if not file or file.filename == "": #breakable?
-        return jsonify({"error": "No image uploaded"}), 400 
+    if file and file.filename != "":
+        url, error = upload_image(file, "website_resources", file.filename)
+    if error:
+        return jsonify({"error": error}), 400
 
-    #more error checking need
-    filename = secure_filename(file.filename)
-    upload_folder = os.path.join(current_app.config["UPLOAD_FOLDER"],"website_resources")
-    os.makedirs(upload_folder, exist_ok=True)
-    filepath = os.path.join(upload_folder, filename)
-    file.save(filepath)
-    new_url = f"/static/uploads/website_resources/{filename}"
-    #maybe add removal options for it 
-    #check box, remove previous banner or logo?
-
-    #update db
     if image_type == "logo":
-        resources.logo_image_url = new_url
-
+        resources.logo_image_url = url
     elif image_type == "banner":
-        resources.banner_image_url = new_url
+        resources.banner_image_url = url
 
     db.session.commit()
 
     return jsonify({
         "message": "Image updated",
-        "image_url": build_url(new_url)
+        "image_url": build_url(url)
     }), 200
 
 
@@ -147,29 +136,11 @@ def new_blog_post():
 
     elif title_url_content_type == "image":
         file = request.files.get("title_image")
-        if not blog.title_media_content_url and not file:
-            return jsonify({"error": "Missing image file"}), 400
-
-        ownership = data.get("ownership", "true").lower() == "true"
-
-        if ownership:
-            name = None
-        else:
-            name = data.get("name_of_owner")
-            if not name:
-                return jsonify({"error": "Missing owner name"}), 400
-        if file:
-            ext = file.filename.rsplit(".", 1)[-1].lower()
-            if ext not in current_app.config["UPLOAD_EXTENSIONS"]:
-                return jsonify({"error": "Invalid image type"}), 400
-            upload_folder = os.path.join(current_app.config["UPLOAD_FOLDER"], "blog")
-            os.makedirs(upload_folder, exist_ok=True)
-
-            filename = f"blog_{blog.slug}_title.{ext}"
-            filepath = os.path.join(upload_folder, filename)
-
-            file.save(filepath)
-            title_media_content_url = f"/static/uploads/blog/{filename}"
+        parse_ownership(file)
+        if file and file.filename != "":
+            title_media_content_url, error = upload_image(file, "website_resources", file.filename)
+            if error:
+                return jsonify({"error": error}), 400
 
     else:
         return jsonify({"error": "Invalid content type"}), 400
@@ -317,7 +288,7 @@ def edit_blog(slug):
     blog.title = title
     blog.preview = data.get("preview", blog.preview)
 
-    date = datetime.fromisoformat(data.get("date"))
+    date = datetime.fromisoformat(data.get("date")).replace(tzinfo=timezone.utc)
 
     if date > datetime.now(timezone.utc):
         blog.published = False
@@ -576,8 +547,10 @@ def edit_book(title):
 
             award_title = award.get("title")
             pic_url = award.get("pic_of_award")
+            if pic_url:
+                pic_url = "/static/" + pic_url.split("/static/", 1)[1]
             file = request.files.get(f"award_image_{index}")
-
+            #delete
             if file:
                 ext = file.filename.rsplit(".", 1)[-1].lower()
                 if ext not in current_app.config["UPLOAD_EXTENSIONS"]:
@@ -705,7 +678,6 @@ def add_book():
             if not link.get("links_url") or not link.get("name_of_site"):
                 return jsonify({"error":"Invalid buy link"}),400
             db.session.add(BuyLinks(links_url=link["links_url"], name_of_site=link["name_of_site"],book_id=book.id ))
-
     
         try:
             reviews = json.loads(request.form.get("reviews", "[]"))
@@ -720,7 +692,7 @@ def add_book():
         upload_folder = os.path.join(current_app.config["UPLOAD_FOLDER"], "books", "covers")
         os.makedirs(upload_folder, exist_ok=True)
         file = request.files.get("cover_image")
-
+    #delete
         if file:
             ext = file.filename.rsplit(".", 1)[-1].lower()
             if ext not in current_app.config["UPLOAD_EXTENSIONS"]:
@@ -750,7 +722,7 @@ def add_book():
             pic_url = award.get("pic_of_award")
             file = request.files.get(f"award_image_{index}")
 
-            if file:
+            if file: #delete
                 ext = file.filename.rsplit(".", 1)[-1].lower()
                 if ext not in current_app.config["UPLOAD_EXTENSIONS"]:
                     return jsonify({"error": "Invalid image type"}), 400
@@ -768,3 +740,156 @@ def add_book():
     except Exception as e:
         db.session.rollback()
         return jsonify({"error": str(e)}), 400
+
+@admin.route("/displayallemail", methods=["GET"])
+@login_required
+def display_all_emails():
+    try:
+        emails = (SubscriberEmail.query.order_by(SubscriberEmail.created_at.desc()).all()) #if date to send has no date
+        return jsonify([
+            {
+                "id": email.id,
+                "subject": email.subject,
+                "message": email.message,
+                "created_at": email.created_at.isoformat(),
+                "images": [{"id": pic.id, "image_url": pic.image_url} for pic in email.email_pics]
+            }
+            for email in emails
+        ]), 200
+
+    except Exception as e:
+            return jsonify({"error": str(e)}), 400
+
+@admin.route("/newemail", methods=["PUT"])
+@login_required
+def create_email():
+    try:
+        data = request.form
+        if not request.form and not request.files:
+            return jsonify({"error": "Missing data"}), 400
+
+        subject = data.get("subject")
+        if not subject:
+            return jsonify({"error": "Email subject is required"}), 400
+        message = data.get("message")
+        if not message:
+            return jsonify({"error": "Email message is required"}), 400
+
+        email = SubscriberEmail(subject=subject, message=message)
+
+        db.session.add(email)
+        db.session.flush()
+
+        images = request.files.getlist("images")
+
+        for index, image in enumerate(images):
+            if not image or image.filename == "":
+                continue
+
+            ext = image.filename.rsplit(".", 1)[-1].lower()
+            filename = f"email_{email.id}_{index}.{ext}"
+            image_url, error = upload_image(image,"emails" ,filename)
+
+            if error:
+                db.session.rollback()
+                return jsonify({"error": error}), 400
+
+            email_pic = EmailPics(image_url=image_url, email_id=email.id)
+            db.session.add(email_pic)
+
+        db.session.commit()
+        return jsonify({"message": f'Email "{email.subject}" created'}), 201
+
+    except Exception as e:
+            db.session.rollback()
+            return jsonify({"error": str(e)}), 400
+
+@admin.route("/editemail/<int:email_id>", methods=["GET", "PUT"])
+@login_required
+def edit_email(email_id):
+    email = SubscriberEmail.query.get_or_404(email_id)
+
+    if request.method == "GET":
+        return jsonify({
+            "id": email.id,
+            "subject": email.subject,
+            "message": email.message,
+            "created_at": email.created_at.isoformat(),
+            "images": [{"id": pic.id, "image_url": pic.image_url} for pic in email.email_pics]
+        }), 200
+
+    try:
+        data = request.form
+
+        subject = data.get("subject", "").strip()
+        if not subject:
+                    return jsonify({"error": "Email subject is required"}), 400
+        
+        message = data.get("message", "").strip()
+        if not message:
+            return jsonify({"error": "Email message is required"}), 400
+
+        email.subject = subject
+        email.message = message
+
+        EmailPics.query.filter_by(email_id=email.id).delete()
+        upload_folder = os.path.join(current_app.config["UPLOAD_FOLDER"], "emails")
+        os.makedirs(upload_folder, exist_ok=True)
+        images = request.form.get("images", "[]")
+
+        try:
+            images = json.loads(images)
+        except json.JSONDecodeError:
+            return jsonify({"error": "Invalid images data"}), 400
+
+        for index, image in enumerate(images): #look at this
+            image_url = image.get("image_url")
+            file = request.files.get(f"image_{index}")
+            if file:
+                image_url = upload_image(image,"emails", image_url)
+ 
+            elif image_url:
+                if "/static/" in image_url:
+                    image_url = "/static/" + image_url.split("/static/", 1)[1]
+            if image_url:
+                db.session.add(EmailPics(image_url=image_url, email_id=email.id))
+
+        db.session.commit()
+        return jsonify({"message": f'Email "{email.subject}" editted'}), 201
+        
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": str(e)}), 400
+
+@admin.route("/deleteemail/<int:email_id>", methods=["GET", "PUT"])
+@login_required
+def delete_email(email_id):
+    email = SubscriberEmail.query.get_or_404(email_id)
+    try:
+        EmailPics.query.filter_by(email_id=email.id).delete()
+        db.session.delete(email)
+        db.session.commit()
+        return jsonify({"message": f'Email "{email_id}" deleted'}), 201
+                
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": str(e)}), 400
+
+@admin.route("/sendemail/<int:email_id>", methods=["POST"])
+@login_required
+def send_email(email_id):
+    email = SubscriberEmail.query.get_or_404(email_id)
+    try:
+        subscribers = Subscribers.query.all()
+
+        if not subscribers:
+            return jsonify({"error": "Issue with subs"}), 400
+        if email.date_to_send:
+            return jsonify({"error": "Email already sent"}), 400
+
+        #email code wont work without imports and some other changes which im not sending or uploading because they current;y cause python runtime errors so its removed so you can test
+
+        return jsonify({"message": f'Email "{email_id}" sent'}), 201
+
+    except Exception as e:
+            return jsonify({"error": str(e)}), 400
