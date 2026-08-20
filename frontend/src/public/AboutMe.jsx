@@ -6,7 +6,7 @@ export default function About() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("/api/aboutme")
+    fetch("https://mothersblogwebsitebackend.onrender.com/api/aboutme")
       .then((res) => res.json())
       .then((data) => {
         setAbout(data);
