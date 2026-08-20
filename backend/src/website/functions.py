@@ -28,7 +28,7 @@ def get_home_latest_content():
             "image": build_url(latest_book.book_image_url),
             "date": latest_book.date_added.isoformat()
         }
-    if(latest_blog.url_content_type) == "image":
+    if latest_blog and latest_blog.url_content_type == "image":
         title_media=build_url(latest_blog.title_media_content_url)
     elif(latest_blog.url_content_type) in ["instagram", "facebook", "threads", "youtube"]:
         title_media=latest_blog.title_media_content_url
