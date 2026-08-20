@@ -41,7 +41,7 @@ export default function AdminAboutMe(){
                 formData.append("image", image);
             }
 
-            const res = await fetch("/admin/editaboutme", {
+            fetch("mothersblogwebsitebackend.onrender.com/admin/editaboutme", {
                 method: "PUT",
                 credentials: "include",
                 body: formData
