@@ -22,7 +22,7 @@ export default function CreateUser() {
         }),
       });
 
-      const data = await res.json();
+      const data = await response.json();
     } catch (err) {
       console.error(err);
     }
