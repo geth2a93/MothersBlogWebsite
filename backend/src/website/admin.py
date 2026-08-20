@@ -41,7 +41,7 @@ def edit_about_me():
         if error:
             return jsonify({"error": error}), 400
 
-    about.abtme_pic_url = url
+        about.abtme_pic_url = url
 
     about.updated_at = datetime.utcnow()
 
