@@ -9,7 +9,7 @@ export default function AdminAboutMe(){
     const [loading, setLoading] = useState(false);
 
      useEffect(() => {
-        fetch("mothersblogwebsitebackend.onrender.com/admin/editaboutme", {
+        fetch("https://mothersblogwebsitebackend.onrender.com/admin/editaboutme", {
             credentials: "include"
         }) 
         .then(res => res.json())
@@ -41,7 +41,7 @@ export default function AdminAboutMe(){
                 formData.append("image", image);
             }
 
-            fetch("mothersblogwebsitebackend.onrender.com/admin/editaboutme", {
+            fetch("https://mothersblogwebsitebackend.onrender.com/admin/editaboutme", {
                 method: "PUT",
                 credentials: "include",
                 body: formData
