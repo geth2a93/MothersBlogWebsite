@@ -38,9 +38,8 @@ def edit_about_me():
     file = request.files.get("image")
     if file and file.filename != "":
         url, error = upload_image(file, "website_resources", file.filename)
-
-    if error:
-        return jsonify({"error": error}), 400
+        if error:
+            return jsonify({"error": error}), 400
 
     about.abtme_pic_url = url
 
