@@ -9,7 +9,7 @@ export default function CreateUser() {
     e.preventDefault();
 
     try {
-      const res = await fetch("/auth/createuser", {
+      const response = await fetch("https://mothersblogwebsitebackend.onrender.com/auth/login", {
         method: "POST",
         credentials: "include",
         headers: {
