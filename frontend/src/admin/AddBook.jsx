@@ -279,7 +279,7 @@ export default function NewBook() {
 
     try {
       const res = await fetch(
-        "/admin/newbook",
+        "/admin/createnewbook",
         {
           method: "PUT",
           credentials: "include",
@@ -296,7 +296,7 @@ export default function NewBook() {
 
       alert(data.message || "Book added!");
 
-      //navigate("/admin/books");
+      navigate("/admin/books");
 
     } catch (err) {
       console.error(err);

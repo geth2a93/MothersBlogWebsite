@@ -453,7 +453,7 @@ def delete_book(title):
     return jsonify({"message": "Book deleted"}), 200
 
 
-@admin.route("/newbook", methods=["PUT"])
+@admin.route("/createnewbook", methods=["PUT"])
 @login_required
 def add_book():
     try:
