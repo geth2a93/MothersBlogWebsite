@@ -11,7 +11,7 @@ api = Blueprint('api', __name__, url_prefix="/api")
 def site_settings():
     s = Website_Images.query.first()
     return jsonify({
-        "logo": build_url(s.logo_image_url)
+        "logo": build_url(s.logo_image_url) if s else None
     })
 
 
@@ -23,7 +23,7 @@ def home():
     site_images = Website_Images.query.first()
 
     return jsonify({
-        "latest": latest,
+        "latest": latest if latest else None,
         "banner_image": build_url(site_images.banner_image_url) if site_images else None
     })
 

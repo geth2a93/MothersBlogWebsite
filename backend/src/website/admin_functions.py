@@ -35,23 +35,21 @@ def upload_image(file, folder, filename):
 
     if ext not in current_app.config["UPLOAD_EXTENSIONS"]:
         return None, "Invalid image type"
-    secfilename = secure_filename(filename)
+    secfilename = secure_filename(f"{filename}.{ext}")
     upload_folder = os.path.join(current_app.config["UPLOAD_FOLDER"], folder)
     os.makedirs(upload_folder, exist_ok=True)
 
     filepath = os.path.join(upload_folder, secfilename)
     file.save(filepath)
 
-    return f"/static/uploads/{folder}/{filename}", None
+    return f"/static/uploads/{folder}/{secfilename}", None
 
 def parse_ownership(data):
     ownership = data.get("ownership", "true").lower() == "true"
 
     if ownership:
         return True, None, None
-
     name = data.get("name_of_owner")
-
     if not name:
         return None, None, "Missing owner name"
 
