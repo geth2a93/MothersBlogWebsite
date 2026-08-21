@@ -296,7 +296,7 @@ export default function NewBook() {
 
       alert(data.message || "Book added!");
 
-      navigate("/admin/books");
+      navigate("https://mothersblogwebsite.onrender.com/admin/books");
 
     } catch (err) {
       console.error(err);
