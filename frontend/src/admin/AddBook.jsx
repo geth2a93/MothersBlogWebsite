@@ -279,7 +279,7 @@ export default function NewBook() {
 
     try {
       const res = await fetch(
-        "/admin/createnewbook",
+        "https://mothersblogwebsitebackend.onrender.com/admin/createnewbook",
         {
           method: "PUT",
           credentials: "include",
