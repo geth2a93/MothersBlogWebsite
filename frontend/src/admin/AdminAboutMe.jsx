@@ -9,7 +9,7 @@ export default function AdminAboutMe(){
     const [loading, setLoading] = useState(false);
 
      useEffect(() => {
-        fetch("/editaboutme", {
+        fetch("/admin/editaboutme", {
             credentials: "include"
         }) 
         .then(res => res.json())
