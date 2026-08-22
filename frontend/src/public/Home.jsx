@@ -4,6 +4,7 @@ import { useNavigate, useParams  } from "react-router-dom";
 import "./Home.css";
 import "./Components.css";
 import "./Styles.css"
+import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faFacebook,
@@ -59,7 +60,7 @@ function Home() {
 
   return (
     <div className="app">
-
+    <Link to="/login">Login</Link>
 
       {/* Hero Banner */}
       <section className="hero">
