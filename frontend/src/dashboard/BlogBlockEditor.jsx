@@ -143,7 +143,7 @@ export default function BlogBlockEditor({
 
     <div>
       <button onClick={handlePreview}> Preview </button>
-      <button onClick={() => { localStorage.clear(); window.location.href = "/admin/add-blog"; alert("Local storage cleared"); }}>
+      <button onClick={() => { localStorage.clear(); window.location.href = "/dashboard/add-blog"; alert("Local storage cleared"); }}>
         Clear Form
       </button>
     </div>
