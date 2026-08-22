@@ -20,13 +20,16 @@ def check():
         "session": dict(session)
     })
 
+from flask import request, jsonify, session
+from flask_login import login_user, current_user
+
 @auth.route("/login", methods=["POST"])
 def login():
     data = request.get_json()
 
     if not data:
         return jsonify({"error": "Missing JSON"}), 400
-    
+
     username = data.get("username")
     password = data.get("password")
 
@@ -36,8 +39,21 @@ def login():
     user = User.query.filter_by(username=username).first()
 
     if user and check_password_hash(user.password, password):
+
+        print("BEFORE LOGIN:", dict(session))
+        print("USER ID:", user.get_id())
+
         login_user(user)
-        return jsonify({"message": "Logged in"}), 200
+
+        print("AFTER LOGIN:", dict(session))
+        print("AUTHENTICATED:", current_user.is_authenticated)
+
+        return jsonify({
+            "message": "Logged in",
+            "user_id": user.get_id(),
+            "authenticated": current_user.is_authenticated,
+            "session": dict(session)
+        }), 200
 
     return jsonify({"error": "Invalid credentials"}), 401
 
