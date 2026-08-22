@@ -2,8 +2,8 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-import Login from './admin/Login.jsx';
-import CreateUser from "./admin/createUser.jsx";
+import Login from './dashboard/Login.jsx';
+import CreateUser from "./dashboard/createUser.jsx";
 
 import Home from './public/Home.jsx';
 import Layout from "./public/Components.jsx";
@@ -15,18 +15,18 @@ import BooksGenreWrapper from './public/BooksGenre.jsx'
 import BookDetail from './public/BookFull.jsx'
 import TeachingResourceFull from './public/TeachingResourceFull.jsx'
 import ContentListPage from "./public/ContentListPage.jsx";
-import AdminHome from "./admin/AdminHome.jsx";
-import AdminAboutMe from "./admin/AdminAboutMe.jsx";
-import AdminWebResources from "./admin/AdminWebResources.jsx"
+import AdminHome from "./dashboard/AdminHome.jsx";
+import AdminAboutMe from "./dashboard/AdminAboutMe.jsx";
+import AdminWebResources from "./dashboard/AdminWebResources.jsx"
 
-import NewBlog from "./admin/NewBlog.jsx";
-import BlogPreview from "./admin/BlogPreview.jsx";
-import AdminEditBlog from './admin/AdminEditBlog.jsx';
-import EditBlog from "./admin/EditBlog.jsx";
+import NewBlog from "./dashboard/NewBlog.jsx";
+import BlogPreview from "./dashboard/BlogPreview.jsx";
+import AdminEditBlog from './dashboard/AdminEditBlog.jsx';
+import EditBlog from "./dashboard/EditBlog.jsx";
 
-import AdminEditBooks from "./admin/AdminEditBooks.jsx";
-import EditBook from "./admin/EditBook.jsx";
-import NewBook from './admin/AddBook.jsx';
+import AdminEditBooks from "./dashboard/AdminEditBooks.jsx";
+import EditBook from "./dashboard/EditBook.jsx";
+import NewBook from './dashboard/AddBook.jsx';
 
 createRoot(document.getElementById("root")).render(
   <BrowserRouter>
