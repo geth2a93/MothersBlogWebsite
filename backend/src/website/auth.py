@@ -9,13 +9,15 @@ from .models import *
 
 auth = Blueprint('auth', __name__,  url_prefix="/auth")
 
+from flask import session
 from flask_login import current_user
 
 @auth.route("/check", methods=["GET"])
 def check():
     return jsonify({
         "authenticated": current_user.is_authenticated,
-        "user": current_user.username if current_user.is_authenticated else None
+        "user": current_user.username if current_user.is_authenticated else None,
+        "session": dict(session)
     })
 
 @auth.route("/login", methods=["POST"])
