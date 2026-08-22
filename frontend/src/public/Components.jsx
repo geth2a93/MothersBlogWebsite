@@ -19,7 +19,7 @@ export function Navbar() {
   const [genreOpen, setGenreOpen] = useState(false);
 
   useEffect(() => {
-    fetch("http://localhost:5055/api/website-settings")
+    fetch("/api/website-settings")
       .then(res => res.json())
       .then(data => setLogo(data.logo))
       .catch(console.error);
@@ -28,7 +28,7 @@ export function Navbar() {
   const [genres, setGenres] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:5055/api/genres")
+    fetch("/api/genres")
       .then((res) => res.json())
       .then((data) => setGenres(data))
       .catch((err) => console.error("Failed to load genres:", err));
