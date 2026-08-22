@@ -15,12 +15,12 @@ export default defineConfig(({ mode }) => {
                 },
 
                 '/admin': {
-                    target: env.VITE_API_URL,
+                    target: env.VITE_ADMIN_URL,
                     changeOrigin: true,
                 },
 
                 '/auth': {
-                    target: env.VITE_API_URL,
+                    target: env.VITE_AUTH_URL,
                     changeOrigin: true,
             },
             },
