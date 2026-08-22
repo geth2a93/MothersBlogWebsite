@@ -60,7 +60,7 @@ export default function BlogPreview() {
     localStorage.removeItem("blogDraft");
 
     alert("Published!");
-    navigate("/admin");
+    navigate("/dashboard");
   } catch (err) {
     console.error(err);
     alert("Publish failed");
