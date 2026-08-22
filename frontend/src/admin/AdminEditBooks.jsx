@@ -10,7 +10,7 @@ export default function AdminEditBooks() {
   const fetchBooks = async () => {
     try {
       const response = await fetch(
-        "/admin/displayallbooks",
+        "https://mothersblogwebsitebackend.onrender.com/admin/displayallbooks",
         {
           credentials: "include",
         }
