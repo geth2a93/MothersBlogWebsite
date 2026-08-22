@@ -10,17 +10,17 @@ export default defineConfig(({ mode }) => {
         server: {
             proxy: {
                 '/api': {
-                    target: env.VITE_BACKEND_URL,
+                    target: "https://mothersblogwebsitebackend.onrender.com/api",
                     changeOrigin: true,
                 },
 
                 '/admin': {
-                    target: env.VITE_BACKEND_URL,
+                    target:"https://mothersblogwebsitebackend.onrender.com/admin",
                     changeOrigin: true,
                 },
 
                 '/auth': {
-                    target: env.VITE_BACKEND_URL,
+                    target: "https://mothersblogwebsitebackend.onrender.com/auth",
                     changeOrigin: true,
             },
             },
