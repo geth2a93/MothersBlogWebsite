@@ -31,7 +31,7 @@ export default function AdminHome() {
             </button>
 
             <button onClick={() => navigate("/admin/newbook")} >
-                Current Books
+                Add A Book
             </button>
             </div>
         </div>

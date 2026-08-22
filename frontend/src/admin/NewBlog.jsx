@@ -320,7 +320,7 @@ const handlePreview = async () => {
 
 
     const res = await fetch(
-      "/admin/newblogpost",
+      "https://mothersblogwebsitebackend.onrender.com/admin/newblogpost",
       {
         method: "PUT",
         credentials: "include",
@@ -650,6 +650,7 @@ return (
 
     <div>
       <button onClick={handlePreview}> Preview </button>
+
       <button onClick={() => { localStorage.clear(); window.location.href = "/admin/add-blog"; alert("Local storage cleared"); }}>
         Clear Form
       </button>
