@@ -10,7 +10,8 @@ export default function AdminEditBooks() {
   const fetchBooks = async () => {
     try {
       const response = await fetch(
-        "https://mothersblogwebsitebackend.onrender.com/admin/displayallbooks",
+        `${import.meta.env.VITE_API_URL}admin/displayallbooks`,
+        
         {
           credentials: "include",
         }

@@ -279,7 +279,7 @@ export default function NewBook() {
 
     try {
       const res = await fetch(
-        "https://mothersblogwebsitebackend.onrender.com/admin/createnewbook",
+        `${import.meta.env.VITE_API_URL}admin/createnewbook`,
         {
           method: "PUT",
           credentials: "include",
