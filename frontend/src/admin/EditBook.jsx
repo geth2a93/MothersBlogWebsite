@@ -167,7 +167,7 @@ console.log("FORM DATA");
   }
 
   alert("Saved!");
-  navigate("/admin/books");
+  navigate("/dashboard/books");
 }
 
 const { title } = useParams();

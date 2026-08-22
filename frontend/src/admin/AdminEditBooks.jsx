@@ -110,7 +110,7 @@ export default function AdminEditBooks() {
                   <button
                     onClick={() =>
                       navigate(
-                        `/admin/book-edit/${book.title.replace(/\s+/g, "-")}`
+                        `/dashboard/book-edit/${book.title.replace(/\s+/g, "-")}`
                       )
                     }
                   >

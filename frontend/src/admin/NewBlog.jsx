@@ -339,7 +339,7 @@ const handlePreview = async () => {
   id: data.blog_id,
   slug: data.slug
 }));
-    navigate(`/admin/blog-preview/${data.slug}`);
+    navigate(`/dashboard/blog-preview/${data.slug}`);
   } catch (err) {
     console.error(err);
   }

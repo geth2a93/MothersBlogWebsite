@@ -10,27 +10,27 @@ export default function AdminHome() {
             <p>Website administration tools.</p>
 
             <div className="admin-card">
-            <button onClick={() => navigate("/admin/aboutme")} >
+            <button onClick={() => navigate("/dashboard/aboutme")} >
                 Edit About Me
             </button>
 
-            <button onClick={() => navigate("/admin/websiteresources")} >
+            <button onClick={() => navigate("/dashboard/websiteresources")} >
                 Edit Web Resources
             </button>
 
-            <button onClick={() => navigate("/admin/add-blog")} >
+            <button onClick={() => navigate("/dashboard/add-blog")} >
                 Add Blog
             </button>
 
-            <button onClick={() => navigate("/admin/blogs")} >
+            <button onClick={() => navigate("/dashboard/blogs")} >
                 Manage Existing Posts
             </button>
             
-            <button onClick={() => navigate("/admin/books")} >
+            <button onClick={() => navigate("/dashboard/books")} >
                 Edit Books
             </button>
 
-            <button onClick={() => navigate("/admin/newbook")} >
+            <button onClick={() => navigate("/dashboard/newbook")} >
                 Add A Book
             </button>
             </div>

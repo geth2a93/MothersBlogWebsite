@@ -99,7 +99,7 @@ export default function AdminEditBlog() {
                   <button
                     onClick={() =>
                       navigate(
-                        `/admin/blog-edit/${blog.slug}`
+                        `/dashboard/blog-edit/${blog.slug}`
                       )
                     }
                   >

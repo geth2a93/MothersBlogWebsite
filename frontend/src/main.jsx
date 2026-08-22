@@ -49,28 +49,28 @@ createRoot(document.getElementById("root")).render(
       <Route path="/login" element={<Login />} />
       <Route path="/createuser" element={<CreateUser />} />
 
-      <Route path="/admin" element={<AdminHome />} />
-      <Route path="/admin/aboutme" element={<AdminAboutMe />} />
-      <Route path="/admin/websiteresources" element={<AdminWebResources />} />
+      <Route path="/dashboard" element={<AdminHome />} />
+      <Route path="/dashboard/aboutme" element={<AdminAboutMe />} />
+      <Route path="/dashboard/websiteresources" element={<AdminWebResources />} />
 
-      <Route path="/admin/add-blog" element={<NewBlog/>} />
-      <Route path="/admin/add-blog/:slug" element={<NewBlog />} />
+      <Route path="/dashboard/add-blog" element={<NewBlog/>} />
+      <Route path="/dashboard/add-blog/:slug" element={<NewBlog />} />
 
-      <Route path="/admin/blog-preview" element={<BlogPreview />} />
-      <Route path="/admin/blog-preview/:slug" element={<BlogPreview />} />
+      <Route path="/dashboard/blog-preview" element={<BlogPreview />} />
+      <Route path="/dashboard/blog-preview/:slug" element={<BlogPreview />} />
 
-      <Route path="/admin/blogs" element={<AdminEditBlog />} />
+      <Route path="/dashboard/blogs" element={<AdminEditBlog />} />
 
-      <Route path="/admin/blog-editor" element={<NewBlog />} />
-      <Route path="/admin/blog-editor/new" element={<NewBlog />} />
-      <Route path="/admin/blog-edit/:slug" element={<EditBlog />} />
+      <Route path="/dashboard/blog-editor" element={<NewBlog />} />
+      <Route path="/dashboard/blog-editor/new" element={<NewBlog />} />
+      <Route path="/dashboard/blog-edit/:slug" element={<EditBlog />} />
 
-      <Route path="/admin/blogs" element={<AdminEditBlog />} />
-      <Route path="/admin/blog-edit/:slug" element={<EditBlog />} />
+      <Route path="/dashboard/blogs" element={<AdminEditBlog />} />
+      <Route path="/dashboard/blog-edit/:slug" element={<EditBlog />} />
 
-      <Route path="/admin/books" element={<AdminEditBooks />} />
-      <Route path="/admin/book-edit/:title" element={<EditBook />} />
-      <Route path="/admin/newbook" element={<NewBook />} />
+      <Route path="/dashboard/books" element={<AdminEditBooks />} />
+      <Route path="/dashboard/book-edit/:title" element={<EditBook />} />
+      <Route path="/dashboard/newbook" element={<NewBook />} />
     </Routes>
   </BrowserRouter>
 );

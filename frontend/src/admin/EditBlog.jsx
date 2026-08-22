@@ -490,7 +490,7 @@ const buildFormData=()=>{
   }
 
   alert("Saved!");
-  navigate("/admin/blogs");
+  navigate("/dashboard/blogs");
 };  
 
 
