@@ -14,7 +14,7 @@ export default function BlogPreview() {
     const load = async () => {
       try {
         const res = await fetch(
-          `/api/blog/${slug}`,
+          `https://mothersblogwebsitebackend.onrender.com/api/blog/${slug}`,
           {
             credentials: "include"
           }
