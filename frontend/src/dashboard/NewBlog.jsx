@@ -320,7 +320,7 @@ const handlePreview = async () => {
 
 
     const res = await fetch(
-      "https://mothersblogwebsitebackend.onrender.com/admin/newblogpost",
+      "/admin/newblogpost",
       {
         method: "PUT",
         credentials: "include",
