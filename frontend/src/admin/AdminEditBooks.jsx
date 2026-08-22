@@ -10,7 +10,7 @@ export default function AdminEditBooks() {
   const fetchBooks = async () => {
     try {
       const response = await fetch(
-        "${import.meta.env.VITE_API_URL}/admin/displayallbooks",
+        "/admin/displayallbooks",
         {
           credentials: "include",
         }
