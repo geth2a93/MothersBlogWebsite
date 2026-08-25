@@ -27,6 +27,46 @@ export default function AdminEditBlog() {
     fetchBlogs();
   }, []);
 
+  const handlePublish = async (slug) => {
+  const confirmed = window.confirm(
+    "Publish this blog post now?"
+  );
+
+  if (!confirmed) return;
+
+  try {
+    const response = await fetch(
+      `/admin/publishblog/${slug}`,
+      {
+        method: "POST",
+        credentials: "include",
+      }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || "Publish failed");
+    }
+
+    // Update the row immediately without refetching
+    setBlogs((prev) =>
+      prev.map((blog) =>
+        blog.slug === slug
+          ? {
+              ...blog,
+              published: true,
+              date_created: new Date().toISOString(),
+            }
+          : blog
+      )
+    );
+  } catch (err) {
+    console.error(err);
+    alert("Failed to publish blog");
+  }
+};
+
   const handleDelete = async (slug) => {
     const confirmed = window.confirm(
       `Delete "${slug}"? This cannot be undone.`
@@ -72,7 +112,7 @@ export default function AdminEditBlog() {
               <thead>
                 <tr>
                   <th>Title</th>
-                  <th>Created</th>
+                  <th>Publish Date</th>
                   <th>Status</th>
                   <th>Actions</th>
                 </tr>
@@ -95,8 +135,8 @@ export default function AdminEditBlog() {
                       <span
                         className={
                           blog.published
-                            ? "blog-status published"
-                            : "blog-status draft"
+                            ? "display-status published"
+                            : "display-status draft"
                         }
                       >
                         {blog.published
@@ -116,6 +156,7 @@ export default function AdminEditBlog() {
                       >
                         Edit
                       </button>
+                      
 
                       <button
                         className="delete-button"
@@ -125,6 +166,12 @@ export default function AdminEditBlog() {
                       >
                         Delete
                       </button>
+
+                        {!blog.published && (
+                          <button className="publish-button" onClick={() => handlePublish(blog.slug)}>
+                            Publish
+                          </button>
+                        )}
                     </td>
                   </tr>
                 ))}

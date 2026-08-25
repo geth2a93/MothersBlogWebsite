@@ -60,7 +60,6 @@ function Home() {
 
   return (
     <div className="app">
-    <Link to="/login">Login</Link>
 
       {/* Hero Banner */}
       <section className="hero">
@@ -79,17 +78,9 @@ function Home() {
           <div className="coming-soon-text">
 
             <h1>COMING SOON</h1>
-            <h2> {book?.title}
-            {!book && (
-              <p>No Title available.</p> 
-              )} 
-            </h2>
-
-            <p>{truncateText(book?.synopsis, 500)}
-             {!book && (
-              <p >No book data available.</p> 
-              )}
-            </p>
+            
+            {book ? ( <h2>{book.title}</h2> ) : ( <h2>No Title available.</h2> )}
+            {book ? ( <p> {truncateText(book.synopsis, 500)} </p> ) : ( <p>No book data available.</p> )}
 
           <button className="read-more-btn"  onClick={() => navigate(`/books/title/${book.title.replaceAll(" ", "-")}`)} > 
             Read More </button>
@@ -116,6 +107,22 @@ function Home() {
       <section className="home-newest">
         <div className="home-newest-content">
         
+          
+           <div className="home-newest-text">
+             {blog ? (
+              <>
+                <h1>What's New</h1>
+                <h2>{blog?.title}</h2>
+                <p className="content-date"> {new Date(latest.blog.date).toLocaleDateString()}</p>
+                <p>{truncateText(blog?.preview, 500)}</p>
+                <button className="read-more-btn"  onClick={() => navigate(`/blog/${blog.slug}`)}> Read More </button>
+              </>
+            ) : (
+              <p>No recent blog posts.</p>
+            )}
+
+          </div>
+
            {blog?.title_media ? (
             <img
               src={blog.title_media}
@@ -128,21 +135,6 @@ function Home() {
             </div>
           )}
 
-           <div className="home-newest-text">
-             {blog ? (
-              <>
-                <h2>{blog?.title}</h2>
-                <p className="content-date"> {new Date(latest.blog.date).toLocaleDateString()}</p>
-                <p>{truncateText(blog?.preview, 500)}</p>
-                
-                <button className="read-more-btn"  onClick={() => navigate(`/blog/${blog.slug}`)}
-                  > Read More </button>
-              </>
-            ) : (
-              <p>No recent blog posts.</p>
-            )}
-
-          </div>
         </div>
       </section>
       

@@ -30,6 +30,7 @@ import EditBook from "./dashboard/EditBook.jsx";
 import NewBook from './dashboard/AddBook.jsx';
 
 import DashboardLayout from './dashboard/DashWrapper.jsx';
+import DashNotFound from './dashboard/DashNotFound.jsx';
 
 createRoot(document.getElementById("root")).render(
   <BrowserRouter>
@@ -52,9 +53,9 @@ createRoot(document.getElementById("root")).render(
       <Route path="/login" element={<Login />} />
       <Route path="/createuser" element={<CreateUser />} />
 
-  <Route path="/dashboard" element={<DashboardLayout />}>
+  <Route path="/dashboard" element={<DashboardLayout />}> 
+      <Route path="*" element={<DashNotFound />} />
       
-
       <Route index element={<AdminHome />} />
       <Route path="/dashboard/aboutme" element={<AdminAboutMe />} />
       <Route path="/dashboard/websiteresources" element={<AdminWebResources />} />
@@ -69,7 +70,7 @@ createRoot(document.getElementById("root")).render(
       <Route path="/dashboard/blog-editor" element={<NewBlog />} />
       <Route path="/dashboard/blog-editor/new" element={<NewBlog />} />
       <Route path="/dashboard/blog-edit/:slug" element={<EditBlog />} />
-      
+
       <Route path="/dashboard/books" element={<AdminEditBooks />} />
       <Route path="/dashboard/book-edit/:title" element={<EditBook />} />
       <Route path="/dashboard/newbook" element={<NewBook />} />

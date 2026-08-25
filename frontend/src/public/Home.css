@@ -9,9 +9,19 @@ body {
 }
 
 
-/* {
+* {
   outline: 1px solid red;
-} */
+} 
+
+
+html,
+body,
+#root,
+.app {
+  margin: 0;
+  padding: 0;
+}
+
 
 /* HERO */
 .hero {
@@ -34,7 +44,7 @@ body {
 .coming-soon {
   
   width: 100%;
-  height: 620px;
+  height: 600px;
   margin: 0 auto;
   
   padding-top: 80px;
@@ -42,11 +52,12 @@ body {
   justify-content: center;
   align-items: flex-start;
   background-color: var(--color-accent);
+  
 }
 
 .coming-soon-content {
   width: min(1400px, 70%);
-  height: 100%;
+  height: 90%;
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
@@ -96,89 +107,88 @@ body {
 }
 
 .coming-soon-image {
-  width: 65%;
+  max-width: 350px;
+  max-height: 450px;
+  width: 100%;
   height: auto;
   display: block;
-  outline: 2px solid rgb(80, 80, 80);
   object-fit: contain;
   
   
 }
-
-
 
 /* HOME NEWEST SECTION */
 
 .home-newest {
-  width: 90%;
+  width: 100%;
   height: 600px;
-  margin: 0 auto; 
+  margin: 0 auto;
 
   background-color: var(--color-background);
 
+  padding-top: 80px;
+
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
 }
 
 .home-newest-content {
-  width: 1400px;
-  width: 90%;
+  width: min(1400px, 70%);
+  height: 90%;
+
   display: flex;
   flex-direction: row;
 
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
 }
 
 .home-newest-image {
   width: 500px;
-  aspect-ratio: 1 / 1;
-  object-fit: contain;
-
+  height: auto;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
+}
 
-  font-size: 1.5rem;
+.home-newest-image img {
+  max-width: 500px;
+  max-height: 500px;
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
 }
 
 .home-newest-text {
-  width: 50%;
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .home-newest-text h1 {
   color: var(--color-blue);
-
-  font-size: 4rem;
-
+  font-size: 4.4rem;
   margin-bottom: 30px;
-
   text-align: left;
+  line-height: 1.2;
 }
 
 .home-newest-text h2 {
   color: black;
-
-  font-size: 2rem;
-
+  font-size: 2.5rem;
   margin-bottom: 30px;
-
   text-align: left;
+  line-height: 1.3;
 }
 
 .home-newest-text p {
-  font-size: 1.1rem;
-
-  line-height: 1.8;
-
+  width: 85%;
+  font-size: 1.3rem;
+  line-height: 1.6;
   text-align: left;
-}
-
-.coming-soon-content,
-.home-newest-content {
-  display: flex;
-  flex-wrap: wrap;
 }
 
 @media (max-width: 768px) {

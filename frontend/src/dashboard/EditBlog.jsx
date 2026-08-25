@@ -490,7 +490,7 @@ const buildFormData=()=>{
   }
 
   alert("Saved!");
-  navigate("/dashboard/blogs");
+  navigate("/dashboard/blogs", { replace: true });
 };  
 
 
@@ -675,7 +675,7 @@ const buildFormData=()=>{
 
   <h2> Content Blocks</h2>
   {blog.content_blocks.map((block, index) => (
-  <div key={index} className="editor-container">
+  <div key={index} className="editor-container-alt">
     <input
       placeholder="Block title"
       value={block.title_of_block}

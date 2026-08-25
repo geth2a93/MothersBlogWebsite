@@ -23,9 +23,16 @@ export default function AdminHome() {
                         <button onClick={() => navigate("/dashboard/websiteresources")}>
                             Edit Web Resources
                         </button>
+
+                        <button onClick={() => navigate("/dashboard/displayteaching")}>
+                            Edit Teaching Resources
+                        </button>
+
+                         <button onClick={() => navigate("/dashboard/displayemail")}>
+                            Emails
+                        </button>
                     </div>
                 </details>
-
 
                 <details>
                     <summary>Blogs</summary>

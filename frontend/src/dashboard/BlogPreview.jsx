@@ -78,7 +78,7 @@ export default function BlogPreview() {
       <BlogRender post={post} />
 
       <div style={{ marginTop: 20 }}>
-        <button onClick={() => navigate("/dashboard/add-blog")}>
+        <button onClick={() => navigate(`/dashboard/blog-edit/${slug}`)}>
           Back To Editor
         </button>
 
