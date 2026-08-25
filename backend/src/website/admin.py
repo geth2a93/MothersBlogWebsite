@@ -175,7 +175,7 @@ def new_blog_post():
 
     elif title_url_content_type == "image":
         file = request.files.get("title_image")
-        ownership, name, ownership_error = parse_ownership(file)
+        ownership, name, ownership_error = parse_ownership(data)
         if ownership_error:
             return jsonify({"error": ownership_error}), 400
         if file and file.filename != "":
@@ -210,6 +210,11 @@ def new_blog_post():
 
     for index, block in enumerate(content_blocks):
         block_url_content_type = block.get("url_content_type")
+        new_block = BlogContentBlock()
+        new_block.blog_id = blog.id
+        new_block.order = block.get("order", index)
+        db.session.add(new_block)
+        db.session.flush()
 
         if block_url_content_type == "none":
             ownership_block = True
@@ -225,7 +230,7 @@ def new_blog_post():
                 return jsonify({"error": ownership_error}), 400
 
             if file and file.filename != "":
-                filename = f"blog_{blog.slug}_{block.id}"
+                filename = f"blog_{blog.slug}_{new_block.id}"
                 media_content_url, error = upload_image(file, "blog", filename)
                 if error:
                     return jsonify({"error": error}), 400
@@ -249,10 +254,13 @@ def new_blog_post():
         if not any([title_of_block, content, media_content_url]):
             return jsonify({"error": "Block cannot be empty"}), 400
 
-        new_block = BlogContentBlock(blog_id=blog.id, order=block.get("order", index), title_of_block=title_of_block, content=content, media_content_url=media_content_url,
-            url_content_type=block_url_content_type, ownership=ownership_block, name_of_owner=name_block, alignment=block.get("alignment"))
-
-        db.session.add(new_block)
+        new_block.title_of_block=title_of_block
+        new_block.content=content
+        new_block.media_content_url=media_content_url
+        new_block.url_content_type=block_url_content_type
+        new_block.ownership=ownership_block
+        new_block.name_of_owner=name_block
+        new_block.alignment=block.get("alignment")
 
     db.session.commit()
 
@@ -316,7 +324,7 @@ def edit_blog(slug):
 
     elif title_url_content_type == "image":
         file = request.files.get("title_image")
-        ownership, name, ownership_error = parse_ownership(file)
+        ownership, name, ownership_error = parse_ownership(data)
         if ownership_error:
             return jsonify({"error": ownership_error}), 400
         if file and file.filename != "":
@@ -347,6 +355,12 @@ def edit_blog(slug):
         return jsonify({"error": "Invalid content_blocks JSON"}), 400
     
     for index, block in enumerate(content_blocks):
+        new_block = BlogContentBlock()
+        new_block.blog_id = blog.id
+        new_block.order = block.get("order", index)
+        db.session.add(new_block)
+        db.session.flush()
+
         if index < len(blocks):
             if blocks[index]:
                 url = blocks[index].media_content_url
@@ -368,7 +382,7 @@ def edit_blog(slug):
             if ownership_error: 
                 return jsonify({ "error": f"{ownership_error} for block {index + 1}" }), 400
             if file and file.filename != "":
-                filename = f"blog_{blog.slug}_{block.id}"
+                filename = f"blog_{blog.slug}_{new_block.id}"#error block,id doesnt have value (db.flush)
                 url, error = upload_image(file, "blog", filename)
                 if error: 
                     return jsonify({"error": error}), 400
@@ -391,19 +405,14 @@ def edit_blog(slug):
 
         if not any([title_of_block, content, url]):
             return jsonify({"error": f"Block cannot be empty {index + 1}"}), 400
-        db.session.add(
-            BlogContentBlock(
-                blog_id=blog.id,
-                order=block.get("order", index),
-                title_of_block=title_of_block,
-                content=content,
-                media_content_url=url,
-                url_content_type=block_url_content_type,
-                ownership=ownership_block,
-                name_of_owner=name_block,
-                alignment=block.get("alignment")
-            )
-        )
+        
+        new_block.title_of_block=title_of_block
+        new_block.content=content
+        new_block.media_content_url=url
+        new_block.url_content_type=block_url_content_type
+        new_block.ownership=ownership_block
+        new_block.name_of_owner=name_block
+        new_block.alignment=block.get("alignment")
 
     db.session.commit()
 

@@ -49,6 +49,7 @@ def parse_ownership(data):
 
     if ownership:
         return True, None, None
+    
     name = data.get("name_of_owner")
     if not name:
         return None, None, "Missing owner name"
