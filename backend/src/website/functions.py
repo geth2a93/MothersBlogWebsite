@@ -55,10 +55,14 @@ def get_home_latest_content():
 
 def get_newest_book_for_each_genre():
     data = []
+    used_books = set()
 
     for genre in Genre.query.order_by(Genre.genre).all():
-        b = (Book.query.join(Book.genres) .filter(Genre.id == genre.id,Book.displayed == True).order_by(Book.date_added.desc()).first())
+        b = (Book.query.join(Book.genres) .filter(Genre.id == genre.id,Book.displayed == True).order_by(Book.date_added.desc()).all())
+        b = next((book for book in b if book.id not in used_books), None)
 
+        if b:
+            used_books.add(b.id)
         if b:
             data.append({
                 "id": b.id,
@@ -73,8 +77,7 @@ def get_newest_book_for_each_genre():
     return data
 
 def get_books_by_genre(genre):  # all books in the genre
-    formatted_genre = genre.replace("-", " ").title()
-    books = (Book.query.join(Book.genres).filter(Genre.genre == formatted_genre, Book.displayed == True).order_by(Book.date_added.desc()).all())
+    books = (Book.query.join(Book.genres).filter(Genre.genre == genre, Book.displayed == True).order_by(Book.date_added.desc()).all())
 
     data = []
     for b in books:

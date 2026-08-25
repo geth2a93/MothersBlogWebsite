@@ -525,7 +525,7 @@ def add_book():
         exists = set()
 
         for genre_name in request.form.getlist("Genres"):
-            genre_name = genre_name.strip()
+            genre_name = genre_name.strip().replace(" ", "-")
 
             if not genre_name or genre_name in exists:
                 continue
@@ -637,6 +637,7 @@ def edit_book(title):
         genres = request.form.getlist("Genres")
 
         for genre_name in genres:
+            genre_name = genre_name.strip().replace(" ", "-")
             genre = Genre.query.filter_by(genre=genre_name).first()
 
             if genre is None:
