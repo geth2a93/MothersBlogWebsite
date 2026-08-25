@@ -606,7 +606,20 @@ def edit_book(title):
     book= Book.query.filter_by(title=spaced_title).first_or_404()
 
     if request.method == "GET":
-        return jsonify(get_books_by_title(title))
+        book = Book.query.filter_by(title=spaced_title, displayed = True).first_or_404()
+        data = {
+                "id": book.id,
+                "isbn": book.isbn,
+                "title": book.title,
+                "genre": [g.genre for g in book.genres],
+                "synopsis": book.synopsis,
+                "book_image_url": build_url(book.book_image_url),
+                "buy_links": [{ "url": l.links_url, "name": l.name_of_site} for l in book.buy_links],
+                "reviews": [{"link_url": r.link_url, "name": r.name, "title": r.title, "content": r.content, "rating": r.rating} for r in book.reviews],
+                "date_added": book.date_added,
+                "awards": [{"award_url": build_url(a.pic_of_award), "award_title": a.title} for a in book.awards],
+        }
+        return jsonify(data)
 
     try:
         data = request.form
