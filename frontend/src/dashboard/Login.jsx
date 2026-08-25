@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-
+import "./Login.css";
 export default function Login() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -30,7 +30,7 @@ export default function Login() {
         })
     });
         const text = await response.text();
-        console.log("RAW RESPONSE:", text);
+        // console.log("RAW RESPONSE:", text);
 
         let data;
             try {
@@ -39,7 +39,7 @@ export default function Login() {
                 throw new Error("Backend did not return JSON");
             }
 
-            console.log("PARSED DATA:", data);
+            // console.log("PARSED DATA:", data);
 
             if (response.ok) {
                 setMessage(data.message || "Login successful");
@@ -60,20 +60,20 @@ export default function Login() {
     };
 
     return (
-        <div style={{ maxWidth: "400px", margin: "auto" }}>
+        <div className = "login-box">
             <h1>Login</h1>
 
             <form onSubmit={handleSubmit}>
                 <input
                     type="text"
-                    placeholder="username"
+                    placeholder="Username"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                 />
 
                 <input
                     type="password"
-                    placeholder="password"
+                    placeholder="Password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                 />

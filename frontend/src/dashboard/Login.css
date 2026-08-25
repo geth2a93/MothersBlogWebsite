@@ -1,0 +1,40 @@
+.login-box {
+  width: 60%;
+  max-width: 500px;
+  background: #ffffff;
+  /* border-radius: 14px; */
+  padding: 20px;
+  border: 1px solid rgba(15, 123, 168, 0.15);
+  font-family: "Alegreya Sans", sans-serif;
+  margin: 80px auto;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+
+input,textarea, select {
+  width: 100%;
+  padding: 10px;
+  margin-top: 8px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  border: 1px solid #cfd8dc;
+  font-family: inherit;
+  font-size: 14px;
+  background: #fff;
+}
+
+button {
+  background: #EA9A28;
+  color: white;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin: 6px 0;
+  font-weight: 600;
+  transition: 0.2s ease;
+}

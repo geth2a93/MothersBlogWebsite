@@ -327,17 +327,18 @@ const handleAwardImage = (index, e) => {
 
 if (loading || !book) {
     return (
-        <div className="admin-container">
+        <div className="editor-container">
             <h2>Loading...</h2>
         </div>
     );
 }
 
 return (
-  <div className="admin-container">
+  <>
+  <div className="editor-container">
     <h1>Edit Book</h1>
 
-    <div className="admin-card">
+    <div className="editor-card">
 
       <h2>Title</h2>
 
@@ -402,13 +403,10 @@ return (
         }
       />
 
-      <button onClick={addGenre}>
-        Add Genre
-      </button>
-
       <div>
         {book.genres.map((genre) => (
           <span
+            className = "tag-pill"
             key={genre}
             style={{
               marginRight: 10,
@@ -423,12 +421,18 @@ return (
         ))}
       </div>
 
+      <button onClick={addGenre}>
+        Add Genre
+      </button>
+
+      
+
       <h2>Buy Links</h2>
 
       {book.buy_links.map((link, index) => (
         <div
           key={index}
-          className="admin-container"
+          className="editor-container-alt"
         >
           <input
             placeholder="Website"
@@ -453,6 +457,7 @@ return (
           />
 
           <button
+          className = "delete-button"
             onClick={() =>
               removeBuyLink(index)
             }
@@ -471,7 +476,7 @@ return (
       {book.reviews.map((review, index) => (
         <div
           key={index}
-          className="admin-container"
+          className="editor-container-alt"
         >
           <input
             placeholder="Reviewer"
@@ -541,6 +546,7 @@ return (
           </select>
 
           <button
+            className = "delete-button"
             onClick={() =>
               removeReview(index)
             }
@@ -559,7 +565,7 @@ return (
       {book.awards.map((award, index) => (
         <div
           key={index}
-          className="admin-container"
+          className="editor-container-alt"
         >
           <input
             placeholder="Award Title"
@@ -589,6 +595,7 @@ return (
           />
 
           <button
+            className = "delete-button"
             onClick={() =>
               removeAward(index)
             }
@@ -604,9 +611,12 @@ return (
 
     </div>
 
-    <button onClick={handleSave}>
-        Save Changes
-      </button>
+    
   </div>
+  <div  className = "button-container-3">
+  <button  className="editor-button-3" onClick={handleSave}>
+        Save Changes
+    </button> 
+  </div> </>
 );
 }

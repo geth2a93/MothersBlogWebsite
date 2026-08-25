@@ -497,7 +497,7 @@ const buildFormData=()=>{
   if(loading){
 
     return (
-      <div className="admin-container">
+      <div className="editor-container">
 
         <h2>
           Loading blog...
@@ -509,12 +509,13 @@ const buildFormData=()=>{
   }
 
   return (
-    <div className="admin-container">
+    <>
+    <div className="editor-container">
       <h1>
         Edit Blog
       </h1>
 
-      <div className="admin-card">
+      <div className="editor-card">
         <input
 
           value={blog.title}
@@ -547,7 +548,44 @@ const buildFormData=()=>{
   }
 />
 
-        <h2>Title Media</h2>
+
+        <h2> Tags </h2>
+
+        <input
+          value={tagInput}
+          onChange={
+            e=>setTagInput(
+              e.target.value
+            )
+          }
+        />
+
+        <button onClick={addTag}>
+          Add
+        </button>
+
+        <div>
+        { blog.tags.map(tag=>(
+            <span
+              key={tag}
+              onClick={
+                ()=>removeTag(tag)
+              }
+
+              style={{
+                cursor:"pointer",
+                marginRight:10
+              }}
+            >
+
+              {tag} ✕
+            </span>
+
+          ))
+        }
+
+        </div>
+<h2>Title Media</h2>
 
 <select
   value={blog.title_media.type || "none"}
@@ -635,12 +673,9 @@ const buildFormData=()=>{
 </>
 )}
 
-        <h2>
-          Content Blocks
-        </h2>
-
-        {blog.content_blocks.map((block, index) => (
-  <div key={index} className="admin-container">
+  <h2> Content Blocks</h2>
+  {blog.content_blocks.map((block, index) => (
+  <div key={index} className="editor-container">
     <input
       placeholder="Block title"
       value={block.title_of_block}
@@ -744,57 +779,26 @@ const buildFormData=()=>{
     )}
     
 
-    <button onClick={() => removeBlock(index)}>
+    <button className = "delete-button" onClick={() => removeBlock(index)}>
       Delete Block
     </button>
   </div>
 ))}
 
-        <h2> Tags </h2>
 
-        <input
-          value={tagInput}
-          onChange={
-            e=>setTagInput(
-              e.target.value
-            )
-          }
-        />
-
-        <button onClick={addTag}>
-          Add
-        </button>
-
-        <div>
-        { blog.tags.map(tag=>(
-            <span
-              key={tag}
-              onClick={
-                ()=>removeTag(tag)
-              }
-
-              style={{
-                cursor:"pointer",
-                marginRight:10
-              }}
-            >
-
-              {tag} ✕
-            </span>
-
-          ))
-        }
-
-        </div>
 
         <button onClick={addBlock}>
           Add Block
         </button>
 
-        <button onClick={handleSave}>
-          Save Changes
-        </button>
+        
       </div>
     </div>
+
+    <div className = "button-container-3">
+      <button   className="editor-button-3" onClick={handleSave}>
+          Save Changes
+        </button>
+    </div> </>
   );
 }

@@ -1,0 +1,136 @@
+.display-list-container {
+  width: 90%;
+  max-width: 1000px;
+  margin: 50px auto;
+  font-family: "Alegreya Sans", sans-serif;
+}
+
+.display-list-container h1 {
+  margin: 40px auto 20px;
+  text-align: center;
+  font-family: "Alegreya", serif;
+  font-size: 40px;
+  color: #0F7BA8;
+}
+
+.display-list-card {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 25px;
+  background: #ffffff;
+  border: 1px solid rgba(15, 123, 168, 0.15);
+  border-radius: 12px;
+}
+
+.display-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.display-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: "Alegreya Sans", sans-serif;
+  font-size: 16px;
+}
+
+.display-table th {
+  padding: 14px 12px;
+  text-align: left;
+  font-family: "Alegreya", serif;
+  font-size: 18px;
+  color: #0F7BA8;
+  border-bottom: 2px solid rgba(15, 123, 168, 0.2);
+}
+
+.display-table td {
+  padding: 15px 12px;
+  border-bottom: 1px solid #e5e5e5;
+  vertical-align: middle;
+}
+
+.display-table tbody tr {
+  transition: background 0.2s ease;
+}
+
+.display-table tbody tr:hover {
+  background: #f7fafb;
+}
+
+.display-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.display-title {
+  font-weight: 600;
+  color: #333;
+  min-width: 200px;
+}
+
+.display-status {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.display-status.published {
+  background: #e6f5eb;
+  color: #287a43;
+}
+
+.display-status.draft {
+  background: #f5f5f5;
+  color: #666;
+}
+
+.display-actions {
+  white-space: nowrap;
+}
+
+.display-actions button {
+  margin: 0 5px 0 0;
+}
+
+.edit-button {
+  background: #EA9A28;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 14px;
+}
+
+.edit-button:hover {
+  background: #26a3d4;
+}
+
+.display-actions .delete-button {
+  background: #f5f5f5;
+  color: #d9534f;
+  border: 1px solid #d9534f;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 14px;
+}
+
+.display-actions .delete-button:hover {
+  background: #d9534f;
+  color: white;
+}
+
+.display-list-message {
+  text-align: center;
+  font-size: 18px;
+  padding: 30px;
+  color: #555;
+}
+
+.display-genres {
+  max-width: 220px;
+}

@@ -384,13 +384,19 @@ const handlePublish = async () => {
 };
 
 return (
+  <>
+    <div className="editor-container">
 
-  
-    <div className="admin-container">
-      <h1>Create Blog</h1>
+       <button className="clear-button" 
+      onClick={() => { localStorage.clear(); window.location.href = "/dashboard/add-blog"; 
+      alert("Local storage cleared"); }}> 
+        Clear Form 
+      </button>
+      
+      <h1>New Blog</h1>
+      
 
-
-      <div className="admin-card">
+      <div className="editor-card">
       <input
         placeholder="Title"
         value={blog.title}
@@ -517,7 +523,7 @@ return (
       <h2>Content Blocks</h2>
 
       {blog.content_blocks.map((block, index) => (
-        <div key={index} className="admin-container">
+        <div key={index} className="editor-container-alt">
           <input
             placeholder="Block title"
             value={block.title_of_block}
@@ -639,8 +645,8 @@ return (
               }
             />
           )}
-
-          <button onClick={() => removeBlock(index)}>
+          
+          <button className = "delete-button" onClick={() => removeBlock(index)}>
             Delete Block
           </button>
         </div>
@@ -648,14 +654,12 @@ return (
 
       <button onClick={addBlock}>Add Block</button>
 
-    <div>
-      <button onClick={handlePreview}> Preview </button>
+   </div>
+  </div>
 
-      <button onClick={() => { localStorage.clear(); window.location.href = "/dashboard/add-blog"; alert("Local storage cleared"); }}>
-        Clear Form
-      </button>
-    </div>
+  <div className = "button-container-3">
+      <button className="editor-button-3" onClick={handlePreview}> Preview </button>
   </div>
-  </div>
+  </>
   );
 }

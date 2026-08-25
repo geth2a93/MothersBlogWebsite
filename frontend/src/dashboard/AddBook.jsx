@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import "./editor.css";
 const emptyBook = {
   title: "",
   isbn: "",
@@ -305,52 +305,41 @@ export default function NewBook() {
   };
 
   return (
-    <div className="admin-container">
+    
+    <><div className="editor-container">
       <h1>New Book</h1>
 
-      <div className="admin-card">
+      <div className="editor-card">
 
 
         <h2>Title</h2>
 
         <input
           value={book.title}
-          onChange={(e) =>
-            updateBook("title", e.target.value)
-          }
-          placeholder="Book title"
-        />
+          onChange={(e) => updateBook("title", e.target.value)}
+          placeholder="Book title" />
 
         <h2>ISBN</h2>
 
         <input
           value={book.isbn}
-          onChange={(e) =>
-            updateBook("isbn", e.target.value)
-          }
-          placeholder="ISBN"
-        />
+          onChange={(e) => updateBook("isbn", e.target.value)}
+          placeholder="ISBN" />
 
         <h2>Synopsis</h2>
 
         <textarea
           rows={8}
           value={book.synopsis}
-          onChange={(e) =>
-            updateBook("synopsis", e.target.value)
-          }
-          placeholder="Book synopsis"
-        />
+          onChange={(e) => updateBook("synopsis", e.target.value)}
+          placeholder="Book synopsis" />
 
         <h2>Date Added</h2>
 
         <input
           type="datetime-local"
           value={book.date_added}
-          onChange={(e) =>
-            updateBook("date_added", e.target.value)
-          }
-        />
+          onChange={(e) => updateBook("date_added", e.target.value)} />
 
         <h2>Cover Image</h2>
 
@@ -358,31 +347,26 @@ export default function NewBook() {
           <img
             src={book.cover.preview_url}
             width="250"
-            alt="Cover preview"
-          />
+            alt="Cover preview" />
         )}
 
         <input
           type="file"
           accept="image/*"
-          onChange={handleCoverImage}
-        />
+          onChange={handleCoverImage} />
 
         <h2>Genres</h2>
 
         <input
           value={genreInput}
-          onChange={(e) =>
-            setGenreInput(e.target.value)
-          }
+          onChange={(e) => setGenreInput(e.target.value)}
           onKeyDown={(e) => {
             if (e.key === "Enter") {
               e.preventDefault();
               addGenre();
             }
-          }}
-          placeholder="Genre"
-        />
+          } }
+          placeholder="Genre" />
 
         <button onClick={addGenre}>
           Add Genre
@@ -391,14 +375,13 @@ export default function NewBook() {
         <div>
           {book.genres.map((genre) => (
             <span
+              className = "tag-pill"
               key={genre}
               style={{
                 marginRight: 10,
                 cursor: "pointer"
               }}
-              onClick={() =>
-                removeGenre(genre)
-              }
+              onClick={() => removeGenre(genre)}
             >
               {genre} ✕
             </span>
@@ -410,34 +393,26 @@ export default function NewBook() {
         {book.buy_links.map((link, index) => (
           <div
             key={index}
-            className="admin-container"
+            className="editor-container-alt"
           >
             <input
               placeholder="Website"
               value={link.name_of_site}
-              onChange={(e) =>
-                updateBuyLink(index, {
-                  ...link,
-                  name_of_site: e.target.value
-                })
-              }
-            />
+              onChange={(e) => updateBuyLink(index, {
+                ...link,
+                name_of_site: e.target.value
+              })} />
 
             <input
               placeholder="URL"
               value={link.links_url}
-              onChange={(e) =>
-                updateBuyLink(index, {
-                  ...link,
-                  links_url: e.target.value
-                })
-              }
-            />
+              onChange={(e) => updateBuyLink(index, {
+                ...link,
+                links_url: e.target.value
+              })} />
 
-            <button
-              onClick={() =>
-                removeBuyLink(index)
-              }
+            <button className = "delete-button"
+              onClick={() => removeBuyLink(index)}
             >
               Delete Link
             </button>
@@ -453,63 +428,48 @@ export default function NewBook() {
         {book.reviews.map((review, index) => (
           <div
             key={index}
-            className="admin-container"
+            className="editor-container-alt"
           >
             <input
               placeholder="Reviewer"
               value={review.name}
-              onChange={(e) =>
-                updateReview(index, {
-                  ...review,
-                  name: e.target.value
-                })
-              }
-            />
+              onChange={(e) => updateReview(index, {
+                ...review,
+                name: e.target.value
+              })} />
 
             <input
               placeholder="Review Title"
               value={review.title}
-              onChange={(e) =>
-                updateReview(index, {
-                  ...review,
-                  title: e.target.value
-                })
-              }
-            />
+              onChange={(e) => updateReview(index, {
+                ...review,
+                title: e.target.value
+              })} />
 
             <textarea
               placeholder="Review"
               value={review.content}
-              onChange={(e) =>
-                updateReview(index, {
-                  ...review,
-                  content: e.target.value
-                })
-              }
-            />
+              onChange={(e) => updateReview(index, {
+                ...review,
+                content: e.target.value
+              })} />
 
             <input
               placeholder="Review URL"
               value={review.link_url}
-              onChange={(e) =>
-                updateReview(index, {
-                  ...review,
-                  link_url: e.target.value
-                })
-              }
-            />
+              onChange={(e) => updateReview(index, {
+                ...review,
+                link_url: e.target.value
+              })} />
 
             <select
               value={review.rating ?? ""}
-              onChange={(e) =>
-                updateReview(index, {
-                  ...review,
-                  rating:
-                    e.target.value === ""
-                      ? null
-                      : Number(e.target.value)
-                })
-              }
+              onChange={(e) => updateReview(index, {
+                ...review,
+                rating: e.target.value === ""
+                  ? null
+                  : Number(e.target.value)
+              })}
             >
               <option value="">
                 No Rating
@@ -523,9 +483,8 @@ export default function NewBook() {
             </select>
 
             <button
-              onClick={() =>
-                removeReview(index)
-              }
+              className = "delete-button"
+              onClick={() => removeReview(index)}
             >
               Delete Review
             </button>
@@ -541,39 +500,31 @@ export default function NewBook() {
         {book.awards.map((award, index) => (
           <div
             key={index}
-            className="admin-container"
+            className="editor-container-alt"
           >
             <input
               placeholder="Award Title"
               value={award.title}
-              onChange={(e) =>
-                updateAward(index, {
-                  ...award,
-                  title: e.target.value
-                })
-              }
-            />
+              onChange={(e) => updateAward(index, {
+                ...award,
+                title: e.target.value
+              })} />
 
             {award.preview_url && (
               <img
                 src={award.preview_url}
                 width="150"
-                alt="Award preview"
-              />
+                alt="Award preview" />
             )}
 
             <input
               type="file"
               accept="image/*"
-              onChange={(e) =>
-                handleAwardImage(index, e)
-              }
-            />
+              onChange={(e) => handleAwardImage(index, e)} />
 
             <button
-              onClick={() =>
-                removeAward(index)
-              }
+              className = "delete-button"
+              onClick={() => removeAward(index)}
             >
               Delete Award
             </button>
@@ -585,10 +536,10 @@ export default function NewBook() {
         </button>
 
       </div>
-
-      <button onClick={handleSave}>
-        Add Book
-      </button>
     </div>
+
+    <button className="editor-button-2" onClick={handleSave}>
+        Add Book
+     </button></> 
   );
 }

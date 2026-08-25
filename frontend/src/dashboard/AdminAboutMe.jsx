@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import "./admin.css"
+import "./editor.css";
+
 export default function AdminAboutMe(){
     const [content, setContent] = useState("");
     const [image, setImage] = useState(null);
@@ -64,11 +65,11 @@ export default function AdminAboutMe(){
     };
 
     return (
-         <div className="admin-container">
+         <div className="editor-container">
             <h1>Admin About Me</h1>
 
 
-            <div className="admin-card">
+            <div className="editor-card">
             <textarea
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
@@ -84,7 +85,7 @@ export default function AdminAboutMe(){
                     <img
                         src={preview}
                         alt="preview"
-                        style={{ width: "200px", marginTop: "10px" }}
+                        style={{ width: "300px", marginTop: "10px" }}
                     />
                 </div>
             )}

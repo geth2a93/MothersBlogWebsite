@@ -5,12 +5,12 @@ export default function BlogBlockEditor({
   removeBlock
 }) {
   return (
-    <div className="admin-container">
+    <div className="editor-container">
 
       <h2>Content Blocks</h2>
 
       {blog.content_blocks.map((block, index) => (
-        <div key={index} className="admin-container">
+        <div key={index} className="editor-container">
           <input
             placeholder="Block title"
             value={block.title_of_block}

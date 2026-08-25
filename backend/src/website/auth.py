@@ -4,24 +4,27 @@ from flask_login import login_required, login_user, logout_user
 from datetime import datetime
 import os, uuid, json
 from . import db
+
 from .models import *
+from flask import request, jsonify, session
+from flask_login import login_user, current_user
+from flask import session
+from flask_login import current_user
 
 
 auth = Blueprint('auth', __name__,  url_prefix="/auth")
 
-from flask import session
-from flask_login import current_user
-
 @auth.route("/check", methods=["GET"])
-def check():
-    return jsonify({
-        "authenticated": current_user.is_authenticated,
-        "user": current_user.username if current_user.is_authenticated else None,
-        "session": dict(session)
-    })
+def check_auth():
+    if current_user.is_authenticated:
+        return jsonify({
+            "authenticated": True
+        }), 200
 
-from flask import request, jsonify, session
-from flask_login import login_user, current_user
+    return jsonify({
+        "authenticated": False
+    }), 401
+
 
 @auth.route("/login", methods=["POST"])
 def login():
@@ -61,7 +64,9 @@ def login():
 @login_required
 def logout():
     logout_user()
-    return
+    return jsonify({
+        "message": "Logged out successfully"
+    }), 200
 
 
 
