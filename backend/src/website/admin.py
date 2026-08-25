@@ -680,7 +680,7 @@ def edit_book(title):
         for index, award in enumerate(awards):
 
             award_title = award.get("title")
-            award_pic_urlpic_url = award.get("pic_of_award")
+            award_pic_url = award.get("pic_of_award")
             if award_pic_url:
                 award_pic_url = "/static/" + award_pic_url.split("/static/", 1)[1]
             file = request.files.get(f"award_image_{index}")
