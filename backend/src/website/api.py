@@ -64,7 +64,7 @@ def books_by_genre(genre):
 
 @api.route("/books/title/<string:title>", methods=["GET"])
 def book_by_title(title):
-    return jsonify(get_books_by_title(title))
+    return jsonify(get_books_by_title(title, True))
 
 
 #teachingresource routes
