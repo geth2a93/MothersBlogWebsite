@@ -1,5 +1,6 @@
 from flask import request, jsonify, Blueprint, current_app
 from werkzeug.utils import secure_filename
+from zoneinfo import ZoneInfo
 from flask_login import login_required
 from datetime import datetime, timezone, timedelta
 import os, json
@@ -49,7 +50,7 @@ def edit_about_me():
 
         about.abtme_pic_url = url
 
-    about.updated_at = datetime.utcnow()
+    about.updated_at = datetime.now(ZoneInfo("America/Los_Angeles"))
 
     db.session.commit()
 
@@ -122,6 +123,16 @@ def delete_blog(slug):
     db.session.commit()
     return jsonify({"message": "Blog deleted"}), 200
 
+@admin.route("/publishblog/<string:slug>", methods=["POST"])
+@login_required
+def blog_post_publish(slug):
+    p = BlogPost.query.filter_by(slug=slug).first_or_404()
+    p.date_created = datetime.now(ZoneInfo("America/Los_Angeles"))
+    p.published = True
+    db.session.commit()
+
+    return jsonify({"message": "Blog post published", "blog_id": p.id, "slug": p.slug,})
+
 @admin.route("/newblogpost", methods=["PUT"])
 @login_required
 def new_blog_post():
@@ -135,7 +146,7 @@ def new_blog_post():
     if date_upload:
         date = datetime.fromisoformat(date_upload)
     else:
-        date = datetime.now(timezone.utc)
+        date = datetime.now(ZoneInfo("America/Los_Angeles"))
 
     title = data.get("title")
     if not title:
@@ -296,12 +307,13 @@ def edit_blog(slug):
     blog.title = title
     blog.preview = data.get("preview", blog.preview)
 
-    date = datetime.fromisoformat(data.get("date")).replace(tzinfo=timezone.utc)
 
-    if date > datetime.now(timezone.utc):
+    date = datetime.fromisoformat(data.get("date")).replace(tzinfo=ZoneInfo("America/Los_Angeles"))
+
+    if date > datetime.now(ZoneInfo("America/Los_Angeles")):
         blog.published = False
     else:
-        blog.published = data.get("published", blog.published)
+        blog.published = True
 
     blog.date_created = date
 
@@ -668,9 +680,9 @@ def edit_book(title):
         for index, award in enumerate(awards):
 
             award_title = award.get("title")
-            pic_url = award.get("pic_of_award")
-            if pic_url:
-                pic_url = "/static/" + pic_url.split("/static/", 1)[1]
+            award_pic_urlpic_url = award.get("pic_of_award")
+            if award_pic_url:
+                award_pic_url = "/static/" + award_pic_url.split("/static/", 1)[1]
             file = request.files.get(f"award_image_{index}")
 
             if file and file.filename != "":
@@ -725,8 +737,11 @@ def create_email():
         message = data.get("message")
         if not message:
             return jsonify({"error": "Email message is required"}), 400
+        date = data.get("date")
+        if not date:
+            return jsonify({"error": "Email date is required"}), 400
 
-        email = SubscriberEmail(subject=subject, message=message)
+        email = SubscriberEmail(subject=subject, message=message, date_created=date)
 
         db.session.add(email)
         db.session.flush()
@@ -779,8 +794,13 @@ def edit_email(email_id):
         if not message:
             return jsonify({"error": "Email message is required"}), 400
 
+        date = data.get("date")
+        if not date:
+            return jsonify({"error": "Email date is required"}), 400
+
         email.subject = subject
         email.message = message
+        email.date_created = date
 
         EmailPics.query.filter_by(email_id=email.id).delete()
         upload_folder = os.path.join(current_app.config["UPLOAD_FOLDER"], "emails")
@@ -792,7 +812,7 @@ def edit_email(email_id):
         except json.JSONDecodeError:
             return jsonify({"error": "Invalid images data"}), 400
 
-        for index, image in enumerate(images): #look at this
+        for index, image in enumerate(images):
             image_url = image.get("image_url")
             file = request.files.get(f"image_{index}")
             if file:
@@ -831,15 +851,15 @@ def send_email(email_id):
     email = SubscriberEmail.query.get_or_404(email_id)
     try:
         subscribers = Subscribers.query.all()
-
+        email.date_created = datetime.now(ZoneInfo("America/Los_Angeles")).date()
         if not subscribers:
             return jsonify({"error": "Issue with subs"}), 400
         if email.date_to_send:
             return jsonify({"error": "Email already sent"}), 400
-
+        db.session.commit()
         #email code wont work without imports and some other changes which im not sending or uploading because they current;y cause python runtime errors so its removed so you can test
 
         return jsonify({"message": f'Email "{email_id}" sent'}), 201
 
     except Exception as e:
-            return jsonify({"error": str(e)}), 400
+            return jsonify({"error": str(e)}), 400      
