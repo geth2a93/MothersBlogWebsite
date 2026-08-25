@@ -10,7 +10,7 @@ def build_url(path):
     return request.url_root.rstrip("/") + "/" + path.lstrip("/")
 
 def get_home_latest_content():
-    latest_book = Book.query.order_by(Book.date_added.desc()).first()
+    latest_book = Book.query.filter(Book.displayed == True).order_by(Book.date_added.desc()).first()
     latest_blog = BlogPost.query.filter(BlogPost.published == True).order_by(BlogPost.date_created.desc()).first()
 
     data = {
@@ -57,7 +57,7 @@ def get_newest_book_for_each_genre():
     data = []
 
     for genre in Genre.query.order_by(Genre.genre).all():
-        b = (Book.query.join(Book.genres) .filter(Genre.id == genre.id).order_by(Book.date_added.desc()).first())
+        b = (Book.query.join(Book.genres) .filter(Genre.id == genre.id,Book.displayed == True).order_by(Book.date_added.desc()).first())
 
         if b:
             data.append({
@@ -74,7 +74,7 @@ def get_newest_book_for_each_genre():
 
 def get_books_by_genre(genre):  # all books in the genre
     formatted_genre = genre.replace("-", " ").title()
-    books = (Book.query.join(Book.genres).filter(Genre.genre == formatted_genre).order_by(Book.date_added.desc()).all())
+    books = (Book.query.join(Book.genres).filter(Genre.genre == formatted_genre, Book.displayed == True).order_by(Book.date_added.desc()).all())
 
     data = []
     for b in books:
@@ -93,7 +93,7 @@ def get_books_by_genre(genre):  # all books in the genre
 def get_books_by_title(title):
     formatted_title = title.replace("-", " ") #url is book-title, db is Book Title
 
-    book = Book.query.filter_by(title=formatted_title).first_or_404()
+    book = Book.query.filter_by(title=formatted_title, displayed = True).first_or_404()
     data = {
         "id": book.id,
         "isbn": book.isbn,

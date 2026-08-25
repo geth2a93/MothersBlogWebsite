@@ -473,6 +473,16 @@ def delete_book(title):
 
     return jsonify({"message": "Book deleted"}), 200
 
+@admin.route("/displaybook/<string:title>", methods=["GET"])
+@login_required
+def display_book(title):
+    spaced_title = title.replace("-", " ")
+    book = Book.query.filter_by(title=spaced_title).first_or_404()
+    book.displayed = True
+    db.session.commit()
+
+    return jsonify({"message": "Book now displayed"}), 200
+
 
 @admin.route("/createnewbook", methods=["PUT"])
 @login_required
@@ -857,8 +867,7 @@ def send_email(email_id):
         if email.date_to_send:
             return jsonify({"error": "Email already sent"}), 400
         db.session.commit()
-        #email code wont work without imports and some other changes which im not sending or uploading because they current;y cause python runtime errors so its removed so you can test
-
+        func_send_email(email_id)
         return jsonify({"message": f'Email "{email_id}" sent'}), 201
 
     except Exception as e:

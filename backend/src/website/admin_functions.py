@@ -6,6 +6,7 @@ import os, json
 from . import db
 from .models import *
 from .functions import *
+from zoneinfo import ZoneInfo
 
 def url_check(media_content_url, url_content_type):
     url = media_content_url.lower()
@@ -57,22 +58,51 @@ def parse_ownership(data):
     return False, name, None
 
 def scheduler():
-    #2pm
     emails = SubscriberEmail.query.order_by(SubscriberEmail.date_to_send.desc()).all()
+    today = datetime.now(ZoneInfo("America/Los_Angeles")).date()
     if emails:
-        for email in email:
-            if email.date_to_send.date() == datetime.now(timezone.utc).date():
+        for email in emails:
+            if email.date_to_send.date() == today:
                 email_id = email.id
                 func_send_email(email_id)
 
     blogs = BlogPost.query.order_by(BlogPost.date_created.desc()).all()
     if blogs:
         for blog in blogs:
-            if blog.date_created.date() == datetime.now(timezone.utc).date():
+            if blog.date_created.date() == today:
                 slug = blog.slug
                 set_blog_to_publish(slug)
 
+    books = Book.query.order_by(Book.date_added.desc()).all()
+    if books:
+        for book in books:
+            if book.date_added.date() == today:
+                title = book.title
+                set_book_to_publish(title)
+    return jsonify({"message": f'success'}), 201
+
 def func_send_email(email_id):
-    return
+    p = SubscriberEmail.query.filter_by(id=email_id).first_or_404()
+    try:
+        subscriber_email(email_id)
+        p.sent == True
+        db.session.commit()
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": str(e)}), 400
+    return jsonify({"message": f'Email "{p.subject}" sent'}), 201
+    
 def set_blog_to_publish(slug):
+    p = BlogPost.query.filter_by(slug=slug).first_or_404()
+    p.published = True
+    db.session.commit()
+    return jsonify({"message": f'Blog "{p.slug}" published'}), 201
+
+def subscriber_email(email_id):
     return
+
+def set_book_to_publish(title):
+    p = Book.query.filter_by(title=title).first_or_404()
+    p.displayed = True
+    db.session.commit()
+    return jsonify({"message": f'Book "{p.title}" published'}), 201

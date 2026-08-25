@@ -44,6 +44,7 @@ class Book(db.Model):
     title = db.Column(db.String(100), nullable=False)
     synopsis = db.Column(db.Text)
     book_image_url = db.Column(db.String(200))
+    displayed = db.Column(db.Boolean)
     date_added = db.Column(db.DateTime, default=datetime.utcnow)
     genres = db.relationship('Genre', secondary=book_genres, back_populates='books')
     buy_links = db.relationship('BuyLinks', backref='book', lazy=True)
@@ -128,7 +129,7 @@ class TeachingResourceBookLink(db.Model):
 class SubscriberEmail(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     date_to_send = db.Column(db.DateTime)
-    created_at = db.Column(db.DateTime, default=datetime.now(timezone.utc))
+    sent = db.Column(db.Boolean)
     subject = db.Column(db.Text)
     message = db.Column(db.Text)
     email_pics = db.relationship('EmailPics', backref='subscriberemail', lazy=True)
