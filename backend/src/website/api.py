@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify, current_app
+from flask import Blueprint, send_from_directory, request, jsonify, current_app
 from .models import AboutMe
 from .functions import *
 
@@ -121,4 +121,8 @@ def add_subscriber():
     except Exception as e:
         db.session.rollback()
         return jsonify({"error": str(e)}), 500
+
+@api.route("/uploads/emails/<path:filename>")
+def uploaded_file(filename):
+    return send_from_directory(current_app.config["UPLOAD_FOLDER"], filename)
 

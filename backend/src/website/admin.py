@@ -878,12 +878,10 @@ def send_email(email_id):
     email = SubscriberEmail.query.get_or_404(email_id)
     try:
         subscribers = Subscribers.query.all()
-        email.date_to_send = datetime.now(ZoneInfo("America/Los_Angeles")).date()
         if not subscribers:
             return jsonify({"error": "Issue with subs"}), 400
-        if email.date_to_send:
+        if email.sent:
             return jsonify({"error": "Email already sent"}), 400
-        db.session.commit()
         func_send_email(email_id)
         return jsonify({"message": f'Email "{email_id}" sent'}), 201
 
