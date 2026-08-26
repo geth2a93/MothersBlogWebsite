@@ -768,7 +768,7 @@ def create_email():
         if not date:
             return jsonify({"error": "Email date is required"}), 400
 
-        email = SubscriberEmail(subject=subject, message=message, date_to_send=date)
+        email = SubscriberEmail(subject=subject, message=message, date_to_send=datetime.fromisoformat(date))
 
         db.session.add(email)
         db.session.flush()
@@ -807,7 +807,7 @@ def edit_email(email_id):
             "subject": email.subject,
             "message": email.message,
             "date_to_send": email.date_to_send.isoformat(),
-            "images": [{"id": pic.id, "image_url": pic.image_url} for pic in email.email_pics]
+            "images": [{"image_url": build_url(pic.image_url)} for pic in email.email_pics]
         }), 200
 
     try:
@@ -827,7 +827,7 @@ def edit_email(email_id):
 
         email.subject = subject
         email.message = message
-        email.date_to_send = date
+        email.date_to_send = datetime.fromisoformat(date)
 
         EmailPics.query.filter_by(email_id=email.id).delete()
         upload_folder = os.path.join(current_app.config["UPLOAD_FOLDER"], "emails")
@@ -841,15 +841,18 @@ def edit_email(email_id):
 
         for index, image in enumerate(images):
             image_url = image.get("image_url")
-            file = request.files.get(f"image_{index}")
-            if file:
-                image_url = upload_image(image,"emails", image_url)
- 
-            elif image_url:
+            file = request.files.get(f"image_{index}") 
+            if image_url:
                 if "/static/" in image_url:
                     image_url = "/static/" + image_url.split("/static/", 1)[1]
-            if image_url:
-                db.session.add(EmailPics(image_url=image_url, email_id=email.id))
+            if file:
+                filename = f"email_{email.id}_{index}"
+                image_url, error = upload_image(file,"emails", filename)
+                if error:
+                    db.session.rollback()
+                    return jsonify({"error": error}), 400
+            
+            db.session.add(EmailPics(image_url=image_url, email_id=email.id))
 
         db.session.commit()
         return jsonify({"message": f'Email "{email.subject}" editted'}), 201
