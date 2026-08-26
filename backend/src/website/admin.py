@@ -887,4 +887,132 @@ def send_email(email_id):
         return jsonify({"message": f'Email "{email_id}" sent'}), 201
 
     except Exception as e:
-            return jsonify({"error": str(e)}), 400      
+            return jsonify({"error": str(e)}), 400     
+
+@admin.route("/displayallteachingresources", methods=["GET"])
+@login_required
+def show_all_teaching():
+    resources = TeachingResource.query.order_by(TeachingResource.id.desc()).all()
+    return jsonify({ "resource": [{"title": resource.book_title} for resource in resources]})
+
+@admin.route("/deleteresource/<string:title>", methods=["GET"])
+@login_required
+def delete_resource(title):
+    spaced_title = title.replace("-", " ")
+    resource = TeachingResource.query.filter_by(title=spaced_title).first_or_404()
+    TeachingResourceVideoLink.query.filter_by(resource_id=resource.id).delete()
+    TeachingResourceBookLink.query.filter_by(resource_id=resource.id).delete()
+
+    db.session.delete(resource)
+    db.session.commit()
+
+    return jsonify({"message": "Teaching resource deleted"}), 200 
+
+@admin.route("/newteachingresource", methods=["POST"])
+@login_required
+def create_teaching_resource():
+    data = request.get_json()
+
+    if not data:
+        return jsonify({"error": "Missing JSON"}), 400
+
+    book_title = data.get("book_title", "").strip()
+
+    if not book_title:
+        return jsonify({"error": "Book title is required"}), 400
+
+    resource = TeachingResource(book_title=book_title, word_list=data.get("word_list"), activities=data.get("activities"), questions=data.get("questions"), 
+        supplies=data.get("supplies"), objectives=data.get("objectives"), procedures=data.get("procedures"))
+
+    db.session.add(resource)
+    db.session.flush()
+
+    videos = data.get("video_links", [])
+
+    for video in videos:
+        video_link = video.get("video_link")
+        video_title = video.get("video_title")
+
+        if not video_link or not video_title:
+            return jsonify({"error": "Missing link or title"}), 400
+
+        new_video = TeachingResourceVideoLink(resource_id=resource.id, video_link=video_link, video_title=video_title)
+        db.session.add(new_video)
+
+    books = data.get("book_links", [])
+
+    for book in books:
+        book_link = book.get("book_link")
+        book_title = book.get("book_title")
+
+        if not book_link or not book_title:
+            return jsonify({"error": "Missing link or title"}), 400
+
+        new_book = TeachingResourceBookLink(resource_id=resource.id, book_link=book_link, book_title=book_title)
+        db.session.add(new_book)
+
+    db.session.commit()
+
+    return jsonify({"message": "Teaching resource created"}), 201
+
+@admin.route("/editteachingresource/<string:title>", methods=["GET", "PUT"])
+@login_required
+def edit_teaching_resource(title):
+    spaced_title = title.replace("-", " ")
+    resource = TeachingResource.query.filter_by(title=spaced_title).first_or_404()
+
+    if request.method == "GET":
+            return jsonify({
+                "title": resource.book_title, 
+                "word_list": resource.word_list, 
+                "activities": resource.activities,
+                "questions":resource.questions, 
+                "supplies":resource.supplies, 
+                "objectives":resource.objectives, 
+                "procedures":resource.procedures 
+            }), 200
+
+    data = request.get_json()
+    if not data:
+        return jsonify({"error": "Missing JSON"}), 400
+
+    resource.word_list = data.get("word_lists")
+    resource.activities = data.get("activities")
+    resource.questions = data.get("questions")
+    resource.supplies = data.get("supplies")
+    resource.objectives = data.get("objectives")
+    resource.procedures = data.get("procedures")
+
+
+    db.session.flush()
+
+    TeachingResourceVideoLink.query.filter_by(resource_id=resource.id).delete()
+    videos = data.get("video_links", [])
+
+    for video in videos:
+        video_link = video.get("video_link")
+        video_title = video.get("video_title")
+
+        if not video_link or not video_title:
+            return jsonify({"error": "Missing link or title"}), 400
+
+        new_video = TeachingResourceVideoLink(resource_id=resource.id, video_link=video_link, video_title=video_title)
+        db.session.add(new_video)
+
+
+    TeachingResourceBookLink.query.filter_by(resource_id=resource.id).delete()
+    books = data.get("book_links", [])
+
+    for book in books:
+        book_link = book.get("book_link")
+        book_title = book.get("book_title")
+
+        if not book_link or not book_title:
+            return jsonify({"error": "Missing link or title"}), 400
+
+        new_book = TeachingResourceBookLink(resource_id=resource.id, book_link=book_link, book_title=book_title)
+        db.session.add(new_book)
+
+    db.session.commit()
+
+    return jsonify({"message": f'Teaching resource  "{book_title}" editted'}), 201
