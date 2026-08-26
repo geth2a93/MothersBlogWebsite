@@ -444,6 +444,7 @@ def show_all_books():
                 "title": book.title,
                 "isbn": book.isbn,
                 "date_added": book.date_added,
+                "displayed": book.displayed,
                 "genres": [g.genre for g in book.genres]
             }
             for book in books
@@ -473,7 +474,7 @@ def delete_book(title):
 
     return jsonify({"message": "Book deleted"}), 200
 
-@admin.route("/displaybook/<string:title>", methods=["GET"])
+@admin.route("/publishbook/<string:title>", methods=["GET"])
 @login_required
 def display_book(title):
     spaced_title = title.replace("-", " ")
@@ -719,13 +720,13 @@ def edit_book(title):
 @login_required
 def display_all_emails():
     try:
-        emails = (SubscriberEmail.query.order_by(SubscriberEmail.created_at.desc()).all()) #if date to send has no date
+        emails = (SubscriberEmail.query.order_by(SubscriberEmail.date_to_send.desc()).all()) #if date to send has no date
         return jsonify([
             {
                 "id": email.id,
                 "subject": email.subject,
                 "message": email.message,
-                "created_at": email.created_at.isoformat(),
+                "date_to_send": email.date_to_send.isoformat(),
                 "images": [{"id": pic.id, "image_url": pic.image_url} for pic in email.email_pics]
             }
             for email in emails
@@ -752,7 +753,7 @@ def create_email():
         if not date:
             return jsonify({"error": "Email date is required"}), 400
 
-        email = SubscriberEmail(subject=subject, message=message, date_created=date)
+        email = SubscriberEmail(subject=subject, message=message, date_to_send=date)
 
         db.session.add(email)
         db.session.flush()
@@ -790,7 +791,7 @@ def edit_email(email_id):
             "id": email.id,
             "subject": email.subject,
             "message": email.message,
-            "created_at": email.created_at.isoformat(),
+            "date_to_send": email.date_to_send.isoformat(),
             "images": [{"id": pic.id, "image_url": pic.image_url} for pic in email.email_pics]
         }), 200
 
@@ -811,7 +812,7 @@ def edit_email(email_id):
 
         email.subject = subject
         email.message = message
-        email.date_created = date
+        email.date_to_send = date
 
         EmailPics.query.filter_by(email_id=email.id).delete()
         upload_folder = os.path.join(current_app.config["UPLOAD_FOLDER"], "emails")
@@ -862,7 +863,7 @@ def send_email(email_id):
     email = SubscriberEmail.query.get_or_404(email_id)
     try:
         subscribers = Subscribers.query.all()
-        email.date_created = datetime.now(ZoneInfo("America/Los_Angeles")).date()
+        email.date_to_send = datetime.now(ZoneInfo("America/Los_Angeles")).date()
         if not subscribers:
             return jsonify({"error": "Issue with subs"}), 400
         if email.date_to_send:

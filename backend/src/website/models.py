@@ -12,7 +12,7 @@ class BlogPost(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(50), nullable=False)
     slug = db.Column(db.String(120), unique=True, nullable=False, index=True)
-    date_created = db.Column(db.DateTime)
+    date_created = db.Column(db.DateTime)#change to more descriptive blog_date
     preview = db.Column(db.Text)
     title_media_content_url = db.Column(db.String(2000))
     url_content_type = db.Column(db.String(20)) #picture, youtube link, fb link, insta link also needs to be changed to title_url_content_type
@@ -45,7 +45,7 @@ class Book(db.Model):
     synopsis = db.Column(db.Text)
     book_image_url = db.Column(db.String(200))
     displayed = db.Column(db.Boolean)
-    date_added = db.Column(db.DateTime, default=datetime.utcnow)
+    date_added = db.Column(db.DateTime, default=datetime.utcnow) #change to more descriptive release_date
     genres = db.relationship('Genre', secondary=book_genres, back_populates='books')
     buy_links = db.relationship('BuyLinks', backref='book', lazy=True)
     reviews = db.relationship('Reviews', backref='book', lazy=True)
