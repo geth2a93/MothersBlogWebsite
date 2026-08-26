@@ -92,16 +92,13 @@ export function Footer() {
         <h3>Follow Me!</h3>
 
         <div className="social-links">
-          <a href="https://facebook.com"  
-            target="_blank" rel="noopener noreferrer">
-            <FontAwesomeIcon icon={faFacebook} />
-          </a>
+          <a href="https://www.facebook.com/AuthorCharlotteBennardo"  target="_blank" rel="noopener noreferrer"> <FontAwesomeIcon icon={faFacebook} /> </a>
           <a href="https://www.linkedin.com/in/charlotte-bennardo-a2223143/"  target="_blank"  rel="noopener noreferrer"><FontAwesomeIcon icon={faLinkedin} /></a>
-          <a href="https://threads.net"  target="_blank"  rel="noopener noreferrer"><FontAwesomeIcon icon={faThreads} /></a>
-          <a href="https://x.com"  target="_blank"  rel="noopener noreferrer"><FontAwesomeIcon icon={faXTwitter} /></a>
-          <a href="https://bsky.app"  target="_blank"  rel="noopener noreferrer"><FontAwesomeIcon icon={faBluesky} /></a>
-          <a href="https://instagram.com"  target="_blank"  rel="noopener noreferrer"><FontAwesomeIcon icon={faInstagram} /></a>
-          <a href="https://pinterest.com"  target="_blank"  rel="noopener noreferrer"><FontAwesomeIcon icon={faPinterest} /></a>
+          <a href="https://www.threads.com/@charlottebennardo"  target="_blank"  rel="noopener noreferrer"><FontAwesomeIcon icon={faThreads} /></a>
+          <a href="https://x.com/charbennardo"  target="_blank"  rel="noopener noreferrer"><FontAwesomeIcon icon={faXTwitter} /></a>
+          <a href="https://charbennardo.bsky.social/"  target="_blank"  rel="noopener noreferrer"><FontAwesomeIcon icon={faBluesky} /></a>
+          <a href="https://www.instagram.com/charlottebennardo"  target="_blank"  rel="noopener noreferrer"><FontAwesomeIcon icon={faInstagram} /></a>
+          <a href="https://pinterest.com/charlottebennaro"  target="_blank"  rel="noopener noreferrer"><FontAwesomeIcon icon={faPinterest} /></a>
         </div>
       </div>
     </footer>

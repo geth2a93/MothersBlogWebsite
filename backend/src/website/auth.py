@@ -42,20 +42,12 @@ def login():
     user = User.query.filter_by(username=username).first()
 
     if user and check_password_hash(user.password, password):
-
-        print("BEFORE LOGIN:", dict(session))
-        print("USER ID:", user.get_id())
-
         login_user(user)
-
-        print("AFTER LOGIN:", dict(session))
-        print("AUTHENTICATED:", current_user.is_authenticated)
 
         return jsonify({
             "message": "Logged in",
             "user_id": user.get_id(),
             "authenticated": current_user.is_authenticated,
-            "session": dict(session)
         }), 200
 
     return jsonify({"error": "Invalid credentials"}), 401

@@ -41,15 +41,6 @@ useEffect(() => {
     });
 }, [page, type, genre]);
 
-const testItem = {
-  id: 999,
-  title: "Test Instagram",
-  title_media: "https://www.instagram.com/p/CUbHfhpswxt/",
-  url_content_type: "instagram",
-  preview: "Testing embed",
-  link: "#",
-  tags: []
-};
 
 const itemsToRender = [...items];
 

@@ -71,7 +71,6 @@ export default function NewBlog() {
   const safeBlog = {
     ...blog,
 
-    // strip files (they break localStorage)
     title_media: {
       ...blog.title_media,
       file: null
@@ -302,22 +301,7 @@ const buildFormData = () => {
 
 const handlePreview = async () => {
   try {
-    const formData = buildFormData(false);
-
-  console.log("FORM DATA");
-    for (const [key, value] of formData.entries()) {
-    console.log(
-      key,
-      value instanceof File
-        ? {
-            name: value.name,
-            size: value.size,
-            type: value.type
-          }
-        : value
-    );
-  }
-
+    const formData = buildFormData();
 
     const res = await fetch(
       "/admin/newblogpost",
@@ -334,12 +318,13 @@ const handlePreview = async () => {
       alert(data.error || "Preview failed");
       return;
     }
-        setBlog(prev => ({
-  ...prev,
-  id: data.blog_id,
-  slug: data.slug
-}));
+
+
+    localStorage.removeItem("blogDraft");
+
+    
     navigate(`/dashboard/blog-preview/${data.slug}`);
+
   } catch (err) {
     console.error(err);
   }
@@ -394,7 +379,7 @@ return (
       </button>
       
       <h1>New Blog</h1>
-      
+
 
       <div className="editor-card">
       <input
@@ -657,9 +642,13 @@ return (
    </div>
   </div>
 
-  <div className = "button-container-3">
-      <button className="editor-button-3" onClick={handlePreview}> Preview </button>
-  </div>
+  <div className="button-container-3">
+  <button
+    className="editor-button-3"
+    onClick={() => { handlePreview(); }}>
+    Preview
+  </button>
+</div>
   </>
   );
 }
