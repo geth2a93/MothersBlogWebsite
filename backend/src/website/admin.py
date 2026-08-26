@@ -740,6 +740,7 @@ def display_all_emails():
                 "id": email.id,
                 "subject": email.subject,
                 "message": email.message,
+                "sent": email.sent,
                 "date_to_send": email.date_to_send.isoformat(),
                 "images": [{"id": pic.id, "image_url": pic.image_url} for pic in email.email_pics]
             }
