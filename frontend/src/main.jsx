@@ -86,7 +86,7 @@ createRoot(document.getElementById("root")).render(
 
       <Route path="display-teaching" element={<DisplayTeachingResources />} />
       <Route path="add-teaching" element={<AddTeachingResource />} />
-      <Route path="edit-teaching/:id" element={<EditTeachingResource />} />
+      <Route path="edit-teaching/:title" element={<EditTeachingResource />} />
     </Route>
     </Routes>
   </BrowserRouter>

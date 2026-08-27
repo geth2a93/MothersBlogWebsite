@@ -20,6 +20,7 @@ function EditTeachingResource() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
+  
 
   useEffect(() => {
     const getResource = async () => {

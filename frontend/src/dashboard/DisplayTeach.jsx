@@ -82,7 +82,7 @@ function DisplayTeachingResources() {
                     <button
                       onClick={() =>
                         navigate(
-                          `/admin/editteachingresource/${resource.title.replace(
+                          `/dashboard/edit-teaching/${resource.title.replace(
                             /\s+/g,
                             "-"
                           )}`

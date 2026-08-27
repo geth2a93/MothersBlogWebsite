@@ -895,13 +895,13 @@ def send_email(email_id):
 @login_required
 def show_all_teaching():
     resources = TeachingResource.query.order_by(TeachingResource.id.desc()).all()
-    return jsonify({ "resource": [{"title": resource.book_title} for resource in resources]})
+    return jsonify({ "resources": [{"title": resource.book_title} for resource in resources]})
 
 @admin.route("/deleteresource/<string:title>", methods=["GET"])
 @login_required
 def delete_resource(title):
     spaced_title = title.replace("-", " ")
-    resource = TeachingResource.query.filter_by(title=spaced_title).first_or_404()
+    resource = TeachingResource.query.filter_by(book_title=spaced_title).first_or_404()
     TeachingResourceVideoLink.query.filter_by(resource_id=resource.id).delete()
     TeachingResourceBookLink.query.filter_by(resource_id=resource.id).delete()
 
@@ -961,7 +961,7 @@ def create_teaching_resource():
 @login_required
 def edit_teaching_resource(title):
     spaced_title = title.replace("-", " ")
-    resource = TeachingResource.query.filter_by(title=spaced_title).first_or_404()
+    resource = TeachingResource.query.filter_by(book_title=spaced_title).first_or_404()
 
     if request.method == "GET":
             return jsonify({
@@ -971,13 +971,21 @@ def edit_teaching_resource(title):
                 "questions":resource.questions, 
                 "supplies":resource.supplies, 
                 "objectives":resource.objectives, 
-                "procedures":resource.procedures 
+                "procedures":resource.procedures,
+
+                "video_links": [ { "id": video.id, "video_link": video.video_link, "video_title": video.video_title } for video in resource.video_links],
+                "book_links": [ { "id": book.id, "book_link": book.book_link, "book_title": book.book_title } for book in resource.book_links ]
             }), 200
 
     data = request.get_json()
     if not data:
         return jsonify({"error": "Missing JSON"}), 400
 
+    book_title = data.get("book_title")
+    if not book_title:
+        return jsonify({"error": "Empty book title"}), 400
+
+    resource.book_title = book_title
     resource.word_list = data.get("word_lists")
     resource.activities = data.get("activities")
     resource.questions = data.get("questions")
@@ -1017,4 +1025,4 @@ def edit_teaching_resource(title):
 
     db.session.commit()
 
-    return jsonify({"message": f'Teaching resource  "{book_title}" editted'}), 201
+    return jsonify({"message": f'Teaching resource  "{resource.book_title}" edited'}), 201
