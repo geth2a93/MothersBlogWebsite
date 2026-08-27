@@ -62,21 +62,3 @@ def logout():
 
 
 
-#to be deleted, will add admin later
-@auth.route("/createuser", methods=["POST"])
-def createuser():
-    data = request.get_json()
-
-    if not data:
-        return jsonify({"error": "Missing JSON"}), 400
-    
-    username = data.get("username")
-    password = data.get("password")
-    email = data.get("email")
-    hashed = generate_password_hash(password)
-
-    newUser = User(username=username, password=hashed, email=email)
-    db.session.add(newUser)
-    db.session.commit()
-
-    return jsonify({"message": "success"}), 200

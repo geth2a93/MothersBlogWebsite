@@ -84,13 +84,16 @@ export default function AdminEditBooks() {
                   <th>ISBN</th>
                   <th>Date Added</th>
                   <th>Genres</th>
+                  <th>Display Status</th>
                   <th>Actions</th>
+                  
                 </tr>
               </thead>
 
               <tbody>
                 {books.map((book) => (
                   <tr key={book.id}>
+
                     <td className="display-title">
                       {book.title}
                     </td>
@@ -114,30 +117,23 @@ export default function AdminEditBooks() {
                         : "-"}
                     </td>
 
+                    <td>
+                      {book.displayed ? "Displayed" : "Hidden"}
+                    </td>
+
+
                     <td className="display-actions">
                       <button
-                        className="edit-button"
-                        onClick={() =>
-                          navigate(
-                            `/dashboard/book-edit/${book.title.replace(
-                              /\s+/g,
-                              "-"
-                            )}`
-                          )
-                        }
-                      >
+                        className="edit-button" onClick={() =>navigate( `/dashboard/book-edit/${book.title.replace(/\s+/g,"-")}`)}>
                         Edit
                       </button>
 
-                      <button
-                        className="delete-button"
-                        onClick={() =>
-                          handleDelete(book.title)
-                        }
-                      >
+                      <button className="delete-button" onClick={() => handleDelete(book.title)}>
                         Delete
                       </button>
                     </td>
+
+                    
                   </tr>
                 ))}
               </tbody>

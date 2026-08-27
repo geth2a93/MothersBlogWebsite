@@ -3,7 +3,6 @@ import { createRoot } from 'react-dom/client'
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import Login from './dashboard/Login.jsx';
-import CreateUser from "./dashboard/createUser.jsx";
 
 import Home from './public/Home.jsx';
 import Layout from "./public/Components.jsx";
@@ -31,6 +30,13 @@ import NewBook from './dashboard/AddBook.jsx';
 
 import DashboardLayout from './dashboard/DashWrapper.jsx';
 import DashNotFound from './dashboard/DashNotFound.jsx';
+import DisplayEmails from './dashboard/DisplayEmail.jsx';
+import AddEmail from './dashboard/AddEmail.jsx';
+import EditEmail from './dashboard/EditEmail.jsx';
+
+import DisplayTeachingResources from './dashboard/DisplayTeach.jsx';
+import AddTeachingResource from './dashboard/AddTeach.jsx';
+import EditTeachingResource from './dashboard/EditTeach.jsx';
 
 createRoot(document.getElementById("root")).render(
   <BrowserRouter>
@@ -51,31 +57,37 @@ createRoot(document.getElementById("root")).render(
       </Route>
 
       <Route path="/login" element={<Login />} />
-      <Route path="/createuser" element={<CreateUser />} />
 
-  <Route path="/dashboard" element={<DashboardLayout />}> 
+    <Route path="/dashboard" element={<DashboardLayout />}> 
       <Route path="*" element={<DashNotFound />} />
-      
       <Route index element={<AdminHome />} />
-      <Route path="/dashboard/aboutme" element={<AdminAboutMe />} />
-      <Route path="/dashboard/websiteresources" element={<AdminWebResources />} />
 
-      <Route path="/dashboard/add-blog" element={<NewBlog/>} />
-      <Route path="/dashboard/add-blog/:slug" element={<NewBlog />} />
+      <Route path="aboutme" element={<AdminAboutMe />} />
+      <Route path="websiteresources" element={<AdminWebResources />} />
 
-      <Route path="/dashboard/blog-preview" element={<BlogPreview />} />
-      <Route path="/dashboard/blog-preview/:slug" element={<BlogPreview />} />
+      <Route path="add-blog" element={<NewBlog />} />
+      <Route path="add-blog/:slug" element={<NewBlog />} />
 
-      <Route path="/dashboard/blogs" element={<AdminEditBlog />} />
-      <Route path="/dashboard/blog-editor" element={<NewBlog />} />
-      <Route path="/dashboard/blog-editor/new" element={<NewBlog />} />
-      <Route path="/dashboard/blog-edit/:slug" element={<EditBlog />} />
+      <Route path="blog-preview" element={<BlogPreview />} />
+      <Route path="blog-preview/:slug" element={<BlogPreview />} />
 
-      <Route path="/dashboard/books" element={<AdminEditBooks />} />
-      <Route path="/dashboard/book-edit/:title" element={<EditBook />} />
-      <Route path="/dashboard/newbook" element={<NewBook />} />
-      </Route>
+      <Route path="blogs" element={<AdminEditBlog />} />
+      <Route path="blog-editor" element={<NewBlog />} />
+      <Route path="blog-editor/new" element={<NewBlog />} />
+      <Route path="blog-edit/:slug" element={<EditBlog />} />
+
+      <Route path="books" element={<AdminEditBooks />} />
+      <Route path="book-edit/:title" element={<EditBook />} />
+      <Route path="newbook" element={<NewBook />} />
+
+      <Route path="displayemails" element={<DisplayEmails />} />
+      <Route path="new-email" element={<AddEmail />} />
+      <Route path="edit-email/:email_id" element={<EditEmail />} />
+
+      <Route path="display-teaching" element={<DisplayTeachingResources />} />
+      <Route path="add-teaching" element={<AddTeachingResource />} />
+      <Route path="edit-teaching/:id" element={<EditTeachingResource />} />
+    </Route>
     </Routes>
-    
   </BrowserRouter>
 );

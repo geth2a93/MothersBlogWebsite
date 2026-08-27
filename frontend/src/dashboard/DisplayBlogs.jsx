@@ -49,7 +49,6 @@ export default function AdminEditBlog() {
       throw new Error(data.error || "Publish failed");
     }
 
-    // Update the row immediately without refetching
     setBlogs((prev) =>
       prev.map((blog) =>
         blog.slug === slug

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./editor.css";
+
 const emptyBook = {
   title: "",
   isbn: "",
@@ -305,13 +306,10 @@ export default function NewBook() {
   };
 
   return (
-    
     <><div className="editor-container">
       <h1>New Book</h1>
 
       <div className="editor-card">
-
-
         <h2>Title</h2>
 
         <input

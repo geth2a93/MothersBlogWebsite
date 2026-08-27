@@ -24,12 +24,32 @@ export default function AdminHome() {
                             Edit Web Resources
                         </button>
 
-                        <button onClick={() => navigate("/dashboard/displayteaching")}>
-                            Edit Teaching Resources
+                    </div>
+                </details>
+
+                <details>
+                    <summary>Teaching Resources</summary>
+                    <div className="dash-buttons">
+                        <button onClick={() => navigate("/dashboard/add-teaching")}>
+                            Add Teaching Resources
                         </button>
 
-                         <button onClick={() => navigate("/dashboard/displayemail")}>
-                            Emails
+                        <button onClick={() => navigate("/dashboard/display-teaching")}>
+                            Manage Teaching Resources
+                        </button>
+                    </div>
+                </details>
+
+                <details>
+                    <summary>Emails</summary>
+
+                    <div className="dash-buttons">
+                         <button onClick={() => navigate("/dashboard/new-email")}>
+                            Create Emails
+                        </button>
+
+                         <button onClick={() => navigate("/dashboard/displayemails")}>
+                            Manage Emails
                         </button>
                     </div>
                 </details>

@@ -29,17 +29,14 @@ export default function Login() {
             password
         })
     });
-        const text = await response.text();
-        // console.log("RAW RESPONSE:", text);
 
+        const text = await response.text();
         let data;
             try {
                 data = JSON.parse(text);
             } catch {
                 throw new Error("Backend did not return JSON");
             }
-
-            // console.log("PARSED DATA:", data);
 
             if (response.ok) {
                 setMessage(data.message || "Login successful");
