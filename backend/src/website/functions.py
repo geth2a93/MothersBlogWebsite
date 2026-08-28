@@ -38,7 +38,7 @@ def get_home_latest_content():
             "id": latest_blog.id,
             "title": latest_blog.title,
             "slug": latest_blog.slug,
-            "tags": [t.content for t in latest_blog.tags],
+            "tags": [t.tag for t in latest_blog.tags],
             "date": latest_blog.blog_date.isoformat(),
             "title_media": title_media, #change front end  if not too annoying?
             "url_content_type": latest_blog.title_media_content_type,
