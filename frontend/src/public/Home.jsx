@@ -24,7 +24,7 @@ function Home() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("/api")
+    fetch("/api/")
       .then((res) => res.json())
       .then((data) => {
         setHomeData(data);
