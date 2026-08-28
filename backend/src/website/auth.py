@@ -1,16 +1,7 @@
-from werkzeug.security import generate_password_hash, check_password_hash
-from flask import request, jsonify, Blueprint, current_app
-from flask_login import login_required, login_user, logout_user
-from datetime import datetime
-import os, uuid, json
-from . import db
-
+from werkzeug.security import check_password_hash
+from flask import request, jsonify, Blueprint
+from flask_login import login_required, login_user, logout_user, current_user
 from .models import *
-from flask import request, jsonify, session
-from flask_login import login_user, current_user
-from flask import session
-from flask_login import current_user
-
 
 auth = Blueprint('auth', __name__,  url_prefix="/auth")
 

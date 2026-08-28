@@ -1,8 +1,7 @@
 from flask import request, jsonify, Blueprint, current_app
-from werkzeug.utils import secure_filename
 from zoneinfo import ZoneInfo
 from flask_login import login_required
-from datetime import datetime, timezone, timedelta
+from datetime import datetime
 import os, json
 from . import db
 from .models import *
@@ -10,11 +9,6 @@ from .functions import *
 from .admin_functions import *
 
 admin = Blueprint('admin', __name__,  url_prefix="/admin")
-
-#@admin.route("/admin", methods=["GET", "PUT"])
-#@login_required
-#def adminhome():
-
 
 #Later Edits
 #large block for pictures needs to be moved to functions and standardized, same with adding the data - should mnake 3 functions out of methods - 2 done ownership/uploadimage
@@ -25,80 +19,87 @@ admin = Blueprint('admin', __name__,  url_prefix="/admin")
 @admin.route("/editaboutme", methods=["GET", "PUT"])
 @login_required
 def edit_about_me():
-    about = AboutMe.query.first_or_404()
-    if not about:
-        about = AboutMe()
-        db.session.add(about)
+    about = AboutMe.query.first()
+    try:
+        if not about:
+            about = AboutMe()
+            db.session.add(about)
 
-    if request.method == "GET":
-        return jsonify({
-            "content": about.content,
-            "updated_at": about.updated_at.isoformat(),
-            "abtme_pic_url": build_url(about.abtme_pic_url)
-        })
+        if request.method == "GET":
+            return jsonify({
+                "content": about.bio,
+                "updated_at": about.updated_at.isoformat(),
+                "abtme_pic_url": build_url(about.photo_url)
+            })
   
-    content = request.form.get("content")
+        content = request.form.get("content")
 
-    if content:
-        about.content = content
+        if content:
+            about.bio = content
 
-    file = request.files.get("image")
-    if file and file.filename != "":
-        url, error = upload_image(file, "website_resources", file.filename)
-        if error:
-            return jsonify({"error": error}), 400
+        file = request.files.get("image")
+        if file and file.filename != "":
+            url, error = upload_image(file, "website_resources", file.filename)
+            if error:
+                return jsonify({"error": error}), 400
+            about.photo_url = url
 
-        about.abtme_pic_url = url
+        about.updated_at = datetime.now(ZoneInfo("America/New_York"))
+        db.session.commit()
 
-    about.updated_at = datetime.now(ZoneInfo("America/Los_Angeles"))
-
-    db.session.commit()
-
-    return jsonify({
-        "message": "About Me updated",
-        "abtme_pic_url": build_url(about.abtme_pic_url)
-    }), 200
-
+        return jsonify({
+            "message": "About Me updated",
+            "abtme_pic_url": build_url(about.photo_url)
+        }), 200
+    
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": str(e)}), 400
 
 @admin.route("/websiteresources", methods=["GET", "PUT"])
 @login_required
 def edit_site_resources():
     resources = Website_Images.query.first()
-    if not resources:
-        resources = Website_Images()
-        db.session.add(resources)
-    if request.method == "GET":
+    try:
+        if not resources:
+            resources = Website_Images()
+            db.session.add(resources)
+        if request.method == "GET":
+            return jsonify({
+                "logo_image": build_url(resources.logo_image_url),
+                "banner_image": build_url(resources.banner_image_url)
+            })
+
+        image_type = request.form.get("image_type")
+        file = request.files.get("image")
+
+        if file and file.filename != "":
+            url, error = upload_image(file, "website_resources", file.filename)
+            if error:
+                return jsonify({"error": error}), 400
+
+            if image_type == "logo":
+                resources.logo_image_url = url
+            elif image_type == "banner":
+                resources.banner_image_url = url
+
+        db.session.commit()
+
         return jsonify({
-            "logo_image": build_url(resources.logo_image_url),
-            "banner_image": build_url(resources.banner_image_url)
-        })
-
-    image_type = request.form.get("image_type")
-    file = request.files.get("image")
-
-    if file and file.filename != "":
-        url, error = upload_image(file, "website_resources", file.filename)
-        if error:
-            return jsonify({"error": error}), 400
-
-        if image_type == "logo":
-            resources.logo_image_url = url
-        elif image_type == "banner":
-            resources.banner_image_url = url
-
-    db.session.commit()
-
-    return jsonify({
-        "message": "Image updated",
-        "image_url": build_url(url)
-    }), 200
+            "message": "Image updated",
+            "image_url": build_url(url)
+        }), 200
+    
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": str(e)}), 400
 
 #Blogs
 
 @admin.route("/displayallblogs", methods=["GET"])
 @login_required
 def show_all_blogs():
-    blogs = BlogPost.query.order_by(BlogPost.date_created.desc()).all()
+    blogs = BlogPost.query.order_by(BlogPost.blog_date.desc()).all()
 
     return jsonify({
         "blogs": [
@@ -106,7 +107,7 @@ def show_all_blogs():
                 "id": blog.id,
                 "title": blog.title,
                 "slug": blog.slug,
-                "date_created": blog.date_created,
+                "date_created": blog.blog_date,
                 "published": blog.published
             }
             for blog in blogs
@@ -117,325 +118,346 @@ def show_all_blogs():
 @login_required
 def delete_blog(slug):
     blog = BlogPost.query.filter_by(slug=slug).first_or_404()
-    Tags.query.filter_by(blog_id=blog.id).delete()
-    BlogContentBlock.query.filter_by(blog_id=blog.id).delete()
-    db.session.delete(blog)
-    db.session.commit()
-    return jsonify({"message": "Blog deleted"}), 200
+    try:
+        Tags.query.filter_by(blog_id=blog.id).delete()
+        BlogContentBlock.query.filter_by(blog_id=blog.id).delete()
+        db.session.delete(blog)
+        db.session.commit()
+
+        return jsonify({"message": "Blog deleted"}), 200
+    
+    except Exception as e:
+            db.session.rollback()
+            return jsonify({"error": str(e)}), 400
 
 @admin.route("/publishblog/<string:slug>", methods=["POST"])
 @login_required
 def blog_post_publish(slug):
     p = BlogPost.query.filter_by(slug=slug).first_or_404()
-    p.date_created = datetime.now(ZoneInfo("America/Los_Angeles"))
-    p.published = True
-    db.session.commit()
+    try:
+        p.blog_date = datetime.now(ZoneInfo("America/New_York"))
+        p.published = True
+        db.session.commit()
 
-    return jsonify({"message": "Blog post published", "blog_id": p.id, "slug": p.slug,})
+        return jsonify({"message": "Blog post published", "blog_id": p.id, "slug": p.slug,})
+    
+    except Exception as e:
+            db.session.rollback()
+            return jsonify({"error": str(e)}), 400
 
 @admin.route("/newblogpost", methods=["PUT"])
 @login_required
 def new_blog_post():
-    data = request.form    
-    if not request.form and not request.files:
-        return jsonify({"error": "Missing data"}), 400
+    try:
+        data = request.form    
+        if not request.form and not request.files:
+            return jsonify({"error": "Missing data"}), 400
 
-    blog_id = data.get("blog_id") 
+        blog_id = data.get("blog_id") 
 
-    date_upload = data.get("date")
-    if date_upload:
-        date = datetime.fromisoformat(date_upload)
-    else:
-        date = datetime.now(ZoneInfo("America/Los_Angeles"))
+        date_upload = data.get("date")
+        if date_upload:
+            date = datetime.fromisoformat(date_upload)
+        else:
+            date = datetime.now(ZoneInfo("America/New_York"))
 
-    title = data.get("title")
-    if not title:
-        return jsonify({"error": "No title"}), 400
+        title = data.get("title")
+        if not title:
+            return jsonify({"error": "No title"}), 400
 
-    preview = data.get("preview")
+        title_text_content = data.get("preview")
+        title_media_content_type = data.get("title_url_content_type")
 
-    title_url_content_type = data.get("title_url_content_type")
+        if blog_id:
+            blog = BlogPost.query.get(blog_id)
+            if not blog:
+                return jsonify({"error": "Blog not found"}), 404
+            title_media_content_url = blog.title_media_content_url
+        else:
+            slug = generate_unique_slug(BlogPost, title)
+            blog = BlogPost()
+            blog.title = title
+            blog.slug = slug
+            db.session.add(blog)
+            db.session.flush()
 
-    if blog_id:
-        blog = BlogPost.query.get(blog_id)
-        if not blog:
-            return jsonify({"error": "Blog not found"}), 404
-        title_media_content_url = blog.title_media_content_url
-    else:
-        slug = generate_unique_slug(BlogPost, title)
-        blog = BlogPost()
-        blog.title = title
-        blog.slug = slug
-        db.session.add(blog)
-        db.session.flush()
+        if title_media_content_type == "none":
+            title_media_ownership = True
+            title_media_owner_name = None
+            title_media_content_url = None
 
-    if title_url_content_type == "none":
-        ownership = True
-        name = None
-        title_media_content_url = None
+        elif title_media_content_type in {"youtube", "instagram", "facebook", "threads"}:
+            title_media_ownership = True
+            title_media_owner_name = None
+            title_media_content_url = data.get("title_media_content_url")
 
-    elif title_url_content_type in {"youtube", "instagram", "facebook", "threads"}:
-        ownership = True
-        name = None
-        title_media_content_url = data.get("title_media_content_url")
-
-        if not title_media_content_url:
-            return jsonify({"error": "Url Empty"}), 400
-        if not url_check(title_media_content_url, title_url_content_type):
+            if not title_media_content_url:
+                return jsonify({"error": "Url Empty"}), 400
+            if not url_check(title_media_content_url, title_media_content_type):
                 return jsonify({"error": "Type Mismatch between selected value and link value"}), 400
 
-    elif title_url_content_type == "image":
-        file = request.files.get("title_image")
-        ownership, name, ownership_error = parse_ownership(data)
-        if ownership_error:
-            return jsonify({"error": ownership_error}), 400
-        if file and file.filename != "":
-            title_media_content_url, error = upload_image(file, "website_resources", file.filename)
-            if error:
-                return jsonify({"error": error}), 400
-
-    else:
-        return jsonify({"error": "Invalid content type"}), 400
-
-    blog.title = title
-    blog.preview = preview
-    blog.title_media_content_url = title_media_content_url
-    blog.url_content_type = title_url_content_type
-    blog.ownership = ownership
-    blog.name_of_owner = name
-    blog.date_created = date
-    blog.published = False
-
-    Tags.query.filter_by(blog_id=blog.id).delete()
-
-    tags = request.form.getlist("tags")
-    for tag in tags:
-        db.session.add(Tags(content=tag, blog_id=blog.id))
-
-    BlogContentBlock.query.filter_by(blog_id=blog.id).delete()
-
-    try:
-        content_blocks = json.loads(data.get("content_blocks", "[]"))
-    except json.JSONDecodeError:
-        return jsonify({"error": "Invalid content_blocks JSON"}), 400
-
-    for index, block in enumerate(content_blocks):
-        block_url_content_type = block.get("url_content_type")
-        new_block = BlogContentBlock()
-        new_block.blog_id = blog.id
-        new_block.order = block.get("order", index)
-        db.session.add(new_block)
-        db.session.flush()
-
-        if block_url_content_type == "none":
-            ownership_block = True
-            name_block = None
-            media_content_url = None
-
-        elif block_url_content_type == "image":
-            file = request.files.get(f"image_{index}")
-            if not file and not block.media_content_url:
-                return jsonify({"error": "Missing image file in block"}), 400
-            ownership_block, name_block, ownership_error = parse_ownership(block)
+        elif title_media_content_type == "image":
+            file = request.files.get("title_image")
+            title_media_ownership, title_media_owner_name, ownership_error = parse_ownership(data)
             if ownership_error:
                 return jsonify({"error": ownership_error}), 400
-
             if file and file.filename != "":
-                filename = f"blog_{blog.slug}_{new_block.id}"
-                media_content_url, error = upload_image(file, "blog", filename)
+                title_media_content_url, error = upload_image(file, "website_resources", file.filename)
                 if error:
                     return jsonify({"error": error}), 400
 
-        elif block_url_content_type in {"youtube", "instagram", "facebook", "threads"}:
-            ownership_block = True
-            name_block = None
-            media_content_url = block.get("media_content_url")
-
-            if not media_content_url:
-                return jsonify({"error": "Missing block URL"}), 400
-            if not url_check(media_content_url, block_url_content_type):
-                return jsonify({"error": "Type Mismatch between selected value and link value"}), 400
-
         else:
-            return jsonify({"error": "Invalid block content type"}), 400
+            return jsonify({"error": "Invalid content type"}), 400
 
-        title_of_block = block.get("title_of_block")
-        content = block.get("content")
+        blog.title = title
+        blog.title_text_content = title_text_content
+        blog.title_media_content_url = title_media_content_url
+        blog.title_media_content_type = title_media_content_type
+        blog.title_media_ownership = title_media_ownership
+        blog.title_media_owner_name = title_media_owner_name
+        blog.blog_date = date
+        blog.published = False
 
-        if not any([title_of_block, content, media_content_url]):
-            return jsonify({"error": "Block cannot be empty"}), 400
+        Tags.query.filter_by(blog_id=blog.id).delete()
 
-        new_block.title_of_block=title_of_block
-        new_block.content=content
-        new_block.media_content_url=media_content_url
-        new_block.url_content_type=block_url_content_type
-        new_block.ownership=ownership_block
-        new_block.name_of_owner=name_block
-        new_block.alignment=block.get("alignment")
+        tags = request.form.getlist("tags")
+        for tag in tags:
+            db.session.add(Tags(tag=tag, blog_id=blog.id))
 
-    db.session.commit()
+        BlogContentBlock.query.filter_by(blog_id=blog.id).delete()
 
-    return jsonify({"message": "Blog post saved", "blog_id": blog.id, "slug": blog.slug,}), 200 
+        try:
+            content_blocks = json.loads(data.get("content_blocks", "[]"))
+        except json.JSONDecodeError:
+            return jsonify({"error": "Invalid content_blocks JSON"}), 400
+
+        for index, block in enumerate(content_blocks):
+            block_media_content_type = block.get("url_content_type")
+            new_block = BlogContentBlock()
+            new_block.blog_id = blog.id
+            new_block.order = block.get("order", index)
+            db.session.add(new_block)
+            db.session.flush()
+
+            if block_media_content_type == "none":
+                block_media_ownership = True
+                block_media_owner_name = None
+                block_media_content_url = None
+
+            elif block_media_content_type == "image":
+                file = request.files.get(f"image_{index}")
+                if not file:
+                    return jsonify({"error": "Missing image file in block"}), 400
+                block_media_ownership, block_media_owner_name, ownership_error = parse_ownership(block)
+                if ownership_error:
+                    return jsonify({"error": ownership_error}), 400
+
+                if file and file.filename != "":
+                    filename = f"blog_{blog.slug}_{new_block.id}"
+                    block_media_content_url, error = upload_image(file, "blog", filename)
+                    if error:
+                        return jsonify({"error": error}), 400
+
+            elif block_media_content_type in {"youtube", "instagram", "facebook", "threads"}:
+                block_media_ownership = True
+                block_media_owner_name = None
+                block_media_content_url = block.get("media_content_url")
+
+                if not block_media_content_url:
+                    return jsonify({"error": "Missing block URL"}), 400
+                if not url_check(block_media_content_url, block_media_content_type):
+                    return jsonify({"error": "Type Mismatch between selected value and link value"}), 400
+
+            else:
+                return jsonify({"error": "Invalid block content type"}), 400
+
+            title_of_block = block.get("title_of_block")
+            block_text_content = block.get("content")
+
+            if not any([title_of_block, block_text_content, block_media_content_url]):
+                return jsonify({"error": "Block cannot be empty"}), 400
+
+            new_block.title_of_block=title_of_block
+            new_block.content=block_text_content
+            new_block.media_content_url=block_media_content_url
+            new_block.url_content_type=block_media_content_type
+            new_block.ownership=block_media_ownership
+            new_block.name_of_owner=block_media_owner_name
+            new_block.alignment=block.get("alignment")
+
+        db.session.commit()
+
+        return jsonify({"message": "Blog post saved", "blog_id": blog.id, "slug": blog.slug,}), 200 
+
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": str(e)}), 400
 
 @admin.route("/newblogpostpreview/<string:slug>", methods=["POST"])
 @login_required
 def new_blog_post_preview(slug):
-    p = BlogPost.query.filter_by(slug=slug).first_or_404()
-    p.published = True
-    db.session.commit()
+    try:
+        p = BlogPost.query.filter_by(slug=slug).first_or_404()
+        p.published = True
+        db.session.commit()
 
-    return jsonify({"message": "Blog post published", "blog_id": p.id, "slug": p.slug,})
+        return jsonify({"message": "Blog post published", "blog_id": p.id, "slug": p.slug,})
+    
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": str(e)}), 400
 
 @admin.route("/editblog/<string:slug>", methods=["GET", "PUT"])
 @login_required
 def edit_blog(slug):
     blog = BlogPost.query.filter_by(slug=slug).first_or_404()
-    blocks = (BlogContentBlock.query.filter_by(blog_id=blog.id).order_by(BlogContentBlock.order.asc()).all())
-    title_media_content_url = blog.title_media_content_url
-
-    if request.method == "GET":
-        return jsonify(get_blog_by_slug(slug))
-
-    data = request.form
-    if not request.form and not request.files:
-        return jsonify({"error": "Missing data"}), 400
-    
-    title = data.get("title")
-    if not title:
-        return jsonify({"error": "No title"}), 400
-
-    blog.title = title
-    blog.preview = data.get("preview", blog.preview)
-
-
-    date = datetime.fromisoformat(data.get("date")).replace(tzinfo=ZoneInfo("America/Los_Angeles"))
-
-    if date > datetime.now(ZoneInfo("America/Los_Angeles")):
-        blog.published = False
-    else:
-        blog.published = True
-
-    blog.date_created = date
-
-    title_url_content_type = data.get("title_url_content_type", blog.url_content_type)
-
-    if title_url_content_type == "none":
-        blog.ownership = True
-        blog.name_of_owner = None
-        blog.title_media_content_url = None
-
-    elif title_url_content_type in {"youtube", "instagram", "facebook", "threads"}:
-        blog.ownership = True
-        blog.name_of_owner = None
-        title_media_content_url = data.get("title_media_content_url")
-        if not title_media_content_url:
-            return jsonify({"error": "Url Empty for title media"}), 400
-        if not url_check(title_media_content_url, title_url_content_type):
-            return jsonify({"error": "Type mismatch between selected value and link value for title media"}), 400
-        blog.title_media_content_url = title_media_content_url
-
-    elif title_url_content_type == "image":
-        file = request.files.get("title_image")
-        ownership, name, ownership_error = parse_ownership(data)
-        if ownership_error:
-            return jsonify({"error": ownership_error}), 400
-        if file and file.filename != "":
-            title_media_content_url, error = upload_image(file, "website_resources", file.filename)
-            if error:
-                return jsonify({"error": error}), 400
-            blog.title_media_content_url = title_media_content_url
-            blog.ownership = ownership
-            blog.name = name
-
-    else:
-        return jsonify({"error": "Invalid content type for title media"}), 400
-
-    blog.url_content_type = title_url_content_type
-    blog.slug = generate_unique_slug(BlogPost, title)
-
-    Tags.query.filter_by(blog_id=blog.id).delete()
-
-    tags = request.form.getlist("tags")
-    for tag in tags:
-        db.session.add(Tags(content=tag, blog_id=blog.id))
-
-    BlogContentBlock.query.filter_by(blog_id=blog.id).delete()
-
     try:
-        content_blocks = json.loads(data.get("content_blocks", "[]"))
-    except json.JSONDecodeError:
-        return jsonify({"error": "Invalid content_blocks JSON"}), 400
+        title_media_content_url = blog.title_media_content_url
+
+        if request.method == "GET":
+            return jsonify(get_blog_by_slug(slug))
+
+        data = request.form
+        if not request.form and not request.files:
+            return jsonify({"error": "Missing data"}), 400
     
-    for index, block in enumerate(content_blocks):
-        new_block = BlogContentBlock()
-        new_block.blog_id = blog.id
-        new_block.order = block.get("order", index)
-        db.session.add(new_block)
-        db.session.flush()
+        title = data.get("title")
+        if not title:
+            return jsonify({"error": "No title"}), 400
 
-        if index < len(blocks):
-            if blocks[index]:
-                url = blocks[index].media_content_url
-        block_url_content_type = block.get("url_content_type")
-        media_url = block.get("media_content_url")
-        if block_url_content_type == "none":
-            ownership_block = True
-            name_block = None
-            url = None
+        blog.title = title
+        blog.title_text_content = data.get("preview", blog.title_text_content)
 
-        elif block_url_content_type == "image":
-            file = request.files.get(f"image_{index}")
-            if not file and not url and not media_url:
-                return jsonify({"error": f"Missing image file in block {index+1}"}), 400
-            if media_url:
-                url = media_url
-                url = "/static/" + url.split("/static/", 1)[1]
-            ownership_block, name_block, ownership_error = parse_ownership(block)
-            if ownership_error: 
-                return jsonify({ "error": f"{ownership_error} for block {index + 1}" }), 400
+        date = datetime.fromisoformat(data.get("date")).replace(tzinfo=ZoneInfo("America/New_York"))
+
+        if date > datetime.now(ZoneInfo("America/New_York")):
+            blog.published = False
+        else:
+            blog.published = True
+
+        blog.blog_date = date
+
+        title_media_content_type = data.get("title_url_content_type", blog.title_media_content_type)
+
+        if title_media_content_type == "none":
+            blog.title_media_ownership = True
+            blog.title_media_owner_name = None
+            blog.title_media_content_url = None
+
+        elif title_media_content_type in {"youtube", "instagram", "facebook", "threads"}:
+            blog.title_media_ownership = True
+            blog.title_media_owner_name = None
+            title_media_content_url = data.get("title_media_content_url")
+            if not title_media_content_url:
+                return jsonify({"error": "Url Empty for title media"}), 400
+            if not url_check(title_media_content_url, title_media_content_type):
+                return jsonify({"error": "Type mismatch between selected value and link value for title media"}), 400
+            blog.title_media_content_url = title_media_content_url
+
+        elif title_media_content_type == "image":
+            file = request.files.get("title_image")
+            title_media_ownership, title_media_owner_name, ownership_error = parse_ownership(data)
+            if ownership_error:
+                return jsonify({"error": ownership_error}), 400
             if file and file.filename != "":
-                filename = f"blog_{blog.slug}_{new_block.id}"#error block,id doesnt have value (db.flush)
-                url, error = upload_image(file, "blog", filename)
-                if error: 
+                title_media_content_url, error = upload_image(file, "website_resources", file.filename)
+                if error:
                     return jsonify({"error": error}), 400
-
-        elif block_url_content_type in {"youtube", "instagram", "facebook", "threads"}:
-            ownership_block = True
-            name_block = None
-            url = block.get("media_content_url")
-
-            if not url:
-                return jsonify({"error": f"Missing block URL{index +1}"}), 400
-            if not url_check(url, block_url_content_type):
-                return jsonify({"error": f"Type Mismatch between selected value and link value for block {index + 1}"}), 400
+                blog.title_media_content_url = title_media_content_url
+                blog.ownership = title_media_ownership
+                blog.name = title_media_owner_name
 
         else:
-            return jsonify({"error": "Invalid block content type"}), 400
+            return jsonify({"error": "Invalid content type for title media"}), 400
 
-        title_of_block = block.get("title_of_block")
-        content = block.get("content")
+        blog.title_media_content_type = title_media_content_type
+        blog.slug = generate_unique_slug(BlogPost, title)
 
-        if not any([title_of_block, content, url]):
-            return jsonify({"error": f"Block cannot be empty {index + 1}"}), 400
+        Tags.query.filter_by(blog_id=blog.id).delete()
+
+        tags = request.form.getlist("tags")
+        for tag in tags:
+            db.session.add(Tags(tag=tag, blog_id=blog.id))
+
+        BlogContentBlock.query.filter_by(blog_id=blog.id).delete()
+
+        try:
+            content_blocks = json.loads(data.get("content_blocks", "[]"))
+        except json.JSONDecodeError:
+            return jsonify({"error": "Invalid content_blocks JSON"}), 400
+    
+        for index, block in enumerate(content_blocks):
+            new_block = BlogContentBlock()
+            new_block.blog_id = blog.id
+            new_block.order = block.get("order", index)
+            db.session.add(new_block)
+            db.session.flush()
+ 
+            block_media_content_type = block.get("url_content_type")
+
+            if block_media_content_type == "none":
+                block_media_ownership = True
+                block_media_owner_name = None
+                block_media_content_url = None
+
+            elif block_media_content_type == "image":
+                block_media_content_url = block.get("media_content_url")
+                if block_media_content_url:
+                    block_media_content_url = "/static/" + block_media_content_url.split("/static/", 1)[1]
+                else:
+                    file = request.files.get(f"image_{index}")
+                    if not file and not block_media_content_url:
+                        return jsonify({"error": f"Missing image file in block {index+1}"}), 400                
+                    if file and file.filename != "":
+                        filename = f"blog_{blog.slug}_{new_block.id}"
+                        block_media_content_url, error = upload_image(file, "blog", filename)
+                        if error: 
+                            return jsonify({"error": error}), 400
+                block_media_ownership, block_media_owner_name, ownership_error = parse_ownership(block)
+                if ownership_error: 
+                    return jsonify({ "error": f"{ownership_error} for block {index + 1}" }), 400
+
+            elif block_media_content_type in {"youtube", "instagram", "facebook", "threads"}:
+                block_media_ownership = True
+                block_media_owner_name = None
+                block_media_content_url = block.get("media_content_url")
+
+                if not block_media_content_url:
+                    return jsonify({"error": f"Missing block URL{index +1}"}), 400
+                if not url_check(block_media_content_url, block_media_content_type):
+                    return jsonify({"error": f"Type Mismatch between selected value and link value for block {index + 1}"}), 400
+
+            else:
+                return jsonify({"error": "Invalid block content type"}), 400
+
+            title_of_block = block.get("title_of_block")
+            block_text_content = block.get("content")
+
+            if not any([title_of_block, block_text_content, block_media_content_url]):
+                return jsonify({"error": f"Block cannot be empty {index + 1}"}), 400
         
-        new_block.title_of_block=title_of_block
-        new_block.content=content
-        new_block.media_content_url=url
-        new_block.url_content_type=block_url_content_type
-        new_block.ownership=ownership_block
-        new_block.name_of_owner=name_block
-        new_block.alignment=block.get("alignment")
+            new_block.title_of_block=title_of_block
+            new_block.block_text_content=block_text_content
+            new_block.block_media_content_url=block_media_content_url
+            new_block.block_media_content_type=block_media_content_type
+            new_block.block_media_ownership=block_media_ownership
+            new_block.block_media_owner_name=block_media_owner_name
+            new_block.alignment=block.get("alignment")
 
-    db.session.commit()
+        db.session.commit()
 
-    return jsonify({"message": "Success"}), 200
+        return jsonify({"message": "Success"}), 200
+    
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": str(e)}), 400
 
 #Books
 
 @admin.route("/displayallbooks", methods=["GET"])
 @login_required
 def show_all_books():
-    books = Book.query.order_by(Book.date_added.desc()).all()
+    books = Book.query.order_by(Book.publish_date.desc()).all()
 
     return jsonify({
         "books": [
@@ -443,8 +465,8 @@ def show_all_books():
                 "id": book.id,
                 "title": book.title,
                 "isbn": book.isbn,
-                "date_added": book.date_added,
-                "displayed": book.displayed,
+                "date_added": book.publish_date,
+                "displayed": book.published,
                 "genres": [g.genre for g in book.genres]
             }
             for book in books
@@ -456,33 +478,42 @@ def show_all_books():
 def delete_book(title):
     spaced_title = title.replace("-", " ")
     book = Book.query.filter_by(title=spaced_title).first_or_404()
-    genres = list(book.genres)
+    try:
+        genres = list(book.genres)
 
-    BuyLinks.query.filter_by(book_id=book.id).delete()
-    Reviews.query.filter_by(book_id=book.id).delete()
-    Awards.query.filter_by(book_id=book.id).delete()
-    book.genres.clear()
+        BuyLinks.query.filter_by(book_id=book.id).delete()
+        Reviews.query.filter_by(book_id=book.id).delete()
+        Awards.query.filter_by(book_id=book.id).delete()
+        book.genres.clear()
 
-    db.session.delete(book)
-    db.session.flush()
+        db.session.delete(book)
+        db.session.flush()
 
-    for genre in genres:
-        if not genre.books:
-            db.session.delete(genre)
+        for genre in genres:
+            if not genre.books:
+                db.session.delete(genre)
 
-    db.session.commit()
-
-    return jsonify({"message": "Book deleted"}), 200
+        db.session.commit()
+        return jsonify({"message": f"{spaced_title} deleted"}), 200
+    
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": str(e)}), 400
 
 @admin.route("/publishbook/<string:title>", methods=["GET"])
 @login_required
 def display_book(title):
     spaced_title = title.replace("-", " ")
     book = Book.query.filter_by(title=spaced_title).first_or_404()
-    book.displayed = True
-    db.session.commit()
 
-    return jsonify({"message": "Book now displayed"}), 200
+    try:
+        book.published = True
+        db.session.commit()
+        return jsonify({"message": "Book now displayed"}), 200
+    
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": str(e)}), 400
 
 
 @admin.route("/createnewbook", methods=["PUT"])
@@ -518,10 +549,9 @@ def add_book():
         if isbn:
             book.isbn = isbn
 
-
         date = data.get("date")
         if date:
-            book.date_added = datetime.fromisoformat(date)
+            book.publish_date = datetime.fromisoformat(date)
 
         exists = set()
 
@@ -540,16 +570,17 @@ def add_book():
 
             book.genres.append(genre)
       
-
         try:
             buy_links = json.loads(request.form.get("buy_links", "[]"))
         except json.JSONDecodeError:
             return jsonify({"error":"Invalid buy links data"}),400
     
         for link in buy_links:
-            if not link.get("links_url") or not link.get("name_of_site"):
+            url_of_link = link.get("links_url")
+            site_name = link.get("name_of_site")
+            if not url_of_link or not site_name:
                 return jsonify({"error":"Invalid buy link"}),400
-            db.session.add(BuyLinks(links_url=link["links_url"], name_of_site=link["name_of_site"],book_id=book.id ))
+            db.session.add(BuyLinks(url_of_link=url_of_link, site_name=site_name, book_id=book.id ))
     
         try:
             reviews = json.loads(request.form.get("reviews", "[]"))
@@ -558,17 +589,17 @@ def add_book():
     
         for review in reviews: 
             rating=int(review["rating"]) if review.get("rating") else None #note must be set to null, 1,2,3,4,5 on frontend
-            db.session.add(Reviews(link_url=review.get("link_url"), name=review.get("name"), title=review.get("title"), content=review.get("content"), rating=rating, book_id=book.id))
+            db.session.add(Reviews(url_of_link=review.get("link_url"), reviewer_name=review.get("name"), review_title=review.get("title"), review_content=review.get("content"), review_rating=rating, book_id=book.id))
     
         file = request.files.get("cover_image")
   
         if file and file.filename != "":
             filename = f"book_{book.id}"
-            cover_pic_url, error = upload_image( file, "books/covers", filename ) 
+            book_image_url, error = upload_image(file, "books/covers", filename) 
             if error: 
                 return jsonify({"error": error}), 400
 
-            book.book_image_url = cover_pic_url
+            book.book_image_url = book_image_url
 
         try:
             awards = json.loads(request.form.get("awards", "[]"))
@@ -576,24 +607,22 @@ def add_book():
             return jsonify({"error":"Invalid awards data"}),400
     
         for index, award in enumerate(awards):
-
-            award_title = award.get("title")
-            if not award_title: 
+            title_of_award = award.get("title")
+            if not title_of_award: 
                 return jsonify({"error": f"Missing title for award {index + 1}"}), 400
-            award_pic_url = award.get("pic_of_award")
+            url_of_award = award.get("pic_of_award")
             file = request.files.get(f"award_image_{index}")
 
 
             if file and file.filename != "":
                 filename = f"book_{book.id}_award_{index}"
-                award_pic_url, error = upload_image(file, "books/awards", filename ) 
+                url_of_award, error = upload_image(file, "books/awards", filename ) 
                 if error: 
                     return jsonify({"error": error}), 400
 
-            db.session.add(Awards(title=award_title,  pic_of_award=award_pic_url, book_id=book.id))
+            db.session.add(Awards(title_of_award=title_of_award,  url_of_award=url_of_award, book_id=book.id))
 
         db.session.commit()
-
         return jsonify({"message": f'Book "{book.title}" added'}), 200
     
     except Exception as e:
@@ -616,10 +645,10 @@ def edit_book(title):
                 "genre": [g.genre for g in book.genres],
                 "synopsis": book.synopsis,
                 "book_image_url": build_url(book.book_image_url),
-                "buy_links": [{ "url": l.links_url, "name": l.name_of_site} for l in book.buy_links],
-                "reviews": [{"link_url": r.link_url, "name": r.name, "title": r.title, "content": r.content, "rating": r.rating} for r in book.reviews],
-                "date_added": book.date_added,
-                "awards": [{"award_url": build_url(a.pic_of_award), "award_title": a.title} for a in book.awards],
+                "buy_links": [{ "url": l.url_of_link, "name": l.site_name} for l in book.buy_links],
+                "reviews": [{"link_url": r.url_of_link, "name": r.reviewer_name, "title": r.review_title, "content": r.review_content, "rating": r.review_rating} for r in book.reviews],
+                "date_added": book.publish_date,
+                "awards": [{"award_url": build_url(a.url_of_award), "award_title": a.title_of_award} for a in book.awards],
         }
         return jsonify(data)
 
@@ -646,7 +675,7 @@ def edit_book(title):
 
         date = data.get("date")
         if date:
-            book.date_added = datetime.fromisoformat(date)
+            book.publish_date = datetime.fromisoformat(date)
 
         book.genres.clear()
         genres = request.form.getlist("Genres")
@@ -668,13 +697,14 @@ def edit_book(title):
             return jsonify({"error":"Invalid buy links data"}),400
     
         BuyLinks.query.filter_by(book_id=book.id).delete()
-    
-        for link in buy_links:
-            if not link.get("links_url") or not link.get("name_of_site"):
-                return jsonify({"error":"Invalid buy link"}),400
-            db.session.add(BuyLinks(links_url=link["links_url"], name_of_site=link["name_of_site"],book_id=book.id ))
 
-    
+        for link in buy_links:
+            url_of_link = link.get("links_url")
+            site_name = link.get("name_of_site")
+            if not url_of_link or not site_name:
+                return jsonify({"error":"Invalid buy link"}),400
+            db.session.add(BuyLinks(url_of_link=url_of_link, site_name=site_name, book_id=book.id ))
+
         try:
             reviews = json.loads(request.form.get("reviews", "[]"))
         except json.JSONDecodeError:
@@ -684,7 +714,7 @@ def edit_book(title):
 
         for review in reviews: 
             rating=int(review["rating"]) if review.get("rating") else None #note must be set to null, 1,2,3,4,5 on frontend
-            db.session.add(Reviews(link_url=review.get("link_url"), name=review.get("name"), title=review.get("title"), content=review.get("content"), rating=rating, book_id=book.id))
+            db.session.add(Reviews(url_of_link=review.get("link_url"), reviewer_name=review.get("name"), review_title=review.get("title"), review_content=review.get("content"), review_rating=rating, book_id=book.id))
     
         file = request.files.get("cover_image")
 
@@ -704,23 +734,21 @@ def edit_book(title):
         Awards.query.filter_by(book_id=book.id).delete()
 
         for index, award in enumerate(awards):
-
-            award_title = award.get("title")
-            award_pic_url = award.get("pic_of_award")
-            if award_pic_url:
-                award_pic_url = "/static/" + award_pic_url.split("/static/", 1)[1]
+            title_of_award = award.get("title")
+            url_of_award = award.get("pic_of_award")
+            if url_of_award:
+                url_of_award = "/static/" + url_of_award.split("/static/", 1)[1]
             file = request.files.get(f"award_image_{index}")
 
             if file and file.filename != "":
                 filename = f"book_{book.id}_award_{index}"
-                award_pic_url, error = upload_image( file, "books/awards", filename ) 
+                url_of_award, error = upload_image( file, "books/awards", filename ) 
                 if error: 
                     return jsonify({"error": error}), 400
                 
-            db.session.add(Awards(title=award_title,  pic_of_award=award_pic_url, book_id=book.id))
+            db.session.add(Awards(title_of_award=title_of_award,  url_of_award=url_of_award, book_id=book.id))
 
         db.session.commit()
-
         return jsonify({"message": "Success"}), 200
     
     except Exception as e:
@@ -739,10 +767,10 @@ def display_all_emails():
             {
                 "id": email.id,
                 "subject": email.subject,
-                "message": email.message,
+                "message": email.body,
                 "sent": email.sent,
                 "date_to_send": email.date_to_send.isoformat(),
-                "images": [{"id": pic.id, "image_url": pic.image_url} for pic in email.email_pics]
+                "images": [{"id": pic.id, "image_url": pic.url_of_image} for pic in email.email_pics]
             }
             for email in emails
         ]), 200
@@ -761,14 +789,14 @@ def create_email():
         subject = data.get("subject")
         if not subject:
             return jsonify({"error": "Email subject is required"}), 400
-        message = data.get("message")
-        if not message:
+        body = data.get("message")
+        if not body:
             return jsonify({"error": "Email message is required"}), 400
         date = data.get("date")
         if not date:
             return jsonify({"error": "Email date is required"}), 400
 
-        email = SubscriberEmail(subject=subject, message=message, date_to_send=datetime.fromisoformat(date))
+        email = SubscriberEmail(subject=subject, body=body, date_to_send=datetime.fromisoformat(date))
 
         db.session.add(email)
         db.session.flush()
@@ -777,16 +805,16 @@ def create_email():
 
         for index, image in enumerate(images):
             if not image or image.filename == "":
-                continue
+                return jsonify({"error": "Email image error"}), 400
 
             filename = f"email_{email.id}_{index}"
-            image_url, error = upload_image(image,"emails", filename)
+            url_of_image, error = upload_image(image,"emails", filename)
 
             if error:
                 db.session.rollback()
                 return jsonify({"error": error}), 400
 
-            email_pic = EmailPics(image_url=image_url, email_id=email.id)
+            email_pic = EmailPics(url_of_image=url_of_image, email_id=email.id)
             db.session.add(email_pic)
 
         db.session.commit()
@@ -805,9 +833,9 @@ def edit_email(email_id):
         return jsonify({
             "id": email.id,
             "subject": email.subject,
-            "message": email.message,
+            "message": email.body,
             "date_to_send": email.date_to_send.isoformat(),
-            "images": [{"image_url": build_url(pic.image_url)} for pic in email.email_pics]
+            "images": [{"id": pic.id, "image_url": build_url(pic.url_of_image)} for pic in email.email_pics]
         }), 200
 
     try:
@@ -815,10 +843,10 @@ def edit_email(email_id):
 
         subject = data.get("subject", "").strip()
         if not subject:
-                    return jsonify({"error": "Email subject is required"}), 400
+            return jsonify({"error": "Email subject is required"}), 400
         
-        message = data.get("message", "").strip()
-        if not message:
+        body = data.get("message", "").strip()
+        if not body:
             return jsonify({"error": "Email message is required"}), 400
 
         date = data.get("date")
@@ -826,7 +854,7 @@ def edit_email(email_id):
             return jsonify({"error": "Email date is required"}), 400
 
         email.subject = subject
-        email.message = message
+        email.body = body
         email.date_to_send = datetime.fromisoformat(date)
 
         EmailPics.query.filter_by(email_id=email.id).delete()
@@ -840,26 +868,26 @@ def edit_email(email_id):
             return jsonify({"error": "Invalid images data"}), 400
 
         for index, image in enumerate(images):
-            image_url = image.get("image_url")
+            url_of_image = image.get("image_url")
             file = request.files.get(f"image_{index}") 
-            if image_url:
-                if "/static/" in image_url:
-                    image_url = "/static/" + image_url.split("/static/", 1)[1]
+            if url_of_image:
+                if "/static/" in url_of_image:
+                    url_of_image = "/static/" + url_of_image.split("/static/", 1)[1]
             if file:
                 filename = f"email_{email.id}_{index}"
-                image_url, error = upload_image(file,"emails", filename)
+                url_of_image, error = upload_image(file,"emails", filename)
                 if error:
                     db.session.rollback()
                     return jsonify({"error": error}), 400
             
-            db.session.add(EmailPics(image_url=image_url, email_id=email.id))
+            db.session.add(EmailPics(url_of_image=url_of_image, email_id=email.id))
 
         db.session.commit()
         return jsonify({"message": f'Email "{email.subject}" editted'}), 201
         
     except Exception as e:
         db.session.rollback()
-        return jsonify({"error": str(e)}), 400
+        return jsonify({"error": str(e)}), 500
 
 @admin.route("/deleteemail/<int:email_id>", methods=["GET", "PUT"])
 @login_required
@@ -993,7 +1021,6 @@ def edit_teaching_resource(title):
     resource.objectives = data.get("objectives")
     resource.procedures = data.get("procedures")
 
-
     db.session.flush()
 
     TeachingResourceVideoLink.query.filter_by(resource_id=resource.id).delete()
@@ -1008,7 +1035,6 @@ def edit_teaching_resource(title):
 
         new_video = TeachingResourceVideoLink(resource_id=resource.id, video_link=video_link, video_title=video_title)
         db.session.add(new_video)
-
 
     TeachingResourceBookLink.query.filter_by(resource_id=resource.id).delete()
     books = data.get("book_links", [])

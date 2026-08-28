@@ -81,10 +81,13 @@ def teaching_by_title(title):
 @api.route("/aboutme", methods=["GET"])
 def about():
     about = AboutMe.query.first()
-    return jsonify({
-        "content": about.content,
-        "author_image": build_url(about.abtme_pic_url)
-    })
+    if about:
+        return jsonify({
+            "content": about.bio,
+            "author_image": build_url(about.photo_url)
+        })
+    else:
+        return jsonify({"error": "About Me not found"}), 404
 
 @api.route("/addsub", methods=["POST"])
 def add_subscriber():

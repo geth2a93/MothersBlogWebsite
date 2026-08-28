@@ -3,7 +3,7 @@ import { useNavigate, useParams  } from "react-router-dom";
 
 import "./Home.css";
 import "./Components.css";
-import "./Styles.css"
+import "./Styles.css";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -24,7 +24,7 @@ function Home() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("/api/")
+    fetch("/api")
       .then((res) => res.json())
       .then((data) => {
         setHomeData(data);

@@ -1,8 +1,7 @@
-from flask import request, jsonify, Blueprint, current_app
+from flask import jsonify, current_app
 from werkzeug.utils import secure_filename
-from flask_login import login_required
-from datetime import datetime, timezone, timedelta
-import os, json
+from datetime import datetime
+import os
 from . import db
 from .models import *
 from .functions import *
@@ -38,14 +37,15 @@ def upload_image(file, folder, filename):
 
     if ext not in current_app.config["UPLOAD_EXTENSIONS"]:
         return None, "Invalid image type"
-    secfilename = secure_filename(f"{filename}.{ext}")
+    
+    filename = secure_filename(file.filename)
     upload_folder = os.path.join(current_app.config["UPLOAD_FOLDER"], folder)
     os.makedirs(upload_folder, exist_ok=True)
 
-    filepath = os.path.join(upload_folder, secfilename)
+    filepath = os.path.join(upload_folder, filename)
     file.save(filepath)
 
-    return f"/static/uploads/{folder}/{secfilename}", None
+    return f"/static/uploads/{folder}/{filename}", None
 
 def parse_ownership(data):
     ownership = data.get("ownership", "true").lower() == "true"
@@ -61,23 +61,23 @@ def parse_ownership(data):
 
 def scheduler():
     emails = SubscriberEmail.query.order_by(SubscriberEmail.date_to_send.desc()).all()
-    today = datetime.now(ZoneInfo("America/Los_Angeles")).date()
+    today = datetime.now(ZoneInfo("America/New_York")).date()
     if emails:
         for email in emails:
             if email.date_to_send.date() == today and not email.sent:
                 subscriber_email(email.id)
                 email.sent = True
 
-    blogs = BlogPost.query.order_by(BlogPost.date_created.desc()).all()
+    blogs = BlogPost.query.order_by(BlogPost.blog_date.desc()).all()
     if blogs:
         for blog in blogs:
-            if blog.date_created.date() == today:
+            if blog.blog_date.date() == today:
                 set_blog_to_publish(blog.slug)
 
-    books = Book.query.order_by(Book.date_added.desc()).all()
+    books = Book.query.order_by(Book.publish_date.desc()).all()
     if books:
         for book in books:
-            if book.date_added.date() == today:
+            if book.publish_date.date() == today:
                 set_book_to_publish(book.title)
 
 def set_blog_to_publish(slug):
@@ -88,7 +88,7 @@ def set_blog_to_publish(slug):
 
 def set_book_to_publish(title):
     p = Book.query.filter_by(title=title).first_or_404()
-    p.displayed = True
+    p.published = True
     db.session.commit()
     return jsonify({"message": f'Book "{p.title}" published'}), 201
 
@@ -115,14 +115,14 @@ def subscriber_email(email_id):
         msg["From"] = os.getenv("EMAIL_ADDRESS")
         msg["To"] = subscriber.email
 
-        html = f"""<html><body><p>{p.message}</p>"""
+        html = f"""<html><body><p>{p.body}</p>"""
 
         for pic in p.email_pics:
-            html += f"""<img src="{pic.image_url}"style="max-width: 100%; height: auto;">"""
+            html += f"""<img src="{pic.url_of_image}"style="max-width: 100%; height: auto;">"""
 
         html += """</body></html>"""
 
-        msg.set_content(p.message)
+        msg.set_content(p.body)
         msg.add_alternative(html, subtype="html")
 
         with smtplib.SMTP("smtp.gmail.com", 587) as smtp:

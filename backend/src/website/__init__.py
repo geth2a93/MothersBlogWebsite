@@ -1,9 +1,9 @@
-from flask import Flask
+from flask import Flask, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from flask_login import LoginManager
+from werkzeug.exceptions import RequestEntityTooLarge
 import os
-from os import path
 
 db = SQLAlchemy()
 login_manager = LoginManager()
@@ -11,7 +11,6 @@ login_manager = LoginManager()
 def create_app():
 
     app = Flask(__name__)
-    #app.config['SECRET_KEY'] = "key"
     app.config["SECRET_KEY"] = os.getenv("SECRET_KEY", "dev-key")
     app.config["SESSION_COOKIE_SAMESITE"] = "None"
     app.config["SESSION_COOKIE_SECURE"] = True
@@ -27,17 +26,15 @@ def create_app():
         app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///books.db"
 
     
-    app.config["UPLOAD_FOLDER"] = os.getenv("UPLOAD_FOLDER", os.path.join(os.path.dirname(__file__), "static", "uploads")) #set persistant disk
-    #app.config["UPLOAD_FOLDER"] = "/var/data/uploads"
-    app.config["MAX_CONTENT_LENGTH"] = 5 * 1024 * 1024 #maybe two diff sizes for max banner size, max blog photo size?
+    app.config["UPLOAD_FOLDER"] = os.getenv("UPLOAD_FOLDER", os.path.join(os.path.dirname(__file__), "static", "uploads"))
+    app.config["MAX_CONTENT_LENGTH"] = 5 * 1024 * 1024
     app.config["UPLOAD_EXTENSIONS"] = {"png", "jpg", "jpeg", "webp"}
 
-    #old
-    #app.config["UPLOAD_FOLDER"] = os.path.join("website", "static", "uploads")
-    #app.config["UPLOAD_FOLDER"] = "/var/data/uploads"  render's persistant storage 
-    #app.config["UPLOAD_FOLDER"] = os.path.join(os.path.dirname(__file__),"static","uploads")
-    
-    
+    @app.errorhandler(RequestEntityTooLarge)
+    def handle_file_too_large(e):
+        return jsonify({
+            "error": "The total upload size cannot exceed 5 MB."
+        }), 413
 
     db.init_app(app)
     from .models import User

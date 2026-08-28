@@ -62,6 +62,43 @@ export default function AdminEditBooks() {
     }
   };
 
+  const handlePublish = async (title) => {
+    const confirmed = window.confirm(
+      `Publish "${title}"?`
+    );
+
+    if (!confirmed) return;
+
+    try {
+      const response = await fetch(
+        `/admin/publishbook/${title}`,
+        {
+          method: "GET",
+          credentials: "include",
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Publish failed");
+      }
+
+      setBooks((prev) =>
+        prev.map((book) => book.title === title
+    ? {
+              ...book,
+              displayed: true,
+              date_added: new Date().toISOString(),
+            }
+          : book)
+      );
+    } catch (err) {
+      console.error(err);
+      alert("Failed to publish book");
+    }
+  };
+
   return (
     <div className="display-list-container">
       <h1>All Books</h1>
@@ -131,6 +168,11 @@ export default function AdminEditBooks() {
                       <button className="delete-button" onClick={() => handleDelete(book.title)}>
                         Delete
                       </button>
+                      <button className="publish-button" onClick={() => handlePublish(book.title)}>
+                        Publish
+                      </button>
+
+
                     </td>
 
                     

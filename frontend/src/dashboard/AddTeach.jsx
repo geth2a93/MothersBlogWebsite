@@ -112,7 +112,7 @@ function AddTeachingResource() {
         );
       }
 
-      navigate("/dashboard/teachingresources");
+      navigate("/dashboard/display-teaching");
     } catch (error) {
       console.error(
         "Error creating teaching resource:",
