@@ -25,6 +25,9 @@ def create_app():
     else:
         app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///books.db"
 
+    print("DATABASE_URL exists:", bool(uri))
+    print("DATABASE URL starts with:", uri[:10] if uri else None)
+
     
     app.config["UPLOAD_FOLDER"] = os.getenv("UPLOAD_FOLDER", os.path.join(os.path.dirname(__file__), "static", "uploads"))
     app.config["MAX_CONTENT_LENGTH"] = 5 * 1024 * 1024
