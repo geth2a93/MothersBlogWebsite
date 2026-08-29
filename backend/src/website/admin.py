@@ -159,11 +159,11 @@ def new_blog_post():
 
         if date_upload:
             if "T" in date_upload:
-                date = datetime.fromisoformat(date_upload)
+                date_upload = datetime.fromisoformat(date_upload)
             else:
-                date = datetime.combine(date.fromisoformat(date_upload), time.min)
+                date_upload = datetime.combine(date.fromisoformat(date_upload), time.min)
         else:
-            date = datetime.now(ZoneInfo("America/New_York"))
+            date_upload = datetime.now(ZoneInfo("America/New_York"))
 
         title = data.get("title")
         if not title:
@@ -224,7 +224,7 @@ def new_blog_post():
         blog.title_media_content_type = title_media_content_type
         blog.title_media_ownership = title_media_ownership
         blog.title_media_owner_name = title_media_owner_name
-        blog.blog_date = date
+        blog.blog_date = date_upload
 
         Tags.query.filter_by(blog_id=blog.id).delete()
 
