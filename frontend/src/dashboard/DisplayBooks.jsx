@@ -139,9 +139,7 @@ export default function AdminEditBooks() {
                     </td>
 
                     <td>
-                      {book.date_added
-                      ? new Date(book.date_added + "T00:00:00").toLocaleDateString()
-                      : "-"}
+                      {book.date_added || "-"}
                     </td>
 
                     <td className="display-genres">
