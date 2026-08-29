@@ -185,7 +185,7 @@ def new_blog_post():
             db.session.add(blog)
             db.session.flush()
 
-        if date_upload > datetime.now(ZoneInfo("America/New_York")):
+        if date > datetime.now(ZoneInfo("America/New_York")):
             blog.published = False
         else:
             blog.published = True
@@ -225,7 +225,6 @@ def new_blog_post():
         blog.title_media_ownership = title_media_ownership
         blog.title_media_owner_name = title_media_owner_name
         blog.blog_date = date
-        blog.published = False
 
         Tags.query.filter_by(blog_id=blog.id).delete()
 
@@ -341,13 +340,13 @@ def edit_blog(slug):
         date_upload = data.get("date")
         if date_upload:
             if "T" in date_upload:
-                date = datetime.fromisoformat(date_upload)
+                date_upload = datetime.fromisoformat(date_upload)
             else:
-                date = datetime.combine(date.fromisoformat(date_upload), time.min)
+                date_upload = datetime.combine(date.fromisoformat(date_upload), time.min)
         else:
-            date = datetime.now(ZoneInfo("America/New_York"))
+            date_upload = datetime.now(ZoneInfo("America/New_York"))
 
-        blog.blog_date = date
+        blog.blog_date = date_upload
 
         if date_upload > datetime.now(ZoneInfo("America/New_York")):
             blog.published = False
