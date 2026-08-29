@@ -923,13 +923,12 @@ def send_email(email_id):
 @login_required
 def show_all_teaching():
     resources = TeachingResource.query.order_by(TeachingResource.id.desc()).all()
-    return jsonify({ "resources": [{"title": resource.book_title} for resource in resources]})
+    return jsonify({ "resources": [{"title": resource.book_title, "slug": resource.slug} for resource in resources]})
 
-@admin.route("/deleteresource/<string:title>", methods=["GET"])
+@admin.route("/deleteresource/<string:slug>", methods=["GET"])
 @login_required
-def delete_resource(title):
-    spaced_title = title.replace("-", " ")
-    resource = TeachingResource.query.filter_by(book_title=spaced_title).first_or_404()
+def delete_resource(slug):
+    resource = TeachingResource.query.filter_by(slug=slug).first_or_404()
     TeachingResourceVideoLink.query.filter_by(resource_id=resource.id).delete()
     TeachingResourceBookLink.query.filter_by(resource_id=resource.id).delete()
 
@@ -950,8 +949,9 @@ def create_teaching_resource():
 
     if not book_title:
         return jsonify({"error": "Book title is required"}), 400
+    slug = generate_unique_slug(TeachingResource, book_title)
 
-    resource = TeachingResource(book_title=book_title, word_list=data.get("word_list"), activities=data.get("activities"), questions=data.get("questions"), 
+    resource = TeachingResource(book_title=book_title, slug=slug, word_list=data.get("word_list"), activities=data.get("activities"), questions=data.get("questions"), 
         supplies=data.get("supplies"), objectives=data.get("objectives"), procedures=data.get("procedures"))
 
     db.session.add(resource)
@@ -985,11 +985,10 @@ def create_teaching_resource():
 
     return jsonify({"message": "Teaching resource created"}), 201
 
-@admin.route("/editteachingresource/<string:title>", methods=["GET", "PUT"])
+@admin.route("/editteachingresource/<string:slug>", methods=["GET", "PUT"])
 @login_required
-def edit_teaching_resource(title):
-    spaced_title = title.replace("-", " ")
-    resource = TeachingResource.query.filter_by(book_title=spaced_title).first_or_404()
+def edit_teaching_resource(slug):
+    resource = TeachingResource.query.filter_by(slug=slug).first_or_404()
 
     if request.method == "GET":
             return jsonify({
@@ -1000,6 +999,7 @@ def edit_teaching_resource(title):
                 "supplies":resource.supplies, 
                 "objectives":resource.objectives, 
                 "procedures":resource.procedures,
+                "slug": resource.slug,
 
                 "video_links": [ { "id": video.id, "video_link": video.video_link, "video_title": video.video_title } for video in resource.video_links],
                 "book_links": [ { "id": book.id, "book_link": book.book_link, "book_title": book.book_title } for book in resource.book_links ]
@@ -1014,6 +1014,7 @@ def edit_teaching_resource(title):
         return jsonify({"error": "Empty book title"}), 400
 
     resource.book_title = book_title
+    resource.slug = generate_unique_slug(TeachingResource, book_title)
     resource.word_list = data.get("word_list")
     resource.activities = data.get("activities")
     resource.questions = data.get("questions")

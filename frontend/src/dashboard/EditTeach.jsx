@@ -13,6 +13,7 @@ function EditTeachingResource() {
   const [supplies, setSupplies] = useState("");
   const [objectives, setObjectives] = useState("");
   const [procedures, setProcedures] = useState("");
+  const [slug, setSlug] = useState("");
 
   const [videos, setVideos] = useState([]);
   const [books, setBooks] = useState([]);
@@ -26,7 +27,7 @@ function EditTeachingResource() {
     const getResource = async () => {
       try {
         const response = await fetch(
-          `/admin/editteachingresource/${title}`,
+          `/admin/editteachingresource/${slug}`,
           {
             credentials: "include",
           }
@@ -41,6 +42,7 @@ function EditTeachingResource() {
         const data = await response.json();
 
         setBookTitle(data.title || "");
+        setSlug(data.slug || "");
         setWordList(data.word_list || "");
         setActivities(data.activities || "");
         setQuestions(data.questions || "");
@@ -133,6 +135,7 @@ function EditTeachingResource() {
     const data = {
       book_title: bookTitle,
       word_list: wordList,
+      slug: slug,
       activities,
       questions,
       supplies,

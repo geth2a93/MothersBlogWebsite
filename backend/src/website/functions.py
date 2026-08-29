@@ -190,9 +190,8 @@ def get_blog_by_slug(slug):
         "content_blocks": blocks
     }
 
-def get_teaching_resources_by_book(title):
-    formatted_title = title.replace("-", " ")
-    t = TeachingResource.query.filter_by(book_title=formatted_title).first_or_404()
+def get_teaching_resources_by_book(slug):
+    t = TeachingResource.query.filter_by(slug=slug).first_or_404()
     b = Book.query.filter_by(title=t.book_title).first_or_404()
 
     return {
@@ -217,6 +216,7 @@ def get_teaching_resources():
 
         data.append({
             "title": t.book_title,
+            "slug": t.slug
             "book_image_url": (book.book_image_url if book else None)
         })
     return data

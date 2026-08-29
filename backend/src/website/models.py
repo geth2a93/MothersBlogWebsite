@@ -103,6 +103,7 @@ class Reviews(db.Model):
 class TeachingResource(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     book_title = db.Column(db.String(200), nullable=False) #routes use this for nav
+    slug = db.Column(db.String(200), nullable=False)
     word_list = db.Column(db.Text, nullable=True)
     activities = db.Column(db.Text, nullable=True)
     questions = db.Column(db.Text, nullable=True)
