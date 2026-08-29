@@ -343,8 +343,10 @@ def edit_blog(slug):
         if date_upload:
             if "T" in date_upload:
                 date_upload = datetime.fromisoformat(date_upload)
-            else:
-                date_upload = datetime.combine(date.fromisoformat(date_upload), time.min)
+                if date_upload.tzinfo is None:
+                    date_upload = date_upload.replace(tzinfo=ZoneInfo("America/New_York"))
+                else:
+                    date_upload = datetime.combine(date.fromisoformat(date_upload), time.min,tzinfo=ZoneInfo("America/New_York"))
         else:
             date_upload = datetime.now(ZoneInfo("America/New_York"))
 
@@ -543,7 +545,7 @@ def add_book():
         if not request.form and not request.files:
             return jsonify({"error": "Missing data"}), 400
         
-        date_v = data.get("date_added")
+        date_v = data.get("date")
         if not date_v:
             return jsonify({"error": "Publish date is required"}), 400
         
@@ -701,7 +703,7 @@ def edit_book(title):
     
         book.isbn = isbn if isbn else book.isbn
 
-        date_v = data.get("date_added")
+        date_v = data.get("date")
         if not date_v:
             return jsonify({"error": "Publish date is required"}), 400
         
