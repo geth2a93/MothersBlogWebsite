@@ -160,8 +160,10 @@ def new_blog_post():
         if date_upload:
             if "T" in date_upload:
                 date_upload = datetime.fromisoformat(date_upload)
+                if date_upload.tzinfo is None:
+                    date_upload = date_upload.replace(tzinfo=ZoneInfo("America/New_York"))
             else:
-                date_upload = datetime.combine(date.fromisoformat(date_upload), time.min)
+                date_upload = datetime.combine(date.fromisoformat(date_upload), time.min,tzinfo=ZoneInfo("America/New_York"))
         else:
             date_upload = datetime.now(ZoneInfo("America/New_York"))
 
