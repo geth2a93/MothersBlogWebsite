@@ -185,7 +185,7 @@ def new_blog_post():
             db.session.add(blog)
             db.session.flush()
 
-        if date > datetime.now(ZoneInfo("America/New_York")):
+        if date_upload > datetime.now(ZoneInfo("America/New_York")):
             blog.published = False
         else:
             blog.published = True
