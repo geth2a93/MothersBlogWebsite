@@ -141,11 +141,10 @@ export default function AdminEditBooks() {
 
                     <td>
                       {book.date_added
-                        ? (() => {
-                        const [year, month, day] = book.date_added.split("-");
-                        return `${month}/${day}/${year}`;
-                      })()
-                      : "-"}
+                        ? new Date(
+                            book.date_added
+                          )
+                        : "-"}
                     </td>
 
                     <td className="display-genres">
