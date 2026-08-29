@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from flask_login import LoginManager
@@ -29,6 +29,10 @@ def create_app():
     app.config["UPLOAD_FOLDER"] = "/var/data/uploads"
     app.config["MAX_CONTENT_LENGTH"] = 5 * 1024 * 1024
     app.config["UPLOAD_EXTENSIONS"] = {"png", "jpg", "jpeg", "webp"}
+
+    @app.route("/uploads/<path:filename>")
+    def uploaded_file(filename):
+        return send_from_directory(app.config["UPLOAD_FOLDER"], filename)
 
     @app.errorhandler(RequestEntityTooLarge)
     def handle_file_too_large(e):

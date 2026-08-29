@@ -45,7 +45,8 @@ def upload_image(file, folder, filename):
     filepath = os.path.join(upload_folder, filename)
     file.save(filepath)
 
-    return f"/var/data/uploads/{folder}/{filename}", None
+    url = f"/uploads/{folder}/{filename}"
+    return url, None
 
 def parse_ownership(data):
     ownership = data.get("ownership", "true").lower() == "true"
