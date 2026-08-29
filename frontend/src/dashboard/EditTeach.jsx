@@ -13,7 +13,7 @@ function EditTeachingResource() {
   const [supplies, setSupplies] = useState("");
   const [objectives, setObjectives] = useState("");
   const [procedures, setProcedures] = useState("");
-  const [slug, setSlug] = useState("");
+  const { slug } = useParams();
 
   const [videos, setVideos] = useState([]);
   const [books, setBooks] = useState([]);
