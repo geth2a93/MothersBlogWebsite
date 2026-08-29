@@ -147,7 +147,7 @@ function EditTeachingResource() {
 
     try {
       const response = await fetch(
-        `/admin/editteachingresource/${title}`,
+        `/admin/editteachingresource/${slug}`,
         {
           method: "PUT",
           credentials: "include",
