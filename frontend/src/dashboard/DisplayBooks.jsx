@@ -140,7 +140,7 @@ export default function AdminEditBooks() {
 
                     <td>
                       {book.date_added
-                       ? new Date((book.date_added).toDateString())
+                      ? new Date(book.date_added + "T00:00:00").toDateString()
                       : "-"}
                     </td>
 
