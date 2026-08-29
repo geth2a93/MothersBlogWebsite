@@ -371,7 +371,7 @@ return (
       <h2>Date Added</h2>
 
       <input
-        type="datetime-local"
+        type="date"
         value={book.date_added}
         onChange={(e) =>
           updateBook("date_added", e.target.value)

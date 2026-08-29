@@ -33,7 +33,7 @@ function EditEmail() {
         setMessage(data.message || "");
 
         if (data.date_to_send) {
-          setDate(data.date_to_send.slice(0, 16));
+          setDate(data.date_to_send.slice(0, 10));
         }
 
         setImages(
@@ -175,7 +175,7 @@ function EditEmail() {
 
             <input
               id="date"
-              type="datetime-local"
+              type="date"
               value={date}
               onChange={(e) => setDate(e.target.value)}
               required

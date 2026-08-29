@@ -34,12 +34,6 @@ def create_app():
     def uploaded_file(filename):
         return send_from_directory(app.config["UPLOAD_FOLDER"], filename)
 
-    @app.errorhandler(RequestEntityTooLarge)
-    def handle_file_too_large(e):
-        return jsonify({
-            "error": "The total upload size cannot exceed 5 MB."
-        }), 413
-
     db.init_app(app)
     from .models import User
     login_manager.login_view = 'auth.login'

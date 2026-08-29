@@ -1,7 +1,7 @@
 from flask import request, jsonify, Blueprint, current_app
 from zoneinfo import ZoneInfo
 from flask_login import login_required
-from datetime import datetime
+from datetime import datetime, date, time
 import os, json
 from . import db
 from .models import *
@@ -44,7 +44,7 @@ def edit_about_me():
                 return jsonify({"error": error}), 400
             about.photo_url = url
 
-        about.updated_at = datetime.now(ZoneInfo("America/New_York"))
+        about.updated_at = datetime.now()
         db.session.commit()
 
         return jsonify({
@@ -156,8 +156,12 @@ def new_blog_post():
         blog_id = data.get("blog_id") 
 
         date_upload = data.get("date")
+
         if date_upload:
-            date = datetime.fromisoformat(date_upload)
+            if "T" in date_upload:
+                date = datetime.fromisoformat(date_upload)
+            else:
+                date = datetime.combine(date.fromisoformat(date_upload), time.min)
         else:
             date = datetime.now(ZoneInfo("America/New_York"))
 
@@ -180,6 +184,11 @@ def new_blog_post():
             blog.slug = slug
             db.session.add(blog)
             db.session.flush()
+
+        if date_upload > datetime.now(ZoneInfo("America/New_York")):
+            blog.published = False
+        else:
+            blog.published = True
 
         if title_media_content_type == "none":
             title_media_ownership = True
@@ -299,6 +308,7 @@ def new_blog_post_preview(slug):
     try:
         p = BlogPost.query.filter_by(slug=slug).first_or_404()
         p.published = True
+        p.blog_date = datetime.now(ZoneInfo("America/New_York"))
         db.session.commit()
 
         return jsonify({"message": "Blog post published", "blog_id": p.id, "slug": p.slug,})
@@ -328,14 +338,21 @@ def edit_blog(slug):
         blog.title = title
         blog.title_text_content = data.get("preview", blog.title_text_content)
 
-        date = datetime.fromisoformat(data.get("date")).replace(tzinfo=ZoneInfo("America/New_York"))
+        date_upload = data.get("date")
+        if date_upload:
+            if "T" in date_upload:
+                date = datetime.fromisoformat(date_upload)
+            else:
+                date = datetime.combine(date.fromisoformat(date_upload), time.min)
+        else:
+            date = datetime.now(ZoneInfo("America/New_York"))
 
-        if date > datetime.now(ZoneInfo("America/New_York")):
+        blog.blog_date = date
+
+        if date_upload > datetime.now(ZoneInfo("America/New_York")):
             blog.published = False
         else:
             blog.published = True
-
-        blog.blog_date = date
 
         title_media_content_type = data.get("title_url_content_type", blog.title_media_content_type)
 
@@ -507,6 +524,7 @@ def display_book(title):
     book = Book.query.filter_by(title=spaced_title).first_or_404()
 
     try:
+        book.publish_date = date.today()
         book.published = True
         db.session.commit()
         return jsonify({"message": "Book now displayed"}), 200
@@ -523,15 +541,25 @@ def add_book():
         data = request.form
         if not request.form and not request.files:
             return jsonify({"error": "Missing data"}), 400
-        book = Book()
-
-    
+        
+        date_v = data.get("date_added")
+        if not date_v:
+            return jsonify({"error": "Publish date is required"}), 400
+        
+        
+        book = Book()    
         book_title = data.get("title")
         if Book.query.filter_by(title=book_title).first():
             return jsonify({"error": "Book already exists"}), 400
         if not book_title:
             return jsonify({"error": "No title"}), 400
         book.title = book_title
+
+        book.publish_date = date.fromisoformat(date_v)
+        if book.publish_date > date.today():
+            book.published = False
+        else:
+            book.published = True
 
         db.session.add(book)
         db.session.flush()
@@ -549,13 +577,12 @@ def add_book():
         if isbn:
             book.isbn = isbn
 
-        date = data.get("date")
-        if date:
-            book.publish_date = datetime.fromisoformat(date)
-
         exists = set()
 
-        for genre_name in request.form.getlist("Genres"):
+        genres = request.form.getlist("Genres")
+        if not genres:
+            return jsonify({"error": "At least one genre is required"}), 400
+        for genre_name in genres:
             genre_name = genre_name.strip().replace(" ", "-")
 
             if not genre_name or genre_name in exists:
@@ -673,14 +700,23 @@ def edit_book(title):
     
         book.isbn = isbn if isbn else book.isbn
 
-        date = data.get("date")
-        if date:
-            book.publish_date = datetime.fromisoformat(date)
+        date_v = data.get("date_added")
+        if not date_v:
+            return jsonify({"error": "Publish date is required"}), 400
+        
+        book.publish_date = date.fromisoformat(date_v)
+        if book.publish_date > date.today():
+            book.published = False
+        else:
+            book.published = True
 
         book.genres.clear()
         genres = request.form.getlist("Genres")
+        if not genres:
+            return jsonify({"error": "At least one genre is required"}), 400
 
         for genre_name in genres:
+            
             genre_name = genre_name.strip().replace(" ", "-")
             genre = Genre.query.filter_by(genre=genre_name).first()
 
@@ -792,11 +828,12 @@ def create_email():
         body = data.get("message")
         if not body:
             return jsonify({"error": "Email message is required"}), 400
-        date = data.get("date")
-        if not date:
+        
+        date_v = data.get("date")
+        if not date_v:
             return jsonify({"error": "Email date is required"}), 400
 
-        email = SubscriberEmail(subject=subject, body=body, date_to_send=datetime.fromisoformat(date))
+        email = SubscriberEmail(subject=subject, body=body, date_to_send=date.fromisoformat(date_v))
 
         db.session.add(email)
         db.session.flush()
@@ -849,13 +886,13 @@ def edit_email(email_id):
         if not body:
             return jsonify({"error": "Email message is required"}), 400
 
-        date = data.get("date")
-        if not date:
+        date_v = data.get("date")
+        if not date_v:
             return jsonify({"error": "Email date is required"}), 400
 
         email.subject = subject
         email.body = body
-        email.date_to_send = datetime.fromisoformat(date)
+        email.ddate_to_send=date.fromisoformat(date_v)
 
         EmailPics.query.filter_by(email_id=email.id).delete()
         upload_folder = os.path.join(current_app.config["UPLOAD_FOLDER"], "emails")
