@@ -118,9 +118,9 @@ export default function AdminEditBooks() {
                 <tr>
                   <th>Title</th>
                   <th>ISBN</th>
-                  <th>Date Added</th>
+                  <th>Publish Date</th>
                   <th>Genres</th>
-                  <th>Display Status</th>
+                  <th>Visible to Public</th>
                   <th>Actions</th>
                   
                 </tr>
@@ -140,7 +140,7 @@ export default function AdminEditBooks() {
 
                     <td>
                       {book.date_added
-                       ? new Date(book.date_added)
+                       ? new Date((book.date_added).toDateString())
                       : "-"}
                     </td>
 
