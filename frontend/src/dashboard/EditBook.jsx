@@ -6,11 +6,7 @@ const normalizeBook = (data) => ({
   isbn: data.isbn || "",
   synopsis: data.synopsis || "",
 
-  date_added: data.date_added
-  ? new Date(data.date_added)
-      .toISOString()
-      .slice(0, 16)
-  : "",
+date_added: data.date_added || "",
 
   cover: {
     preview_url: data.book_image_url || "",
