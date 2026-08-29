@@ -28,13 +28,12 @@ function DisplayTeachingResources() {
     getResources();
   }, []);
 
-  const handleDelete = async (title) => {
-    if (!window.confirm(`Are you sure you want to delete "${title}"?`)) {
+  const handleDelete = async (slug) => {
+    if (!window.confirm(`Are you sure you want to delete "${slug}"?`)) {
       return;
     }
 
     try {
-      const slug = title.replace(/\s+/g, "-");
 
       const response = await fetch(
         `/admin/deleteresource/${slug}`,
@@ -51,7 +50,7 @@ function DisplayTeachingResources() {
       }
 
       setResources((prev) =>
-        prev.filter((resource) => resource.title !== title)
+        prev.filter((resource) => resource.slug !== slug)
       );
     } catch (error) {
       console.error("Error deleting resource:", error);
@@ -75,18 +74,15 @@ function DisplayTeachingResources() {
 
             <tbody>
               {resources.map((resource) => (
-                <tr key={resource.title}>
+                <tr key={resource.slug}>
                   <td>{resource.title}</td>
 
                   <td>
                     <button
                       onClick={() =>
                         navigate(
-                          `/dashboard/edit-teaching/${resource.title.replace(
-                            /\s+/g,
-                            "-"
-                          )}`
-                        )
+                          `/dashboard/edit-teaching/${resource.slug}`
+                          )
                       }
                     >
                       Edit
@@ -94,7 +90,7 @@ function DisplayTeachingResources() {
 
                     <button
                       onClick={() =>
-                        handleDelete(resource.title)
+                        handleDelete(resource.slug)
                       }
                     >
                       Delete

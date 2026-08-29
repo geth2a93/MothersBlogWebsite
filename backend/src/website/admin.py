@@ -949,7 +949,7 @@ def create_teaching_resource():
 
     if not book_title:
         return jsonify({"error": "Book title is required"}), 400
-    slug = generate_unique_slug(TeachingResource, book_title)
+    slug = generate_unique_slug(TeachingResource,book_title[:25])
 
     resource = TeachingResource(book_title=book_title, slug=slug, word_list=data.get("word_list"), activities=data.get("activities"), questions=data.get("questions"), 
         supplies=data.get("supplies"), objectives=data.get("objectives"), procedures=data.get("procedures"))
@@ -1014,7 +1014,7 @@ def edit_teaching_resource(slug):
         return jsonify({"error": "Empty book title"}), 400
 
     resource.book_title = book_title
-    resource.slug = generate_unique_slug(TeachingResource, book_title)
+    resource.slug = generate_unique_slug(TeachingResource,book_title[:25])
     resource.word_list = data.get("word_list")
     resource.activities = data.get("activities")
     resource.questions = data.get("questions")
