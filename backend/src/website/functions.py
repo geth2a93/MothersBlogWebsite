@@ -92,10 +92,9 @@ def get_books_by_genre(genre):  # all books in the genre
 
     return data
 
-def get_books_by_title(title, published):
-    formatted_title = title.replace("-", " ") #url is book-title, db is Book Title
+def get_books_by_title(slug, published):
 
-    book = Book.query.filter_by(title=formatted_title, published = published).first_or_404()
+    book = Book.query.filter_by(slug=slug, published = published).first_or_404()
     data = {
         "id": book.id,
         "isbn": book.isbn,
