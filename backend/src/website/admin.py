@@ -1014,7 +1014,7 @@ def edit_teaching_resource(title):
         return jsonify({"error": "Empty book title"}), 400
 
     resource.book_title = book_title
-    resource.word_list = data.get("word_lists")
+    resource.word_list = data.get("word_list")
     resource.activities = data.get("activities")
     resource.questions = data.get("questions")
     resource.supplies = data.get("supplies")
