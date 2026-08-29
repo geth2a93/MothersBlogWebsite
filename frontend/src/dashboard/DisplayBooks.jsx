@@ -32,7 +32,7 @@ export default function AdminEditBooks() {
     fetchBooks();
   }, []);
 
-  const handleDelete = async (title) => {
+  const handleDelete = async (slug, title) => {
     const confirmed = window.confirm(
       `Delete "${title}"? This cannot be undone.`
     );
@@ -40,8 +40,6 @@ export default function AdminEditBooks() {
     if (!confirmed) return;
 
     try {
-      const slug = title.replace(/\s+/g, "-");
-
       const response = await fetch(
         `/admin/deletebook/${slug}`,
         {
@@ -54,7 +52,7 @@ export default function AdminEditBooks() {
       }
 
       setBooks((prev) =>
-        prev.filter((book) => book.title !== title)
+        prev.filter((book) => book.slug !== slug)
       );
     } catch (err) {
       console.error(err);
@@ -62,7 +60,7 @@ export default function AdminEditBooks() {
     }
   };
 
-  const handlePublish = async (title) => {
+  const handlePublish = async (slug, title) => {
     const confirmed = window.confirm(
       `Publish "${title}"?`
     );
@@ -71,7 +69,7 @@ export default function AdminEditBooks() {
 
     try {
       const response = await fetch(
-        `/admin/publishbook/${title}`,
+        `/admin/publishbook/${slug}`,
         {
           method: "GET",
           credentials: "include",
@@ -85,7 +83,7 @@ export default function AdminEditBooks() {
       }
 
       setBooks((prev) =>
-        prev.map((book) => book.title === title
+        prev.map((book) => book.slug === slug
     ? {
               ...book,
               displayed: true,
@@ -139,7 +137,7 @@ export default function AdminEditBooks() {
                     </td>
 
                     <td>
-                      {book.date_added || "-"}
+                      {book.date_added ? book.date_added.split(" 00:00:00")[0]: "-"}
                     </td>
 
                     <td className="display-genres">
@@ -156,14 +154,14 @@ export default function AdminEditBooks() {
 
                     <td className="display-actions">
                       <button
-                        className="edit-button" onClick={() =>navigate( `/dashboard/book-edit/${book.title.replace(/\s+/g,"-")}`)}>
+                        className="edit-button" onClick={() =>navigate( `/dashboard/book-edit/${book.slug}`)}>
                         Edit
                       </button>
 
-                      <button className="delete-button" onClick={() => handleDelete(book.title)}>
+                      <button className="delete-button" onClick={() => handleDelete(book.slug, book.title)}>
                         Delete
                       </button>
-                      <button className="publish-button" onClick={() => handlePublish(book.title)}>
+                      <button className="publish-button" onClick={() => handlePublish(book.slug, book.title)}>
                         Publish
                       </button>
 

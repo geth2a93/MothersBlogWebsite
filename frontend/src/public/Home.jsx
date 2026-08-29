@@ -82,7 +82,7 @@ function Home() {
             {book ? ( <h2>{book.title}</h2> ) : ( <h2>No Title available.</h2> )}
             {book ? ( <p> {truncateText(book.synopsis, 500)} </p> ) : ( <p>No book data available.</p> )}
 
-          <button className="read-more-btn"  onClick={() => navigate(`/books/title/${book.title.replaceAll(" ", "-")}`)} > 
+          <button className="read-more-btn"  onClick={() => navigate(`/books/title/${book.slug}`)} > 
             Read More </button>
           </div>
           

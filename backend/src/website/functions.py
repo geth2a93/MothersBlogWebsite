@@ -21,6 +21,7 @@ def get_home_latest_content():
             "type": "book",
             "id": latest_book.id,
             "title": latest_book.title,
+            "slug": latest_book.slug,
             "synopsis": latest_book.synopsis,
             "genres": [g.genre for g in latest_book.genres],
             "image": build_url(latest_book.book_image_url),

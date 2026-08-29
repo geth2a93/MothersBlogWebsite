@@ -484,6 +484,7 @@ def show_all_books():
             {
                 "id": book.id,
                 "title": book.title,
+                "slug": book.slug,
                 "isbn": book.isbn,
                 "date_added": book.publish_date,
                 "displayed": book.published,
@@ -493,11 +494,10 @@ def show_all_books():
         ]
     })
 
-@admin.route("/deletebook/<string:title>", methods=["GET"])
+@admin.route("/deletebook/<string:slug>", methods=["GET"])
 @login_required
-def delete_book(title):
-    spaced_title = title.replace("-", " ")
-    book = Book.query.filter_by(title=spaced_title).first_or_404()
+def delete_book(slug):
+    book = Book.query.filter_by(slug=slug).first_or_404()
     try:
         genres = list(book.genres)
 
@@ -514,17 +514,16 @@ def delete_book(title):
                 db.session.delete(genre)
 
         db.session.commit()
-        return jsonify({"message": f"{spaced_title} deleted"}), 200
+        return jsonify({"message": f"{slug} deleted"}), 200
     
     except Exception as e:
         db.session.rollback()
         return jsonify({"error": str(e)}), 400
 
-@admin.route("/publishbook/<string:title>", methods=["GET"])
+@admin.route("/publishbook/<string:slug>", methods=["GET"])
 @login_required
-def display_book(title):
-    spaced_title = title.replace("-", " ")
-    book = Book.query.filter_by(title=spaced_title).first_or_404()
+def display_book(slug):
+    book = Book.query.filter_by(slug=slug).first_or_404()
 
     try:
         book.publish_date = date.today()
@@ -557,6 +556,7 @@ def add_book():
         if not book_title:
             return jsonify({"error": "No title"}), 400
         book.title = book_title
+        book.slug = generate_unique_slug(Book, book_title)
 
         book.publish_date = date.fromisoformat(date_v)
         if book.publish_date > date.today():
@@ -659,19 +659,19 @@ def add_book():
         db.session.rollback()
         return jsonify({"error": str(e)}), 400
 
-@admin.route("/editbook/<string:title>", methods=["GET", "PUT"])
+@admin.route("/editbook/<string:slug>", methods=["GET", "PUT"])
 @login_required
-def edit_book(title):
-    spaced_title = title.replace("-", " ")
-    book= Book.query.filter_by(title=spaced_title).first_or_404()
+def edit_book(slug):
+    book= Book.query.filter_by(slug=slug).first_or_404()
 
     if request.method == "GET":
         
-        book = Book.query.filter_by(title=spaced_title).first_or_404()
+        book = Book.query.filter_by(slug=slug).first_or_404()
         data = {
                 "id": book.id,
                 "isbn": book.isbn,
                 "title": book.title,
+                "slug": book.slug,
                 "genre": [g.genre for g in book.genres],
                 "synopsis": book.synopsis,
                 "book_image_url": build_url(book.book_image_url),
@@ -692,6 +692,7 @@ def edit_book(title):
             return jsonify({"error": "No title"}), 400
     
         book.title = book_title
+        book.slug = generate_unique_slug(Book, book_title)
         book.synopsis = data.get("synopsis", book.synopsis)
     
         isbn = data.get("isbn", "").strip()
