@@ -89,7 +89,6 @@ export default function AdminEditBooks() {
     ? {
               ...book,
               displayed: true,
-              date_added: new Date().toISOString(),
             }
           : book)
       );
@@ -141,10 +140,8 @@ export default function AdminEditBooks() {
 
                     <td>
                       {book.date_added
-                        ? new Date(
-                            book.date_added
-                          )
-                        : "-"}
+                       ? new Date(book.date_added + "T00:00:00").toLocaleDateString()
+                      : "-"}
                     </td>
 
                     <td className="display-genres">
