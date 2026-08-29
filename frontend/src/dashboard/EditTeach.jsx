@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import "./display.css";
 
 function EditTeachingResource() {
-  const { title } = useParams();
+  const { slug } = useParams();
   const navigate = useNavigate();
 
   const [bookTitle, setBookTitle] = useState("");
@@ -13,7 +13,6 @@ function EditTeachingResource() {
   const [supplies, setSupplies] = useState("");
   const [objectives, setObjectives] = useState("");
   const [procedures, setProcedures] = useState("");
-  const { slug } = useParams();
 
   const [videos, setVideos] = useState([]);
   const [books, setBooks] = useState([]);
@@ -42,7 +41,6 @@ function EditTeachingResource() {
         const data = await response.json();
 
         setBookTitle(data.title || "");
-        setSlug(data.slug || "");
         setWordList(data.word_list || "");
         setActivities(data.activities || "");
         setQuestions(data.questions || "");
@@ -66,7 +64,7 @@ function EditTeachingResource() {
     };
 
     getResource();
-  }, [title]);
+  }, [slug]);
 
   const addVideo = () => {
     setVideos((prev) => [
