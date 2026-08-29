@@ -53,7 +53,7 @@ createRoot(document.getElementById("root")).render(
         <Route path="/books/title/:title" element={<BookDetail />} />
 
         <Route path="/teachingresources" element={<ContentListPage type="teaching" />} />
-        <Route path="/teachingresources/:title" element={<TeachingResourceFull />} />
+        <Route path="/teachingresources/:slug" element={<TeachingResourceFull />} />
       </Route>
 
       <Route path="/login" element={<Login />} />
@@ -86,7 +86,7 @@ createRoot(document.getElementById("root")).render(
 
       <Route path="display-teaching" element={<DisplayTeachingResources />} />
       <Route path="add-teaching" element={<AddTeachingResource />} />
-      <Route path="edit-teaching/:title" element={<EditTeachingResource />} />
+      <Route path="edit-teaching/:slug" element={<EditTeachingResource />} />
     </Route>
     </Routes>
   </BrowserRouter>
