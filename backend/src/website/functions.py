@@ -67,6 +67,7 @@ def get_newest_book_for_each_genre():
                 "id": b.id,
                 "title": b.title,
                 "genre": genre.genre,
+                "slug": b.slug,
                 "synopsis": b.synopsis,
                 "book_image_url": build_url(b.book_image_url),
                 "buy_links": [{"id": l.id, "url": l.url_of_link, "site_name": l.site_name} for l in b.buy_links], #added site name
@@ -83,6 +84,7 @@ def get_books_by_genre(genre):  # all books in the genre
         data.append({
             "id": b.id,
             "title": b.title,
+            "slug": b.slug,
             "genres": [g.genre for g in b.genres],
             "synopsis": b.synopsis,
             "book_image_url": build_url(b.book_image_url),
@@ -97,6 +99,7 @@ def get_books_by_title(slug, published):
     book = Book.query.filter_by(slug=slug, published = published).first_or_404()
     data = {
         "id": book.id,
+        "slug": book.slug,
         "isbn": book.isbn,
         "title": book.title,
         "genre": [g.genre for g in book.genres],
