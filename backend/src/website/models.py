@@ -61,6 +61,7 @@ class Book(db.Model):
     published = db.Column(db.Boolean)
     publish_date = db.Column(db.Date)
     slug = db.Column(db.String(120), unique=True, nullable=False, index=True)
+    publish_date_displayed = db.Column(db.Boolean, default = True)
 
     genres = db.relationship('Genre', secondary=book_genres, back_populates='books')
     buy_links = db.relationship('BuyLinks', backref='book', lazy=True)

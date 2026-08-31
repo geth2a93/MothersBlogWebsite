@@ -336,7 +336,7 @@ def edit_blog(slug):
         if not date_upload:
             return ({"error": "Missing date"}), 400  
         blog.publish_date = date.fromisoformat(date_upload)
-        
+
         if blog.publish_date > date.today():
             blog.published = False
         else:
@@ -549,6 +549,10 @@ def add_book():
         else:
             book.published = True
 
+        
+        date_displayed = data.get("date_displayed")
+        book.publish_date_displayed = date_displayed
+
         db.session.add(book)
         db.session.flush()
 
@@ -698,6 +702,9 @@ def edit_book(slug):
             book.published = False
         else:
             book.published = True
+
+        date_displayed = data.get("date_displayed")
+        book.publish_date_displayed = date_displayed
 
         book.genres.clear()
         genres = request.form.getlist("Genres")

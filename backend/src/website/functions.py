@@ -25,7 +25,8 @@ def get_home_latest_content():
             "synopsis": latest_book.synopsis,
             "genres": [g.genre for g in latest_book.genres],
             "image": build_url(latest_book.book_image_url),
-            "date": latest_book.publish_date.isoformat()
+            "date": latest_book.publish_date.isoformat(),
+            "date_displayed": latest_book.publish_date_displayed
         }
     if latest_blog and latest_blog.title_media_content_type == "image":
         title_media=build_url(latest_blog.title_media_content_url)
@@ -71,7 +72,8 @@ def get_newest_book_for_each_genre():
                 "synopsis": b.synopsis,
                 "book_image_url": build_url(b.book_image_url),
                 "buy_links": [{"id": l.id, "url": l.url_of_link, "site_name": l.site_name} for l in b.buy_links], #added site name
-                "date_added": b.publish_date.isoformat()
+                "date_added": b.publish_date.isoformat(),
+                "date_displayed": b.publish_date_displayed
             })
 
     return data
@@ -89,7 +91,8 @@ def get_books_by_genre(genre):  # all books in the genre
             "synopsis": b.synopsis,
             "book_image_url": build_url(b.book_image_url),
             "buy_links": [{"id": l.id, "url": l.url_of_link, "site_name": l.site_name} for l in b.buy_links],  #added site name
-            "date_added": b.publish_date.isoformat() #change these refs? (frontend)
+            "date_added": b.publish_date.isoformat(), #change these refs? (frontend)
+            "date_displayed": b.publish_date_displayed
         })
 
     return data
@@ -108,6 +111,7 @@ def get_books_by_title(slug, published):
         "buy_links": [{ "url": l.url_of_link, "name": l.site_name} for l in book.buy_links],
         "reviews": [{"link_url": r.url_of_link, "name": r.reviewer_name, "title": r.review_title, "content": r.review_content, "rating": r.review_rating} for r in book.reviews],
         "date_added": book.publish_date,
+        "date_displayed": book.publish_date_displayed,
         "awards": [{"award_url": build_url(a.url_of_award), "award_title": a.title_of_award} for a in book.awards],
     }
     return data
