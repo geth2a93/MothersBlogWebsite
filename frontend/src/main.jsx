@@ -50,7 +50,7 @@ createRoot(document.getElementById("root")).render(
 
         <Route path="/books" element={<BooksList />} />
         <Route path="/books/:genre" element={<BooksGenreWrapper />} />
-        <Route path="/books/title/:title" element={<BookDetail />} />
+        <Route path="/books/title/:slug" element={<BookDetail />} />
 
         <Route path="/teachingresources" element={<ContentListPage type="teaching" />} />
         <Route path="/teachingresources/:slug" element={<TeachingResourceFull />} />
@@ -77,7 +77,7 @@ createRoot(document.getElementById("root")).render(
       <Route path="blog-edit/:slug" element={<EditBlog />} />
 
       <Route path="books" element={<AdminEditBooks />} />
-      <Route path="book-edit/:title" element={<EditBook />} />
+      <Route path="book-edit/:slug" element={<EditBook />} />
       <Route path="newbook" element={<NewBook />} />
 
       <Route path="displayemails" element={<DisplayEmails />} />

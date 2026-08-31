@@ -538,7 +538,7 @@ const buildFormData=()=>{
         <h2>Publishing Date</h2>
 
 <input
-  type="datetime-local"
+  type="date" 
   value={blog.publish_date}
   onChange={(e) =>
     updateBlog("publish_date", e.target.value)

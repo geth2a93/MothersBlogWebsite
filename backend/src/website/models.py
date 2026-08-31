@@ -25,7 +25,7 @@ class BlogPost(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(50), nullable=False)
     slug = db.Column(db.String(120), unique=True, nullable=False, index=True) #shortened title used for finding specific blogs
-    blog_date = db.Column(db.DateTime)
+    blog_date = db.Column(db.Date)
     title_text_content = db.Column(db.Text)
     title_media_content_url = db.Column(db.String(2000)) #either an outward url, or file location
     title_media_content_type = db.Column(db.String(20)) #image, youtube link, fb link, insta link 

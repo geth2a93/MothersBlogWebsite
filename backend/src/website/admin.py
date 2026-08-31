@@ -135,7 +135,7 @@ def delete_blog(slug):
 def blog_post_publish(slug):
     p = BlogPost.query.filter_by(slug=slug).first_or_404()
     try:
-        p.blog_date = datetime.now(ZoneInfo("America/New_York"))
+        p.blog_date = date.today()
         p.published = True
         db.session.commit()
 
@@ -156,16 +156,8 @@ def new_blog_post():
         blog_id = data.get("blog_id") 
 
         date_upload = data.get("date")
-
-        if date_upload:
-            if "T" in date_upload:
-                date_upload = datetime.fromisoformat(date_upload)
-                if date_upload.tzinfo is None:
-                    date_upload = date_upload.replace(tzinfo=ZoneInfo("America/New_York"))
-            else:
-                date_upload = datetime.combine(date.fromisoformat(date_upload), time.min,tzinfo=ZoneInfo("America/New_York"))
-        else:
-            date_upload = datetime.now(ZoneInfo("America/New_York"))
+        if not date_upload:
+            return ({"error": "Missing date"}), 400     
 
         title = data.get("title")
         if not title:
@@ -187,7 +179,8 @@ def new_blog_post():
             db.session.add(blog)
             db.session.flush()
 
-        if date_upload > datetime.now(ZoneInfo("America/New_York")):
+        blog.publish_date = date.fromisoformat(date_upload)
+        if blog.publish_date > date.today():
             blog.published = False
         else:
             blog.published = True
@@ -309,7 +302,7 @@ def new_blog_post_preview(slug):
     try:
         p = BlogPost.query.filter_by(slug=slug).first_or_404()
         p.published = True
-        p.blog_date = datetime.now(ZoneInfo("America/New_York"))
+        p.blog_date = date.today()
         db.session.commit()
 
         return jsonify({"message": "Blog post published", "blog_id": p.id, "slug": p.slug,})
@@ -339,23 +332,15 @@ def edit_blog(slug):
         blog.title = title
         blog.title_text_content = data.get("preview", blog.title_text_content)
 
-        date_upload = data.get("date")
-        if date_upload:
-            if "T" in date_upload:
-                date_upload = datetime.fromisoformat(date_upload)
-                if date_upload.tzinfo is None:
-                    date_upload = date_upload.replace(tzinfo=ZoneInfo("America/New_York"))
-                else:
-                    date_upload = datetime.combine(date.fromisoformat(date_upload), time.min,tzinfo=ZoneInfo("America/New_York"))
-        else:
-            date_upload = datetime.now(ZoneInfo("America/New_York"))
-
-        blog.blog_date = date_upload
-
-        if date_upload > datetime.now(ZoneInfo("America/New_York")):
+        date_upload = data.get("date", blog.blog_date)
+        if not date_upload:
+            return ({"error": "Missing date"}), 400  
+        blog.publish_date = date.fromisoformat(date_upload)
+        
+        if blog.publish_date > date.today():
             blog.published = False
         else:
-            blog.published = True
+            blog.published = True  
 
         title_media_content_type = data.get("title_url_content_type", blog.title_media_content_type)
 
