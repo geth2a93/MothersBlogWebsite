@@ -4,13 +4,14 @@ import "./BookFull.css";
 
 export default function BookDetail() {
   const { title } = useParams();
+  const { slug } = useParams();
   const [book, setBook] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     setLoading(true);
 
-    fetch(`/api/books/title/${title}`)
+    fetch(`/api/books/title/${slug}`)
       .then(res => {
         if (!res.ok) {
           throw new Error(`HTTP ${res.status}`);
@@ -27,7 +28,7 @@ export default function BookDetail() {
       .finally(() => {
         setLoading(false);
       });
-  }, [title]);
+  }, [slug]);
 
   if (loading) {
     return (

@@ -23,8 +23,8 @@ def home():
     site_images = Website_Images.query.first()
 
     return jsonify({
-        "latest": latest if latest else None
-        #"banner_image": build_url(site_images.banner_image_url) if site_images else None
+        "latest": latest if latest else None,
+        "banner_image": build_url(site_images.banner_image_url) if site_images.banner_image_url else None
     })
 
 

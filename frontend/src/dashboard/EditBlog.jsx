@@ -33,10 +33,7 @@ const normalizeBlog = (data) => {
     slug: data.slug,
     title: data.title || "",
     preview: data.preview || "",
-    publish_date:
-      data.date_created
-        ? data.date_created.slice(0,16)
-        : "",
+    publish_date: data.date_created || "",
     tags: data.tags || [],
     status:
       data.published

@@ -174,7 +174,8 @@ def get_blog_by_slug(slug):
             "name_of_owner": b.block_media_owner_name,
             "order": b.order
         })
-
+    #nextblog = p.id+1
+    #if  p = BlogPost.query.filter_by(id=nextblog).first_or_404()
     return {
         "id": p.id, 
         "titlemediaurl": p.title_media_content_url, #just used for edit otherwise ignore
@@ -187,7 +188,8 @@ def get_blog_by_slug(slug):
         "date_created": p.blog_date.isoformat(),
         "ownership": p.title_media_ownership,
         "name_of_owner": p.title_media_owner_name,
-        "content_blocks": blocks
+        "content_blocks": blocks,
+        #"nextblog": 
     }
 
 def get_teaching_resources_by_book(slug):

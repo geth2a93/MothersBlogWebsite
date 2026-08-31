@@ -124,7 +124,7 @@ class TeachingResourceVideoLink(db.Model):
 class TeachingResourceBookLink(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     resource_id = db.Column(db.Integer, db.ForeignKey('teaching_resource.id'), nullable=False)
-    book_link = db.Column(db.String(200), nullable=False)
+    book_link = db.Column(db.String(200), nullable=True)
     book_title = db.Column(db.String(200), nullable=False)
 
 #Email
