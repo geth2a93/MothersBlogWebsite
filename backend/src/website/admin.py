@@ -511,7 +511,6 @@ def display_book(slug):
     book = Book.query.filter_by(slug=slug).first_or_404()
 
     try:
-        book.publish_date = date.today()
         book.published = True
         db.session.commit()
         return jsonify({"message": "Book now displayed"}), 200

@@ -83,8 +83,9 @@ export default function AdminEditBooks() {
       }
 
       setBooks((prev) =>
-        prev.map((book) => book.slug === slug
-    ? {
+        prev.map((book) => 
+          book.slug === slug
+          ? {
               ...book,
               displayed: true,
             }
@@ -141,7 +142,7 @@ export default function AdminEditBooks() {
                     </td>
 
                     <td>
-                      {book.date_added ? book.date_added.split(" 00:00:00")[0]: "-"}
+                      {book.date_added}
                     </td>
 
                     <td className="display-genres">
