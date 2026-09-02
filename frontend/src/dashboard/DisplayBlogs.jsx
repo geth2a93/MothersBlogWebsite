@@ -52,11 +52,7 @@ export default function AdminEditBlog() {
     setBlogs((prev) =>
       prev.map((blog) =>
         blog.slug === slug
-          ? {
-              ...blog,
-              published: true,
-              date_created: new Date().toISOString(),
-            }
+          ? { ...blog, published: true }
           : blog
       )
     );
@@ -129,9 +125,7 @@ export default function AdminEditBlog() {
                     </td>
 
                     <td>
-                      {new Date(
-                        blog.date_created
-                      ).toLocaleDateString()}
+                      {blog.date_created}
                     </td>
 
                     <td>
