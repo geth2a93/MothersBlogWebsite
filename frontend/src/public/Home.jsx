@@ -103,7 +103,7 @@ function Home() {
               <>
                 <h1>What's New</h1>
                 <h2>{blog?.title}</h2>
-                <p className="content-date"> {new Date(latest.blog.date).toLocaleDateString()}</p>
+                <p className="content-date"> {new Date(latest.blog.date).Date()}</p>
                 <p>{truncateText(blog?.preview, 500)}</p>
                 <button className="read-more-btn"  onClick={() => navigate(`/blog/${blog.slug}`)}> Read More </button>
               </>
