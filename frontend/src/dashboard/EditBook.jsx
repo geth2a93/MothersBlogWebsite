@@ -6,8 +6,8 @@ const normalizeBook = (data) => ({
   isbn: data.isbn || "",
   synopsis: data.synopsis || "",
 
-date_added: data.date_added || "",
-
+  date_added: data.date_added || "",
+  date_displayed: data.date_displayed ?? true,
   cover: {
     preview_url: data.book_image_url || "",
     file: null
@@ -87,6 +87,7 @@ const buildFormData = () => {
     formData.append("isbn", book.isbn);
     formData.append("synopsis", book.synopsis);
     formData.append("date", book.date_added);
+    formData.append("date_displayed", book.date_displayed);
 
     if (book.cover.file) {
         formData.append("cover_image", book.cover.file);
@@ -166,7 +167,6 @@ console.log("FORM DATA");
   navigate("/dashboard/books");
 }
 
-const { title } = useParams();
 const { slug } = useParams();
 const [book, setBook] = useState(null);
 const [loading, setLoading] = useState(true);
@@ -191,7 +191,7 @@ useEffect(() => {
   };
 
   loadBook();
-}, [title]);
+}, [slug]);
 
 
 const handleCoverImage = (e) => {
@@ -370,9 +370,19 @@ return (
         type="date"
         value={book.date_added}
         onChange={(e) =>
-          updateBook("date_added", e.target.value)
-        }
-      />
+        updateBook("date_added", e.target.value)
+      }
+    />
+
+      <label>
+        <input
+          type="checkbox"
+          checked={book.date_displayed}
+          onChange={(e) =>
+          updateBook("date_displayed", e.target.checked)
+        }/>
+        Display publish date
+      </label>
 
       <h2>Cover Image</h2>
 

@@ -7,6 +7,7 @@ const emptyBook = {
   isbn: "",
   synopsis: "",
   date_added: "",
+  date_displayed: true,
   cover: {
     preview_url: "",
     file: null
@@ -338,6 +339,15 @@ export default function NewBook() {
           type="date"
           value={book.date_added}
           onChange={(e) => updateBook("date_added", e.target.value)} />
+
+          <label>
+          <input
+              type="checkbox"
+              checked={book.date_displayed}
+              onChange={(e) =>
+              updateBook("date_displayed", e.target.checked)}/>
+               Display publish date
+            </label>
 
         <h2>Cover Image</h2>
 

@@ -67,6 +67,13 @@ export default function BookDetail() {
         {/* SYNOPSIS */}
         <p className="book-synopsis">{book.synopsis}</p>
 
+        {/* PUBLISH DATE */}
+        {book.date_displayed && (
+          <p className="book-date">
+            {book.date_added}
+          </p>
+        )}
+
 
         {book.awards?.length > 0 && (
           <section>

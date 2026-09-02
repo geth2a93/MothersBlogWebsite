@@ -547,7 +547,7 @@ def add_book():
             book.published = True
 
         
-        date_displayed = data.get("date_displayed")
+        date_displayed = request.form.get("date_displayed") == "true"
         book.publish_date_displayed = date_displayed
 
         db.session.add(book)
@@ -703,7 +703,7 @@ def edit_book(slug):
         else:
             book.published = True
 
-        date_displayed = data.get("date_displayed")
+        date_displayed = request.form.get("date_displayed") == "true"
         book.publish_date_displayed = date_displayed
 
         book.genres.clear()
