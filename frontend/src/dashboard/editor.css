@@ -19,7 +19,6 @@
 
 .book-info-box {  /* For public books */
   display: flex;
-  gap: 40px;
   border: 1px solid #ccc;
   padding: 30px;
   margin-top: 20px;
@@ -43,6 +42,7 @@
 .book-date-section h2,
 .book-synopsis-section h2 {
   margin-top: 0;
+  width: 0 0 300px;
 }
 
 .book-date { /*Make smaller and only on left side */
