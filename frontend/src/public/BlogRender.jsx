@@ -92,7 +92,7 @@ export default function BlogRender({ post }) {
 
         {post.date_created && (
           <p className="blog-post-date">
-            {new Date(post.date_created).toLocaleDateString()}
+            {post.date_created}
           </p>
         )}
 
