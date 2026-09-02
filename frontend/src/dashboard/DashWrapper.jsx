@@ -80,8 +80,6 @@ export default function DashboardLayout() {
                     onClick={() => navigate("/")}>
                     Home 
                 </button>
-                
-
                 <button
                     className="dashboard-logout-button"
                     onClick={handleLogout} >

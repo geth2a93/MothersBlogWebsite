@@ -9,7 +9,7 @@ def build_url(path):
 
 def get_home_latest_content():
     latest_book = Book.query.filter(Book.published == True).order_by(Book.publish_date.desc()).first_or_404()
-    latest_blog = BlogPost.query.filter(BlogPost.published == True).order_by(BlogPost.blog_date.desc()).first_or_404()
+    latest_blog = BlogPost.query.filter(BlogPost.published == True).order_by(BlogPost.blog_date.asc()).first_or_404()
 
     data = {
         "book": None,
