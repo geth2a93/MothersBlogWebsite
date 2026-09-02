@@ -711,6 +711,13 @@ def edit_book(slug):
         if not genres:
             return jsonify({"error": "At least one genre is required"}), 400
 
+        normalized_genres = [normalize_genre(g) for g in genres]
+        exists= set()
+        for genre in normalized_genres:
+            if genre in exists:
+                return jsonify({"error": f"Genre '{genre}' cannot be added more than once"}), 400
+            exists.add(genre)
+
         for genre_name in genres:
             
             genre_name = normalize_genre(genre_name)
