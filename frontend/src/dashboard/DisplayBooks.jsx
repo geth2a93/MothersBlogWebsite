@@ -62,7 +62,7 @@ export default function AdminEditBooks() {
 
   const handlePublish = async (slug, title) => {
     const confirmed = window.confirm(
-      `Publish "${title}"?`
+      `Publish "${title}?" Publish date will be set to today.`
     );
 
     if (!confirmed) return;
@@ -71,7 +71,7 @@ export default function AdminEditBooks() {
       const response = await fetch(
         `/admin/publishbook/${slug}`,
         {
-          method: "GET",
+          method: "POST",
           credentials: "include",
         }
       );

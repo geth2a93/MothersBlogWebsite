@@ -505,7 +505,7 @@ def delete_book(slug):
         db.session.rollback()
         return jsonify({"error": str(e)}), 400
 
-@admin.route("/publishbook/<string:slug>", methods=["GET"])
+@admin.route("/publishbook/<string:slug>", methods=["POST"])
 @login_required
 def display_book(slug):
     book = Book.query.filter_by(slug=slug).first_or_404()
