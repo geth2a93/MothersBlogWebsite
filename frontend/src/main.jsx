@@ -19,7 +19,7 @@ import AdminHome from "./dashboard/DashHome.jsx";
 import AdminAboutMe from "./dashboard/AdminAboutMe.jsx";
 import AdminWebResources from "./dashboard/AdminWebResources.jsx"
 
-import NewBlog from "./dashboard/NewBlog.jsx";
+import NewBlog from "./dashboard/AddBlog.jsx";
 import BlogPreview from "./dashboard/BlogPreview.jsx";
 import AdminEditBlog from './dashboard/DisplayBlogs.jsx';
 import EditBlog from "./dashboard/EditBlog.jsx";
