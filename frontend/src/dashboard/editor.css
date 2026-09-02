@@ -1,18 +1,18 @@
 /* New */
-.date-row {
+.date-row { /* For admin new/edit book */
   display: flex;
   align-items: center;
   gap: 25px;
 }
 
-.display-date-checkbox {
+.display-date-checkbox { /* For admin new/edit book */
   display: flex;
   align-items: flex-end;
   gap: 6px;
   margin-bottom: 10px;
 }
 
-.book-info-box {
+.book-info-box {  /* For public books */
   display: flex;
   gap: 40px;
   border: 1px solid #ccc;
@@ -22,7 +22,7 @@
 }
 
 .book-cover-container {
-  flex: 0 0 250px;
+  flex: 0 0 600px;
 }
 
 .book-cover {
