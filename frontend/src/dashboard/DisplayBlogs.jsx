@@ -52,7 +52,11 @@ export default function AdminEditBlog() {
     setBlogs((prev) =>
       prev.map((blog) =>
         blog.slug === slug
-          ? { ...blog, published: true }
+           ? {
+              ...blog,
+              date_created: data.blog_date,
+              published: data.published,
+            }
           : blog
       )
     );
