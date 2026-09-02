@@ -75,9 +75,9 @@ def teaching():
     return jsonify(get_teaching_resources())
 
 
-@api.route("/teachingresources/<string:title>", methods=["GET"])
-def teaching_by_title(title):
-    return jsonify(get_teaching_resources_by_book(title))
+@api.route("/teachingresources/<string:slug>", methods=["GET"])
+def teaching_by_title(slug):
+    return jsonify(get_teaching_resources_by_book(slug))
 
 @api.route("/aboutme", methods=["GET"])
 def about():
