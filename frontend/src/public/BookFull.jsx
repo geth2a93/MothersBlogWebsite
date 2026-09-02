@@ -71,10 +71,20 @@ export default function BookDetail() {
         {/* PUBLISH DATE */}
               {book.date_displayed && (
                 <div className="book-date-section">
-                  <h2>Publish Date</h2>
-                    <p className="book-date">
-                      {book.date_added}
-                    </p>
+                  <h2>{new Date(book.date_added) > new Date()
+                    ? "Publish Date"
+                    : "Published"}
+                  </h2>
+                  <p className="book-date">
+                    {new Date(book.date_added) > new Date()
+                    ? `${["Winter", "Spring", "Summer", "Fall"][
+                    Math.floor(new Date(book.date_added).getMonth() / 3)
+                    ]} ${new Date(book.date_added).getFullYear()}`
+                    : new Date(book.date_added).toLocaleString("en-US", {
+                    month: "long",
+                    year: "numeric",
+                    })}
+                  </p>
                 </div>
               )}
 
