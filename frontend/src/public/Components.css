@@ -133,6 +133,28 @@
   display: flex;
   padding-top: 5px;
   
+  border-radius: none;
+}
+
+.name-input {
+  width: 150px;
+  height: 50px;
+
+  font-size: 1rem;
+
+  padding: 0 15px;
+  margin: 0; 
+  border-radius: 0px;
+  border: none;
+  outline: none;
+
+  box-sizing: border-box;
+}
+
+.newsletter-row {
+  display: flex;
+  align-items: stretch;
+  border-radius: 0px;
 }
 
 
@@ -161,6 +183,10 @@
   padding-top: 20px;
   display: flex;
   gap: 25px;
+}
+
+.newsletter-message {
+  margin-top: 10px;
 }
 
 .read-more-btn {

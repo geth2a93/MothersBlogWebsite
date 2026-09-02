@@ -81,6 +81,7 @@ export function Navbar() {
 
 
 export function Footer() {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
 
@@ -88,13 +89,14 @@ export function Footer() {
     e.preventDefault();
 
     try {
-      const response = await fetch("/addsub", {
+      const response = await fetch("/api/addsub", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
           email: email,
+          name: name,
         }),
       });
 
@@ -106,6 +108,7 @@ export function Footer() {
       }
 
       setMessage("Successfully subscribed!");
+      setName("");
       setEmail("");
     } catch (error) {
       console.error("Subscription error:", error);
@@ -117,24 +120,36 @@ export function Footer() {
     <footer className="footer">
       <div className="newsletter">
         <h3>Subscribe to my newsletter.</h3>
-        <p>Sign up for news and exclusive content.</p>
+        <p>Sign up for news and exclusive content!</p>
 
         <form className="newsletter-form" onSubmit={handleSubscribe}>
           <input
-            className="news-input"
-            type="email"
-            placeholder="Example@example.com"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            className="name-input"
+            type="text"
+            placeholder="Name (Optional)"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            maxLength={20}
             required
           />
 
-          <button className="sign-btn" type="submit">
-            Sign Up
-          </button>
+          <div className="newsletter-row">
+            <input
+              className="news-input"
+              type="email"
+              placeholder="Example@example.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+
+            <button className="sign-btn" type="submit">
+              Sign Up
+            </button>
+          </div>
         </form>
 
-        {message && <p>{message}</p>}
+        {message && <p className="newsletter-message">{message}</p>}
       </div>
     </footer>
   );
