@@ -229,3 +229,13 @@ def get_teaching_resources():
             "book_image_url": (book.book_image_url if book else None),
         })
     return data
+
+def normalize_genre(genre_name):
+    text = genre_name.strip().lower()
+    text = re.sub(r"[^a-z0-9\s-]", "", text)
+    text = re.sub(r"\s+", "-", text)
+    return text.strip("-")
+
+
+def display_genre(genre_name):
+    return genre_name.replace("-", " ").title()

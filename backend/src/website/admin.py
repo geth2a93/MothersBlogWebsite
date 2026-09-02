@@ -532,8 +532,6 @@ def add_book():
         date_v = data.get("date")
         if not date_v:
             return jsonify({"error": "Publish date is required"}), 400
-        
-        
         book = Book()    
         book_title = data.get("title")
         if Book.query.filter_by(title=book_title).first():
@@ -575,7 +573,7 @@ def add_book():
         if not genres:
             return jsonify({"error": "At least one genre is required"}), 400
         for genre_name in genres:
-            genre_name = genre_name.strip().replace(" ", "-")
+            genre_name = normalize_genre(genre_name)
 
             if not genre_name or genre_name in exists:
                 continue
@@ -652,12 +650,14 @@ def add_book():
 @login_required
 def edit_book(slug):
     book= Book.query.filter_by(slug=slug).first_or_404()
+    list_of_genres = Genre.query.order_by(Genre.genre).all()
 
     if request.method == "GET":
         
         book = Book.query.filter_by(slug=slug).first_or_404()
         data = {
                 "id": book.id,
+                "genre_list": [display_genre(l.genre) for l in list_of_genres],
                 "isbn": book.isbn,
                 "title": book.title,
                 "slug": book.slug,
@@ -713,7 +713,7 @@ def edit_book(slug):
 
         for genre_name in genres:
             
-            genre_name = genre_name.strip().replace(" ", "-")
+            genre_name = normalize_genre(genre_name)
             genre = Genre.query.filter_by(genre=genre_name).first()
 
             if genre is None:

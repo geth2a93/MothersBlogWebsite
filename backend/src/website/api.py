@@ -49,10 +49,11 @@ def get_genres():
     return jsonify([
         {
             "id": genre.id,
-            "name": genre.genre
+            "name": genre.genre,
+            "display": display_genre(genre.genre)
         }
         for genre in genres
-    ])
+    ]), 200
 
 @api.route("/books", methods=["GET"])
 def newest_books_by_genre():
