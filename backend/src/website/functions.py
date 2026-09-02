@@ -205,7 +205,6 @@ def get_teaching_resources_by_book(slug):
 
     return {
         "book_title": t.book_title,
-        "book_image_url": (b.book_image_url if b else None),
         "isbn": b.isbn if b.isbn else None,
         "word_list": t.word_list,
         "activities": t.activities,
@@ -226,8 +225,9 @@ def get_teaching_resources():
 
         data.append({
             "title": t.book_title,
+            "isbn": book.isbn if book.isbn else None,
             "slug": t.slug,
-            "book_image_url": (book.book_image_url if book else None),
+            "book_image_url": (build_url(book.book_image_url) if book else None),
         })
     return data
 
