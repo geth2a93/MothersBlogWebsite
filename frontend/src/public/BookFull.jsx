@@ -67,8 +67,6 @@ export default function BookDetail() {
         {/* SYNOPSIS */}
         <p className="book-synopsis">{book.synopsis}</p>
 
-        {/* AWARDS */}
-        <h3 className="section-title">Awards</h3>
 
         {book.awards?.length > 0 && (
           <section>
