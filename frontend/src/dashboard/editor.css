@@ -26,11 +26,12 @@
 }
 
 .book-cover-container { /*make taller, same with cover? or no need*/
-  flex: 0 0 400px;
+  flex: 0 0 600 px;
+  margin-right: 20px;
 }
 
 .book-cover {
-  width: 400px;
+  flex: 0 0 600px;
   height: auto;
   display: block;
 }
@@ -42,7 +43,8 @@
 .book-date-section h2,
 .book-synopsis-section h2 {
   margin-top: 0;
-  width: 0 0 300px;
+  margin-left: 20px;
+  flex: 0 0 400px;
 }
 
 .book-date { /*Make smaller and only on left side */
