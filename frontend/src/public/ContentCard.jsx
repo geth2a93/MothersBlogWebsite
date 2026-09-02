@@ -97,7 +97,7 @@ const renderMedia = () => {
       )}
 
       <div className="content-card-text">
-        <h1 className="content-card-title"> <a href={link}>{title}</a> </h1>
+        <h1 className="content-card-title"> <a href={link}>{slug}</a> </h1>
 
         {date && (
           <p className="blog-card-date">
