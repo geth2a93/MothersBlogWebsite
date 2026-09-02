@@ -167,7 +167,7 @@ console.log("FORM DATA");
 }
 
 const { title } = useParams();
-
+const { slug } = useParams();
 const [book, setBook] = useState(null);
 const [loading, setLoading] = useState(true);
 
@@ -175,7 +175,7 @@ useEffect(() => {
   const loadBook = async () => {
     try {
       const res = await fetch(
-        `/admin/editbook/${title}`,
+        `/admin/editbook/${slug}`,
         {
           credentials: "include"
         }
