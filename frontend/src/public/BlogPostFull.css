@@ -39,7 +39,7 @@
     text-align: center;
     font-size: 1.2rem;
 
-    margin-bottom: 50px;
+    margin: none;
     white-space: pre-line;
 
     font-weight: normal;
@@ -110,7 +110,7 @@
     height: auto;
     width: auto;
     display: flex;
-    /* margin: 0 auto; */
+    margin: 0 auto;
     
 }
 
