@@ -473,7 +473,7 @@ def show_all_books():
                 "isbn": book.isbn,
                 "date_added": book.publish_date,
                 "displayed": book.published,
-                "genres": [g.genre for g in book.genres]
+                "genres": [display_genre(g.genre) for g in book.genres]
             }
             for book in books
         ]
@@ -661,7 +661,8 @@ def edit_book(slug):
                 "isbn": book.isbn,
                 "title": book.title,
                 "slug": book.slug,
-                "genre": [g.genre for g in book.genres],
+                "genre": [display_genre(g.genre) for g in book.genres],
+                "publish_date_displayed": book.publish_date_displayed,
                 "synopsis": book.synopsis,
                 "book_image_url": build_url(book.book_image_url),
                 "buy_links": [{ "url": l.url_of_link, "name": l.site_name} for l in book.buy_links],
