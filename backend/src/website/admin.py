@@ -135,7 +135,7 @@ def delete_blog(slug):
 def blog_post_publish(slug):
     p = BlogPost.query.filter_by(slug=slug).first_or_404()
     try:
-        p.blog_date = date.today()
+        p.blog_date = datetime.now(ZoneInfo("America/New_York")).date()
         p.published = True
         db.session.commit()
 
@@ -179,8 +179,8 @@ def new_blog_post():
             db.session.add(blog)
             db.session.flush()
 
-        blog.publish_date = date.fromisoformat(date_upload)
-        if blog.publish_date > date.today():
+        blog.blog_date = date.fromisoformat(date_upload)
+        if blog.blog_date > datetime.now(ZoneInfo("America/New_York")).date():
             blog.published = False
         else:
             blog.published = True
@@ -302,10 +302,10 @@ def new_blog_post_preview(slug):
     try:
         p = BlogPost.query.filter_by(slug=slug).first_or_404()
         p.published = True
-        p.blog_date = date.today()
+        p.blog_date = datetime.now(ZoneInfo("America/New_York")).date()
         db.session.commit()
 
-        return jsonify({"message": "Blog post published", "blog_id": p.id, "slug": p.slug,})
+        return jsonify({"message": "Blog post published", "blog_id": p.id, "slug": p.slug, "blog_date": p.blog_date.isoformat(), "published": p.published})
     
     except Exception as e:
         db.session.rollback()
@@ -337,7 +337,7 @@ def edit_blog(slug):
             return ({"error": "Missing date"}), 400  
         blog.blog_date= date.fromisoformat(date_upload)
 
-        if blog.blog_date> date.today():
+        if blog.blog_date> datetime.now(ZoneInfo("America/New_York")).date():
             blog.published = False
         else:
             blog.published = True  
@@ -471,7 +471,7 @@ def show_all_books():
                 "title": book.title,
                 "slug": book.slug,
                 "isbn": book.isbn,
-                "date_added": book.publish_date,
+                "date_added": book.publish_date.isoformat(),
                 "displayed": book.published,
                 "genres": [display_genre(g.genre) for g in book.genres]
             }
@@ -541,7 +541,7 @@ def add_book():
         book.slug = generate_unique_slug(Book, book_title)
 
         book.publish_date = date.fromisoformat(date_v)
-        if book.publish_date > date.today():
+        if book.publish_date > datetime.now(ZoneInfo("America/New_York")).date():
             book.published = False
         else:
             book.published = True
@@ -698,7 +698,7 @@ def edit_book(slug):
             return jsonify({"error": "Publish date is required"}), 400
         
         book.publish_date = date.fromisoformat(date_v)
-        if book.publish_date > date.today():
+        if book.publish_date > datetime.now(ZoneInfo("America/New_York")).date():
             book.published = False
         else:
             book.published = True
