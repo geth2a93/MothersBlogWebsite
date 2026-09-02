@@ -76,7 +76,7 @@ teaching: {
   title: item.title,
   preview: "Click to view resource",
   image: item.book_image_url,
-  slug: item.title.replaceAll(" ", "-"),
+  slug: item.slug,
   link: `/teachingresources/${item.slug}`
 })
 }
