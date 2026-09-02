@@ -107,7 +107,7 @@ def show_all_blogs():
                 "id": blog.id,
                 "title": blog.title,
                 "slug": blog.slug,
-                "date_created": blog.blog_date,
+                "date_created": blog.blog_date.isoformat(),
                 "published": blog.published
             }
             for blog in blogs
@@ -335,9 +335,9 @@ def edit_blog(slug):
         date_upload = data.get("date", blog.blog_date)
         if not date_upload:
             return ({"error": "Missing date"}), 400  
-        blog.publish_date = date.fromisoformat(date_upload)
+        blog.blog_date= date.fromisoformat(date_upload)
 
-        if blog.publish_date > date.today():
+        if blog.blog_date> date.today():
             blog.published = False
         else:
             blog.published = True  
