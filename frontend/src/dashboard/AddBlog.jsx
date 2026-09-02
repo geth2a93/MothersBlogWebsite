@@ -407,7 +407,7 @@ return (
     </div>
 
 <input
-  type="datetime-local"
+  type="date"
   value={blog.publish_date}
   onChange={(e) =>
     setBlog(prev => ({
