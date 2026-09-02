@@ -394,7 +394,7 @@ def edit_blog(slug):
         for index, block in enumerate(content_blocks):
             new_block = BlogContentBlock()
             new_block.blog_id = blog.id
-            new_block.order = block.get("order")
+            new_block.order = block.get("order", index)
             db.session.add(new_block)
             db.session.flush()
  
@@ -408,7 +408,8 @@ def edit_blog(slug):
             elif block_media_content_type == "image":
                 block_media_content_url = block.get("media_content_url")
                 if block_media_content_url:
-                    block_media_content_url = "/static/" + block_media_content_url.split("/static/", 1)[1]
+                    if "/uploads/" in block_media_content_url: 
+                        block_media_content_url = "/uploads/" + block_media_content_url.split("/uploads/", 1)[1]
                 else:
                     file = request.files.get(f"image_{index}")
                     if not file and not block_media_content_url:
@@ -776,7 +777,7 @@ def edit_book(slug):
             title_of_award = award.get("title")
             url_of_award = award.get("pic_of_award")
             if url_of_award:
-                url_of_award = "/static/" + url_of_award.split("/static/", 1)[1]
+                url_of_award = "/uploads/" + url_of_award.split("/uploads/", 1)[1]
             file = request.files.get(f"award_image_{index}")
 
             if file and file.filename != "":
@@ -911,8 +912,8 @@ def edit_email(email_id):
             url_of_image = image.get("image_url")
             file = request.files.get(f"image_{index}") 
             if url_of_image:
-                if "/static/" in url_of_image:
-                    url_of_image = "/static/" + url_of_image.split("/static/", 1)[1]
+                if "/uploads/" in url_of_image:
+                    url_of_image = "/uploads/" + url_of_image.split("/uploads/", 1)[1]
             if file:
                 filename = f"email_{email.id}_{index}"
                 url_of_image, error = upload_image(file,"emails", filename)
