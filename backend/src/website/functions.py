@@ -71,7 +71,7 @@ def get_newest_book_for_each_genre():
                 "slug": b.slug,
                 "synopsis": b.synopsis,
                 "book_image_url": build_url(b.book_image_url),
-                "buy_links": [{"id": l.id, "url": l.url_of_link, "site_name": l.site_name} for l in b.buy_links], #added site name
+                "buy_links": [{"id": l.id, "url": l.url_of_link, "site_name": l.site_name} for l in b.buy_links], 
                 "date_added": b.publish_date.isoformat(),
                 "date_displayed": b.publish_date_displayed
             })
@@ -90,8 +90,8 @@ def get_books_by_genre(genre):  # all books in the genre
             "genres": [g.genre for g in b.genres],
             "synopsis": b.synopsis,
             "book_image_url": build_url(b.book_image_url),
-            "buy_links": [{"id": l.id, "url": l.url_of_link, "site_name": l.site_name} for l in b.buy_links],  #added site name
-            "date_added": b.publish_date.isoformat(), #change these refs? (frontend)
+            "buy_links": [{"id": l.id, "url": l.url_of_link, "site_name": l.site_name} for l in b.buy_links],  
+            "date_added": b.publish_date.isoformat(), 
             "date_displayed": b.publish_date_displayed
         })
 
