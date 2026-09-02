@@ -206,6 +206,7 @@ def get_teaching_resources_by_book(slug):
     return {
         "book_title": t.book_title,
         "book_image_url": (b.book_image_url if b else None),
+        "isbn": b.isbn if b.isbn else None,
         "word_list": t.word_list,
         "activities": t.activities,
         "questions": t.questions,
