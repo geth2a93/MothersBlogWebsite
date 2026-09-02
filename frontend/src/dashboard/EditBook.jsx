@@ -147,7 +147,7 @@ console.log("FORM DATA");
   }
 
   const res = await fetch(
-    `/admin/editbook/${title}`,
+    `/admin/editbook/${slug}`,
     {
       method: "PUT",
       credentials: "include",
