@@ -217,7 +217,7 @@ def get_teaching_resources_by_book(slug):
     }
 
 def get_teaching_resources():
-    titles = TeachingResource.query.order_by(TeachingResource.id.desc()).all()
+    titles = TeachingResource.query.order_by(TeachingResource.id.asc()).all()
     data = []
 
     for t in titles:
