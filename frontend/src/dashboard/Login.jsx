@@ -10,6 +10,24 @@ export default function Login() {
     const [message, setMessage] = useState("");
     const [loading, setLoading] = useState(false);
 
+    useEffect(() => {
+    const checkLogin = async () => {
+        try {
+            const response = await fetch("/auth/check", {
+                credentials: "include",
+            });
+
+            if (response.ok) {
+                navigate("/dashboard");
+            }
+        } catch (err) {
+            console.error(err);
+        }
+    };
+
+    checkLogin();
+}, [navigate]);
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
