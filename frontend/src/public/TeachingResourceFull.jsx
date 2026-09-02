@@ -4,12 +4,13 @@ import "./TeachingResources.css";
 
 export default function TeachingResourceFull() {
   const { title } = useParams();
+  const { slug } = useParams();
 
   const [resource, setResource] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`/api/teachingresources/${title}`)
+    fetch(`/api/teachingresources/${slug}`)
       .then(res => {
         if (!res.ok) throw new Error(res.status);
         return res.json();
@@ -20,7 +21,7 @@ export default function TeachingResourceFull() {
         setResource(null);
       })
       .finally(() => setLoading(false));
-  }, [title]);
+  }, [slug]);
 
   if (loading) {
     return (
