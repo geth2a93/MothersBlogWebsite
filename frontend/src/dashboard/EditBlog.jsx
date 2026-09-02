@@ -289,6 +289,7 @@ const handleBlockImage = (index, e) => {
   updateBlock(index, {
     ...blog.content_blocks[index],
     file,
+    media_content_url: "",
     preview_url: URL.createObjectURL(file)
   });
 };
