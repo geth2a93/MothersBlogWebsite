@@ -59,7 +59,7 @@
 /* CONTENT BLOCKS */
 
 .blog-block {
-    margin: 25px 0;
+    margin: 50px 0;
 }
 
 .blog-block-content {
@@ -76,9 +76,9 @@
 
 .blog-block.left {
     display: flex;
-    gap: 30px;
+    gap: 10px;
     align-items: flex-start;
-    margin-bottom: 20px;
+    margin-bottom: 20px
 }
 
 .blog-block.right {
@@ -89,7 +89,6 @@
     gap: 30px;
 
     align-items: flex-start;
-    margin-bottom: 50px;
 }
 
 /* CENTER*/
@@ -102,7 +101,6 @@
     align-items: center;
 
     text-align: center;
-     margin-bottom: 50px;
 }
 
 /* IMAGE*/
@@ -112,7 +110,7 @@
     height: auto;
     width: auto;
     display: flex;
-    margin: 0 auto;
+    /* margin: 0 auto;
     
 }
 
