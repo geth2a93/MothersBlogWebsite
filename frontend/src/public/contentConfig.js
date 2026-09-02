@@ -61,6 +61,7 @@ export const contentConfig = {
     title: book.title,
     preview: book.synopsis,
     image: book.book_image_url,
+    url_content_type: "image",
     link: `/books/title/${book.slug}`
   })
 },
