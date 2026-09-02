@@ -1,3 +1,60 @@
+/* New */
+.date-row {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}
+
+.display-date-checkbox {
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.book-info-box {
+  display: flex;
+  gap: 40px;
+  border: 1px solid #ccc;
+  padding: 30px;
+  margin-top: 20px;
+  border-radius: 8px;
+}
+
+.book-cover-container {
+  flex: 0 0 250px;
+}
+
+.book-cover {
+  width: 250px;
+  height: auto;
+  display: block;
+}
+
+.book-details {
+  flex: 1;
+}
+
+.book-date-section h2,
+.book-synopsis-section h2 {
+  margin-top: 0;
+}
+
+.book-date {
+  margin-top: 5px;
+}
+
+.book-synopsis-section {
+  margin-top: 30px;
+}
+
+.book-synopsis {
+  line-height: 1.6;
+}
+
+
+/* New End */
+
 .editor-container {
   width: 90%;
   max-width: 800px;
@@ -18,19 +75,6 @@
   font-family: "Alegreya Sans", sans-serif;
   display: flex;
   flex-direction: column;
-}
-
-.date-row {
-  display: flex;
-  align-items: flex-end;
-  gap: 25px;
-}
-
-.display-date-checkbox {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  margin-bottom: 10px;
 }
 
 .button-container-3 {

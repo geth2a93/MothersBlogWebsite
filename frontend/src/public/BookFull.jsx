@@ -57,24 +57,37 @@ export default function BookDetail() {
         {/* TITLE */}
         <h1 className="book-title">{book.title}</h1>
 
-        {/* COVER */}
-        <img
-          className="book-cover"
-          src={book.book_image_url}
-          alt={book.title}
-        />
+        {/* BOOK INFORMATION */}
+        <div className="book-info-box">
 
-        {/* SYNOPSIS */}
-        <p className="book-synopsis">{book.synopsis}</p>
+        {/* COVER */}
+          <div className="book-cover-container">
+            <img className="book-cover" src={book.book_image_url} alt={book.title}/>
+          </div>
+
+        {/* RIGHT SIDE */}
+            <div className="book-details">
 
         {/* PUBLISH DATE */}
-        <h2>Publish Date</h2>
-        {book.date_displayed && (
-          <p className="book-date">
-            {book.date_added}
-          </p>
-        )}
+              {book.date_displayed && (
+                <div className="book-date-section">
+                  <h2>Publish Date</h2>
+                    <p className="book-date">
+                      {book.date_added}
+                    </p>
+                </div>
+              )}
 
+        {/* SYNOPSIS */}
+              <div className="book-synopsis-section">
+                <h2>Synopsis</h2>
+                <p className="book-synopsis">
+                {book.synopsis}
+              </p>
+              </div>
+
+            </div>
+          </div>
 
         {book.awards?.length > 0 && (
           <section>
