@@ -101,7 +101,7 @@ const renderMedia = () => {
 
         {date && (
           <p className="blog-card-date">
-            {date}
+            {new Date(date).toLocaleDateString()}
           </p>
         )}
 
