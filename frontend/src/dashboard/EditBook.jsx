@@ -38,6 +38,7 @@ buy_links: (data.buy_links || []).map(link => ({
 
 export default function EditBook(){
 const navigate=useNavigate();
+const [availableGenres, setAvailableGenres] = useState([]);
 
 const updateBook = (field, value) => {
     setBook(prev => ({
@@ -190,7 +191,23 @@ useEffect(() => {
     }
   };
 
+  const loadGenres = async () => {
+    try {
+      const res = await fetch("/api/genres");
+
+      if (!res.ok) {
+        throw new Error("Failed to fetch genres");
+      }
+
+      const data = await res.json();
+      setAvailableGenres(data);
+    } catch (err) {
+      console.error("Failed to load genres:", err);
+    }
+  };
+
   loadBook();
+  loadGenres();
 }, [slug]);
 
 
@@ -395,36 +412,41 @@ return (
 
       <h2>Genres</h2>
 
-      <input
-        value={genreInput}
-        onChange={(e) =>
-          setGenreInput(e.target.value)
-        }
-      />
-
-      <div>
-        {book.genres.map((genre) => (
-          <span
-            className = "tag-pill"
-            key={genre}
-            style={{
-              marginRight: 10,
-              cursor: "pointer"
-            }}
-            onClick={() =>
-              removeGenre(genre)
-            }
-          >
-            {genre} ✕
-          </span>
+      <div className="genre-list">
+        {availableGenres.map((genre) => (
+        <label key={genre.id} className="genre-option">
+          <input type="checkbox" checked={book.genres.includes(genre.name)} onChange={(e) => {
+          if (e.target.checked) {
+            updateBook("genres", [...book.genres, genre.name]);
+          } else {
+            updateBook("genres", book.genres.filter(g => g !== genre.name));
+          }
+        }}/>
+          {genre.display}
+        </label>
         ))}
       </div>
 
-      <button onClick={addGenre}>
-        Add Genre
-      </button>
+      <div className="new-genre">
+        <label>Add new genre</label>
+        <input type="text" value={genreInput} onChange={(e) => setGenreInput(e.target.value)} placeholder="Enter a new genre"/>
+        <button type="button" onClick={addGenre}>
+          Add Genre
+        </button>
+      </div>
 
-      
+      <div>
+        {book.genres.map((genre) => (
+        <span className="tag-pill" key={genre} style={{
+          marginRight: 10,
+          cursor: "pointer"
+          }}
+          onClick={() => removeGenre(genre)}
+        >
+        {genre} ✕
+      </span>
+      ))}
+    </div>
 
       <h2>Buy Links</h2>
 

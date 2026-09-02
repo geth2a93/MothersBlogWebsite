@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./editor.css";
 
@@ -23,6 +23,24 @@ export default function NewBook() {
 
   const [book, setBook] = useState(emptyBook);
   const [genreInput, setGenreInput] = useState("");
+  const [availableGenres, setAvailableGenres] = useState([]);
+
+  useEffect(() => {
+  fetch("/api/genres")
+    .then(res => {
+      if (!res.ok) {
+        throw new Error("Failed to fetch genres");
+      }
+      return res.json();
+    })
+    .then(data => {
+      setAvailableGenres(data);
+    })
+    .catch(err => {
+      console.error("Failed to load imported genres:", err);
+    });
+  }, []);
+  
 
   const updateBook = (field, value) => {
     setBook(prev => ({
@@ -205,6 +223,7 @@ export default function NewBook() {
     formData.append("isbn", book.isbn);
     formData.append("synopsis", book.synopsis);
     formData.append("date", book.date_added);
+    formData.append("date_displayed", book.date_displayed);
 
 
     if (book.cover.file) {
@@ -333,11 +352,9 @@ export default function NewBook() {
           onChange={(e) => updateBook("synopsis", e.target.value)}
           placeholder="Book synopsis" />
 
-        <h2>Date Added</h2>
-
         <div className="date-row">
           <div>
-            <h2>Date Added</h2>
+            <h2>Publish Date</h2>
 
           <input type="date" value={book.date_added} onChange={(e) => updateBook("date_added", e.target.value)}/>
           </div>
@@ -357,27 +374,36 @@ export default function NewBook() {
             alt="Cover preview" />
         )}
 
-        <input
-          type="file"
-          accept="image/*"
-          onChange={handleCoverImage} />
-
         <h2>Genres</h2>
 
-        <input
-          value={genreInput}
-          onChange={(e) => setGenreInput(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              e.preventDefault();
-              addGenre();
-            }
-          } }
-          placeholder="Genre" />
-
-        <button onClick={addGenre}>
-          Add Genre
-        </button>
+        <div className="genre-list">
+          {availableGenres.map((genre) => (
+          <label key={genre.id} className="genre-option">
+            <input type="checkbox" checked={book.genres.includes(genre.name)} onChange={(e) => {
+              if (e.target.checked) {
+                updateBook("genres", [...book.genres, genre.name]);
+              } else {
+                updateBook("genres", book.genres.filter(g => g !== genre.name));
+              }
+            }}/>
+            {genre.display}
+          </label>
+          ))}
+        </div>
+        <div className="new-genre">
+          <label>Add new genre</label>
+            <input type="text" value={genreInput} onChange={(e) => setGenreInput(e.target.value)} placeholder="Enter a new genre"/>
+            <button type="button" onClick={() => {const genre = genreInput.trim();
+              if (!genre) return;
+              if (!book.genres.includes(genre)) 
+              {        
+                updateBook("genres", [...book.genres, genre]);
+              }
+              setGenreInput("");
+              }}>
+            Add Genre
+          </button>
+        </div>
 
         <div>
           {book.genres.map((genre) => (

@@ -62,7 +62,7 @@ export default function AdminEditBooks() {
 
   const handlePublish = async (slug, title) => {
     const confirmed = window.confirm(
-      `Publish "${title}?" Publish date will be set to today.`
+      `Publish "${title}" book to public?`
     );
 
     if (!confirmed) return;
@@ -167,14 +167,13 @@ export default function AdminEditBooks() {
                         Delete
                       </button>
 
-                      {!book.published && (
+                      {!book.displayed && (
                       <button className="publish-button" onClick={() => handlePublish(book.slug, book.title)}>
                         Publish
                       </button> )}
 
 
                     </td>
-
                     
                   </tr>
                 ))}

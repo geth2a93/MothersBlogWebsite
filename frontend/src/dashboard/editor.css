@@ -5,6 +5,11 @@
   gap: 25px;
 }
 
+.date-row input[type="date"] {
+  width: 600px;
+  height: 80px;
+}
+
 .display-date-checkbox { /* For admin new/edit book */
   display: flex;
   align-items: flex-end;
@@ -21,12 +26,12 @@
   border-radius: 8px;
 }
 
-.book-cover-container {
-  flex: 0 0 600px;
+.book-cover-container { /*make taller, same with cover? or no need*/
+  flex: 0 0 400px;
 }
 
 .book-cover {
-  width: 250px;
+  width: 400px;
   height: auto;
   display: block;
 }
@@ -40,7 +45,7 @@
   margin-top: 0;
 }
 
-.book-date {
+.book-date { /*Make smaller and only on left side */
   margin-top: 5px;
 }
 
