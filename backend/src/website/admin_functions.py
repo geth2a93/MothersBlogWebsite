@@ -116,7 +116,12 @@ def subscriber_email(email_id):
         msg["From"] = os.getenv("EMAIL_ADDRESS")
         msg["To"] = subscriber.email
 
-        html = f"""<html><body><p>{p.body}</p>"""
+        if subscriber.name:
+            greeting = f"Hello {subscriber.name},"
+        else:
+            greeting = "Hello,"
+
+        html = f"""<html><body><p>{greeting},</p><p> {p.body}</p>"""
 
         for pic in p.email_pics:
             html += f"""<img src="{pic.url_of_image}"style="max-width: 100%; height: auto;">"""
