@@ -75,7 +75,8 @@ teaching: {
   id: item.title,
   isbn: item.isbn,
   title: item.title,
-  image: item.book_image_url,
+  title_media: item.book_image_url,
+  url_content_type: "image",
   slug: item.slug,
   link: `/teachingresources/${item.slug}`
 })
