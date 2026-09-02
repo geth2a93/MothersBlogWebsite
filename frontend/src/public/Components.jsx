@@ -63,7 +63,7 @@ export function Navbar() {
                   key={genre.id}
                   to={`/books/${genre.name.replaceAll(" ", "-")}`}
                 >
-                  {genre.name}
+                  {genre.display}
                 </Link>
                ))}
             </div>
