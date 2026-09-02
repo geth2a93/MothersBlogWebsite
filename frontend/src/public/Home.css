@@ -14,13 +14,6 @@ body {
 } 
 
 
-html,
-body,
-#root,
-.app {
-  margin: 0;
-  padding: 0;
-}
 
 
 /* HERO */
@@ -41,8 +34,7 @@ body,
 }
 
 /* COMING SOON SECTION */
-.coming-soon {
-  
+.coming-soon { 
   width: 100%;
   height: 600px;
   margin: 0 auto;
