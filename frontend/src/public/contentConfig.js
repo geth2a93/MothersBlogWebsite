@@ -29,7 +29,7 @@ export const contentConfig = {
       preview: book.synopsis,
       title_media: book.book_image_url,
       url_content_type: "image",
-      link: `/books/title/${book.title.replaceAll(" ", "-")}`
+      link: `/books/title/${book.slug}`
     })
   },
 
@@ -45,7 +45,7 @@ export const contentConfig = {
     preview: book.synopsis,
     title_media: book.book_image_url,
     url_content_type: "image",
-    link: `/books/title/${book.title.replaceAll(" ", "-")}`
+    link: `/books/title/${book.slug}`
   })
 },
 
@@ -61,7 +61,7 @@ export const contentConfig = {
     title: book.title,
     preview: book.synopsis,
     image: book.book_image_url,
-    link: `/books/title/${book.title.replaceAll(" ", "-")}`
+    link: `/books/title/${book.title.slug}`
   })
 },
 
@@ -76,7 +76,7 @@ teaching: {
   preview: "Click to view resource",
   image: item.book_image_url,
   slug: item.title.replaceAll(" ", "-"),
-  link: `/teachingresources/${item.title.replaceAll(" ", "-")}`
+  link: `/teachingresources/${item.slug}`
 })
 }
 
