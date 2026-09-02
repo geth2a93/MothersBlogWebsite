@@ -394,7 +394,7 @@ def edit_blog(slug):
         for index, block in enumerate(content_blocks):
             new_block = BlogContentBlock()
             new_block.blog_id = blog.id
-            new_block.order = block.get("order", index)
+            new_block.order = block.get("order")
             db.session.add(new_block)
             db.session.flush()
  
