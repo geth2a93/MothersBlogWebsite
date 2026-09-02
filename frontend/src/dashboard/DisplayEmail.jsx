@@ -87,9 +87,13 @@ function DisplayEmails() {
   return (
     <div className="display-list-container">
      <h1>Subscriber Emails</h1>
-        
+      
+      <div>
+        <button onClick={() =>navigate( `/dashboard/new-email`)}> Add Email  </button>
+      </div>
+
       <div className="display-list-card">
-       
+      
 
         <div className="display-table-wrapper">
         <table className="display-table">

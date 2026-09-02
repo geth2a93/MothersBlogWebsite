@@ -62,6 +62,10 @@ function DisplayTeachingResources() {
     <div className="display-list-container">
       <h1>Teaching Resources</h1>
 
+      <div>
+        <button onClick={() =>navigate( `/dashboard/add-teaching`)}> Add Resource  </button>
+      </div>
+
       <div className="display-list-card">
         <div className="display-table-wrapper">
           <table className="display-table">

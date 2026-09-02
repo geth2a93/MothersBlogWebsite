@@ -100,6 +100,10 @@ export default function AdminEditBooks() {
     <div className="display-list-container">
       <h1>All Books</h1>
 
+      <div>
+        <button onClick={() =>navigate( `/dashboard/newbook`)}> Add Book  </button>
+      </div>
+
       <div className="display-list-card">
         {loading ? (
           <p className="display-list-message">
@@ -161,9 +165,11 @@ export default function AdminEditBooks() {
                       <button className="delete-button" onClick={() => handleDelete(book.slug, book.title)}>
                         Delete
                       </button>
+
+                      {!book.published && (
                       <button className="publish-button" onClick={() => handlePublish(book.slug, book.title)}>
                         Publish
-                      </button>
+                      </button> )}
 
 
                     </td>

@@ -33,12 +33,15 @@ export function Navbar() {
       .then((data) => setGenres(data))
       .catch((err) => console.error("Failed to load genres:", err));
   }, []);
+  
 
   return (
     <nav className="navbar">
       <div className="logo-container">
-        <img src={logo} className="logo-image" />
-        <Link to="/" className="logo">Charlotte Bennardo</Link>
+        <Link to="/" className="logo-link">
+          <img src={logo} className="logo-image" />
+          <span className="logo">Charlotte Bennardo</span>
+        </Link>
       </div>
 
       <ul className="nav-links">
@@ -75,31 +78,63 @@ export function Navbar() {
   );
 }
 
+
+
 export function Footer() {
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+
+  const handleSubscribe = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await fetch("/addsub", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: email,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setMessage(data.error || "Something went wrong.");
+        return;
+      }
+
+      setMessage("Successfully subscribed!");
+      setEmail("");
+    } catch (error) {
+      console.error("Subscription error:", error);
+      setMessage("Unable to subscribe. Please try again.");
+    }
+  };
+
   return (
     <footer className="footer">
       <div className="newsletter">
         <h3>Subscribe to my newsletter.</h3>
         <p>Sign up for news and exclusive content.</p>
 
-        <div className="newsletter-form">
-          <input className="news-input" type="email" placeholder="Example@example.com" />
-          <button className="sign-btn">Sign Up</button>
-        </div>
-      </div>
+        <form className="newsletter-form" onSubmit={handleSubscribe}>
+          <input
+            className="news-input"
+            type="email"
+            placeholder="Example@example.com"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
 
-      <div className="socials">
-        <h3>Follow Me!</h3>
+          <button className="sign-btn" type="submit">
+            Sign Up
+          </button>
+        </form>
 
-        <div className="social-links">
-          <a href="https://www.facebook.com/AuthorCharlotteBennardo"  target="_blank" rel="noopener noreferrer"> <FontAwesomeIcon icon={faFacebook} /> </a>
-          <a href="https://www.linkedin.com/in/charlotte-bennardo-a2223143/"  target="_blank"  rel="noopener noreferrer"><FontAwesomeIcon icon={faLinkedin} /></a>
-          <a href="https://www.threads.com/@charlottebennardo"  target="_blank"  rel="noopener noreferrer"><FontAwesomeIcon icon={faThreads} /></a>
-          <a href="https://x.com/charbennardo"  target="_blank"  rel="noopener noreferrer"><FontAwesomeIcon icon={faXTwitter} /></a>
-          <a href="https://charbennardo.bsky.social/"  target="_blank"  rel="noopener noreferrer"><FontAwesomeIcon icon={faBluesky} /></a>
-          <a href="https://www.instagram.com/charlottebennardo"  target="_blank"  rel="noopener noreferrer"><FontAwesomeIcon icon={faInstagram} /></a>
-          <a href="https://pinterest.com/charlottebennaro"  target="_blank"  rel="noopener noreferrer"><FontAwesomeIcon icon={faPinterest} /></a>
-        </div>
+        {message && <p>{message}</p>}
       </div>
     </footer>
   );
