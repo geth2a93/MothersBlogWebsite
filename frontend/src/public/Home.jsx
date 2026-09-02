@@ -4,17 +4,7 @@ import { useNavigate, useParams  } from "react-router-dom";
 import "./Home.css";
 import "./Components.css";
 import "./Styles.css";
-import { Link } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faFacebook,
-  faInstagram,
-  faXTwitter,
-  faPinterest,
-  faThreads,
-  faBluesky,
-  faLinkedin
-} from "@fortawesome/free-brands-svg-icons";
+import MediaRenderer from "./MediaRenderer.jsx";
 
 function Home() {
   const [homeData, setHomeData] = useState(null);
@@ -124,16 +114,17 @@ function Home() {
           </div>
 
            {blog?.title_media ? (
-            <img
-              src={blog.title_media}
-              alt={blog.title}
+            <MediaRenderer
+              media={blog.title_media}
+              contentType={blog.url_content_type}
+              title={blog.title}
               className="home-newest-image"
             />
-          ) : (
-            <div className="home-newest-image">
-              No Image Available
-            </div>
-          )}
+            ) : (
+          <div className="home-newest-image">
+          No Image Available
+        </div>
+      )}
 
         </div>
       </section>
