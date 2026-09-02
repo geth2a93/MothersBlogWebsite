@@ -70,7 +70,9 @@ export default function BookDetail() {
         {/* AWARDS */}
         <h3 className="section-title">Awards</h3>
 
-        {book.awards?.length > 0 ? (
+        {book.awards?.length > 0 && (
+          <section>
+          <h2>Awards</h2>
           <div className="awards-container">
             {book.awards.map((a, index) => (
               <div key={index} className="award-card">
@@ -92,23 +94,22 @@ export default function BookDetail() {
               </div>
             ))}
           </div>
-        ) : (
-          <p>No awards listed.</p>
-        )}
+          </section>
+          )}
 
         {/* REVIEWS */}
-        <h3 className="section-title">Reviews</h3>
+{book.reviews?.length > 0 && (
+  <section>
+    <h3 className="section-title">Reviews</h3>
 
-        {book.reviews?.length > 0 ? (
-          book.reviews.map(r => (
-            <div key={r.id} className="review-card">
-              <div className="review-author">{r.name}</div>
-              <div className="review-content">{r.content}</div>
-            </div>
-          ))
-        ) : (
-          <p>No reviews yet.</p>
-        )}
+    {book.reviews.map((r) => (
+      <div key={r.id} className="review-card">
+        <div className="review-author">{r.name}</div>
+        <div className="review-content">{r.content}</div>
+      </div>
+    ))}
+  </section>
+)}
 
       </div>
     </div>
