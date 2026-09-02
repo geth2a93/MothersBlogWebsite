@@ -20,14 +20,11 @@
 .book-info-box {  /* For public books */
   display: flex;
   border: 1px solid #ccc;
-  padding: 30px;
   margin-top: 20px;
-  border-radius: 8px;
 }
 
 .book-cover-container { /*make taller, same with cover? or no need*/
   flex: 0 0 600 px;
-  margin-right: 20px;
 }
 
 .book-cover {
@@ -49,10 +46,12 @@
 
 .book-date { /*Make smaller and only on left side */
   margin-top: 5px;
+  margin-left: 20px;
+  text-align: center;
 }
 
 .book-synopsis-section {
-  margin-top: 30px;
+  margin-top: 20px;
 }
 
 .book-synopsis {
