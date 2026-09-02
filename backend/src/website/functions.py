@@ -58,7 +58,7 @@ def get_newest_book_for_each_genre():
     used_books = set()
 
     for genre in Genre.query.order_by(Genre.genre).all():
-        b = (Book.query.join(Book.genres) .filter(Genre.id == genre.id,Book.published == True).order_by(Book.publish_date.desc()).all())
+        b = (Book.query.join(Book.genres) .filter(Genre.id == genre.id,Book.published == True).order_by(Book.publish_date.asc()).all())
         b = next((book for book in b if book.id not in used_books), None)
 
         if b:
