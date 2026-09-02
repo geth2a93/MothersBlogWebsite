@@ -68,6 +68,7 @@ export default function BookDetail() {
         <p className="book-synopsis">{book.synopsis}</p>
 
         {/* PUBLISH DATE */}
+        <h2>Publish Date</h2>
         {book.date_displayed && (
           <p className="book-date">
             {book.date_added}

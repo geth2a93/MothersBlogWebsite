@@ -364,25 +364,18 @@ return (
         }
       />
 
-      <h2>Date Added</h2>
+      <div className="date-row">
+        <div>
+          <h2>Date Added</h2>
 
-      <input
-        type="date"
-        value={book.date_added}
-        onChange={(e) =>
-        updateBook("date_added", e.target.value)
-      }
-    />
+          <input type="date" value={book.date_added} onChange={(e) => updateBook("date_added", e.target.value)}/>
+        </div>
 
-      <label>
-        <input
-          type="checkbox"
-          checked={book.date_displayed}
-          onChange={(e) =>
-          updateBook("date_displayed", e.target.checked)
-        }/>
-        Display publish date
-      </label>
+        <label className="display-date-checkbox">
+          <input type="checkbox" checked={book.date_displayed} onChange={(e) => updateBook("date_displayed", e.target.checked)}/>
+          Display publish date
+        </label>
+      </div>
 
       <h2>Cover Image</h2>
 

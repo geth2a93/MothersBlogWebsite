@@ -110,7 +110,7 @@ def get_books_by_title(slug, published):
         "book_image_url": build_url(book.book_image_url),
         "buy_links": [{ "url": l.url_of_link, "name": l.site_name} for l in book.buy_links],
         "reviews": [{"link_url": r.url_of_link, "name": r.reviewer_name, "title": r.review_title, "content": r.review_content, "rating": r.review_rating} for r in book.reviews],
-        "date_added": book.publish_date,
+        "date_added": book.publish_date.isoformat(),
         "date_displayed": book.publish_date_displayed,
         "awards": [{"award_url": build_url(a.url_of_award), "award_title": a.title_of_award} for a in book.awards],
     }

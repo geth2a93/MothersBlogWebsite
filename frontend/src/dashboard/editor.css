@@ -20,6 +20,19 @@
   flex-direction: column;
 }
 
+.date-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 25px;
+}
+
+.display-date-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
 .button-container-3 {
   width: 85%;
   max-width: 800px;

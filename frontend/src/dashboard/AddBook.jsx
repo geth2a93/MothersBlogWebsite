@@ -335,19 +335,18 @@ export default function NewBook() {
 
         <h2>Date Added</h2>
 
-        <input
-          type="date"
-          value={book.date_added}
-          onChange={(e) => updateBook("date_added", e.target.value)} />
+        <div className="date-row">
+          <div>
+            <h2>Date Added</h2>
 
-          <label>
-          <input
-              type="checkbox"
-              checked={book.date_displayed}
-              onChange={(e) =>
-              updateBook("date_displayed", e.target.checked)}/>
-               Display publish date
-            </label>
+          <input type="date" value={book.date_added} onChange={(e) => updateBook("date_added", e.target.value)}/>
+          </div>
+
+          <label className="display-date-checkbox">
+            <input type="checkbox" checked={book.date_displayed} onChange={(e) => updateBook("date_displayed", e.target.checked)}/>
+            Display date to public
+          </label>
+        </div>
 
         <h2>Cover Image</h2>
 
