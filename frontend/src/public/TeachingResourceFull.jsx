@@ -61,8 +61,10 @@ export default function TeachingResourceFull() {
           />
         )}
 
+        {/* ISBN */}
+        <Section title="Isbn" content={resource.isbn} />        
+
         {/* SECTIONS */}
-        <Section title="Isbn" content={resource.isbn} />
         <Section title="Word List" content={resource.word_list} />
         <Section title="Activities" content={resource.activities} />
         <Section title="Questions" content={resource.questions} />

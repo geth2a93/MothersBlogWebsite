@@ -73,9 +73,9 @@ teaching: {
 
   mapItem: (item) => ({
   id: item.title,
-  isbn: item.isbn,
   title: item.title,
   title_media: item.book_image_url,
+  preview: item.isbn,
   url_content_type: "image",
   slug: item.slug,
   link: `/teachingresources/${item.slug}`
