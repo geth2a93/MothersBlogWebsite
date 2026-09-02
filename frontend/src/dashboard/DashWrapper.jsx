@@ -73,6 +73,11 @@ export default function DashboardLayout() {
                 <button
                     className="dashboard-home-button"
                     onClick={() => navigate("/dashboard")}>
+                    Dashboard Home 
+                </button>
+                <button
+                    className="home-button"
+                    onClick={() => navigate("/api/")}>
                     Home 
                 </button>
                 
