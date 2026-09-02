@@ -28,7 +28,7 @@ export default function BookDetail() {
       .finally(() => {
         setLoading(false);
       });
-  }, [slug]);
+  }, [title]);
 
   if (loading) {
     return (
