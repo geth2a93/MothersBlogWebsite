@@ -101,7 +101,7 @@ const renderMedia = () => {
 
         {date && (
           <p className="blog-card-date">
-            {new Date(date)}
+            {date}
           </p>
         )}
 
