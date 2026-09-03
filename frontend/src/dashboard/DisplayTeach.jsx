@@ -82,7 +82,7 @@ function DisplayTeachingResources() {
                   <td>{resource.title}</td>
 
                   <td>
-                    <button
+                    <button className="edit-button"
                       onClick={() =>
                         navigate(
                           `/dashboard/edit-teaching/${resource.slug}`
@@ -92,7 +92,7 @@ function DisplayTeachingResources() {
                       Edit
                     </button>
 
-                    <button
+                    <button className="delete-button"
                       onClick={() =>
                         handleDelete(resource.slug)
                       }

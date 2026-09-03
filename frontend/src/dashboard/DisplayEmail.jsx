@@ -129,12 +129,12 @@ function DisplayEmails() {
 
                 <td>
                   {!email.sent && (
-                  <button onClick={() => navigate(`/dashboard/edit-email/${email.id}`)}> Edit </button> )}
+                  <button className="edit-button" onClick={() => navigate(`/dashboard/edit-email/${email.id}`)}> Edit </button> )}
 
-                  <button onClick={() =>handleDelete(email.id, email.subject)}> Delete </button>
+                  <button className="delete-button" onClick={() =>handleDelete(email.id, email.subject)}> Delete </button>
 
                   {!email.sent && (
-                    <button onClick={() => handleSend(email.id)}> Send Email </button> )}
+                    <button className="publish-button" onClick={() => handleSend(email.id)}> Send Email </button> )}
                 </td>
               </tr>
             ))}
