@@ -11,62 +11,21 @@ export default function AdminHome() {
             <p>Website administration tools.</p>
 
             <div className="dash-card">
-
-                <details>
-                    <summary className="dash-card-text">Blogs</summary>
-
                     <div className="dash-buttons">
-                        <button onClick={() => navigate("/dashboard/add-blog")}>
-                            Add Blog
-                        </button>
-
                         <button onClick={() => navigate("/dashboard/blogs")}>
                             Manage Blog Posts
                         </button>
-                    </div>
-                </details>
-
-                <details>
-                    <summary className="dash-card-text">Emails</summary>
-
-                    <div className="dash-buttons">
-                         <button onClick={() => navigate("/dashboard/new-email")}>
-                            Create Emails
-                        </button>
-
-                         <button onClick={() => navigate("/dashboard/displayemails")}>
+                        <button onClick={() => navigate("/dashboard/displayemails")}>
                             Manage Emails
                         </button>
-                    </div>
-                </details>
-
-                <details>
-                    <summary className="dash-card-text">Books</summary>
-
-                    <div className="dash-buttons">
-                        <button onClick={() => navigate("/dashboard/newbook")}>
-                            Add A Book
-                        </button>
-
                         <button onClick={() => navigate("/dashboard/books")}>
                             Manage Books
                         </button>
-                    </div>
-                </details>
-
-                <details>
-                    <summary className="dash-card-text">Teaching Resources</summary>
-
-                    <div className="dash-buttons">
-                        <button onClick={() => navigate("/dashboard/add-teaching")}>
-                            Add Teaching Resources
-                        </button>
-
                         <button onClick={() => navigate("/dashboard/display-teaching")}>
                             Manage Teaching Resources
                         </button>
                     </div>
-                </details>
+
 
                 <details>
                     <summary className="dash-card-text">General</summary>
@@ -82,7 +41,6 @@ export default function AdminHome() {
 
                     </div>
                 </details>
-
             </div>
         </div>
     );
