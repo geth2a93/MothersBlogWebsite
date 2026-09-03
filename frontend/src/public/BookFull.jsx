@@ -134,7 +134,7 @@ export default function BookDetail() {
     <h3 className="section-title">Reviews</h3>
 
     {book.reviews.map((r) => (
-      <div key={r.id} className="review-card">
+      <div key={r.id} className="buy-link-card">
         <div className="review-author">{r.name}</div>
         <div className="review-content">{r.content}</div>
       </div>

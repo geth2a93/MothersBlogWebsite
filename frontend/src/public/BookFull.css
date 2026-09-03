@@ -9,6 +9,29 @@
 
 }
 
+.book-synopsis-section h2{ 
+    text-align: center;
+    color: #0F7BA8;
+}
+.book-date-section h2{ 
+    text-align: center;
+    color: #0F7BA8;
+}
+.book-date-section h2{ 
+    text-align: center;
+    color: #0F7BA8;
+}
+
+.buy-link-site-name {
+    text-decoration: underline;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.buy-link-site-name:hover {
+  text-decoration: none;
+}
+
 .book-container {
     width: 100%;
     max-width: 1000px;
@@ -49,7 +72,7 @@
 
 /* SYNOPSIS */
 .book-synopsis {
-    text-align: center;
+    text-align: left;
 
     font-size: 1.2rem;
 
