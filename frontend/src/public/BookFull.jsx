@@ -1,5 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { formatBookDate } from "./dateHelper.js";
 import "./BookFull.css";
 
 export default function BookDetail() {
@@ -57,63 +58,51 @@ export default function BookDetail() {
         {/* TITLE */}
         <h1 className="book-title">{book.title}</h1>
 
-        {/* BOOK INFORMATION */}
         <div className="book-info-box">
 
-        {/* GENRES */}
-        {book.genre?.length > 0 && (
-        <div className="book-genres">
-          <h2>Genres</h2>
-            <div className="genres-list">
-            {book.genre.map((genre) => (
-              <div className="review-author" key={genre}>
-              {genre}
-              </div>
-            ))}
-            </div>
+        {/* LEFT: COVER */}
+        <div className="book-cover-container">
+          <img className="book-cover" src={book.book_image_url} alt={book.title}/>
         </div>
-        )}
 
-        {/* COVER */}
-          <div className="book-cover-container">
-            <img className="book-cover" src={book.book_image_url} alt={book.title}/>
-          </div>
+        {/* RIGHT: DETAILS */}
+          <div className="book-details">
 
-        {/* RIGHT SIDE */}
-            <div className="book-details">
-
-        {/* PUBLISH DATE */}
-              {book.date_displayed && (
-                <div className="book-date-section">
-                  <h2>{book.date_added > new Date().toISOString().split("T")[0]
-                    ? "Publish Date"
-                    : "Published"}
-                  </h2>
-                  <p className="book-date">
-                    {book.date_added > new Date().toISOString().split("T")[0]
-                    ? `${["Winter", "Spring", "Summer", "Fall"][
-                    Math.floor((Number(book.date_added.split("-")[1]) - 1) / 3)
-                    ]} ${book.date_added.split("-")[0]}`
-                    : `${[
-                    "January", "February", "March", "April",
-                    "May", "June", "July", "August",
-                    "September", "October", "November", "December"
-                    ][Number(book.date_added.split("-")[1]) - 1]} ${book.date_added.split("-")[0]}`
-                    }
-                  </p>
-                </div>
-              )}
-
-        {/* SYNOPSIS */}
-              <div className="book-synopsis-section">
-                <h2>Synopsis</h2>
-                <p className="book-synopsis">
-                {book.synopsis}
-              </p>
+          {/* GENRES */}
+          {book.genre_name?.length > 0 && (
+            <div className="book-genres">
+              <div className="genres-list">
+                {book.genre.map((genre_name) => (
+                  <div className="review-author" key={genre_name}>
+                  {genre_name}
+                  </div>
+                ))}
               </div>
-
             </div>
+          )}
+
+          {/* PUBLISH DATE */}
+          {book.date_displayed && (() => {
+            const bookDate = formatBookDate(book.date_added);
+
+            return (
+              <div className="book-date-section">
+                <h2>{bookDate.label}</h2>
+                <p className="book-date">{bookDate.date}</p>
+              </div>
+            );
+          })()}
+
+          {/* SYNOPSIS */}
+          <div className="book-synopsis-section">
+            <h2>Synopsis</h2>
+            <p className="book-synopsis">
+              {book.synopsis}
+            </p>
           </div>
+
+          </div>
+        </div>
 
         {book.awards?.length > 0 && (
           <section>

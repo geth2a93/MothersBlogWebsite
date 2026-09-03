@@ -1,32 +1,50 @@
-.book-info-box {  /* For public books */
+.book-info-box {
   display: flex;
   border: 1px solid #ccc;
   margin-top: 20px;
 }
 
-.book-cover-container { /*make taller, same with cover? or no need*/
-  flex: 0 0 600 px;
+.book-cover-container {
+  flex: 0 0 600px;
 }
 
-.book-cover {
-  flex: 0 0 600px;
-  height: auto;
-  display: block;
-}
-  
 .book-details {
   flex: 1;
+}
+
+.book-genres {
+  text-align: right;
+  color: #0F7BA8;
+  margin-bottom: 20px;
+}
+
+.genres-list {
+  display: flex;
+  flex-direction: column;
+  color: #0F7BA8;
+  align-items: flex-end;
+  gap: 5px;
+}
+
+.book-date {
+  text-align: center;
+  color: #0F7BA8;
+  margin-bottom: 5px;
+}
+
+.book-synopsis-section h2 {
+  text-align: center;
+  color: #0F7BA8;
+}
+
+.book-synopsis {
+  text-align: left;
 }
 
 .book-date-section h2,
 .book-synopsis-section h2 {
   margin-top: 0;
   flex: 0 0 400px;
-}
-
-.book-date { /*Make smaller and only on left side */
-  margin-top: 5px;
-  text-align: center;
 }
 
 .book-synopsis-section {
@@ -44,14 +62,6 @@
 
 }
 
-.book-synopsis-section h2{ 
-    text-align: center;
-    color: #0F7BA8;
-}
-.book-date-section h2{ 
-    text-align: center;
-    color: #0F7BA8;
-}
 .book-date-section h2{ 
     text-align: center;
     color: #0F7BA8;
@@ -97,7 +107,7 @@
 
     margin: 0 auto 40px auto;
 
-    max-width: 350px;
+    max-width: 450px;
     width: 100%;
     height: auto;
 
