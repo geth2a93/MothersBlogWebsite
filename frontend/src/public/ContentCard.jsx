@@ -83,6 +83,17 @@ const renderMedia = () => {
   const hasText = Boolean(preview && preview.trim().length > 0);
   const showMediaOnly = hasMedia && !hasText;
 
+  const formatDate = (dateString) => {
+    const [year, month, day] = dateString.split("-");
+    const date = new Date(year, month - 1, day);
+
+    return date.toLocaleDateString("en-US", {
+      month: "long",
+      day: "numeric",
+      year: "numeric"
+    });
+  };
+
   useEffect(() => {
    setMediaLoaded(false);
   }, [title_media, url_content_type]);
@@ -101,7 +112,7 @@ const renderMedia = () => {
 
         {date && (
           <p className="blog-card-date">
-            {date}
+            {formatDate(date)}
           </p>
         )}
 
