@@ -103,8 +103,9 @@ export default function BookDetail() {
 
         {book.awards?.length > 0 && (
           <section>
-          <h2>Awards</h2>
+         
           <div className="awards-container">
+            <h2>Awards</h2>
             {book.awards.map((a, index) => (
               <div key={index} className="award-card">
 
