@@ -144,9 +144,9 @@ export default function BookDetail() {
   <section>
     <h3 className="section-title">Buy Now</h3>
 
-    {book.buy_linkss.map((link, index) => (
+    {book.buy_links.map((link, index) => (
       <div key={index} className="review-card">
-        <a href={link.url} target="_blank" rel="noopener noreferrer" classname="buy-link-site-name">{link.name}</a>
+        <a href={link.url} target="_blank" rel="noopener noreferrer" className="buy-link-site-name">{link.name}</a>
       </div>
     ))}
   </section>
