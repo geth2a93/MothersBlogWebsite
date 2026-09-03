@@ -52,36 +52,35 @@
   width: 100%;
   border-collapse: collapse;
   font-family: "Alegreya Sans", sans-serif;
-  font-size: 16px;
+  font-size: 18px;
 }
 
 .display-table th {
   padding: 14px 12px;
   text-align: left;
   font-family: "Alegreya", serif;
-  font-size: 18px; 
   color: #0F7BA8;
   border-bottom: 2px solid rgba(15, 123, 168, 0.2);
+  font-size: 18px; 
 }
 
 .display-table td {
   padding: 15px 12px;
   border-bottom: 1px solid #e5e5e5;
-  font-size: 16px;
   vertical-align: middle;
+  font-size: 18px;
+  font-weight: 500;
 }
 
 
 .display-title {
   font-weight: 600;
-  font-size: 18;
+  font-size: 20;
   color: #333;
   min-width: 200px;
 }
 
 /*end modified*/
-
-
 
 .display-list-container {
   width: 90%;
