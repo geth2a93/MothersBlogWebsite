@@ -15,7 +15,7 @@ function DisplayEmails() {
 
     try {
       const response = await fetch(
-        `/admin/deleteemail/${email.id}`,
+        `/admin/deleteemail/${emailID}`,
         {
           credentials: "include",
         }
