@@ -28,6 +28,7 @@ export const contentConfig = {
       title: book.title,
       preview: book.synopsis,
       title_media: book.book_image_url,
+      genre: book.genre_name,
       url_content_type: "image",
       link: `/books/title/${book.slug}`
     })
@@ -44,6 +45,7 @@ export const contentConfig = {
     title: book.title,
     preview: book.synopsis,
     title_media: book.book_image_url,
+    genre: book.genre_name,
     url_content_type: "image",
     link: `/books/title/${book.slug}`
   })
