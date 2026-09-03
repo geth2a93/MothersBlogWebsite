@@ -37,7 +37,8 @@ function Home() {
   const book = latest?.book;
   const blog = latest?.blog;
   
-
+  const isBookComingSoon =
+  book?.date && new Date(book.date) > new Date();
 
   const truncateText = (text, maxLength) => {
   if (!text) return "";
@@ -67,7 +68,7 @@ function Home() {
         <div className="coming-soon-content">
           <div className="coming-soon-text">
 
-            <h1>COMING SOON</h1>
+            <h1>{isBookComingSoon ? "COMING SOON" : "OUT NOW"}</h1>
             
             {book ? ( <h2>{book.title}</h2> ) : ( <h2>No Title available.</h2> )}
             {book ? ( <p> {truncateText(book.synopsis, 500)} </p> ) : ( <p>No book data available.</p> )}
