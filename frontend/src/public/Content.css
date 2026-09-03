@@ -244,8 +244,9 @@
 .tag-pill {
   font-size: 11px;
   padding: 2px 8px;
-  background: #eee;
+  background: #0F7BA8;;
   border-radius: 999px;
+  
 }
 
 @media (max-width: 900px) {
