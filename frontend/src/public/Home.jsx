@@ -37,14 +37,24 @@ function Home() {
   const book = latest?.book;
   const blog = latest?.blog;
   
-  const isBookComingSoon =
-  book?.date && new Date(book.date) >  new Date().toISOString().split("T")[0];
+  const isBookComingSoon = book?.date && book.date >= new Date().toISOString().split("T")[0];
 
   const truncateText = (text, maxLength) => {
   if (!text) return "";
   return text.length > maxLength
     ? text.substring(0, maxLength) + "..."
     : text;
+};
+
+const formatDate = (dateString) => {
+  const [year, month, day] = dateString.split("-");
+  const date = new Date(year, month - 1, day);
+
+  return date.toLocaleDateString("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric"
+  });
 };
 
 
@@ -71,7 +81,8 @@ function Home() {
             <h1>{isBookComingSoon ? "COMING SOON" : "OUT NOW"}</h1>
             
             {book ? ( <h2>{book.title}</h2> ) : ( <h2>No Title available.</h2> )}
-            {book ? ( <p> {truncateText(book.synopsis, 500)} </p> ) : ( <p>No book data available.</p> )}
+            {book?.date_displayed && book?.date && (<p className="content-date"> {formatDate(book.date)}</p>)}
+            {book ? ( <p> {truncateText(book.synopsis, 500)} </p> ) : ( <p>No book data available.</p> )}           
 
           <button className="read-more-btn"  onClick={() => navigate(`/books/title/${book.slug}`)} > 
             Read More </button>
@@ -104,7 +115,7 @@ function Home() {
               <>
                 <h1>What's New</h1>
                 <h2>{blog?.title}</h2>
-                <p className="content-date">{latest.blog.date}</p>
+                <p className="content-date">{formatDate(latest.blog.date)}</p>
                 <p>{truncateText(blog?.preview, 500)}</p>
                 <button className="read-more-btn"  onClick={() => navigate(`/blog/${blog.slug}`)}> Read More </button>
               </>

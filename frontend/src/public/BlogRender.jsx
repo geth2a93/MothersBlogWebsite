@@ -14,6 +14,17 @@ export default function BlogRender({ post }) {
 
   const [imageRatios, setImageRatios] = useState({});
 
+  const formatDate = (dateString) => {
+  const [year, month, day] = dateString.split("-");
+  const date = new Date(year, month - 1, day);
+
+  return date.toLocaleDateString("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric"
+  });
+};
+
   const handleImageLoad = (e, key) => {
     const img = e.target;
     const ratio = img.naturalWidth / img.naturalHeight;
@@ -92,7 +103,7 @@ export default function BlogRender({ post }) {
 
         {post.date_created && (
           <p className="blog-post-date">
-            {post.date_created}
+            {formatDate(post.date_created)}
           </p>
         )}
 
