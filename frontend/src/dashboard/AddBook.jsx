@@ -374,6 +374,8 @@ export default function NewBook() {
             alt="Cover preview" />
         )}
 
+        <input type="file" accept="image/*" onChange={handleCoverImage}/>
+
         <h2>Genres</h2>
 
         <div className="genre-list">
