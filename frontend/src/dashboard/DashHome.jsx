@@ -13,30 +13,15 @@ export default function AdminHome() {
             <div className="dash-card">
 
                 <details>
-                    <summary className="dash-card-text">General</summary>
+                    <summary className="dash-card-text">Blogs</summary>
 
                     <div className="dash-buttons">
-                        <button onClick={() => navigate("/dashboard/aboutme")}>
-                            Edit About Me
+                        <button onClick={() => navigate("/dashboard/add-blog")}>
+                            Add Blog
                         </button>
 
-                        <button onClick={() => navigate("/dashboard/websiteresources")}>
-                            Edit Web Resources
-                        </button>
-
-                    </div>
-                </details>
-
-                <details>
-                    <summary className="dash-card-text">Teaching Resources</summary>
-
-                    <div className="dash-buttons">
-                        <button onClick={() => navigate("/dashboard/add-teaching")}>
-                            Add Teaching Resources
-                        </button>
-
-                        <button onClick={() => navigate("/dashboard/display-teaching")}>
-                            Manage Teaching Resources
+                        <button onClick={() => navigate("/dashboard/blogs")}>
+                            Manage Blog Posts
                         </button>
                     </div>
                 </details>
@@ -56,20 +41,6 @@ export default function AdminHome() {
                 </details>
 
                 <details>
-                    <summary className="dash-card-text">Blogs</summary>
-
-                    <div className="dash-buttons">
-                        <button onClick={() => navigate("/dashboard/add-blog")}>
-                            Add Blog
-                        </button>
-
-                        <button onClick={() => navigate("/dashboard/blogs")}>
-                            Manage Blog Posts
-                        </button>
-                    </div>
-                </details>
-
-                <details>
                     <summary className="dash-card-text">Books</summary>
 
                     <div className="dash-buttons">
@@ -80,6 +51,35 @@ export default function AdminHome() {
                         <button onClick={() => navigate("/dashboard/books")}>
                             Manage Books
                         </button>
+                    </div>
+                </details>
+
+                <details>
+                    <summary className="dash-card-text">Teaching Resources</summary>
+
+                    <div className="dash-buttons">
+                        <button onClick={() => navigate("/dashboard/add-teaching")}>
+                            Add Teaching Resources
+                        </button>
+
+                        <button onClick={() => navigate("/dashboard/display-teaching")}>
+                            Manage Teaching Resources
+                        </button>
+                    </div>
+                </details>
+
+                <details>
+                    <summary className="dash-card-text">General</summary>
+
+                    <div className="dash-buttons">
+                        <button onClick={() => navigate("/dashboard/aboutme")}>
+                            Edit About Me
+                        </button>
+
+                        <button onClick={() => navigate("/dashboard/websiteresources")}>
+                            Edit Web Resources
+                        </button>
+
                     </div>
                 </details>
 
