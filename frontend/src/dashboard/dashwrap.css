@@ -9,20 +9,21 @@
 
 .home-button {
     background: #0F7BA8;
-    color: #f5f5f5;
+    color: #ffffff; /*choose a better color for button just used same*/
 
     font-size: 18px;
     padding: 12px 24px;
 }
 
 .home-button:hover {
-    background: #e9f3f6;
+    background: #ffffff;
+    color: #0F7BA8;
 }
 
 /* modified*/
 .dashboard-home-button {
     background: #0F7BA8;
-    color: #f5f5f5;
+    color: #ffffff;
     border: 1px solid rgba(15, 123, 168, 0.3);
 
     font-size: 18px;
@@ -31,6 +32,7 @@
 
 .dashboard-home-button:hover {
     background: #e9f3f6;
+    color: #0F7BA8;
 }
 
 .dashboard-logout-button {
@@ -44,6 +46,7 @@
 
 .dashboard-logout-button:hover {
     background: #e9f3f6;
+    color: #d9534f;
 }
 
 /*new end*/
