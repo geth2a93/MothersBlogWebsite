@@ -190,7 +190,7 @@ function EditTeachingResource() {
 
   return (
     <div className="admin-container">
-      <div className="editor-container">
+      <div className="editor-card">
 
         <h1>Edit Teaching Resource</h1>
 

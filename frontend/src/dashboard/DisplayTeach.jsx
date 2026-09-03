@@ -81,7 +81,7 @@ function DisplayTeachingResources() {
                 <tr key={resource.slug}>
                   <td>{resource.title}</td>
 
-                  <td>
+                   <td className="display-actions">
                     <button className="edit-button"
                       onClick={() =>
                         navigate(

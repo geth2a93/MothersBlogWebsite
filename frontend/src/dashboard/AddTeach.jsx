@@ -127,8 +127,7 @@ function AddTeachingResource() {
 
   return (
     <div className="editor-container">
-      <div className="editor-container">
-
+      <div className="editor-card">
         <h1>Add Teaching Resource</h1>
 
         {error && (
