@@ -6,12 +6,10 @@ function DisplayEmails() {
   const [emails, setEmails] = useState([]);
   const navigate = useNavigate();
 
-   const handleDelete = async (emailID) => {
-    const confirmed = window.confirm(
-      `Delete email? This cannot be undone.`
-    );
-
-    if (!confirmed) return;
+   const handleDelete = async (emailID, subject) => {
+     if (!window.confirm(`Are you sure you want to delete "${subject}"?`)) {
+      return;
+    }
 
     try {
       const response = await fetch(
@@ -22,16 +20,18 @@ function DisplayEmails() {
         }
       );
 
+      const data = await response.json();
+
       if (!response.ok) {
-        throw new Error("Delete failed");
+        throw new Error(data.error || "Failed to delete resource");
       }
 
       setEmail((prev) =>
         prev.filter((email) => email.id !== id)
       );
-    } catch (err) {
-      console.error(err);
-      alert("Failed to delete email");
+    } catch (error) {
+      console.error("Error deleting email:", error);
+      alert(error.message);
     }
   };
 
