@@ -56,8 +56,8 @@ function AddEmail() {
 
   return (
     <div className="editor-container">
-      <div className="editor-container">
-        <h1>Add Email</h1>
+      <h1>Add Email</h1>
+        <div className="editor-card">
 
         {error && (
           <div className="error-message">

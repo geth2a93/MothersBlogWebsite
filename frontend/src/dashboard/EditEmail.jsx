@@ -121,16 +121,16 @@ function EditEmail() {
 
   if (loading) {
     return (
-      <div className="admin-container">
+      <div className="editor-container">
         <h1>Loading Email...</h1>
       </div>
     );
   }
 
   return (
-    <div className="admin-container">
-      <div className="editor-container">
-        <h1>Edit Email</h1>
+    <div className="editor-container">
+      <h1>Edit Email</h1>
+        <div className="editor-container">
 
         {error && (
           <div className="error-message">
