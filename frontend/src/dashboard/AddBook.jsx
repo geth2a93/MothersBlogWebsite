@@ -379,19 +379,16 @@ export default function NewBook() {
         <h2>Genres</h2>
 
         <div className="genre-list">
-          {availableGenres.map((genre) => (
-          <label key={genre.id} className="genre-option">
-            <input type="checkbox" checked={book.genres.includes(genre.name)} onChange={(e) => {
-              if (e.target.checked) {
-                updateBook("genres", [...book.genres, genre.name]);
-              } else {
-                updateBook("genres", book.genres.filter(g => g !== genre.name));
-              }
-            }}/>
+          <select multiple value={book.genres} onChange={(e) =>
+            updateBook("genres", Array.from(e.target.selectedOptions, (option) => option.value))}>
+            {availableGenres.map((genre) => (
+            <option key={genre.id} value={genre.name}>
             {genre.display}
-          </label>
-          ))}
-        </div>
+            </option>
+            ))}
+          </select>
+      </div>
+
         <div className="new-genre">
           <label>Add new genre</label>
             <input type="text" value={genreInput} onChange={(e) => setGenreInput(e.target.value)} placeholder="Enter a new genre"/>
