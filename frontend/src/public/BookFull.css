@@ -5,7 +5,7 @@
 }
 
 .book-cover-container {
-  flex: 0 0 600px;
+  flex: 0 0 450px;
 }
 
 .book-details {
@@ -20,7 +20,7 @@
 
 .genres-list {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   color: #0F7BA8;
   align-items: flex-end;
   gap: 5px;

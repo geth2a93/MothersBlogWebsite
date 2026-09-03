@@ -72,8 +72,8 @@ export default function BookDetail() {
           {book.genre_name?.length > 0 && (
             <div className="book-genres">
               <div className="genres-list">
-                {book.genre.map((genre_name) => (
-                  <div className="review-author" key={genre_name}>
+                {book.genre_name.map((genre_name) => (
+                  <div className="book-genres" key={genre_name}>
                   {genre_name}
                   </div>
                 ))}

@@ -8,7 +8,7 @@
 .about-container {
     max-width: 1200px;
     margin: 0 auto;
-
+    background: var(--color-background);
     display: flex;
     gap: 50px;
     align-items: flex-start;
@@ -29,11 +29,13 @@
     font-family: "Alegreya", serif;
     font-size: 3rem;
     margin-bottom: 20px;
+    color: var(--color-blue);
 }
 
 .about-content p {
     font-family: "Alegreya Sans", sans-serif;
     font-size: 1.2rem;
     line-height: 1.8;
+    color: var(--color-text);
     white-space: pre-wrap;
 }
