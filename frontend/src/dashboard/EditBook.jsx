@@ -7,7 +7,7 @@ const normalizeBook = (data) => ({
   synopsis: data.synopsis || "",
 
   date_added: data.date_added || "",
-  date_displayed: data.date_displayed ?? true,
+  date_displayed: data.date_displayed,
   cover: {
     preview_url: data.book_image_url || "",
     file: null

@@ -94,8 +94,8 @@ class Tags(db.Model):
 class Reviews(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     url_of_link = db.Column(db.String(200), nullable=True)
-    reviewer_name = db.Column(db.String(25), nullable=True)
-    review_title = db.Column(db.String(50), nullable=True)
+    reviewer_name = db.Column(db.String(75), nullable=True)
+    review_title = db.Column(db.String(75), nullable=True)
     review_content = db.Column(db.Text, nullable=True)
     review_rating = db.Column(db.Integer, nullable=True)
     book_id = db.Column(db.Integer, db.ForeignKey('book.id'), nullable=False)

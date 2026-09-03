@@ -28,7 +28,7 @@ export default function BookDetail() {
       .finally(() => {
         setLoading(false);
       });
-  }, [title]);
+  }, [slug]);
 
   if (loading) {
     return (
@@ -71,19 +71,21 @@ export default function BookDetail() {
         {/* PUBLISH DATE */}
               {book.date_displayed && (
                 <div className="book-date-section">
-                  <h2>{new Date(book.date_added) > new Date()
+                  <h2>{book.date_added > new Date().toISOString().split("T")[0]
                     ? "Publish Date"
                     : "Published"}
                   </h2>
                   <p className="book-date">
-                    {new Date(book.date_added) > new Date()
+                    {book.date_added > new Date().toISOString().split("T")[0]
                     ? `${["Winter", "Spring", "Summer", "Fall"][
-                    Math.floor(new Date(book.date_added).getMonth() / 3)
-                    ]} ${new Date(book.date_added).getFullYear()}`
-                    : new Date(book.date_added).toLocaleString("en-US", {
-                    month: "long",
-                    year: "numeric",
-                    })}
+                    Math.floor((Number(book.date_added.split("-")[1]) - 1) / 3)
+                    ]} ${book.date_added.split("-")[0]}`
+                    : `${[
+                    "January", "February", "March", "April",
+                    "May", "June", "July", "August",
+                    "September", "October", "November", "December"
+                    ][Number(book.date_added.split("-")[1]) - 1]} ${book.date_added.split("-")[0]}`
+                    }
                   </p>
                 </div>
               )}
@@ -135,6 +137,18 @@ export default function BookDetail() {
       <div key={r.id} className="review-card">
         <div className="review-author">{r.name}</div>
         <div className="review-content">{r.content}</div>
+      </div>
+    ))}
+  </section>
+)}
+
+{book.buy_links?.length > 0 && (
+  <section>
+    <h3 className="section-title">Buy Now</h3>
+
+    {book.buy_links.map((link, index) => (
+      <div key={index} className="review-card">
+        <a href={link.url} target="_blank" rel="noopener noreferrer" className="buy-link-site-name">{link.name}</a>
       </div>
     ))}
   </section>
