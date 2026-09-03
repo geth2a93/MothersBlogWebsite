@@ -47,6 +47,24 @@
   color: #d9534f;
 }
 
+.display-status {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.display-status.published {
+  background:#287a43;
+  color:  #e6f5eb;
+}
+
+.display-status.draft {
+  background:#666;
+  color: #f5f5f5;
+}
+
 /*text size only changes*/
 .display-table {
   width: 100%;
@@ -121,24 +139,6 @@
 
 .display-table tbody tr:last-child td {
   border-bottom: none;
-}
-
-.display-status {
-  display: inline-block;
-  padding: 5px 10px;
-  border-radius: 20px;
-  font-size: 13px;
-  font-weight: 600;
-}
-
-.display-status.published {
-  background: #e6f5eb;
-  color: #287a43;
-}
-
-.display-status.draft {
-  background: #f5f5f5;
-  color: #666;
 }
 
 .display-actions {
