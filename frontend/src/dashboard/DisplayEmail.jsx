@@ -26,8 +26,8 @@ function DisplayEmails() {
         throw new Error(data.error || "Failed to delete resource");
       }
 
-      setEmail((prev) =>
-        prev.filter((email) => email.id !== id)
+      setEmails((prev) =>
+        prev.filter((email) => email.id !== emailID)
       );
     } catch (error) {
       console.error("Error deleting email:", error);
