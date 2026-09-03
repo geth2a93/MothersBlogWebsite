@@ -326,7 +326,7 @@ export default function NewBook() {
   };
 
   return (
-    <><div className="editor-container">
+    <div className="editor-container">
       <h1>New Book</h1>
 
       <div className="editor-card">
@@ -568,11 +568,12 @@ export default function NewBook() {
           Add Award
         </button>
 
-      </div>
+      
     </div>
 
     <button className="editor-button-2" onClick={handleSave}>
         Add Book
-     </button></> 
+     </button> 
+      </div>
   );
 }

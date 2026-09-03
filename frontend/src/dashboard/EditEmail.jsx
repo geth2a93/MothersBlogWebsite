@@ -141,9 +141,7 @@ function EditEmail() {
         <form onSubmit={handleSubmit}>
 
           <div className="form-group">
-            <h2 htmlFor="subject">
-              Subject
-            </h2>
+            <h2>Subject</h2>
 
             <input
               id="subject"
@@ -155,9 +153,7 @@ function EditEmail() {
           </div>
 
           <div className="form-group">
-            <h2 htmlFor="message">
-              Message
-            </h2>
+            <h2>Message</h2>
 
             <textarea
               id="message"
@@ -169,9 +165,7 @@ function EditEmail() {
           </div>
 
           <div className="form-group">
-            <h2 htmlFor="date">
-              Date to Send
-            </h2>
+            <h2>Date to Send</h2>
 
             <input
               id="date"
@@ -183,9 +177,7 @@ function EditEmail() {
           </div>
 
           <div className="form-group">
-            <h2 htmlFor="images">
-              Add Images
-            </h2>
+            <h2>Add Images</h2>
 
             <input
               id="images"
@@ -197,7 +189,7 @@ function EditEmail() {
           </div>
 
           {images.length > 0 && (
-            <div className="email-images">
+            <div>
               <h3>Images</h3>
 
               {images.map((image, index) => (

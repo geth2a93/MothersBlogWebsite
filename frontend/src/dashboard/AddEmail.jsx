@@ -68,7 +68,7 @@ function AddEmail() {
         <form onSubmit={handleSubmit}>
 
           <div className="form-group">
-            <h2 htmlFor="subject">Subject</h2>
+            <h2> Subject</h2>
 
             <input
               id="subject"
@@ -80,9 +80,7 @@ function AddEmail() {
           </div>
 
           <div className="form-group">
-            <h2 htmlFor="message">
-              Message
-            </h2>
+            <h2>Message</h2>
 
             <textarea
               id="message"
@@ -94,9 +92,7 @@ function AddEmail() {
           </div>
 
           <div className="form-group">
-            <h2 htmlFor="date">
-              Date to Send
-            </h2>
+            <h2>Date to Send</h2>
 
             <input
               id="date"
