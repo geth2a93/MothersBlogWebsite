@@ -42,12 +42,11 @@
 
 .content-card-title a {
   text-decoration: none;
-  color: inherit;
+  color: #0F7BA8;
 }
 
 .content-card-title a:hover {
   text-decoration: underline;
-  color: #0F7BA8;
 }
 /* IMAGE */
 .content-card-image-container {
