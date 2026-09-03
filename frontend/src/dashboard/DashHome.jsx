@@ -13,7 +13,7 @@ export default function AdminHome() {
             <div className="dash-card">
 
                 <details>
-                    <summary>General</summary>
+                    <summary className="dash-card-text">General</summary>
 
                     <div className="dash-buttons">
                         <button onClick={() => navigate("/dashboard/aboutme")}>
@@ -28,7 +28,8 @@ export default function AdminHome() {
                 </details>
 
                 <details>
-                    <summary>Teaching Resources</summary>
+                    <summary className="dash-card-text">Teaching Resources</summary>
+
                     <div className="dash-buttons">
                         <button onClick={() => navigate("/dashboard/add-teaching")}>
                             Add Teaching Resources
@@ -41,7 +42,7 @@ export default function AdminHome() {
                 </details>
 
                 <details>
-                    <summary>Emails</summary>
+                    <summary className="dash-card-text">Emails</summary>
 
                     <div className="dash-buttons">
                          <button onClick={() => navigate("/dashboard/new-email")}>
@@ -55,7 +56,7 @@ export default function AdminHome() {
                 </details>
 
                 <details>
-                    <summary>Blogs</summary>
+                    <summary className="dash-card-text">Blogs</summary>
 
                     <div className="dash-buttons">
                         <button onClick={() => navigate("/dashboard/add-blog")}>
@@ -69,7 +70,7 @@ export default function AdminHome() {
                 </details>
 
                 <details>
-                    <summary>Books</summary>
+                    <summary className="dash-card-text">Books</summary>
 
                     <div className="dash-buttons">
                         <button onClick={() => navigate("/dashboard/newbook")}>
