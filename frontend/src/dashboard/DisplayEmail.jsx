@@ -127,7 +127,7 @@ function DisplayEmails() {
                   {email.images.length}
                 </td>
 
-                <td>
+                 <td className="display-actions">
                   {!email.sent && (
                   <button className="edit-button" onClick={() => navigate(`/dashboard/edit-email/${email.id}`)}> Edit </button> )}
 
