@@ -131,7 +131,7 @@ function DisplayEmails() {
                   {!email.sent && (
                   <button onClick={() => navigate(`/dashboard/edit-email/${email.id}`)}> Edit </button> )}
 
-                  <button onClick={() =>handleDelete(email.id)}> Delete </button>
+                  <button onClick={() =>handleDelete(email.id, email.subject)}> Delete </button>
 
                   {!email.sent && (
                     <button onClick={() => handleSend(email.id)}> Send Email </button> )}

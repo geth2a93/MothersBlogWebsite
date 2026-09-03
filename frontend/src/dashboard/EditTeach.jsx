@@ -203,7 +203,7 @@ function EditTeachingResource() {
         <form onSubmit={handleSubmit}>
 
           <div className="form-group">
-            <label>Book Title</label>
+            <h2>Book Title (Must be Book Title that exists for Image/ISBN lookup)</h2>
 
             <input
               type="text"
@@ -216,7 +216,7 @@ function EditTeachingResource() {
           </div>
 
           <div className="form-group">
-            <label>Word List</label>
+            <h2>Word List</h2>
 
             <textarea
               value={wordList}
@@ -227,7 +227,7 @@ function EditTeachingResource() {
           </div>
 
           <div className="form-group">
-            <label>Activities</label>
+            <h2>Activities</h2>
 
             <textarea
               value={activities}
@@ -238,7 +238,7 @@ function EditTeachingResource() {
           </div>
 
           <div className="form-group">
-            <label>Questions</label>
+            <h2>Questions</h2>
 
             <textarea
               value={questions}
@@ -249,7 +249,7 @@ function EditTeachingResource() {
           </div>
 
           <div className="form-group">
-            <label>Supplies</label>
+            <h2>Supplies</h2>
 
             <textarea
               value={supplies}
@@ -260,7 +260,7 @@ function EditTeachingResource() {
           </div>
 
           <div className="form-group">
-            <label>Objectives</label>
+            <h2>Objectives</h2>
 
             <textarea
               value={objectives}
@@ -271,7 +271,7 @@ function EditTeachingResource() {
           </div>
 
           <div className="form-group">
-            <label>Procedures</label>
+            <h2>Procedures</h2>
 
             <textarea
               rows="10"
