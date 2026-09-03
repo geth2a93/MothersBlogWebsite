@@ -38,7 +38,7 @@ function DisplayTeachingResources() {
       const response = await fetch(
         `/admin/deleteresource/${slug}`,
         {
-          method: "GET",
+          method: "DELETE",
           credentials: "include",
         }
       );

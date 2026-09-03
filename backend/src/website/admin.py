@@ -114,7 +114,7 @@ def show_all_blogs():
         ]
     })
 
-@admin.route("/deleteblog/<string:slug>", methods=["GET"])
+@admin.route("/deleteblog/<string:slug>", methods=["DELETE"])
 @login_required
 def delete_blog(slug):
     blog = BlogPost.query.filter_by(slug=slug).first_or_404()
@@ -480,7 +480,7 @@ def show_all_books():
         ]
     })
 
-@admin.route("/deletebook/<string:slug>", methods=["GET"])
+@admin.route("/deletebook/<string:slug>", methods=["DELETE"])
 @login_required
 def delete_book(slug):
     book = Book.query.filter_by(slug=slug).first_or_404()
@@ -930,7 +930,7 @@ def edit_email(email_id):
         db.session.rollback()
         return jsonify({"error": str(e)}), 500
 
-@admin.route("/deleteemail/<int:email_id>", methods=["GET", "PUT"])
+@admin.route("/deleteemail/<int:email_id>", methods=["DELETE"])
 @login_required
 def delete_email(email_id):
     email = SubscriberEmail.query.get_or_404(email_id)
@@ -966,7 +966,7 @@ def show_all_teaching():
     resources = TeachingResource.query.order_by(TeachingResource.id.desc()).all()
     return jsonify({ "resources": [{"title": resource.book_title, "slug": resource.slug} for resource in resources]})
 
-@admin.route("/deleteresource/<string:slug>", methods=["GET"])
+@admin.route("/deleteresource/<string:slug>", methods=["DELETE"])
 @login_required
 def delete_resource(slug):
     resource = TeachingResource.query.filter_by(slug=slug).first_or_404()

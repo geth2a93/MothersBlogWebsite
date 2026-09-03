@@ -43,6 +43,7 @@ export default function AdminEditBooks() {
       const response = await fetch(
         `/admin/deletebook/${slug}`,
         {
+          method: "DELETE",
           credentials: "include",
         }
       );

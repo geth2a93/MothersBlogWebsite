@@ -77,6 +77,7 @@ export default function AdminEditBlog() {
       const response = await fetch(
         `/admin/deleteblog/${slug}`,
         {
+          method: "DELETE",
           credentials: "include",
         }
       );

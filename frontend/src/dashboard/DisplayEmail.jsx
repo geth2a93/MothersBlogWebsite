@@ -17,6 +17,7 @@ function DisplayEmails() {
       const response = await fetch(
         `/admin/deleteemail/${emailID}`,
         {
+          method: "DELETE",
           credentials: "include",
         }
       );
