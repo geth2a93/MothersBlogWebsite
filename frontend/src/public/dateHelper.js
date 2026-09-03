@@ -1,4 +1,4 @@
-const formatBookDate = (dateString) => {
+export const formatBookDate = (dateString) => {
   if (!dateString) return null;
 
   const today = new Date().toISOString().split("T")[0];
@@ -27,7 +27,7 @@ const formatBookDate = (dateString) => {
   };
 };
 
-const formatDate = (dateString) => {
+export const formatDate = (dateString) => {
   const [year, month, day] = dateString.split("-");
   const date = new Date(year, month - 1, day);
 
