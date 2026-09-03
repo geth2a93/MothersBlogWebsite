@@ -130,7 +130,7 @@ function EditEmail() {
   return (
     <div className="editor-container">
       <h1>Edit Email</h1>
-        <div className="editor-container">
+        <div className="editor-card">
 
         {error && (
           <div className="error-message">
