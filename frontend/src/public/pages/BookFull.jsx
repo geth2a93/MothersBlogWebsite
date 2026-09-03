@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { formatBookDate } from "./dateHelper.js";
+import { formatBookDate } from "../components/dateHelper.js";
 import "./BookFull.css";
 
 export default function BookDetail() {

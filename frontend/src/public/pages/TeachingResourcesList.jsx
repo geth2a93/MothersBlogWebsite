@@ -1,4 +1,4 @@
-import ContentListPage from "./ContentListPage.jsx";
+import ContentListPage from "../components/ContentListPage.jsx";
 import "./Content.css"
 
 

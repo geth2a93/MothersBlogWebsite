@@ -5,38 +5,38 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Login from './dashboard/Login.jsx';
 
 import Home from './public/Home.jsx';
-import Layout from "./public/Components.jsx";
-import BlogPostFull from './public/BlogPostFull.jsx';
-import BlogsList from './public/BlogsList.jsx';
-import BooksList from './public/BooksList.jsx';
-import About from './public/AboutMe.jsx'
-import BooksGenreWrapper from './public/BooksGenre.jsx'
-import BookDetail from './public/BookFull.jsx'
-import TeachingResourceFull from './public/TeachingResourceFull.jsx'
-import ContentListPage from "./public/ContentListPage.jsx";
+import Layout from "./public/components/Components.jsx";
+import BlogPostFull from './public/pages/BlogPostFull.jsx';
+import BlogsList from './public/pages/BlogsList.jsx';
+import BooksList from './public/pages/BooksList.jsx';
+import About from './public/pages/AboutMe.jsx'
+import BooksGenreWrapper from './public/pages/BooksGenre.jsx'
+import BookDetail from './public/pages/BookFull.jsx'
+import TeachingResourceFull from './public/pages/TeachingResourceFull.jsx'
+import ContentListPage from "./public/components/ContentListPage.jsx";
 
 import AdminHome from "./dashboard/DashHome.jsx";
-import AdminAboutMe from "./dashboard/AdminAboutMe.jsx";
-import AdminWebResources from "./dashboard/AdminWebResources.jsx"
+import AdminAboutMe from "./dashboard/webresource/EditAboutMe.jsx";
+import AdminWebResources from "./dashboard/webresource/EditWebResources.jsx"
 
-import NewBlog from "./dashboard/AddBlog.jsx";
-import BlogPreview from "./dashboard/BlogPreview.jsx";
-import AdminEditBlog from './dashboard/DisplayBlogs.jsx';
-import EditBlog from "./dashboard/EditBlog.jsx";
+import NewBlog from "./dashboard/blogs/AddBlog.jsx";
+import BlogPreview from "./dashboard/blogs/BlogPreview.jsx";
+import AdminEditBlog from './dashboard/blogs/DisplayBlogs.jsx';
+import EditBlog from "./dashboard/blogs/EditBlog.jsx";
 
-import AdminEditBooks from "./dashboard/DisplayBooks.jsx";
-import EditBook from "./dashboard/EditBook.jsx";
-import NewBook from './dashboard/AddBook.jsx';
+import AdminEditBooks from "./dashboard/books/DisplayBooks.jsx";
+import EditBook from "./dashboard/books/EditBook.jsx";
+import NewBook from './dashboard/books/AddBook.jsx';
 
 import DashboardLayout from './dashboard/DashWrapper.jsx';
 import DashNotFound from './dashboard/DashNotFound.jsx';
-import DisplayEmails from './dashboard/DisplayEmail.jsx';
-import AddEmail from './dashboard/AddEmail.jsx';
-import EditEmail from './dashboard/EditEmail.jsx';
+import DisplayEmails from './dashboard/email/DisplayEmail.jsx';
+import AddEmail from './dashboard/email/AddEmail.jsx';
+import EditEmail from './dashboard/email/EditEmail.jsx';
 
-import DisplayTeachingResources from './dashboard/DisplayTeach.jsx';
-import AddTeachingResource from './dashboard/AddTeach.jsx';
-import EditTeachingResource from './dashboard/EditTeach.jsx';
+import DisplayTeachingResources from './dashboard/teaching/DisplayTeach.jsx';
+import AddTeachingResource from './dashboard/teaching/AddTeach.jsx';
+import EditTeachingResource from './dashboard/teaching/EditTeach.jsx';
 
 createRoot(document.getElementById("root")).render(
   <BrowserRouter>
