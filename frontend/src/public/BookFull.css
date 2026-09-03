@@ -1,3 +1,38 @@
+.book-info-box {  /* For public books */
+  display: flex;
+  border: 1px solid #ccc;
+  margin-top: 20px;
+}
+
+.book-cover-container { /*make taller, same with cover? or no need*/
+  flex: 0 0 600 px;
+}
+
+.book-cover {
+  flex: 0 0 600px;
+  height: auto;
+  display: block;
+}
+  
+.book-details {
+  flex: 1;
+}
+
+.book-date-section h2,
+.book-synopsis-section h2 {
+  margin-top: 0;
+  flex: 0 0 400px;
+}
+
+.book-date { /*Make smaller and only on left side */
+  margin-top: 5px;
+  text-align: center;
+}
+
+.book-synopsis-section {
+  margin-top: 20px;
+}
+
 .book-page {
     width: 100%;
     min-height: 100vh;
@@ -120,6 +155,11 @@
     text-align: center;
 
     transition: transform 0.2s ease;
+}
+
+.award-container h2{
+    text-align: center;
+    color: #0F7BA8;
 }
 
 .award-card:hover {
