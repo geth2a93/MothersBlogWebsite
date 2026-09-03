@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { formatBookDate, formatDate } from "./dateHelper.js";
 import {
   InstagramEmbed,
   FacebookEmbed,
@@ -82,17 +83,6 @@ const renderMedia = () => {
   const hasMedia = Boolean(title_media);
   const hasText = Boolean(preview && preview.trim().length > 0);
   const showMediaOnly = hasMedia && !hasText;
-
-  const formatDate = (dateString) => {
-    const [year, month, day] = dateString.split("-");
-    const date = new Date(year, month - 1, day);
-
-    return date.toLocaleDateString("en-US", {
-      month: "long",
-      day: "numeric",
-      year: "numeric"
-    });
-  };
 
   useEffect(() => {
    setMediaLoaded(false);

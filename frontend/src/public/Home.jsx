@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams  } from "react-router-dom";
+import { formatBookDate, formatDate } from "./dateHelper.js";
 
 import "./Home.css";
 import "./Components.css";
@@ -9,8 +10,6 @@ import MediaRenderer from "./MediaRenderer.jsx";
 function Home() {
   const [homeData, setHomeData] = useState(null);
   const [loading, setLoading] = useState(true);
-
-  const { slug } = useParams();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -46,16 +45,9 @@ function Home() {
     : text;
 };
 
-const formatDate = (dateString) => {
-  const [year, month, day] = dateString.split("-");
-  const date = new Date(year, month - 1, day);
-
-  return date.toLocaleDateString("en-US", {
-    month: "long",
-    day: "numeric",
-    year: "numeric"
-  });
-};
+const bookDate = book?.date_displayed
+  ? formatBookDate(book.date)
+  : null;
 
 
 
@@ -81,7 +73,12 @@ const formatDate = (dateString) => {
             <h1>{isBookComingSoon ? "COMING SOON" : "OUT NOW"}</h1>
             
             {book ? ( <h2>{book.title}</h2> ) : ( <h2>No Title available.</h2> )}
-            {book?.date_displayed && book?.date && (<p className="content-date"> {formatDate(book.date)}</p>)}
+            {bookDate && (
+            <div className="book-date-section">
+            <h2>{bookDate.label}</h2>
+            <p className="book-date">{bookDate.date}</p>
+            </div>
+            )}
             {book ? ( <p> {truncateText(book.synopsis, 500)} </p> ) : ( <p>No book data available.</p> )}           
 
           <button className="read-more-btn"  onClick={() => navigate(`/books/title/${book.slug}`)} > 

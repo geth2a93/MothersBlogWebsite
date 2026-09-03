@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { formatBookDate, formatDate } from "./dateHelper.js";
 import {
   InstagramEmbed,
   FacebookEmbed,
@@ -13,17 +14,6 @@ export default function BlogRender({ post }) {
   if (!post) return null;
 
   const [imageRatios, setImageRatios] = useState({});
-
-  const formatDate = (dateString) => {
-  const [year, month, day] = dateString.split("-");
-  const date = new Date(year, month - 1, day);
-
-  return date.toLocaleDateString("en-US", {
-    month: "long",
-    day: "numeric",
-    year: "numeric"
-  });
-};
 
   const handleImageLoad = (e, key) => {
     const img = e.target;
