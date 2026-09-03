@@ -60,6 +60,20 @@ export default function BookDetail() {
         {/* BOOK INFORMATION */}
         <div className="book-info-box">
 
+        {/* GENRES */}
+        {book.genre?.length > 0 && (
+        <div className="book-genres">
+          <h2>Genres</h2>
+            <div className="genres-list">
+            {book.genre.map((genre) => (
+              <div className="review-author" key={genre}>
+              {genre}
+              </div>
+            ))}
+            </div>
+        </div>
+        )}
+
         {/* COVER */}
           <div className="book-cover-container">
             <img className="book-cover" src={book.book_image_url} alt={book.title}/>

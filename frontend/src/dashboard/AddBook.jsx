@@ -378,47 +378,60 @@ export default function NewBook() {
 
         <h2>Genres</h2>
 
-        <div className="genre-list">
-          <select multiple value={book.genres} onChange={(e) =>
-            updateBook("genres", Array.from(e.target.selectedOptions, (option) => option.value))}>
-            {availableGenres.map((genre) => (
-            <option key={genre.id} value={genre.name}>
-            {genre.display}
-            </option>
-            ))}
-          </select>
-      </div>
+        <h2>Genres</h2>
 
-        <div className="new-genre">
-          <label>Add new genre</label>
-            <input type="text" value={genreInput} onChange={(e) => setGenreInput(e.target.value)} placeholder="Enter a new genre"/>
-            <button type="button" onClick={() => {const genre = genreInput.trim();
-              if (!genre) return;
-              if (!book.genres.includes(genre)) 
-              {        
-                updateBook("genres", [...book.genres, genre]);
-              }
-              setGenreInput("");
-              }}>
-            Add Genre
-          </button>
-        </div>
+<div className="genre-list">
+  <select
+    multiple
+    value={book.genres}
+    onChange={(e) =>
+      updateBook(
+        "genres",
+        Array.from(
+          e.target.selectedOptions,
+          (option) => option.value
+        )
+      )
+    }
+  >
+    {availableGenres.map((genre) => (
+      <option key={genre.id} value={genre.name}>
+        {genre.display}
+      </option>
+    ))}
+  </select>
+</div>
 
-        <div>
-          {book.genres.map((genre) => (
-            <span
-              className = "tag-pill"
-              key={genre}
-              style={{
-                marginRight: 10,
-                cursor: "pointer"
-              }}
-              onClick={() => removeGenre(genre)}
-            >
-              {genre} ✕
-            </span>
-          ))}
-        </div>
+<div className="new-genre">
+  <label>Add new genre</label>
+
+  <input
+    type="text"
+    value={genreInput}
+    onChange={(e) => setGenreInput(e.target.value)}
+    placeholder="Enter a new genre"
+  />
+
+  <button type="button" onClick={addGenre}>
+    Add Genre
+  </button>
+</div>
+
+<div>
+  {book.genres.map((genre) => (
+    <span
+      className="tag-pill"
+      key={genre}
+      style={{
+        marginRight: 10,
+        cursor: "pointer"
+      }}
+      onClick={() => removeGenre(genre)}
+    >
+      {genre} ✕
+    </span>
+  ))}
+</div>
 
         <h2>Buy Links</h2>
 
