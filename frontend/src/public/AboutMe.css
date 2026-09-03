@@ -6,12 +6,16 @@
 }
 
 .about-container {
-    max-width: 1200px;
-    margin: 0 auto;
+    max-width: 1000px;
+    margin:  auto;
     background: var(--color-white);
     display: flex;
     gap: 50px;
+    padding: 55px;
     align-items: flex-start;
+    box-shadow:
+        0 -3px 10px rgba(0, 0, 0, 0.15),
+        0 3px 10px rgba(0, 0, 0, 0.15);
 }
 
 .about-image img {
