@@ -1,6 +1,5 @@
 .book-info-box {
   display: flex;
-  border: 1px solid #ccc;
   margin-top: 20px;
 }
 
@@ -13,17 +12,12 @@
 }
 
 .book-genres {
-  text-align: right;
-  color: #0F7BA8;
-  margin-bottom: 20px;
-}
-
-.genres-list {
   display: flex;
+  text-align: right;
+  align-items: flex-end;
   flex-direction: row;
   color: #0F7BA8;
-  align-items: flex-end;
-  gap: 5px;
+  margin-bottom: 5px;
 }
 
 .book-date {
@@ -32,23 +26,24 @@
   margin-bottom: 5px;
 }
 
+.book-date-section h2 {
+  margin-top: 0;
+  flex: 0 0 400px;
+  text-align: center;
+  color: #0F7BA8;
+}
+
 .book-synopsis-section h2 {
   text-align: center;
   color: #0F7BA8;
 }
 
+.book-synopsis-section {
+  margin-top: 5px;
+}
+
 .book-synopsis {
   text-align: left;
-}
-
-.book-date-section h2,
-.book-synopsis-section h2 {
-  margin-top: 0;
-  flex: 0 0 400px;
-}
-
-.book-synopsis-section {
-  margin-top: 20px;
 }
 
 .book-page {
@@ -60,11 +55,6 @@
     display: flex;
     justify-content: center;
 
-}
-
-.book-date-section h2{ 
-    text-align: center;
-    color: #0F7BA8;
 }
 
 .buy-link-site-name {
