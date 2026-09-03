@@ -189,10 +189,9 @@ function EditTeachingResource() {
   }
 
   return (
-    <div className="admin-container">
-      <div className="editor-card">
-
+    <><div className="admin-container">
         <h1>Edit Teaching Resource</h1>
+        <div className="editor-card">
 
         {error && (
           <div className="error-message">
@@ -398,7 +397,7 @@ function EditTeachingResource() {
 
         </form>
       </div>
-    </div>
+    </div></>
   );
 }
 

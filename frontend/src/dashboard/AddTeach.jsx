@@ -126,9 +126,9 @@ function AddTeachingResource() {
   };
 
   return (
-    <div className="editor-container">
-      <div className="editor-card">
+    <><div className="editor-container">
         <h1>Add Teaching Resource</h1>
+        <div className="editor-card">
 
         {error && (
           <div className="error-message">
@@ -141,14 +141,7 @@ function AddTeachingResource() {
           <div className="form-group">
             <h2>Book Title</h2>
 
-            <input
-              type="text"
-              value={bookTitle}
-              onChange={(e) =>
-                setBookTitle(e.target.value)
-              }
-              required
-            />
+            <input type="text" value={bookTitle} onChange={(e) => setBookTitle(e.target.value)} required/>
           </div>
 
           <div className="form-group">
@@ -334,7 +327,7 @@ function AddTeachingResource() {
 
         </form>
       </div>
-    </div>
+    </div></>
   );
 }
 
