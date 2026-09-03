@@ -7,7 +7,7 @@ const emptyBook = {
   isbn: "",
   synopsis: "",
   date_added: "",
-  date_displayed: true,
+  date_displayed: false,
   cover: {
     preview_url: "",
     file: null

@@ -140,6 +140,18 @@ export default function BookDetail() {
   </section>
 )}
 
+{book.buy_links?.length > 0 && (
+  <section>
+    <h3 className="section-title">Buy Now</h3>
+
+    {book.buy_linkss.map((link, index) => (
+      <div key={index} className="review-card">
+        <a href={link.url} target="_blank" rel="noopener noreferrer" classname="buy-link-site-name">{link.name}</a>
+      </div>
+    ))}
+  </section>
+)}
+
       </div>
     </div>
   );
