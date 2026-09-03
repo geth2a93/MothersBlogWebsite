@@ -38,7 +38,7 @@ function Home() {
   const blog = latest?.blog;
   
   const isBookComingSoon =
-  book?.date && new Date(book.date) > new Date();
+  book?.date && new Date(book.date) >  new Date().toISOString().split("T")[0];
 
   const truncateText = (text, maxLength) => {
   if (!text) return "";
