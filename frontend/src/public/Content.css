@@ -132,7 +132,7 @@
 /* TEXT */
 .content-card-text {
   width: min(650px, 40%);
-  margin-left: 80px;
+  margin-left: 25px;
 
   display: flex;
   flex-direction: column;
