@@ -43,6 +43,7 @@ def blog_post(slug):
 
 
 #book routes
+
 @api.route("/genres")
 def get_genres():
     genres = Genre.query.order_by(Genre.genre).all()
@@ -58,11 +59,13 @@ def get_genres():
 
 @api.route("/books", methods=["GET"])
 def newest_books_by_genre():
-    return jsonify(get_all_books())
+    page = request.args.get("page", 1, type=int)
+    return jsonify(get_all_books(page))
 
 @api.route("/books/<string:genre>", methods=["GET"])
 def books_by_genre(genre):
-    return jsonify(get_books_by_genre(genre))
+    page = request.args.get("page", 1, type=int)
+    return jsonify(get_books_by_genre(genre, page))
 
 @api.route("/books/title/<string:slug>", methods=["GET"])
 def book_by_title(slug):

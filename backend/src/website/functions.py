@@ -56,12 +56,12 @@ def get_home_latest_content():
 
     return data
 
-def get_all_books():
+def get_all_books(page, per_page):
     data = []
-    books = (Book.query.filter(Book.published == True).order_by(Book.publish_date.desc()).all())
+    pagination = Book.query.filter(Book.published == True).order_by(Book.publish_date.desc()).paginate(page=page, per_page=per_page, error_out=False)
 
-    if books:
-        for b in books:
+    if pagination:
+        for b in pagination.items:
             data.append({
                 "id": b.id,
                 "title": b.title,
@@ -76,11 +76,11 @@ def get_all_books():
 
     return data
 
-def get_books_by_genre(genre):  # all books in the genre
-    books = (Book.query.join(Book.genres).filter(Genre.genre == genre, Book.published == True).order_by(Book.publish_date.desc()).all())
+def get_books_by_genre(genre, page, per_page):  # all books in the genre
+    pagination = Book.query.join(Book.genres).filter(Genre.genre == genre, Book.published == True).order_by(Book.publish_date.desc()).paginate(page=page, per_page=per_page, error_out=False)
 
     data = []
-    for b in books:
+    for b in pagination.items:
         data.append({
             "id": b.id,
             "title": b.title,
