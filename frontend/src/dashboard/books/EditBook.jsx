@@ -418,7 +418,7 @@ return (
       }}
     />
 
-    {book.genres.display}
+    {genre.display}
   </label>
 ))}
       </div>
@@ -431,13 +431,13 @@ return (
 
       <div>
         {book.selected_genres.map((genre) => (
-        <span className="tag-pill" key={genre} style={{
+        <span className="tag-pill" key={genre.id} style={{
           marginRight: 10,
           cursor: "pointer"
           }}
-          onClick={() => removeGenre(genre)}
+          onClick={() => removeGenre(genre.name)}
         >
-         {book.genres.display} ✕
+        {genre.display} ✕
       </span>
       ))}
     </div>
