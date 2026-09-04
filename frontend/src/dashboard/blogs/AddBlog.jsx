@@ -381,8 +381,8 @@ return (
       
       <h1>New Blog</h1>
 
-
       <div className="editor-card">
+
       <RichTextEditor className="title-rich"
         value={blog.title}
         onChange={(value) =>
@@ -392,6 +392,7 @@ return (
           }))
         }
       />
+      
     <div>
       <RichTextEditor className="text-area-rich"
         value={blog.preview}
@@ -520,6 +521,7 @@ return (
           />
 
           <h2>Content Block Content</h2>
+
           <RichTextEditor className="text-area-rich"
             value={block.content || ""}
             onChange={(value) =>
@@ -529,6 +531,8 @@ return (
               })
             }
           />
+
+          <h2>Content Block Alignment</h2>
 
           <select value={block.alignment}
               onChange={(e) =>
@@ -542,6 +546,9 @@ return (
             <option value="center">Center</option>
             <option value="right">Right</option>
           </select>
+
+
+          <h2>Content Block Media</h2>
 
           <select
             value={block.url_content_type || ""}

@@ -25,7 +25,8 @@ export default function BlogBlockEditor({
               })
             }
           />
-
+          
+          <h2>Content Block Content</h2>
           <RichTextEditor
             placeholder="Content"
             value={block.content || ""}

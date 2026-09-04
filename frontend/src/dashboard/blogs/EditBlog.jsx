@@ -657,9 +657,13 @@ const buildFormData=()=>{
 )}
 
   <h2> Content Blocks</h2>
+  
   {blog.content_blocks.map((block, index) => (
+
   <div key={index} className="editor-container-alt">
+
     <h2>Content Block Title</h2>
+
     <RichTextEditor className="title-rich"
       value={block.title_of_block}
       onChange={(value) =>
@@ -668,12 +672,15 @@ const buildFormData=()=>{
     />
 
     <h2>Content Block Content</h2>
+
     <RichTextEditor className="text-area-rich"
       value={block.content}
       onChange={(value) =>
         updateBlockField(index, "content", value)
       }
     />
+
+    <h2>Content Block Allignment</h2>
 
     <select
       value={block.alignment}
@@ -685,6 +692,8 @@ const buildFormData=()=>{
       <option value="center">Center</option>
       <option value="right">Right</option>
     </select>
+
+    <h2>Content Block Media</h2>
 
     <select
       value={block.url_content_type || "none"}
