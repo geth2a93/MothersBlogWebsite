@@ -101,42 +101,59 @@ def set_book_to_publish(title):
 def func_send_email(email_id):
     p = SubscriberEmail.query.filter_by(id=email_id).first_or_404()
     try:
-        subscriber_email(email_id)
+        failed = subscriber_email(email_id)
         p.sent = True
         db.session.commit()
+        return jsonify({
+            "message": f'Email "{p.subject}" sent',
+            "failed": failed
+        }), 201
+
     except Exception as e:
         db.session.rollback()
         return jsonify({"error": str(e)}), 400
-    return jsonify({"message": f'Email "{p.subject}" sent'}), 201
     
 def subscriber_email(email_id):
     p = SubscriberEmail.query.filter_by(id=email_id).first_or_404()
 
     subscribers = Subscribers.query.all()
 
-    for subscriber in subscribers:
-        msg = EmailMessage()
+    email_address = os.getenv("EMAIL_ADDRESS")
+    email_password = os.getenv("EMAIL_PASSWORD")
 
-        msg["Subject"] = p.subject
-        msg["From"] = os.getenv("EMAIL_ADDRESS")
-        msg["To"] = subscriber.email
+    failed = []
 
-        if subscriber.name:
-            greeting = f"Hello {subscriber.name},"
-        else:
-            greeting = "Hello,"
+    with smtplib.SMTP("smtp.gmail.com", 587) as smtp:
+        smtp.starttls()
+        smtp.login(email_address, email_password)
 
-        html = f"""<html><body><p>{greeting},</p><p> {p.body}</p>"""
 
-        for pic in p.email_pics:
-            html += f"""<img src="{pic.url_of_image}"style="max-width: 100%; height: auto;">"""
+        for subscriber in subscribers:
+            try:
+                msg = EmailMessage()
 
-        html += """</body></html>"""
+                msg["Subject"] = p.subject
+                msg["From"] = email_address
+                msg["To"] = subscriber.email
 
-        msg.set_content(p.body)
-        msg.add_alternative(html, subtype="html")
+                if subscriber.name:
+                    greeting = f"Hello {subscriber.name},"
+                else:
+                    greeting = "Hello,"
 
-        with smtplib.SMTP("smtp.gmail.com", 587) as smtp:
-            smtp.starttls()
-            smtp.login(os.getenv("EMAIL_ADDRESS"), os.getenv("EMAIL_PASSWORD"))
-            smtp.send_message(msg)
+                html = f"""<html><body><p>{greeting}</p><p> {p.body}</p>"""
+
+                for pic in p.email_pics:
+                    html += f"""<img src="{pic.url_of_image}"style="max-width: 100%; height: auto;">"""
+
+                html += """</body></html>"""
+
+                msg.set_content(p.body)
+                msg.add_alternative(html, subtype="html")
+                smtp.send_message(msg)
+
+            except Exception as e:
+                print(f"Failed to send to {subscriber.email}: {e}")
+                failed.append(subscriber.email)
+
+    return failed
