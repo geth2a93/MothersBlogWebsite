@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./display.css";
+import "../display.css";
 
 function DisplayEmails() {
   const [emails, setEmails] = useState([]);

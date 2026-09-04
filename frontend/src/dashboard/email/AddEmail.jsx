@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./editor.css"
+import "../editor.css"
 function AddEmail() {
   const navigate = useNavigate();
 

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import BlogRender from "../../public/components/BlogRender";
+import "../css/editor.css";
 
 export default function BlogPreview() {
   const { slug } = useParams();

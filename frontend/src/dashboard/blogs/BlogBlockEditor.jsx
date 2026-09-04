@@ -1,3 +1,5 @@
+import "../css/editor.css";
+
 export default function BlogBlockEditor({
   block,
   index,

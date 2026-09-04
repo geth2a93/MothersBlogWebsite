@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./css/display.css";
+import "../css/display.css";
 
 export default function AdminEditBlog() {
   const [blogs, setBlogs] = useState([]);

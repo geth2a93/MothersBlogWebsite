@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import "./css/display.css";
+import "../css/display.css";
 
 function EditEmail() {
   const { email_id } = useParams();

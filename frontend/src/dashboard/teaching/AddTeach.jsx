@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./css/display.css";
+import "../css/display.css";
 
 function AddTeachingResource() {
   const navigate = useNavigate();

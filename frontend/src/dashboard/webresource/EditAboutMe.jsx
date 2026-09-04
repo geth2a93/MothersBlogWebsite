@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import "./editor.css";
+import "../css/editor.css";
 
 export default function AdminAboutMe(){
     const [content, setContent] = useState("");

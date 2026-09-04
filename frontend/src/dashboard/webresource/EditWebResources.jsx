@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import "../css/editor.css";
 
 
 export default function AdminWebResources() {
