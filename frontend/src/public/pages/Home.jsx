@@ -35,18 +35,9 @@ function Home() {
   
   const isBookComingSoon = book?.date && book.date >= new Date().toISOString().split("T")[0];
 
-  const truncateText = (text, maxLength) => {
-  if (!text) return "";
-  return text.length > maxLength
-    ? text.substring(0, maxLength) + "..."
-    : text;
-};
-
-const bookDate = book?.date_displayed
+  const bookDate = book?.date_displayed
   ? formatBookDate(book.date)
   : null;
-
-
 
   return (
     <div className="app">
@@ -69,14 +60,14 @@ const bookDate = book?.date_displayed
 
             <h1>{isBookComingSoon ? "COMING SOON" : "OUT NOW"}</h1>
             
-            {book ? ( <h2>{book.title}</h2> ) : ( <h2>No Title available.</h2> )}
+            {book ? ( <h2 dangerouslySetInnerHTML={{ __html: book?.title || "" }}/> ) : ( <h2>No Title available.</h2> )}
             {bookDate && (
             <div className="book-date-section">
             <h2>{bookDate.label}</h2>
             <p className="book-date">{bookDate.date}</p>
             </div>
             )}
-            {book ? ( <p> {truncateText(book.synopsis, 500)} </p> ) : ( <p>No book data available.</p> )}           
+            {book ? ( <p dangerouslySetInnerHTML={{ __html: book?.synopsis || "" }}/> ) : ( <p>No book data available.</p> )}           
 
           <button className="read-more-btn"  onClick={() => navigate(`/books/title/${book.slug}`)} > 
             Read More </button>

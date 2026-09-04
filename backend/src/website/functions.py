@@ -23,7 +23,7 @@ def get_home_latest_content():
             "id": latest_book.id,
             "title": latest_book.title,
             "slug": latest_book.slug,
-            "synopsis": latest_book.synopsis,
+            "synopsis": truncate_html(latest_book.synopsis, 500),
             "genres": [g.genre for g in latest_book.genres],
             "genre_name": [display_genre(g.genre) for g in latest_book.genres],
             "image": build_url(latest_book.book_image_url),
