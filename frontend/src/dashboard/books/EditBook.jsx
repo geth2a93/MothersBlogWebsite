@@ -430,7 +430,7 @@ return (
       </div>
 
       <div>
-        {book.genres.map((genre) => (
+        {book.selected_genres.map((genre) => (
         <span className="tag-pill" key={genre} style={{
           marginRight: 10,
           cursor: "pointer"
