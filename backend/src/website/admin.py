@@ -139,7 +139,13 @@ def blog_post_publish(slug):
         p.published = True
         db.session.commit()
 
-        return jsonify({"message": "Blog post published", "blog_id": p.id, "slug": p.slug,})
+        return jsonify({
+            "message": "Blog post published",
+            "blog_id": p.id,
+            "slug": p.slug,
+            "blog_date": p.blog_date.isoformat(),
+            "published": p.published
+        })
     
     except Exception as e:
             db.session.rollback()
@@ -305,7 +311,13 @@ def new_blog_post_preview(slug):
         p.blog_date = datetime.now(ZoneInfo("America/New_York")).date()
         db.session.commit()
 
-        return jsonify({"message": "Blog post published", "blog_id": p.id, "slug": p.slug, "blog_date": p.blog_date.isoformat(), "published": p.published})
+        return jsonify({
+            "message": "Blog post published",
+            "blog_id": p.id,
+            "slug": p.slug,
+            "blog_date": p.blog_date.isoformat(),
+            "published": p.published
+        })
     
     except Exception as e:
         db.session.rollback()
@@ -514,7 +526,10 @@ def display_book(slug):
     try:
         book.published = True
         db.session.commit()
-        return jsonify({"message": "Book now displayed"}), 200
+        return jsonify({
+            "message": "Book now displayed",
+            "displayed": book.published,
+        }), 200
     
     except Exception as e:
         db.session.rollback()
