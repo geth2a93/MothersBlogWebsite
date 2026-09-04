@@ -12,7 +12,7 @@ def site_settings():
     s = Website_Images.query.first()
     return jsonify({
         "logo": build_url(s.logo_image_url) if s else None,
-        "genre_Date": get_genres_for_menu()
+        "genres": get_genres_for_menu()
     })
 
 

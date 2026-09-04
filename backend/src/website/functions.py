@@ -56,20 +56,21 @@ def get_home_latest_content():
 
 def get_all_books():
     data = []
-    b = (Book.query.filter(Book.published == True).order_by(Book.publish_date.desc()).all())
+    books = (Book.query.filter(Book.published == True).order_by(Book.publish_date.desc()).all())
 
     if b:
-        data.append({
-            "id": b.id,
-            "title": b.title,
-            "genre_name": [display_genre(g.genre) for g in b.genres],
-            "slug": b.slug,
-            "synopsis": b.synopsis,
-            "book_image_url": build_url(b.book_image_url),
-            "buy_links": [{"id": l.id, "url": l.url_of_link, "site_name": l.site_name} for l in b.buy_links], 
-            "date_added": b.publish_date.isoformat(),
-            "date_displayed": b.publish_date_displayed
-        })
+        for b in books:
+            data.append({
+                "id": b.id,
+                "title": b.title,
+                "genre_name": [display_genre(g.genre) for g in b.genres],
+                "slug": b.slug,
+                "synopsis": b.synopsis,
+                "book_image_url": build_url(b.book_image_url),
+                "buy_links": [{"id": l.id, "url": l.url_of_link, "site_name": l.site_name} for l in b.buy_links], 
+                "date_added": b.publish_date.isoformat(),
+                "date_displayed": b.publish_date_displayed
+            })
 
     return data
 
