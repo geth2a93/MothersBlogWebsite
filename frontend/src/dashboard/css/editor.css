@@ -191,6 +191,19 @@ input, textarea, select, .text-area-rich, .title-rich{
   background: #fff;
 }
 
+.genre-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.genre-option input[type="checkbox"] {
+  width: auto;
+  margin: 0;
+  padding: 0;
+}
+
 .title-rich{
   font-size: 24px;
 }
