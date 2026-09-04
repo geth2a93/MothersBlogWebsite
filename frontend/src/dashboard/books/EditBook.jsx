@@ -220,14 +220,14 @@ const addGenre = () => {
     if (!genre) 
         return;
 
-    if (book.genres_normalized.includes(genre_normalized))
+    if (book.selected_genres.includes(genre))
         return;
 
     setBook(prev => ({
         ...prev,
-        genres_normalized: [
-            ...prev.genres_normalized,
-            genre_normalized
+        selected_genres: [
+            ...prev.selected_genres,
+            genre
         ]
     }));
 
@@ -437,7 +437,7 @@ return (
           }}
           onClick={() => removeGenre(genre)}
         >
-        {genre} ✕
+        {genre.display} ✕
       </span>
       ))}
     </div>
