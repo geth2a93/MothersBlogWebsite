@@ -659,6 +659,7 @@ const buildFormData=()=>{
   <h2> Content Blocks</h2>
   {blog.content_blocks.map((block, index) => (
   <div key={index} className="editor-container-alt">
+    <h2>Content Block Title</h2>
     <RichTextEditor className="title-rich"
       value={block.title_of_block}
       onChange={(value) =>
@@ -666,6 +667,7 @@ const buildFormData=()=>{
       }
     />
 
+    <h2>Content Block Content</h2>
     <RichTextEditor className="text-area-rich"
       value={block.content}
       onChange={(value) =>
