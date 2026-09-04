@@ -384,23 +384,21 @@ return (
 
       <div className="editor-card">
       <RichTextEditor
-        placeholder="Title"
         value={blog.title}
-        onChange={(e) =>
+        onChange={(value) =>
           setBlog((prev) => ({
             ...prev,
-            title: e.target.value
+            title: value
           }))
         }
       />
     <div>
       <RichTextEditor
-        placeholder="Add Paragraph 1"
         value={blog.preview}
-        onChange={(e) =>
+        onChange={(value) =>
           setBlog((prev) => ({
             ...prev,
-            preview: e.target.value
+            preview: value
           }))
         }
       />
@@ -511,23 +509,21 @@ return (
       {blog.content_blocks.map((block, index) => (
         <div key={index} className="editor-container-alt">
           <RichTextEditor
-            placeholder="Block title"
             value={block.title_of_block}
-            onChange={(e) =>
+            onChange={(value) =>
               updateBlock(index, {
                 ...block,
-                title_of_block: e.target.value
+                title_of_block: value
               })
             }
           />
 
           <RichTextEditor
-            placeholder="Content"
             value={block.content || ""}
-            onChange={(e) =>
+            onChange={(value) =>
               updateBlock(index, {
                 ...block,
-                content: e.target.value
+                content: value
               })
             }
           />

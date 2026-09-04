@@ -517,24 +517,16 @@ const buildFormData=()=>{
 
       <div className="editor-card">
         <RichTextEditor
-
-          value={blog.title}
-          onChange={
-            e=>updateBlog(
-              "title",
-              e.target.value
-            )
-          }
-
-        />
+    value={blog.title}
+    onChange={(value) =>
+      updateBlog("title", value)
+    }
+  />
 
         <RichTextEditor
           value={blog.preview}
-          onChange={
-            e=>updateBlog(
-              "preview",
-              e.target.value
-            )
+          onChange={(value)=>
+            updateBlog("preview", value)
           }
         />
 
@@ -677,18 +669,16 @@ const buildFormData=()=>{
   {blog.content_blocks.map((block, index) => (
   <div key={index} className="editor-container-alt">
     <RichTextEditor
-      placeholder="Block title"
       value={block.title_of_block}
-      onChange={(e) =>
-        updateBlockField(index, "title_of_block", e.target.value)
+      onChange={(value) =>
+        updateBlockField(index, "title_of_block", value)
       }
     />
 
     <RichTextEditor
-      placeholder="Content"
       value={block.content}
-      onChange={(e) =>
-        updateBlockField(index, "content", e.target.value)
+      onChange={(value) =>
+        updateBlockField(index, "content", value)
       }
     />
 
