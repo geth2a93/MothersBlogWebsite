@@ -206,7 +206,7 @@ textarea, .text-area-rich{
   color: #26a3d4;
 }
 
-.rich-text-button:active {
+.rich-text-button.active {
   background: #26a3d4;
   color: #FFEEDE;
 }
