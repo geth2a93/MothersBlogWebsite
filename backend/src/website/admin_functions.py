@@ -8,6 +8,7 @@ from .functions import *
 from zoneinfo import ZoneInfo
 import smtplib
 from email.message import EmailMessage
+from bs4 import BeautifulSoup
 
 def url_check(media_content_url, url_content_type):
     url = media_content_url.lower()
@@ -21,7 +22,11 @@ def url_check(media_content_url, url_content_type):
 
     return any(site in url for site in valid_urls[url_content_type])
 
+def strip_html(html):
+    return BeautifulSoup(html or "", "html.parser").get_text(" ", strip=True)
+
 def generate_unique_slug(model, text):
+    text = strip_html(text)
     base_slug = slugify(text)
     slug = base_slug
     counter = 1
