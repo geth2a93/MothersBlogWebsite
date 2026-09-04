@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import "./dash.css";
+import "./css/dash.css";
 
 export default function AdminHome() {
     const navigate = useNavigate();

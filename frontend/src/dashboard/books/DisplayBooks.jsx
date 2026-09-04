@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./display.css";
+import "./css/display.css";
 
 export default function AdminEditBooks() {
   const [books, setBooks] = useState([]);

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import "./editor.css";
+import "./css/editor.css";
 
 const emptyBook = {
   title: "",

@@ -1,8 +1,8 @@
 /* modified*/
 .publish-button{
-  background: #14b62f;
+  background: #49da61;
   color: #ffffff;
-  border: 1px solid #14b62f;
+  border: 1px solid #49da61;
   padding: 8px 16px;
   border-radius: 8px;
   cursor: pointer;
@@ -12,7 +12,7 @@
 
 .publish-button:hover {
   background: #ffffff;
-  color: #14b62f;
+  color: #49da61;
 }
 
 .edit-button {
