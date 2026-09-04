@@ -383,7 +383,7 @@ return (
 
 
       <div className="editor-card">
-      <RichTextEditor
+      <RichTextEditor className="title-rich"
         value={blog.title}
         onChange={(value) =>
           setBlog((prev) => ({
@@ -393,7 +393,7 @@ return (
         }
       />
     <div>
-      <RichTextEditor
+      <RichTextEditor className="text-area-rich"
         value={blog.preview}
         onChange={(value) =>
           setBlog((prev) => ({
@@ -508,7 +508,7 @@ return (
 
       {blog.content_blocks.map((block, index) => (
         <div key={index} className="editor-container-alt">
-          <RichTextEditor
+          <RichTextEditor className="title-rich"
             value={block.title_of_block}
             onChange={(value) =>
               updateBlock(index, {
@@ -518,7 +518,7 @@ return (
             }
           />
 
-          <RichTextEditor
+          <RichTextEditor className="text-area-rich"
             value={block.content || ""}
             onChange={(value) =>
               updateBlock(index, {

@@ -511,34 +511,25 @@ const buildFormData=()=>{
   return (
     <>
     <div className="editor-container">
-      <h1>
-        Edit Blog
-      </h1>
+      <h1>Edit Blog</h1>
 
       <div className="editor-card">
-        <RichTextEditor
-    value={blog.title}
-    onChange={(value) =>
-      updateBlog("title", value)
-    }
-  />
+        <h2>Blog Title</h2>
 
-        <RichTextEditor
+        <RichTextEditor className="title-rich"
+          value={blog.title}
+          onChange={(value) => updateBlog("title", value)}/>
+
+        <h2>Title Content</h2>
+
+        <RichTextEditor className="text-area-rich"
           value={blog.preview}
-          onChange={(value)=>
-            updateBlog("preview", value)
-          }
-        />
+          onChange={(value)=> updateBlog("preview", value)}/>
 
         <h2>Publishing Date</h2>
 
-<input
-  type="date" 
-  value={blog.publish_date}
-  onChange={(e) =>
-    updateBlog("publish_date", e.target.value)
-  }
-/>
+        <input type="date" value={blog.publish_date}
+        onChange={(e) => updateBlog("publish_date", e.target.value)}/>
 
 
         <h2> Tags </h2>
@@ -668,14 +659,14 @@ const buildFormData=()=>{
   <h2> Content Blocks</h2>
   {blog.content_blocks.map((block, index) => (
   <div key={index} className="editor-container-alt">
-    <RichTextEditor
+    <RichTextEditor className="title-rich"
       value={block.title_of_block}
       onChange={(value) =>
         updateBlockField(index, "title_of_block", value)
       }
     />
 
-    <RichTextEditor
+    <RichTextEditor className="text-area-rich"
       value={block.content}
       onChange={(value) =>
         updateBlockField(index, "content", value)

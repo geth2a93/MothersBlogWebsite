@@ -358,12 +358,9 @@ return (
 
       <h2>Title</h2>
 
-      <RichTextEditor
+      <RichTextEditor className="title-rich"
         value={book.title}
-        onChange={(value) =>
-          updateBook("title", value)
-        }
-      />
+        onChange={(value) => updateBook("title", value)}/>
 
       <h2>ISBN</h2>
 
@@ -376,7 +373,7 @@ return (
 
       <h2>Synopsis</h2>
 
-      <RichTextEditor
+      <RichTextEditor className="text-area-rich"
         value={book.synopsis}
         onChange={(value) =>
           updateBook("synopsis", value)
@@ -497,24 +494,22 @@ return (
       <h2>Reviews</h2>
 
       {book.reviews.map((review, index) => (
-        <div
-          key={index}
-          className="editor-container-alt"
-        >
-          <RichTextEditor
+        <div key={index} className="editor-container-alt">
+          
+          <RichTextEditor className="title-rich"
             value={review.name}
             onChange={(value) =>
               updateReview(index, {...review, name: value})
             }/>
 
-          <RichTextEditor
+          <RichTextEditor className="title-rich"
             value={review.title}
             onChange={(value) =>
               updateReview(index, {...review,title: value})
             }
           />
 
-          <RichTextEditor
+          <RichTextEditor className="text-area-rich"
             value={review.content}
             onChange={(value) =>
               updateReview(index, {

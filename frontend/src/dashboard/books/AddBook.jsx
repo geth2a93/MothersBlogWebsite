@@ -333,7 +333,7 @@ export default function NewBook() {
       <div className="editor-card">
         <h2>Title</h2>
 
-        <RichTextEditor
+        <RichTextEditor className="title-rich"
           value={book.title}
           onChange={(value) => updateBook("title",value)} />
         <h2>ISBN</h2>
@@ -345,8 +345,7 @@ export default function NewBook() {
 
         <h2>Synopsis</h2>
 
-        <RichTextEditor
-          rows={8}
+        <RichTextEditor className="text-area-rich"
           value={book.synopsis}
           onChange={(value) => updateBook("synopsis", value)} />
 
@@ -454,21 +453,21 @@ export default function NewBook() {
             key={index}
             className="editor-container-alt"
           >
-            <RichTextEditor
+            <RichTextEditor className="title-rich"
               value={review.name}
               onChange={(value) => updateReview(index, {
                 ...review,
                 name: value
               })} />
 
-            <RichTextEditor
+            <RichTextEditor className="title-rich"
               value={review.title}
               onChange={(value) => updateReview(index, {
                 ...review,
                 title: value
               })} />
 
-            <RichTextEditor
+            <RichTextEditor className="text-area-rich"
               value={review.content}
               onChange={(value) => updateReview(index, {
                 ...review,

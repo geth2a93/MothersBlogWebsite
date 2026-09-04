@@ -1,6 +1,6 @@
 import { useRef, useEffect } from "react";
 
-function RichTextEditor({ value, onChange }) {
+function RichTextEditor({ value, onChange, className }) {
   const editorRef = useRef(null);
 
   useEffect(() => {
@@ -49,7 +49,7 @@ function RichTextEditor({ value, onChange }) {
 
       <div
         ref={editorRef}
-        className="editor-content"
+        className={`editor-content ${className || ""}`}
         contentEditable
         onInput={(e) => onChange(e.currentTarget.innerHTML)}
       />
