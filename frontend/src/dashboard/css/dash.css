@@ -1,29 +1,4 @@
-/*modified*/
-.dash-buttons {
-    display: flex;
-    flex-direction: column;
-    padding: 0;
-    background: white;
-}
 
-.dash-buttons button {
-    width: 100%;
-    background: white;
-    border: none;
-    border-top: 1px solid #eee;
-    padding: 14px 18px;
-    text-align: left;
-    cursor: pointer;
-    font-family: inherit;
-    font-size: 18px;
-    font-weight: 400;
-    transition: background 0.2s ease, padding-left 0.2s ease;
-}
-
-.dash-buttons button:hover {
-    background: bfd7f1;
-    padding-left: 24px;
-}
 
 /*end modified*/
 
