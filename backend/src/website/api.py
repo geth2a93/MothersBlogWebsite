@@ -11,7 +11,8 @@ api = Blueprint('api', __name__, url_prefix="/api")
 def site_settings():
     s = Website_Images.query.first()
     return jsonify({
-        "logo": build_url(s.logo_image_url) if s else None
+        "logo": build_url(s.logo_image_url) if s else None,
+        "genre_Date": get_genres_for_menu()
     })
 
 
@@ -57,7 +58,7 @@ def get_genres():
 
 @api.route("/books", methods=["GET"])
 def newest_books_by_genre():
-    return jsonify(get_newest_book_for_each_genre())
+    return jsonify(get_all_books())
 
 @api.route("/books/<string:genre>", methods=["GET"])
 def books_by_genre(genre):

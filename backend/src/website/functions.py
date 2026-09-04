@@ -54,29 +54,22 @@ def get_home_latest_content():
 
     return data
 
-def get_newest_book_for_each_genre():
+def get_all_books():
     data = []
-    used_books = set()
+    b = (Book.query.filter(Book.published == True).order_by(Book.publish_date.desc()).all())
 
-    for genre in Genre.query.order_by(Genre.genre).all():
-        b = (Book.query.join(Book.genres) .filter(Genre.id == genre.id,Book.published == True).order_by(Book.publish_date.asc()).all())
-        b = next((book for book in b if book.id not in used_books), None)
-
-        if b:
-            used_books.add(b.id)
-        if b:
-            data.append({
-                "id": b.id,
-                "title": b.title,
-                "genre": genre.genre,
-                "genre_name": [display_genre(g.genre) for g in b.genres],
-                "slug": b.slug,
-                "synopsis": b.synopsis,
-                "book_image_url": build_url(b.book_image_url),
-                "buy_links": [{"id": l.id, "url": l.url_of_link, "site_name": l.site_name} for l in b.buy_links], 
-                "date_added": b.publish_date.isoformat(),
-                "date_displayed": b.publish_date_displayed
-            })
+    if b:
+        data.append({
+            "id": b.id,
+            "title": b.title,
+            "genre_name": [display_genre(g.genre) for g in b.genres],
+            "slug": b.slug,
+            "synopsis": b.synopsis,
+            "book_image_url": build_url(b.book_image_url),
+            "buy_links": [{"id": l.id, "url": l.url_of_link, "site_name": l.site_name} for l in b.buy_links], 
+            "date_added": b.publish_date.isoformat(),
+            "date_displayed": b.publish_date_displayed
+        })
 
     return data
 
@@ -244,3 +237,15 @@ def normalize_genre(genre_name):
 
 def display_genre(genre_name):
     return genre_name.replace("-", " ").title()
+
+def get_genres_for_menu():
+    genres = Genre.query.order_by(Genre.genre).all()
+    data = []
+    for genre in genres:
+        data.append
+        {
+            "id": genre.id,
+            "name": genre.genre,
+            "display": display_genre(genre.genre)
+        } 
+    return data
