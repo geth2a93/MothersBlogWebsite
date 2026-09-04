@@ -672,12 +672,16 @@ def edit_book(slug):
         book = Book.query.filter_by(slug=slug).first_or_404()
         data = {
                 "id": book.id,
-                "genres": [
-                {
+                "genres": [{
                     "id": g.id,
                     "name": normalize_genre(g.genre),
+                } for g in list_of_genres],
+
+                "genres_display": [{
+                    "id": g.id,
                     "display": display_genre(g.genre)
                 } for g in list_of_genres],
+
                 "selected_genres": [normalize_genre(g.genre) for g in book.genres],
                 
                 "isbn": book.isbn,

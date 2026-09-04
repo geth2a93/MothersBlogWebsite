@@ -438,7 +438,7 @@ return (
 
           onClick={() => removeGenre(genre)}
         >
-         {genre.display} ✕
+         {genre} ✕
       </span>
       ))}
     </div>
