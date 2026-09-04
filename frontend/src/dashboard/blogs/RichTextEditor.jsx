@@ -22,7 +22,7 @@ function RichTextEditor({ value, onChange, className }) {
   return (
     <div className="rich-text-editor">
       <div className="editor-toolbar">
-        <button
+        <button className="rich-text-button"
           type="button"
           onMouseDown={(e) => e.preventDefault()}
           onClick={() => formatText("bold")}
@@ -30,7 +30,7 @@ function RichTextEditor({ value, onChange, className }) {
           <b>B</b>
         </button>
 
-        <button
+        <button className="rich-text-button"
           type="button"
           onMouseDown={(e) => e.preventDefault()}
           onClick={() => formatText("italic")}
@@ -38,7 +38,7 @@ function RichTextEditor({ value, onChange, className }) {
           <i>I</i>
         </button>
 
-        <button
+        <button className="rich-text-button"
           type="button"
           onMouseDown={(e) => e.preventDefault()}
           onClick={() => formatText("removeFormat")}

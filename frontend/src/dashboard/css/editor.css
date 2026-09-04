@@ -201,6 +201,11 @@ textarea, .text-area-rich{
   font-size: 20px;
 }
 
+.rich-text-button:active {
+  background: #26a3d4;
+  color: #FFEEDE;
+}
+
 .tag-container {
   display: flex;
   flex-wrap: wrap;
