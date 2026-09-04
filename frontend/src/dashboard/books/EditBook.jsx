@@ -17,6 +17,7 @@ const normalizeBook = (data) => ({
   },
 
   genres: data.genres || [],
+  genres_display: data.genres_display || [],
   selected_genres: data.selected_genres || [],
 
 buy_links: (data.buy_links || []).map(link => ({
