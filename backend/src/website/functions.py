@@ -58,7 +58,7 @@ def get_all_books():
     data = []
     books = (Book.query.filter(Book.published == True).order_by(Book.publish_date.desc()).all())
 
-    if b:
+    if books:
         for b in books:
             data.append({
                 "id": b.id,

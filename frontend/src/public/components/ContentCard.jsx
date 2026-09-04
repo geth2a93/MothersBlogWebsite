@@ -16,7 +16,7 @@ export default function ContentCard({
   type,
   date,
   tags,
-  genre,
+  genre_name,
   slug,
 }) {
 
@@ -107,9 +107,9 @@ const renderMedia = () => {
           </p>
         )}
 
-        {genre?.length > 0 && (
+        {genre_name?.length > 0 && (
             <div className="book-genres">
-                {genre.map((genre_name) => (
+                {genre_name.map((genre_name) => (
                   <div className="book-genres" key={genre_name}>
                   {genre_name}
                   </div>
