@@ -5,7 +5,6 @@ const createEmptyBlock = (order) => ({
   alignment: "center",
 
   url_content_type: null,
-
   media_content_url: "",
   file: null,
 
