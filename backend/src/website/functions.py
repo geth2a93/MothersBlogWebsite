@@ -74,7 +74,7 @@ def get_all_books(page, per_page=5):
                 "date_displayed": b.publish_date_displayed
             })
 
-    return {"books": data,
+    return {"data": data,
         "has_next": pagination.has_next,
         "page": page}
 
@@ -96,7 +96,7 @@ def get_books_by_genre(genre, page, per_page=5):  # all books in the genre
             "date_displayed": b.publish_date_displayed
         })
 
-    return {"books": data,
+    return {"data": data,
         "has_next": pagination.has_next,
         "page": page}
 
@@ -147,7 +147,7 @@ def get_blog_posts(page, per_page=5):
         })
     
 
-    return {"posts":posts,
+    return {"data":posts,
         "has_next": pagination.has_next,
         "page": page}
 
