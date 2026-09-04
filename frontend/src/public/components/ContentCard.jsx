@@ -99,7 +99,9 @@ const renderMedia = () => {
       )}
 
       <div className="content-card-text">
-        <h1 className="content-card-title"> <a href={link}>{title}</a> </h1>
+        <h1 className="content-card-title">
+          <a href={link} dangerouslySetInnerHTML={{ __html: title || "" }}/>
+        </h1>
 
         {date && (
           <p className="blog-card-date">
@@ -119,7 +121,7 @@ const renderMedia = () => {
 
         {hasText && (
           <>
-            <p >{truncateText(preview, 250)}</p>
+            <p dangerouslySetInnerHTML={{__html: blog?.preview_short || "" }}/>
 
             {!showMediaOnly && (
               <button

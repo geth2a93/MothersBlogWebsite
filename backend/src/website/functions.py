@@ -1,6 +1,7 @@
 from .models import *
 from flask import request
 import re
+from bs4 import BeautifulSoup
 
 def build_url(path):
     if not path:
@@ -49,6 +50,7 @@ def get_home_latest_content():
 
         if latest_blog.title_text_content:
             blog_data["preview"] = latest_blog.title_text_content
+            blog_data["preview_short"] = truncate_html( latest_blog.title_text_content, 500)
 
         data["blog"] = blog_data
 
@@ -250,3 +252,15 @@ def get_genres_for_menu():
             "display": display_genre(genre.genre)
         })
     return data
+
+def truncate_html(html, max_length):
+    if not html:
+        return ""
+
+    soup = BeautifulSoup(html, "html.parser")
+    text = soup.get_text()
+
+    if len(text) <= max_length:
+        return html
+
+    return text[:max_length] + "..."

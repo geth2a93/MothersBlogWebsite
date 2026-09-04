@@ -13,3 +13,4 @@ Flask-CORS
 Flask-Login
 psycopg2-binary
 tzdata
+beautifulsoup4
