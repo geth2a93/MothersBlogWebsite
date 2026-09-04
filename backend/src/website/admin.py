@@ -675,7 +675,8 @@ def edit_book(slug):
                 "genres": [normalize_genre(g.genre) for g in list_of_genres], #list of all genres in slug form
                 "genres_display": [display_genre(g.genre) for g in list_of_genres], #list of all genres in display form
                 "selected_genres": [normalize_genre(g.genre) for g in book.genres], #list of all genres in the book in slug form
-
+                "display_selected_genres": [display_genre(g.genre) for g in book.genres], #list of all genres in the book in display form
+                
                 "isbn": book.isbn,
                 "title": book.title,
                 "slug": book.slug,

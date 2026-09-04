@@ -16,8 +16,11 @@ const normalizeBook = (data) => ({
     file: null
   },
 
-  genres: data.genres || [],
-  genres_display: data.genres_display || [],
+   genres: (data.genres || []).map((genre, index) => ({
+    name: genre,
+    display: data.genres_display?.[index] || genre
+  })),
+
   selected_genres: data.selected_genres || [],
 
 buy_links: (data.buy_links || []).map(link => ({
@@ -395,33 +398,33 @@ return (
 
       <h2>Genres</h2>
 
-      <div className="genre-list">
-      {book.genres.map((genre) => (
-    <label key={genre.id} className="genre-option">
+<div className="genre-list">
+  {book.genres.map((genre) => (
+    <label key={genre.name} className="genre-option">
       <input
-      type="checkbox"
-      checked={book.selected_genres.includes(genre.name)}
-      onChange={(e) => {
-        if (e.target.checked) {
-          updateBook("selected_genres", [
-            ...book.selected_genres,
-            genre.name
-          ]);
-        } else {
-          updateBook(
-            "selected_genres",
-            book.selected_genres.filter(
-              (g) => g !== genre.name
-            )
-          );
-        }
-      }}
-    />
+        type="checkbox"
+        checked={book.selected_genres.includes(genre.name)}
+        onChange={(e) => {
+          if (e.target.checked) {
+            updateBook("selected_genres", [
+              ...book.selected_genres,
+              genre.name
+            ]);
+          } else {
+            updateBook(
+              "selected_genres",
+              book.selected_genres.filter(
+                (g) => g !== genre.name
+              )
+            );
+          }
+        }}
+      />
 
-    {genre.display}
-  </label>
-))}
-      </div>
+      {genre.display}
+    </label>
+  ))}
+</div>
 
       <div className="new-genre">
         <label>Add new genre</label>
@@ -430,19 +433,26 @@ return (
       </div>
 
       <div>
-        {book.selected_genres.map((genre) => (
-        <span className="tag-pill" key={genre} 
-         style={{
-            marginRight: 10,
-            cursor: "pointer"
-          }}
+  {book.selected_genres.map((genre) => {
+    const genreData = book.genres.find(
+      (g) => g.name === genre
+    );
 
-          onClick={() => removeGenre(genre)}
-        >
-         {genre} ✕
+    return (
+      <span
+        className="tag-pill"
+        key={genre}
+        style={{
+          marginRight: 10,
+          cursor: "pointer"
+        }}
+        onClick={() => removeGenre(genre)}
+      >
+        {genreData ? genreData.display : genre} ✕
       </span>
-      ))}
-    </div>
+    );
+  })}
+</div>
 
       <h2>Buy Links</h2>
 
