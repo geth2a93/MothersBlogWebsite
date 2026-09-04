@@ -28,7 +28,7 @@ useEffect(() => {
     .then(data => {
       const rawItems = Array.isArray(data)
         ? data
-        : data?.[config.itemKey]  ?? data;
+        : data?.data  ?? [];
 
       if (!rawItems) {
         console.error("No items found:", data);
