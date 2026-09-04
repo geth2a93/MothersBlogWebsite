@@ -39,7 +39,7 @@ export const contentConfig = {
   title: "Books",
   endpoint: "/api/books",
   itemKey: "books",
-  paginate: false,
+  paginate: true,
 
   mapItem: (book) => ({
     id: book.id,
@@ -57,13 +57,14 @@ export const contentConfig = {
   endpoint: (genre) =>
     `/api/books/${genre}`,
   itemKey: null,
-  paginate: false,
+  paginate: true,
 
   mapItem: (book) => ({
     id: book.id,
     title: book.title,
     preview: book.synopsis,
     title_media: book.book_image_url,
+    genre: book.genre_name,
     url_content_type: "image",
     link: `/books/title/${book.slug}`
   })

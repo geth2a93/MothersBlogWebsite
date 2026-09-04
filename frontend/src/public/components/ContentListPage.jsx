@@ -60,6 +60,7 @@ const itemsToRender = [...items];
             image={item.image}
             title_media={item.title_media}
             url_content_type={item.url_content_type}
+            genre_name = {item.genre_name}
             
             preview={type === "blog" ? item.preview_short : item.preview}
             link={item.link}
@@ -74,7 +75,7 @@ const itemsToRender = [...items];
       </div>
       
 
-      {type === "blog" && (
+
       <div className="pagination">
         
         <button
@@ -94,6 +95,6 @@ const itemsToRender = [...items];
         </button>
 
       </div>
-      )} 
+ 
     </div>
   )}
