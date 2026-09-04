@@ -88,7 +88,7 @@ export default function BlogRender({ post }) {
     <div className="blog-post-page">
       <div className="blog-post-container">
 
-        <h1 className="blog-post-title">{post.title}</h1>
+        <h1 className="blog-post-title" dangerouslySetInnerHTML={{ __html: post.title || "" }}/>
 
         {post.date_created && (
           <p className="blog-post-date">
@@ -109,9 +109,7 @@ export default function BlogRender({ post }) {
         )}
 
         {post.preview && (
-          <h2 className="blog-post-preview">
-            {post.preview}
-          </h2>
+          <h2 className="blog-post-preview" dangerouslySetInnerHTML={{ __html: post.preview || "" }}/>
         )}
 
         {sortedBlocks.map((block) => {
@@ -150,14 +148,10 @@ export default function BlogRender({ post }) {
               {hasText && (
                 <div className="text-container">
                   {block.blocktitle && (
-                    <h2 className="blog-block-title">
-                      {block.blocktitle}
-                    </h2>
+                    <h2 className="blog-block-title" dangerouslySetInnerHTML={{ __html: block.blocktitle || "" }}/>
                   )}
 
-                  <p className="blog-block-content">
-                    {block.content}
-                  </p>
+                  <div className="blog-block-content" dangerouslySetInnerHTML={{ __html: block.content || "" }}/>
                 </div>
               )}
             </div>
