@@ -4,7 +4,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import Login from './dashboard/Login.jsx';
 
-import Home from './public/Home.jsx';
+import Home from './public/pages/Home.jsx';
 import Layout from "./public/components/Components.jsx";
 import BlogPostFull from './public/pages/BlogPostFull.jsx';
 import BlogsList from './public/pages/BlogsList.jsx';
