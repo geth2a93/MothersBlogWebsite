@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams  } from "react-router-dom";
 import { formatBookDate, formatDate } from "../components/dateHelper.js";
-
 import MediaRenderer from "../components/MediaRenderer.jsx";
+import "../css/Home.css"
 
 function Home() {
   const [homeData, setHomeData] = useState(null);
