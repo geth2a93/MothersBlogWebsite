@@ -4,43 +4,106 @@ import "./css/dash.css";
 export default function AdminHome() {
     const navigate = useNavigate();
 
+    const sections = [
+        {
+            title: "Content",
+            items: [
+                
+                {
+                    icon: "✎",
+                    title: "Blog Posts",
+                    description: "Manage your posts.",
+                    path: "/dashboard/blogs",
+                },
+                {
+                    icon: "📚",
+                    title: "Books",
+                    description: "Manage your publications.",
+                    path: "/dashboard/books",
+                },
+
+                {
+                    icon: "📖",
+                    title: "Teaching Resources",
+                    description: "Manage teaching materials.",
+                    path: "/dashboard/display-teaching",
+                },
+            ],
+        },
+        {
+            title: "Resources",
+            items: [
+                {
+                    icon: "👤",
+                    title: "About Me",
+                    description: "Manage your profile.",
+                    path: "/dashboard/aboutme",
+                },
+                {
+                    icon: "🔗",
+                    title: "Web Resources",
+                    description: "Change logo and banner.",
+                    path: "/dashboard/websiteresources",
+                },
+                
+            ],
+        },
+        {
+            title: "Communication",
+            items: [
+                {
+                    icon: "✉",
+                    title: "Emails",
+                    description: "View subscriber emails.",
+                    path: "/dashboard/displayemails",
+                },
+            ],
+        },
+    ];
+
     return (
         <div className="dash-container">
-            <h1>Admin Dashboard</h1>
+            <header className="dash-header">
+                <h1>Admin Dashboard</h1>
+                <p>Website administration tools.</p>
+            </header>
 
-            <p>Website administration tools.</p>
+        <div lassName="dash-content">
+            <div className="dash-content">
+                {sections.map((section) => (
+                    <section className="dash-section" key={section.title}>
+                        <h2>{section.title}</h2>
 
-            <details>
-                    <summary className="dash-card-text">General</summary>
+                        <div className="dash-buttons">
+                            {section.items.map((item) => (
+                                <button
+                                    className="dash-button"
+                                    key={item.path}
+                                    onClick={() => navigate(item.path)}
+                                >
+                                    <span className="dash-button-icon">
+                                        {item.icon}
+                                    </span>
 
-                    <div className="dash-buttons">
-                        <button onClick={() => navigate("/dashboard/aboutme")}>
-                            Edit About Me
-                        </button>
+                                    <span className="dash-button-content">
+                                        <span className="dash-button-title">
+                                            {item.title}
+                                        </span>
 
-                        <button onClick={() => navigate("/dashboard/websiteresources")}>
-                            Edit Web Resources
-                        </button>
+                                        <span className="dash-button-description">
+                                            {item.description}
+                                        </span>
+                                    </span>
 
-                    </div>
-                </details>
-
-            <div className="dash-card">
-                    <div className="dash-buttons">
-                        <button onClick={() => navigate("/dashboard/blogs")}>
-                            Manage Blog Posts
-                        </button>
-                        <button onClick={() => navigate("/dashboard/displayemails")}>
-                            Manage Emails
-                        </button>
-                        <button onClick={() => navigate("/dashboard/books")}>
-                            Manage Books
-                        </button>
-                        <button onClick={() => navigate("/dashboard/display-teaching")}>
-                            Manage Teaching Resources
-                        </button>
-                    </div>
-
+                                    <span className="dash-button-arrow">
+                                        →
+                                    </span>
+                                </button>
+                            ))}
+                        </div>
+                    </section>
+                ))}
+            </div>
             </div>
         </div>
     );
