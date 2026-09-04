@@ -56,7 +56,7 @@ def get_home_latest_content():
 
     return data
 
-def get_all_books(page, per_page):
+def get_all_books(page, per_page=5):
     data = []
     pagination = Book.query.filter(Book.published == True).order_by(Book.publish_date.desc()).paginate(page=page, per_page=per_page, error_out=False)
 
@@ -76,7 +76,7 @@ def get_all_books(page, per_page):
 
     return data
 
-def get_books_by_genre(genre, page, per_page):  # all books in the genre
+def get_books_by_genre(genre, page, per_page=5):  # all books in the genre
     pagination = Book.query.join(Book.genres).filter(Genre.genre == genre, Book.published == True).order_by(Book.publish_date.desc()).paginate(page=page, per_page=per_page, error_out=False)
 
     data = []
