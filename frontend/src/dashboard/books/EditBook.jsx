@@ -17,7 +17,11 @@ const normalizeBook = (data) => ({
   },
 
   genres: data.genres || [],
-  selected_genres: data.selected_genres || [],
+  selected_genres: (data.selected_genres || [])
+    .map(name =>
+      (data.genres || []).find(genre => genre.name === name)
+    )
+    .filter(Boolean),
 
 buy_links: (data.buy_links || []).map(link => ({
     name_of_site: link.name || "",
@@ -98,8 +102,8 @@ const buildFormData = () => {
         formData.append("cover_image", book.cover.file);
     }
 
-    book.selected_genres.forEach(g => {
-        formData.append("genres", g);
+    book.selected_genres.forEach(genre => {
+      formData.append("genres", genre.name);
     });
 
     formData.append(
@@ -400,7 +404,7 @@ return (
   <label key={genre.id} className="genre-option">
     <input
       type="checkbox"
-      checked={book.selected_genres.includes(genre.name)}
+      checked={book.selected_genres.some(g => g.name === genre.name)}
       onChange={(e) => {
         if (e.target.checked) {
           updateBook("selected_genres", [
