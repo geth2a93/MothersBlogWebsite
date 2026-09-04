@@ -43,16 +43,6 @@ buy_links: (data.buy_links || []).map(link => ({
 export default function EditBook(){
 const navigate=useNavigate();
 
- const displayGenre = (genre) => {
-    if (genre === "sci-fi") {
-        return "Sci-Fi";
-    }
-
-    return genre
-        .replace(/-/g, " ")
-        .replace(/\b\w/g, c => c.toUpperCase());
-}; 
-
 const updateBook = (field, value) => {
     setBook(prev => ({
         ...prev,
@@ -448,7 +438,7 @@ return (
 
           onClick={() => removeGenre(genre)}
         >
-         {genre} ✕
+         {genre.display} ✕
       </span>
       ))}
     </div>
