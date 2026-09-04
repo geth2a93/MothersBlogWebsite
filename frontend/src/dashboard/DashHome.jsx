@@ -63,17 +63,12 @@ export default function AdminHome() {
 
     return (
         <div className="dash-container">
-            <header className="dash-header">
-                <h1>Admin Dashboard</h1>
-                <p>Website administration tools.</p>
-            </header>
-
-        <div lassName="dash-content">
             <div className="dash-content">
                 {sections.map((section) => (
                     <section className="dash-section" key={section.title}>
                         <h2>{section.title}</h2>
 
+                    <div className="dash-card"></div>
                         <div className="dash-buttons">
                             {section.items.map((item) => (
                                 <button
@@ -103,7 +98,6 @@ export default function AdminHome() {
                         </div>
                     </section>
                 ))}
-            </div>
             </div>
         </div>
     );

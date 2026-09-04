@@ -2,7 +2,12 @@
     width: 90%;
     max-width: 850px;
     margin: 60px auto;
+    background: #FFFFFF;
     font-family: "Alegreya Sans", sans-serif;
+    padding: 25px;
+
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    border-radius: 6px;
 }
 
 .dash-header {
@@ -63,7 +68,7 @@
     border: 1px solid rgba(15, 123, 168, 0.18);
     border-radius: 10px;
 
-    background: #fff;
+    background: #F4F8FA;
     color: #333;
 
     font-family: "Alegreya Sans", sans-serif;
@@ -97,7 +102,7 @@
     margin-right: 12px;
 
     border-radius: 8px;
-    background: #e9f3f6;
+    background: #F4F8FA;
 
     font-size: 18px;
 }

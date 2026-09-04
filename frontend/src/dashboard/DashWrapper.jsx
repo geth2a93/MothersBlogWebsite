@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "./css/dashwrap.css";
 
 export default function DashboardLayout() {
@@ -70,22 +71,26 @@ export default function DashboardLayout() {
         <div className="dashboard-wrapper">
 
             <nav className="dashboard-nav">
-                <button
-                    className="dashboard-home-button"
-                    onClick={() => navigate("/dashboard")}>
-                    Dashboard Home 
-                </button>
-                <button
-                    className="home-button"
-                    onClick={() => navigate("/")}>
-                    Home 
-                </button>
-                <button
-                    className="dashboard-logout-button"
-                    onClick={handleLogout} >
-                    Logout
-                </button>
-            </nav>
+
+    <Link to="/dashboard" className="dash-link">
+        <h1>Admin Dashboard</h1>
+    </Link>
+
+    <div className="dashboard-nav-actions">
+        <button
+            className="home-button"
+            onClick={() => navigate("/")}>
+            Visit Website
+        </button>
+
+        <button
+            className="dashboard-logout-button"
+            onClick={handleLogout}>
+            Logout
+        </button>
+    </div>
+
+</nav>
 
             <main className="dashboard-content">
                 <Outlet />

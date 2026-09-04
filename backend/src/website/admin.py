@@ -584,7 +584,7 @@ def add_book():
 
         exists = set()
 
-        genres = request.form.getlist("Genres")
+        genres = request.form.getlist("genres")
         if not genres:
             return jsonify({"error": "At least one genre is required"}), 400
         for genre_name in genres:
@@ -729,7 +729,7 @@ def edit_book(slug):
         book.publish_date_displayed = date_displayed
 
         book.genres.clear()
-        genres = request.form.getlist("Genres")
+        genres = request.form.getlist("genres")
         if not genres:
             return jsonify({"error": "At least one genre is required"}), 400
 

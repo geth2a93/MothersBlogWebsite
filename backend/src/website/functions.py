@@ -251,8 +251,7 @@ def get_genres_for_menu():
     genres = Genre.query.order_by(Genre.genre).all()
     data = []
     for genre in genres:
-        data.append
-        ({
+        data.append ({
             "id": genre.id,
             "name": genre.genre,
             "display": display_genre(genre.genre)

@@ -17,11 +17,7 @@ const normalizeBook = (data) => ({
   },
 
   genres: data.genres || [],
-  selected_genres: (data.selected_genres || [])
-    .map(name =>
-      (data.genres || []).find(genre => genre.name === name)
-    )
-    .filter(Boolean),
+  selected_genres: data.selected_genres || [],
 
 buy_links: (data.buy_links || []).map(link => ({
     name_of_site: link.name || "",
@@ -46,7 +42,16 @@ buy_links: (data.buy_links || []).map(link => ({
 
 export default function EditBook(){
 const navigate=useNavigate();
-const [availableGenres, setAvailableGenres] = useState([]);
+
+ const displayGenre = (genre) => {
+    if (genre === "sci-fi") {
+        return "Sci-Fi";
+    }
+
+    return genre
+        .replace(/-/g, " ")
+        .replace(/\b\w/g, c => c.toUpperCase());
+}; 
 
 const updateBook = (field, value) => {
     setBook(prev => ({
@@ -102,8 +107,8 @@ const buildFormData = () => {
         formData.append("cover_image", book.cover.file);
     }
 
-    book.selected_genres.forEach(genre => {
-      formData.append("genres", genre.name);
+    book.selected_genres.forEach(g => {
+        formData.append("genres", g);
     });
 
     formData.append(
@@ -238,11 +243,11 @@ const addGenre = () => {
     setGenreInput("");
 };
 
-const removeGenre = (genre_normalized) => {
+const removeGenre = (genre) => {
     setBook(prev => ({
         ...prev,
-        genres_normalized: prev.genres_normalized.filter(
-            g => g !== genre_normalized
+        selected_genres: prev.selected_genres.filter(
+            g => g !== genre
         )
     }));
 };
@@ -401,10 +406,10 @@ return (
 
       <div className="genre-list">
       {book.genres.map((genre) => (
-  <label key={genre.id} className="genre-option">
-    <input
+    <label key={genre.id} className="genre-option">
+      <input
       type="checkbox"
-      checked={book.selected_genres.some(g => g.name === genre.name)}
+      checked={book.selected_genres.includes(genre.name)}
       onChange={(e) => {
         if (e.target.checked) {
           updateBook("selected_genres", [
@@ -435,13 +440,15 @@ return (
 
       <div>
         {book.selected_genres.map((genre) => (
-        <span className="tag-pill" key={genre.id} style={{
-          marginRight: 10,
-          cursor: "pointer"
+        <span className="tag-pill" key={genre} 
+         style={{
+            marginRight: 10,
+            cursor: "pointer"
           }}
-          onClick={() => removeGenre(genre.name)}
+
+          onClick={() => removeGenre(genre)}
         >
-        {genre.display} ✕
+         {genre} ✕
       </span>
       ))}
     </div>
