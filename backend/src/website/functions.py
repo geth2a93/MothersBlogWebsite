@@ -243,6 +243,8 @@ def normalize_genre(genre_name):
 
 
 def display_genre(genre_name):
+    if genre_name == "sci-fi":
+        return "Sci-Fi"
     return genre_name.replace("-", " ").title()
 
 def get_genres_for_menu():

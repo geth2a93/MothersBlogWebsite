@@ -16,7 +16,8 @@ const normalizeBook = (data) => ({
     file: null
   },
 
-  genres: data.genre || [],
+  genres: data.genres || [],
+  selected_genres: data.selected_genres || [],
 
 buy_links: (data.buy_links || []).map(link => ({
     name_of_site: link.name || "",
@@ -97,8 +98,8 @@ const buildFormData = () => {
         formData.append("cover_image", book.cover.file);
     }
 
-    book.genres.forEach(g => {
-        formData.append("Genres", g);
+    book.selected_genres.forEach(g => {
+        formData.append("genres", g);
     });
 
     formData.append(
@@ -193,24 +194,7 @@ useEffect(() => {
       setLoading(false);
     }
   };
-
-  const loadGenres = async () => {
-    try {
-      const res = await fetch("/api/genres");
-
-      if (!res.ok) {
-        throw new Error("Failed to fetch genres");
-      }
-
-      const data = await res.json();
-      setAvailableGenres(data);
-    } catch (err) {
-      console.error("Failed to load genres:", err);
-    }
-  };
-
   loadBook();
-  loadGenres();
 }, [slug]);
 
 
@@ -236,25 +220,25 @@ const addGenre = () => {
     if (!genre) 
         return;
 
-    if (book.genres.includes(genre))
+    if (book.genres_normalized.includes(genre_normalized))
         return;
 
     setBook(prev => ({
         ...prev,
-        genres: [
-            ...prev.genres,
-            genre
+        genres_normalized: [
+            ...prev.genres_normalized,
+            genre_normalized
         ]
     }));
 
     setGenreInput("");
 };
 
-const removeGenre = (genre) => {
+const removeGenre = (genre_normalized) => {
     setBook(prev => ({
         ...prev,
-        genres: prev.genres.filter(
-            g => g !== genre
+        genres_normalized: prev.genres_normalized.filter(
+            g => g !== genre_normalized
         )
     }));
 };
@@ -412,20 +396,31 @@ return (
       <h2>Genres</h2>
 
       <div className="genre-list">
-      {availableGenres.map((genre) => (
-        <label key={genre.id} className="genre-option">
-          <input type="checkbox" checked={book.genres.includes(genre.name)}
-            onChange={(e) => {
-              if (e.target.checked) {
-                updateBook("genres", [...book.genres, genre.name]);
-              } else {
-                updateBook( "genres", book.genres.filter((g) => g !== genre.name));
-              }
-            }}
-          />
-        {genre.display}
-        </label>
-      ))}
+      {book.genres.map((genre) => (
+  <label key={genre.id} className="genre-option">
+    <input
+      type="checkbox"
+      checked={book.selected_genres.includes(genre.name)}
+      onChange={(e) => {
+        if (e.target.checked) {
+          updateBook("selected_genres", [
+            ...book.selected_genres,
+            genre.name
+          ]);
+        } else {
+          updateBook(
+            "selected_genres",
+            book.selected_genres.filter(
+              (g) => g !== genre.name
+            )
+          );
+        }
+      }}
+    />
+
+    {genre.display}
+  </label>
+))}
       </div>
 
       <div className="new-genre">
