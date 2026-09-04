@@ -14,6 +14,7 @@ export default function BlogBlockEditor({
 
       {blog.content_blocks.map((block, index) => (
         <div key={index} className="editor-container">
+          <h2>Content Block Title</h2>
           <RichTextEditor
             placeholder="Block title"
             value={block.title_of_block}
