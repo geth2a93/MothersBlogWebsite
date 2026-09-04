@@ -1,7 +1,16 @@
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 
 function RichTextEditor({ value, onChange }) {
   const editorRef = useRef(null);
+
+  useEffect(() => {
+    if (
+      editorRef.current &&
+      editorRef.current.innerHTML !== (value || "")
+    ) {
+      editorRef.current.innerHTML = value || "";
+    }
+  }, [value]);
 
   const formatText = (command) => {
     editorRef.current.focus();
@@ -15,6 +24,7 @@ function RichTextEditor({ value, onChange }) {
       <div className="editor-toolbar">
         <button
           type="button"
+          onMouseDown={(e) => e.preventDefault()}
           onClick={() => formatText("bold")}
         >
           <b>B</b>
@@ -22,6 +32,7 @@ function RichTextEditor({ value, onChange }) {
 
         <button
           type="button"
+          onMouseDown={(e) => e.preventDefault()}
           onClick={() => formatText("italic")}
         >
           <i>I</i>
@@ -29,6 +40,7 @@ function RichTextEditor({ value, onChange }) {
 
         <button
           type="button"
+          onMouseDown={(e) => e.preventDefault()}
           onClick={() => formatText("removeFormat")}
         >
           Normal
@@ -39,7 +51,6 @@ function RichTextEditor({ value, onChange }) {
         ref={editorRef}
         className="editor-content"
         contentEditable
-        dangerouslySetInnerHTML={{ __html: value || "" }}
         onInput={(e) => onChange(e.currentTarget.innerHTML)}
       />
     </div>
