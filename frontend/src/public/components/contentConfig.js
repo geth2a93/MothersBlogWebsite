@@ -23,6 +23,7 @@ export const contentConfig = {
     title: "Books",
     endpoint: "/api/books",
     itemKey: "books",
+    paginate: true,
 
     mapItem: (book) => ({
       id: book.id,

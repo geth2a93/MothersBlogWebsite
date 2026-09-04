@@ -147,7 +147,7 @@ def get_blog_posts(page, per_page=5):
         })
     
 
-    return {"data":posts,
+    return {"data": posts,
         "has_next": pagination.has_next,
         "page": page}
 
