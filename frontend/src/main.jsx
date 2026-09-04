@@ -4,6 +4,9 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import Login from './dashboard/Login.jsx';
 
+import "./public/css/Styles.css";
+import "./public/css/Components.css"; 
+
 import Home from './public/pages/Home.jsx';
 import Layout from "./public/components/Components.jsx";
 import BlogPostFull from './public/pages/BlogPostFull.jsx';

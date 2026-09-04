@@ -1,10 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams  } from "react-router-dom";
-import { formatBookDate, formatDate } from "./dateHelper.js";
+import { formatBookDate, formatDate } from "../components/dateHelper.js";
 
-import "./Home.css";
-import "./Components.css";
-import "./Styles.css";
 import MediaRenderer from "./MediaRenderer.jsx";
 
 function Home() {

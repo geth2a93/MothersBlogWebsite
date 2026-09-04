@@ -7,8 +7,7 @@ import {
   XEmbed
 } from "react-social-media-embed";
 
-import "./BlogPostFull.css";
-import "./Styles.css";
+import "../css/BlogPostFull.css";
 
 export default function BlogRender({ post }) {
   if (!post) return null;

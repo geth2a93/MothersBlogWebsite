@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import "./TeachingResources.css";
+import "../css/TeachingResources.css";
 
 export default function TeachingResourceFull() {
   const { title } = useParams();

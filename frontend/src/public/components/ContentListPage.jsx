@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import ContentCard from "./ContentCard.jsx";
 import { contentConfig } from "./contentConfig.js";
-import "./Styles.css"
+
 
 
 export default function ContentListPage({ type, genre }) {

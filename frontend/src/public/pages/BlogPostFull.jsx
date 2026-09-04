@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-
+import "../css/BlogPostFull.css"
 import BlogRender from "../components/BlogRender";
 
 export default function BlogPostFull() {

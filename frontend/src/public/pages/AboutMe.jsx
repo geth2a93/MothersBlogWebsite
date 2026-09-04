@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import "./AboutMe.css";
+import "../css/AboutMe.css";
 
 export default function About() {
   const [about, setAbout] = useState(null);
