@@ -25,7 +25,11 @@ def create_app():
     else:
         app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///books.db"
 
-    
+    app.config["SQLALCHEMY_ENGINE_OPTIONS"] = {
+        "pool_pre_ping": True,
+        "pool_recycle": 300,
+    }
+
     app.config["UPLOAD_FOLDER"] = "/var/data/uploads"
     app.config["MAX_CONTENT_LENGTH"] = 5 * 1024 * 1024
     app.config["UPLOAD_EXTENSIONS"] = {"png", "jpg", "jpeg", "webp"}

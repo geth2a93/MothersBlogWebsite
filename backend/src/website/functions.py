@@ -244,9 +244,9 @@ def get_genres_for_menu():
     data = []
     for genre in genres:
         data.append
-        {
+        ({
             "id": genre.id,
             "name": genre.genre,
             "display": display_genre(genre.genre)
-        } 
+        })
     return data
