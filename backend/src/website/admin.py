@@ -963,7 +963,7 @@ def send_email(email_id):
 @admin.route("/displayallteachingresources", methods=["GET"])
 @login_required
 def show_all_teaching():
-    resources = TeachingResource.query.order_by(TeachingResource.id.desc()).all()
+    resources = TeachingResource.query.order_by(TeachingResource.id.asc()).all()
     return jsonify({ "resources": [{"title": resource.book_title, "slug": resource.slug} for resource in resources]})
 
 @admin.route("/deleteresource/<string:slug>", methods=["DELETE"])

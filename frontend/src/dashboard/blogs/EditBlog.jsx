@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import "../css/editor.css";
+import "./css/editor.css";
+import RichTextEditor from "./RichTextEditor";
 
 import {
   InstagramEmbed,
@@ -515,7 +516,7 @@ const buildFormData=()=>{
       </h1>
 
       <div className="editor-card">
-        <input
+        <RichTextEditor
 
           value={blog.title}
           onChange={
@@ -527,7 +528,7 @@ const buildFormData=()=>{
 
         />
 
-        <textarea
+        <RichTextEditor
           value={blog.preview}
           onChange={
             e=>updateBlog(
@@ -675,7 +676,7 @@ const buildFormData=()=>{
   <h2> Content Blocks</h2>
   {blog.content_blocks.map((block, index) => (
   <div key={index} className="editor-container-alt">
-    <input
+    <RichTextEditor
       placeholder="Block title"
       value={block.title_of_block}
       onChange={(e) =>
@@ -683,7 +684,7 @@ const buildFormData=()=>{
       }
     />
 
-    <textarea
+    <RichTextEditor
       placeholder="Content"
       value={block.content}
       onChange={(e) =>

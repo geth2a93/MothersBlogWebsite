@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "../css/editor.css";
+import RichTextEditor from "./RichTextEditor";
 
 const createEmptyBlock = (order = 0) => ({
   order,
@@ -46,7 +47,6 @@ const defaultBlog = {
 
   content_blocks: []
 };
-
 
 
 export default function NewBlog() {
@@ -383,7 +383,7 @@ return (
 
 
       <div className="editor-card">
-      <input
+      <RichTextEditor
         placeholder="Title"
         value={blog.title}
         onChange={(e) =>
@@ -394,7 +394,7 @@ return (
         }
       />
     <div>
-      <textarea
+      <RichTextEditor
         placeholder="Add Paragraph 1"
         value={blog.preview}
         onChange={(e) =>
@@ -510,7 +510,7 @@ return (
 
       {blog.content_blocks.map((block, index) => (
         <div key={index} className="editor-container-alt">
-          <input
+          <RichTextEditor
             placeholder="Block title"
             value={block.title_of_block}
             onChange={(e) =>
@@ -521,7 +521,7 @@ return (
             }
           />
 
-          <textarea
+          <RichTextEditor
             placeholder="Content"
             value={block.content || ""}
             onChange={(e) =>
