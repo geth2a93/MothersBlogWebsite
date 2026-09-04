@@ -418,7 +418,7 @@ return (
       }}
     />
 
-    {genre.display}
+    {book.genres.display}
   </label>
 ))}
       </div>
