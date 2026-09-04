@@ -62,7 +62,7 @@ const bookDate = book?.date_displayed
         )}
       </section>
 
-    {/* Coming Soon */}
+    {/* Book */}
       <section className="coming-soon">
         <div className="coming-soon-content">
           <div className="coming-soon-text">
@@ -99,7 +99,7 @@ const bookDate = book?.date_displayed
         </div>
       </section>
 
-    {/* Home Newest */}
+    {/* Blog */}
       <section className="home-newest">
         <div className="home-newest-content">
         
@@ -110,7 +110,7 @@ const bookDate = book?.date_displayed
                 <h1>What's New</h1>
                 <h2 dangerouslySetInnerHTML={{ __html: blog?.title || "" }}/>
                 <p className="content-date">{formatDate(latest.blog.date)}</p>
-                <p>{truncateText(blog?.preview, 500)}</p>
+                <p dangerouslySetInnerHTML={{ __html: blog?.preview || "" }}/>
                 <button className="read-more-btn"  onClick={() => navigate(`/blog/${blog.slug}`)}> Read More </button>
               </>
             ) : (

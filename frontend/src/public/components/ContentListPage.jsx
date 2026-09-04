@@ -28,7 +28,7 @@ useEffect(() => {
     .then(data => {
       const rawItems = Array.isArray(data)
         ? data
-        : data?.[config.itemKey]  ?? data;;
+        : data?.[config.itemKey]  ?? data;
 
       if (!rawItems) {
         console.error("No items found:", data);
@@ -61,7 +61,7 @@ const itemsToRender = [...items];
             title_media={item.title_media}
             url_content_type={item.url_content_type}
             
-            preview={item.preview}
+            preview={type === "blog" ? item.preview_short : item.preview}
             link={item.link}
             type = {type}
             backgroundColor={index % 2 === 0 ? "#FFFFFF" : "#fff8f2"}

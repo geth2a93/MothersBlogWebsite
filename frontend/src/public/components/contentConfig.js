@@ -9,6 +9,7 @@ export const contentConfig = {
       id: post.id,
       title: post.title,
       preview: post.preview,
+      preview_short: post.preview_short,
       title_media: post.title_media,
       url_content_type: post.url_content_type,
       link: `/blog/${post.slug}`,
