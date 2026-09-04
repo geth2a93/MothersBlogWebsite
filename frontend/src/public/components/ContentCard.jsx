@@ -121,7 +121,7 @@ const renderMedia = () => {
 
         {hasText && (
           <>
-            <p dangerouslySetInnerHTML={{__html: blog?.preview_short || "" }}/>
+            <p dangerouslySetInnerHTML={{ __html: preview || "" }} />
 
             {!showMediaOnly && (
               <button
