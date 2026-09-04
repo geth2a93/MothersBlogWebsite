@@ -8,8 +8,7 @@
 
 .dash-buttons button {
     width: 100%;
-    background: #01b90b;
-    color: #f5f9fa;
+    background: white;
     border: none;
     border-top: 1px solid #eee;
     padding: 14px 18px;
@@ -22,9 +21,8 @@
 }
 
 .dash-buttons button:hover {
-    background: #f5f9fa;
+    background: bfd7f1;
     padding-left: 24px;
-    color: #01b90b;
 }
 
 /*end modified*/

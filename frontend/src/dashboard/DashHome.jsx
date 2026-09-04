@@ -10,6 +10,21 @@ export default function AdminHome() {
 
             <p>Website administration tools.</p>
 
+            <details>
+                    <summary className="dash-card-text">General</summary>
+
+                    <div className="dash-buttons">
+                        <button onClick={() => navigate("/dashboard/aboutme")}>
+                            Edit About Me
+                        </button>
+
+                        <button onClick={() => navigate("/dashboard/websiteresources")}>
+                            Edit Web Resources
+                        </button>
+
+                    </div>
+                </details>
+
             <div className="dash-card">
                     <div className="dash-buttons">
                         <button onClick={() => navigate("/dashboard/blogs")}>
@@ -26,21 +41,6 @@ export default function AdminHome() {
                         </button>
                     </div>
 
-
-                <details>
-                    <summary className="dash-card-text">General</summary>
-
-                    <div className="dash-buttons">
-                        <button onClick={() => navigate("/dashboard/aboutme")}>
-                            Edit About Me
-                        </button>
-
-                        <button onClick={() => navigate("/dashboard/websiteresources")}>
-                            Edit Web Resources
-                        </button>
-
-                    </div>
-                </details>
             </div>
         </div>
     );
