@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../css/editor.css";
+import RichTextEditor from "../blogs/RichTextEditor";
 
 const emptyBook = {
   title: "",
@@ -332,11 +333,9 @@ export default function NewBook() {
       <div className="editor-card">
         <h2>Title</h2>
 
-        <input
+        <RichTextEditor
           value={book.title}
-          onChange={(e) => updateBook("title", e.target.value)}
-          placeholder="Book title" />
-
+          onChange={(value) => updateBook("title",value)} />
         <h2>ISBN</h2>
 
         <input
@@ -346,11 +345,10 @@ export default function NewBook() {
 
         <h2>Synopsis</h2>
 
-        <textarea
+        <RichTextEditor
           rows={8}
           value={book.synopsis}
-          onChange={(e) => updateBook("synopsis", e.target.value)}
-          placeholder="Book synopsis" />
+          onChange={(value) => updateBook("synopsis", value)} />
 
         <div className="date-row">
           <div>
@@ -456,28 +454,25 @@ export default function NewBook() {
             key={index}
             className="editor-container-alt"
           >
-            <input
-              placeholder="Reviewer"
+            <RichTextEditor
               value={review.name}
-              onChange={(e) => updateReview(index, {
+              onChange={(value) => updateReview(index, {
                 ...review,
-                name: e.target.value
+                name: value
               })} />
 
-            <input
-              placeholder="Review Title"
+            <RichTextEditor
               value={review.title}
-              onChange={(e) => updateReview(index, {
+              onChange={(value) => updateReview(index, {
                 ...review,
-                title: e.target.value
+                title: value
               })} />
 
-            <textarea
-              placeholder="Review"
+            <RichTextEditor
               value={review.content}
-              onChange={(e) => updateReview(index, {
+              onChange={(value) => updateReview(index, {
                 ...review,
-                content: e.target.value
+                content: value
               })} />
 
             <input

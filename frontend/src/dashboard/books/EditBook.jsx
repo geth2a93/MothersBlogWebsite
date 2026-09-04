@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "../css/editor.css";
+import RichTextEditor from "../blogs/RichTextEditor";
+
 const normalizeBook = (data) => ({
   id: data.id,
   title: data.title || "",
@@ -356,10 +358,10 @@ return (
 
       <h2>Title</h2>
 
-      <input
+      <RichTextEditor
         value={book.title}
-        onChange={(e) =>
-          updateBook("title", e.target.value)
+        onChange={(value) =>
+          updateBook("title", value)
         }
       />
 
@@ -374,11 +376,10 @@ return (
 
       <h2>Synopsis</h2>
 
-      <textarea
-        rows={8}
+      <RichTextEditor
         value={book.synopsis}
-        onChange={(e) =>
-          updateBook("synopsis", e.target.value)
+        onChange={(value) =>
+          updateBook("synopsis", value)
         }
       />
 
@@ -500,35 +501,25 @@ return (
           key={index}
           className="editor-container-alt"
         >
-          <input
-            placeholder="Reviewer"
+          <RichTextEditor
             value={review.name}
-            onChange={(e) =>
-              updateReview(index, {
-                ...review,
-                name: e.target.value
-              })
-            }
-          />
+            onChange={(value) =>
+              updateReview(index, {...review, name: value})
+            }/>
 
-          <input
-            placeholder="Review Title"
+          <RichTextEditor
             value={review.title}
-            onChange={(e) =>
-              updateReview(index, {
-                ...review,
-                title: e.target.value
-              })
+            onChange={(value) =>
+              updateReview(index, {...review,title: value})
             }
           />
 
-          <textarea
-            placeholder="Review"
+          <RichTextEditor
             value={review.content}
-            onChange={(e) =>
+            onChange={(value) =>
               updateReview(index, {
                 ...review,
-                content: e.target.value
+                content: value
               })
             }
           />

@@ -74,13 +74,6 @@ const renderMedia = () => {
   const [mediaLoaded, setMediaLoaded] = useState(false);
   const imgRef = useRef(null);
 
-  const truncateText = (text, maxLength) => {
-    if (!text) return "";
-    return text.length > maxLength
-      ? text.substring(0, maxLength) + "..."
-      : text;
-  };
-
   const hasMedia = Boolean(title_media);
   const hasText = Boolean(preview && preview.trim().length > 0);
   const showMediaOnly = hasMedia && !hasText;

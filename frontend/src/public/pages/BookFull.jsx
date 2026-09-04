@@ -56,7 +56,7 @@ export default function BookDetail() {
       <div className="book-container">
 
         {/* TITLE */}
-        <h1 className="book-title">{book.title}</h1>
+        <h1 className="book-title" dangerouslySetInnerHTML={{ __html: book.title || "" }}/>
 
         <div className="book-info-box">
 
@@ -94,9 +94,7 @@ export default function BookDetail() {
           {/* SYNOPSIS */}
           <div className="book-synopsis-section">
             <h2>Synopsis</h2>
-            <p className="book-synopsis">
-              {book.synopsis}
-            </p>
+            <p className="book-synopsis" dangerouslySetInnerHTML={{ __html: book.synopsis || "" }}/>
           </div>
 
           </div>
@@ -139,8 +137,11 @@ export default function BookDetail() {
 
     {book.reviews.map((r) => (
       <div key={r.id} className="buy-link-card">
-        <div className="review-author">{r.name}</div>
-        <div className="review-content">{r.content}</div>
+        <div className="review-author" dangerouslySetInnerHTML={{ __html: r.name || "" }}/>
+        <div className="review-author" dangerouslySetInnerHTML={{ __html: r.title || "" }}/>
+        <div className="review-content" dangerouslySetInnerHTML={{ __html: r.content || "" }}/>
+        <div className="review-rating">{r.rating}</div>
+        <div className="review-url">{r.link_url}</div>
       </div>
     ))}
   </section>

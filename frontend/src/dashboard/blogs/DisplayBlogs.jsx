@@ -125,9 +125,7 @@ export default function AdminEditBlog() {
               <tbody>
                 {blogs.map((blog) => (
                   <tr key={blog.id}>
-                    <td className="display-title">
-                      {blog.title}
-                    </td>
+                    <td className="display-title" dangerouslySetInnerHTML={{ __html: blog.title || "" }}/>
 
                     <td>
                       {blog.date_created}

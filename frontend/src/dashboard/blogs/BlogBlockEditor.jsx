@@ -1,4 +1,5 @@
 import "../css/editor.css";
+import RichTextEditor from "./RichTextEditor";
 
 export default function BlogBlockEditor({
   block,
@@ -13,24 +14,24 @@ export default function BlogBlockEditor({
 
       {blog.content_blocks.map((block, index) => (
         <div key={index} className="editor-container">
-          <input
+          <RichTextEditor
             placeholder="Block title"
             value={block.title_of_block}
-            onChange={(e) =>
+            onChange={(value) =>
               updateBlock(index, {
                 ...block,
-                title_of_block: e.target.value
+                title_of_block:value
               })
             }
           />
 
-          <textarea
+          <RichTextEditor
             placeholder="Content"
             value={block.content || ""}
-            onChange={(e) =>
+            onChange={(value) =>
               updateBlock(index, {
                 ...block,
-                content: e.target.value
+                content: value
               })
             }
           />

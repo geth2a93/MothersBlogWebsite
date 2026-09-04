@@ -98,6 +98,12 @@ export default function AdminEditBooks() {
     }
   };
 
+  const getPlainText = (html) => {
+  const div = document.createElement("div");
+  div.innerHTML = html || "";
+  return div.textContent || div.innerText || "";
+};
+
   return (
     <div className="display-list-container">
       <h1>All Books</h1>
@@ -133,10 +139,7 @@ export default function AdminEditBooks() {
               <tbody>
                 {books.map((book) => (
                   <tr key={book.id}>
-
-                    <td className="display-title">
-                      {book.title}
-                    </td>
+                    <td className="display-title" dangerouslySetInnerHTML={{ __html: book.title || "" }}/>
 
                     <td>
                       {book.isbn || "-"}
@@ -164,12 +167,12 @@ export default function AdminEditBooks() {
                         Edit
                       </button>
 
-                      <button className="delete-button" onClick={() => handleDelete(book.slug, book.title)}>
+                      <button className="delete-button" onClick={() => handleDelete(book.slug, getPlainText(book.title))}>
                         Delete
                       </button>
 
                       {!book.displayed && (
-                      <button className="publish-button" onClick={() => handlePublish(book.slug, book.title)}>
+                      <button className="publish-button" onClick={() => handlePublish(book.slug, getPlainText(book.title))}>
                         Publish
                       </button> )}
 
