@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams  } from "react-router-dom";
 import { formatBookDate, formatDate } from "../components/dateHelper.js";
 
-import MediaRenderer from "./Components/MediaRenderer.jsx";
+import MediaRenderer from "../Components/MediaRenderer.jsx";
 
 function Home() {
   const [homeData, setHomeData] = useState(null);
