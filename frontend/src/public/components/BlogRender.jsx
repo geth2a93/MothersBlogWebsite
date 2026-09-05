@@ -147,8 +147,8 @@ export default function BlogRender({ post }) {
 
               {hasText && (
                 <div className="text-container">
-                  {block.title_of_block && (
-                    <h2 className="blog-block-title" dangerouslySetInnerHTML={{ __html: block.title_of_block || "" }}/>
+                  {block.blocktitle && (
+                    <h2 className="blog-block-title" dangerouslySetInnerHTML={{ __html: block.blocktitle || "" }}/>
                   )}
 
                   <div className="blog-block-content" dangerouslySetInnerHTML={{ __html: block.content || "" }}/>
