@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "../css/display.css";
+import RichTextEditor from "../blogs/RichTextEditor";
 
 function EditTeachingResource() {
   const { slug } = useParams();

@@ -30,6 +30,14 @@ function RichTextEditor({ value, onChange, className }) {
     updateFormatState();
   };
 
+  const handleKeyDown = (e) => {
+    if (e.key === "Tab") {
+      e.preventDefault();
+      document.execCommand("insertText", false, "&nbsp;&nbsp;&nbsp;&nbsp;");
+      onChange(editorRef.current.innerHTML);
+    }
+};
+
   return (
     <div className="rich-text-editor">
       <div className="editor-toolbar">
@@ -96,6 +104,7 @@ function RichTextEditor({ value, onChange, className }) {
           onChange(e.currentTarget.innerHTML);
           updateFormatState();
         }}
+        onKeyDown={handleKeyDown}
         onKeyUp={updateFormatState}
         onMouseUp={updateFormatState}
       />
