@@ -71,21 +71,7 @@ function RichTextEditor({ value, onChange, className }) {
           Normal
         </button>
 
-        <select
-          className="rich-text-font"
-          onChange={(e) => formatText("fontName", e.target.value)}
-          defaultValue=""
-        >
-          <option value="" disabled>
-          Font
-          </option>
-          <option value="Arial">Arial</option>
-          <option value="Georgia">Georgia</option>
-          <option value="Times New Roman">Times New Roman</option>
-          <option value="Verdana">Verdana</option>
-          <option value="Courier New">Courier New</option>
-          <option value="Trebuchet MS">Trebuchet MS</option>
-        </select>
+        
 
       </div>
 
