@@ -66,39 +66,51 @@ export default function NewBook() {
     }));
   };
 
-  const addGenre = () => {
-    const genre = genreInput.trim();
+const addGenre = () => {
+  const input = genreInput.trim();
 
-    if (!genreName) return;
+  if (!input) return;
 
-    if (book.genres.some(g => g.name === genreName)) {
-      setGenreInput("");
-      return; 
-    }
+  const genreName = input
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, "")
+    .replace(/\s+/g, "-")
+    .replace(/^-+|-+$/g, "");
 
-    const existingGenre = availableGenres.find(
-      g => g.name === genreName
-    );
-
-     const newGenre = existingGenre || {
-    id: `new-${Date.now()}`,
-    name: genreName,
-    display: genreName
-      .replace(/-/g, " ")
-      .replace(/\b\w/g, c => c.toUpperCase())
-  };
-
-  setBook(prev => ({
-    ...prev,
-    genres: [
-      ...prev.genres,
-      newGenre
-    ]
-  }));
-
+  if (book.genres.some(g => g.name === genreName)) {
     setGenreInput("");
-  };
+    return;
+  }
+  
+  const existingGenre = availableGenres.find(
+    g => g.name === genreName
+  );
 
+  if (existingGenre) {
+    setBook(prev => ({
+      ...prev,
+      genres: [
+        ...prev.genres,
+        existingGenre
+      ]
+    }));
+  } else {
+
+    setBook(prev => ({
+      ...prev,
+      genres: [
+        ...prev.genres,
+        {
+          id: `new-${Date.now()}`,
+          name: genreName,
+          display: input
+        }
+      ]
+    }));
+  }
+
+  setGenreInput("");
+};
   const removeGenre = (genreName) => {
   setBook(prev => ({
     ...prev,
