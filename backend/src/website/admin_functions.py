@@ -144,7 +144,8 @@ def subscriber_email(email_id):
                 html = f"""<html><body><p>{greeting}</p><p> {p.body}</p>"""
 
                 for pic in p.email_pics:
-                    html += f"""<img src="{pic.url_of_image}"style="max-width: 100%; height: auto;">"""
+                    image_url = f"{current_app.config['BACKEND_URL']}{pic.url_of_image}"
+                    html += f"""<img src="{image_url}" style="max-width: 100%; height: auto;">"""
 
                 html += """</body></html>"""
 
