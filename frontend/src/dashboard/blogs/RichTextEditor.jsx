@@ -23,13 +23,10 @@ function RichTextEditor({ value, onChange, className }) {
     setUnderlineActive(document.queryCommandState("underline"));
   };
 
-  const formatText = (command) => {
+  const formatText = (command, value = null) => {
     editorRef.current.focus();
-
-    document.execCommand(command, false, null);
-
+    document.execCommand(command, false, value);
     onChange(editorRef.current.innerHTML);
-
     updateFormatState();
   };
 
