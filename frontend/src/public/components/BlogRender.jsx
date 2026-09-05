@@ -156,12 +156,11 @@ export default function BlogRender({ post }) {
               )}
 
               {hasText && (
-        <div className="text-container">
-          <div
-            className="blog-block-content" dangerouslySetInnerHTML={{ __html: block.content || ""}}/>
-        </div>
-      )}
-    </div>
+                <div className="text-container">
+                  <div className="blog-block-content" dangerouslySetInnerHTML={{ __html: block.content || ""}}/>
+                </div>
+              )}
+            </div>
           
           );
         })}
