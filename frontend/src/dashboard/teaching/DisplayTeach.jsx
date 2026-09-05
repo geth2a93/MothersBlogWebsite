@@ -87,7 +87,7 @@ function DisplayTeachingResources() {
             <tbody>
               {resources.map((resource) => (
                 <tr key={resource.slug}>
-                  <td>{resource.title}</td>
+                  <td className="display-title" dangerouslySetInnerHTML={{ __html: resource.title || "" }}/>
 
                    <td className="display-actions">
                     <button className="edit-button"

@@ -48,9 +48,8 @@ export default function TeachingResourceFull() {
       <div className="teaching-container">
 
         {/* TITLE */}
-        <h1 className="teaching-title">
-          {resource.book_title}
-        </h1>
+        <h1 className="teaching-title" dangerouslySetInnerHTML={{ __html: resource.book_title || "" }}/>
+
 
         {/* IMAGE */}
         {resource.book_image_url && (
@@ -65,12 +64,12 @@ export default function TeachingResourceFull() {
         <Section title="Isbn" content={resource.isbn} />        
 
         {/* SECTIONS */}
-        <Section title="Word List" content={resource.word_list} />
-        <Section title="Activities" content={resource.activities} />
-        <Section title="Questions" content={resource.questions} />
-        <Section title="Supplies" content={resource.supplies} />
-        <Section title="Objectives" content={resource.objectives} />
-        <Section title="Procedures" content={resource.procedures} />
+        <Section className="Word List" dangerouslySetInnerHTML={{ __html: resource.word_list  || "" }} />
+        <Section className="Activities" dangerouslySetInnerHTML={{ __html: resource.activities  || "" }} />
+        <Section className="Questions" dangerouslySetInnerHTML={{ __html: resource.question  || "" }} />
+        <Section className="Supplies" dangerouslySetInnerHTML={{ __html: resource.supplies  || "" }} />
+        <Section className="Objectives" dangerouslySetInnerHTML={{ __html: resource.objectives  || "" }} />
+        <Section className="Procedures" dangerouslySetInnerHTML={{ __html: resource.procedures  || "" }} />
 
         {/* LINKS */}
         <h3 className="section-title">Videos</h3>
