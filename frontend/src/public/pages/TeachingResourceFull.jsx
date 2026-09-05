@@ -64,12 +64,12 @@ export default function TeachingResourceFull() {
         <Section title="Isbn" content={resource.isbn} />        
 
         {/* SECTIONS */}
-        <Section className="Word List" dangerouslySetInnerHTML={{ __html: resource.word_list  || "" }} />
-        <Section className="Activities" dangerouslySetInnerHTML={{ __html: resource.activities  || "" }} />
-        <Section className="Questions" dangerouslySetInnerHTML={{ __html: resource.question  || "" }} />
-        <Section className="Supplies" dangerouslySetInnerHTML={{ __html: resource.supplies  || "" }} />
-        <Section className="Objectives" dangerouslySetInnerHTML={{ __html: resource.objectives  || "" }} />
-        <Section className="Procedures" dangerouslySetInnerHTML={{ __html: resource.procedures  || "" }} />
+        <Section title="Word List" content={resource.word_list} />
+        <Section title="Activities" content={resource.activities} />
+        <Section title="Questions" content={resource.question} />
+        <Section title="Supplies" content={resource.supplies} />
+        <Section title="Objectives" content={resource.objectives} />
+        <Section title="Procedures" content={resource.procedures} />
 
         {/* LINKS */}
         <h3 className="section-title">Videos</h3>
@@ -101,9 +101,7 @@ function Section({ title, content }) {
   return (
     <div className="teaching-section">
       <h2 className="section-title">{title}</h2>
-      <p className="teaching-text">
-        {content}
-      </p>
+      <div className="teaching-text" dangerouslySetInnerHTML={{ __html: content }}/>
     </div>
   );
 }
