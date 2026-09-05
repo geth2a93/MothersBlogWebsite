@@ -225,7 +225,7 @@ def new_blog_post():
         blog.title_media_content_type = title_media_content_type
         blog.title_media_ownership = title_media_ownership
         blog.title_media_owner_name = title_media_owner_name
-        blog.blog_date = date_upload # check
+        # blog.blog_date = date_upload # check
 
         Tags.query.filter_by(blog_id=blog.id).delete()
 
@@ -286,13 +286,13 @@ def new_blog_post():
             if not any([title_of_block, block_text_content, block_media_content_url]):
                 return jsonify({"error": "Block cannot be empty"}), 400
 
-            new_block.title_of_block=title_of_block
-            new_block.content=block_text_content
-            new_block.media_content_url=block_media_content_url
-            new_block.url_content_type=block_media_content_type
-            new_block.ownership=block_media_ownership
-            new_block.name_of_owner=block_media_owner_name
-            new_block.alignment=block.get("alignment")
+            new_block.title_of_block = title_of_block
+            new_block.block_text_content = block_text_content
+            new_block.block_media_content_url = block_media_content_url
+            new_block.block_media_content_type = block_media_content_type
+            new_block.block_media_ownership = block_media_ownership
+            new_block.block_media_owner_name = block_media_owner_name
+            new_block.alignment = block.get("alignment")
 
         db.session.commit()
 

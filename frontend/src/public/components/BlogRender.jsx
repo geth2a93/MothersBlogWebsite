@@ -10,6 +10,8 @@ import {
 import "../css/BlogPostFull.css";
 
 export default function BlogRender({ post }) {
+  console.log("BLOG RENDER POST:", post);
+console.log("BLOG RENDER BLOCKS:", post?.content_blocks);
   if (!post) return null;
 
   const [imageRatios, setImageRatios] = useState({});
