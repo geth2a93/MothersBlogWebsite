@@ -33,7 +33,7 @@ function RichTextEditor({ value, onChange, className }) {
   const handleKeyDown = (e) => {
     if (e.key === "Tab") {
       e.preventDefault();
-      document.execCommand("insertText", false, "&nbsp;&nbsp;&nbsp;&nbsp;");
+      document.execCommand("insertText", false, "    ");
       onChange(editorRef.current.innerHTML);
     }
 };
