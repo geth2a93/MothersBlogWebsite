@@ -122,6 +122,8 @@ export default function BlogRender({ post }) {
           const hasMedia = !!src;
           const hasText = !!block.content;
 
+          const hasTitle = !!block.blocktitle;
+
           return (
             <div
               key={block.order}
@@ -145,16 +147,22 @@ export default function BlogRender({ post }) {
                 </div>
               )}
 
-              {hasText && (
+              {hasTitle && (
                 <div className="text-container">
                   {block.blocktitle && (
                     <h2 className="blog-block-title" dangerouslySetInnerHTML={{ __html: block.blocktitle || "" }}/>
                   )}
-
-                  <div className="blog-block-content" dangerouslySetInnerHTML={{ __html: block.content || "" }}/>
-                </div>
+                  </div>
               )}
-            </div>
+
+              {hasText && (
+        <div className="text-container">
+          <div
+            className="blog-block-content" dangerouslySetInnerHTML={{ __html: block.content || ""}}/>
+        </div>
+      )}
+    </div>
+          
           );
         })}
 
