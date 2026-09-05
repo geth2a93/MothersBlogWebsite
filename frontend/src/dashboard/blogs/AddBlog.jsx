@@ -280,11 +280,8 @@ const buildFormData = () => {
   JSON.stringify(cleanedBlocks, null, 2)
 );
 
-  formData.append(
-    "content_blocks",
-    JSON.stringify(cleanedBlocks)
-  );
-
+  formData.append("content_blocks", JSON.stringify(cleanedBlocks));
+  console.log("CLEANED BLOCKS:", cleanedBlocks);
   blog.content_blocks.forEach((block, index) => {
     if (
       block.url_content_type === "image" &&

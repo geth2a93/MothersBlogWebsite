@@ -158,12 +158,11 @@ console.log("BLOG RENDER BLOCKS:", post?.content_blocks);
               )}
 
               {hasText && (
-        <div className="text-container">
-          <div
-            className="blog-block-content" dangerouslySetInnerHTML={{ __html: block.content || ""}}/>
-        </div>
-      )}
-    </div>
+                <div className="text-container">
+                  <div className="blog-block-content" dangerouslySetInnerHTML={{ __html: block.content || ""}}/>
+                </div>
+              )}
+            </div>
           
           );
         })}
