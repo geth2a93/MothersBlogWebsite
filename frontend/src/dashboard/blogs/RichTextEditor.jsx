@@ -73,17 +73,17 @@ function RichTextEditor({ value, onChange, className }) {
         <select
           className="rich-text-font"
           onChange={(e) => formatText("fontName", e.target.value)}
-          defaultValue=""
+          defaultValue="Comic Sans MS"
         >
           <option value="" disabled>
           Font
           </option>
+          <option value="Comic Sans MS">Comic Sans</option>
+          <option value="Alegreya">Alegreya</option>
+          <option value="Alegreya Sans">Alegreya Sans</option>
           <option value="Arial">Arial</option>
-          <option value="Georgia">Georgia</option>
           <option value="Times New Roman">Times New Roman</option>
-          <option value="Verdana">Verdana</option>
-          <option value="Courier New">Courier New</option>
-          <option value="Trebuchet MS">Trebuchet MS</option>
+          <option value="Impact">Impact</option>
         </select>
 
       </div>
