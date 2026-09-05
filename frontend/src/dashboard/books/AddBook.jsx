@@ -69,7 +69,7 @@ export default function NewBook() {
   const addGenre = () => {
     const genre = genreInput.trim();
 
-    if (!genre) return;
+    if (!genreName) return;
 
     if (book.genres.some(g => g.name === genreName)) {
       setGenreInput("");
@@ -80,29 +80,22 @@ export default function NewBook() {
       g => g.name === genreName
     );
 
-    if (existingGenre) {
-      setBook(prev => ({
-        ...prev,
-        genres: [
-          ...prev.genres,
-          existingGenre
-        ]
-      }));
-    } else {
-    setBook(prev => ({
-      ...prev,
-      genres: [
-        ...prev.genres,
-        {
-          id: `new-${Date.now()}`,
-          name: genreName,
-          display: genreName
-            .replace(/-/g, " ")
-            .replace(/\b\w/g, c => c.toUpperCase())
-        }
-      ]
-    }));
-  }
+     const newGenre = existingGenre || {
+    id: `new-${Date.now()}`,
+    name: genreName,
+    display: genreName
+      .replace(/-/g, " ")
+      .replace(/\b\w/g, c => c.toUpperCase())
+  };
+
+  setBook(prev => ({
+    ...prev,
+    genres: [
+      ...prev.genres,
+      newGenre
+    ]
+  }));
+
     setGenreInput("");
   };
 
