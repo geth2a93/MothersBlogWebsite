@@ -97,13 +97,22 @@ export default function AdminEditBlog() {
 
   return (
     <div className="display-list-container">
+      
+  
+      <div className="display-list-card">
+
+      <div className="display-list-header">
       <h1>All Blog Posts</h1>
 
-      <div>
-        <button onClick={() =>navigate( `/dashboard/add-blog`)}> Add Blog  </button>
-      </div>
+      <button
+        className="add-button"
+        onClick={() => navigate("/dashboard/add-blog")}
+      >
+        + Add Blog
+      </button>
+    </div>
 
-      <div className="display-list-card">
+
         {loading ? (
           <p className="display-list-message">Loading...</p>
         ) : blogs.length === 0 ? (

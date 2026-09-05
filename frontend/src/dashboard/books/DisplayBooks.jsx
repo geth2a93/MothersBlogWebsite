@@ -106,13 +106,16 @@ export default function AdminEditBooks() {
 
   return (
     <div className="display-list-container">
-      <h1>All Books</h1>
-
+    <div className="display-list-card">
+     <div className="display-list-header">
+       <h1>All Books</h1>
       <div>
-        <button onClick={() =>navigate( `/dashboard/newbook`)}> Add Book  </button>
+        <button onClick={() =>navigate( `/dashboard/newbook`)} 
+         className="add-button">
+        + Add Book  </button>
       </div>
+    </div>
 
-      <div className="display-list-card">
         {loading ? (
           <p className="display-list-message">
             Loading...

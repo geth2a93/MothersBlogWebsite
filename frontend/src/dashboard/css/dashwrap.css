@@ -30,6 +30,7 @@
 .dash-link{
     color: white;
     flex: 1;
+    margin: 20px;
 }
 
 .dash-link:hover{

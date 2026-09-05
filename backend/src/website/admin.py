@@ -225,7 +225,7 @@ def new_blog_post():
         blog.title_media_content_type = title_media_content_type
         blog.title_media_ownership = title_media_ownership
         blog.title_media_owner_name = title_media_owner_name
-        blog.blog_date = date_upload
+        blog.blog_date = date_upload # check
 
         Tags.query.filter_by(blog_id=blog.id).delete()
 

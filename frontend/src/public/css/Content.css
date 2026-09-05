@@ -1,56 +1,74 @@
-.book-synopsis {
-  line-height: 1.6;
-}
+
+/* ========================================
+   GENERAL CONTENT
+======================================== */
 
 .content-page {
   width: 100%;
 }
 
-.content-title {
-  font-size: 3rem;
-  font-weight: 600;
+.book-synopsis {
+  line-height: 1.6;
+}
 
-  width: min(1400px, 80%);
-  margin: 40px auto;
+
+/* ========================================
+   CONTENT TITLE
+======================================== */
+
+.content-title {
+  width: min(87.5rem, 80%);
+  margin: 2.5rem auto;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
-  color: #0F7BA8;
-  text-decoration: underline #0F7BA8 3px;
-  text-underline-offset: 18px;
+  color: var(--color-blue);
+  font-size: 3rem;
+  font-weight: 600;
+
+  text-decoration: underline;
+  text-decoration-color: var(--color-blue);
+  text-decoration-thickness: 3px;
+  text-underline-offset: 1.125rem;
 }
+
+
+/* ========================================
+   CONTENT LIST
+======================================== */
 
 .content-list {
   display: flex;
   flex-direction: column;
-  
 }
 
-/* CARD */
+
+/* ========================================
+   CONTENT CARD
+======================================== */
+
 .content-card {
   width: 80%;
-  min-height: 550px;
+  min-height: 34.375rem;
   margin: 0 auto;
+
   display: flex;
   align-items: center;
   justify-content: center;
+
+  gap: 2.5rem;
+
   border: 1px solid #d7d7d7;
-  gap: 40px;
 }
 
-.content-card-title a {
-  text-decoration: none;
-  color: #0F7BA8;
-}
 
-.content-card-title a:hover {
-  text-decoration: underline;
-}
-/* IMAGE */
+/* ========================================
+   CARD IMAGE
+======================================== */
+
 .content-card-image-container {
-  height:auto;
   width: 45%;
   aspect-ratio: 3 / 2;
 
@@ -67,120 +85,136 @@
 .content-card-image {
   width: 100%;
   height: 100%;
+
   object-fit: cover;
   object-position: center;
-
-
-  /* opacity: 0;
-  transition: opacity 0.4s ease, transform 0.4s ease; */
 }
 
-
-
 .content-card-image.loaded {
-    opacity: 1;
+  opacity: 1;
 }
 
 .content-card-placeholder {
   width: 100%;
   height: 100%;
-  background: #ffffff;
 
   display: flex;
   align-items: center;
   justify-content: center;
+
+  background-color: var(--color-white);
 }
 
-/* TEXT */
+
+/* ========================================
+   CARD TEXT
+======================================== */
+
 .content-card-text {
-  width: min(650px, 40%);
-  margin-left: 25px;
+  width: min(40%, 40.625rem);
+  margin-left: 1.5rem;
 
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
+}
 
+.content-card-title a {
+  color: var(--color-blue);
+  text-decoration: none;
+}
+
+.content-card-title a:hover {
+  text-decoration: underline;
 }
 
 .content-card-text h2 {
+  margin-bottom: var(--spacing-md);
+
   font-size: 2.5rem;
-  margin-bottom: 20px;
 }
 
 .content-card-text p {
+  margin-bottom: var(--spacing-sm);
+
   font-size: 1.2rem;
   line-height: 1.6;
-  margin-bottom: 10px;
 }
 
-/* BUTTON */
-.content-card-button {
-  padding: 10px 20px;
+
+/* ========================================
+   BUTTONS
+======================================== */
+
+.content-card-button,
+.pagination button {
   border: none;
   cursor: pointer;
 
-  background: #EA9A28;
-  color: white;
+  background-color: var(--color-orange);
+  color: var(--color-white);
 
   transition: opacity 0.2s ease;
-  margin-bottom: 10px;
 }
 
-.content-card-button:hover {
+.content-card-button {
+  margin-bottom: var(--spacing-sm);
+  padding: 0.625rem 1.25rem;
+}
+
+.content-card-button:hover,
+.pagination button:hover {
   opacity: 0.85;
-  background: #e7ac5a;
 }
 
-/* PAGINATION */
+
+/* ========================================
+   PAGINATION
+======================================== */
+
 .pagination {
-  width: min(1400px, 80%);
-  margin: 40px auto;
+  width: min(87.5rem, 80%);
+  margin: 2.5rem auto;
 
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 20px;
+
+  gap: var(--spacing-lg);
 }
 
 .pagination button {
-  padding: 10px 18px;
-  border: none;
-  cursor: pointer;
-
-  background: #EA9A28;
-  color: white;
-}
-
-.content-card-button:hover {
-  opacity: 0.85;
-  background: #EA9A28;
-  color: white;
+  padding: 0.625rem 1.125rem;
 }
 
 .pagination button:disabled {
   opacity: 0.6;
 }
 
-.pagination button:hover {
-  opacity: 0.85;
-  background: #e7ac5a;
-}
+
+/* ========================================
+   BOOK IMAGE
+======================================== */
 
 .book-image-container {
-  width: 400px;
-  height: 420px;
+  width: 25rem;
+  height: 26.25rem;
 }
 
 .book-image {
   width: 100%;
   height: 100%;
-
   object-fit: contain;
 }
 
+
+/* ========================================
+   BLOG IMAGE
+======================================== */
+
 .blog-image-container {
-  width: 500px;
+  width: 31.25rem;
   aspect-ratio: 16 / 9;
 }
 
@@ -190,43 +224,65 @@
   object-fit: contain;
 }
 
+
+/* ========================================
+   BLOG DATE
+======================================== */
+
 .blog-card-date {
-  font-size: 13px;
+  margin-top: var(--spacing-xs);
+
+  font-size: 0.8125rem;
   opacity: 0.8;
-  margin-top: 4px;
 }
 
+
+/* ========================================
+   TAGS
+======================================== */
+
 .tag-container {
-  margin-top: 8px;
+  margin-top: var(--spacing-sm);
+
   display: flex;
-  gap: 6px;
   flex-wrap: wrap;
+  gap: 0.375rem;
 }
 
 .tag-pill {
-  font-size: 11px;
-  padding: 2px 8px;
-  background: #E6FBFF;
+  padding: 0.125rem 0.5rem;
+
+  background-color: var(--color-background);
   color: #000000;
+
   border-radius: 999px;
-  
+
+  font-size: 0.6875rem;
 }
 
+
+/* ========================================
+   MOBILE
+======================================== */
+
 @media (max-width: 900px) {
+
   .content-card {
     flex-direction: column;
 
-    text-align: center;
+    padding: 2.5rem 1.25rem;
 
-    padding: 40px 20px;
+    text-align: center;
   }
 
   .content-card-text {
     align-items: center;
+    width: 100%;
+    margin-left: 0;
   }
 
   .blog-image-container,
   .book-image-container {
-    width: min(100%, 400px);
+    width: min(100%, 25rem);
   }
 }
