@@ -71,28 +71,50 @@ export default function NewBook() {
 
     if (!genre) return;
 
-    if (book.genres.includes(genre)) {
+    if (book.genres.some(g => g.name === genreName)) {
       setGenreInput("");
-      return;
+      return; 
     }
 
+    const existingGenre = availableGenres.find(
+      g => g.name === genreName
+    );
+
+    if (existingGenre) {
+      setBook(prev => ({
+        ...prev,
+        genres: [
+          ...prev.genres,
+          existingGenre
+        ]
+      }));
+    } else {
     setBook(prev => ({
       ...prev,
       genres: [
         ...prev.genres,
-        genre
+        {
+          id: `new-${Date.now()}`,
+          name: genreName,
+          display: genreName
+            .replace(/-/g, " ")
+            .replace(/\b\w/g, c => c.toUpperCase())
+        }
       ]
     }));
-
+  }
     setGenreInput("");
   };
 
-  const removeGenre = (genre) => {
-    setBook(prev => ({
-      ...prev,
-      genres: prev.genres.filter(g => g !== genre)
-    }));
-  };
+  const removeGenre = (genreName) => {
+  setBook(prev => ({
+    ...prev,
+    genres: prev.genres.filter(
+      g => g.name !== genreName
+    )
+  }));
+};
+
 
 
   const addBuyLink = () => {
@@ -236,7 +258,7 @@ export default function NewBook() {
 
 
     book.genres.forEach(genre => {
-      formData.append("Genres", genre);
+      formData.append("genres", genre.name);
     });
 
 
@@ -374,22 +396,40 @@ export default function NewBook() {
         <input type="file" accept="image/*" onChange={handleCoverImage}/>
 
         <h2>Genres</h2>
-        <div className="genre-list">
-        {availableGenres.map((genre) => (
-          <label key={genre.id} className="genre-option">
-            <input type="checkbox" checked={book.genres.includes(genre.name)}
-              onChange={(e) => {
-                if (e.target.checked) {
-                  updateBook("genres", [...book.genres, genre.name]);
-                } else {
-                  updateBook("genres", book.genres.filter((g) => g !== genre.name));
-                }
-              }}
-            />
-          {genre.display}
-          </label>
-        ))}
-      </div>
+
+<div className="genre-list">
+  {availableGenres.map((genre) => (
+    <label
+      key={genre.id}
+      className="genre-option"
+    >
+      <input
+        type="checkbox"
+        checked={book.genres.some(
+          selected => selected.id === genre.id
+        )}
+        onChange={(e) => {
+          if (e.target.checked) {
+            updateBook("genres", [
+              ...book.genres,
+              genre
+            ]);
+          } else {
+            updateBook(
+              "genres",
+              book.genres.filter(
+                selected => selected.id !== genre.id
+              )
+            );
+          }
+        }}
+      />
+
+      {genre.display}
+    </label>
+  ))}
+</div>
+
 
       <div className="new-genre">
         <label>Add new genre</label>
@@ -398,18 +438,20 @@ export default function NewBook() {
         <button type="button" onClick={addGenre}> Add Genre</button>
       </div>
 
-      <div>
-        {book.genres.map((genre) => (
-          <span className="tag-pill" key={genre} style={{
-            marginRight: 10,
-            cursor: "pointer"
-            }}
-            onClick={() => removeGenre(genre)}
-            >
-            {genre} ✕
-          </span>
-        ))}
-      </div>
+      {book.genres.map((genre) => (
+  <span
+    className="tag-pill"
+    key={genre.id}
+    style={{
+      marginRight: 10,
+      cursor: "pointer"
+    }}
+    onClick={() => removeGenre(genre.name)}
+  >
+    {genre.display} ✕
+  </span>
+))}
+
 
         <h2>Buy Links</h2>
 
