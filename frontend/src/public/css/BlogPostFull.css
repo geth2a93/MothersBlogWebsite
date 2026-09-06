@@ -74,16 +74,21 @@
     display: block;
 }
 
-.blog-block.left .image-container,
-.blog-block.right .image-container {
-    flex: 0 1 500px;
-}
-
 .blog-block.left .blog-image,
 .blog-block.right .blog-image {
     width: 100%;
     max-width: 100%;
+    max-height: 650px;
     height: auto;
+    object-fit: contain;
+}
+
+.blog-block.center .blog-image {
+    width: 100%;
+    max-width: 750px;
+    max-height: 750px;
+    height: auto;
+    object-fit: contain;
 }
 
 
@@ -145,12 +150,12 @@
 .blog-image {
     width: 100%;
     max-width: 100%;
+    max-height: 650px;
     height: auto;
     display: block;
     margin: 0 auto;
     object-fit: contain;
 }
-
 /* TEXT */
 
 .text-container {
