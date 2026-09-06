@@ -135,6 +135,7 @@ console.log("BLOG RENDER BLOCKS:", post?.content_blocks);
                 <div
                   className="image-container"
                   style={{
+                    maxWidth: "550px",
                     flex: ratio ? (ratio > 1.2 ? 1.6 : 1) : 1
                   }}
                 >
