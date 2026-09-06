@@ -26,6 +26,11 @@
 }
 
 /*TITLE */
+.image-container {
+    width: 100%;
+    max-width: 500px;
+    min-width: 0;
+}
 
 .blog-post-title {
     text-align: center;
@@ -43,9 +48,7 @@
     margin-top: 20px;
     white-space: pre-line;
 
-    font-weight: normal;
-
-    
+    font-weight: normal; 
 }
 
 .blog-title-image {
@@ -69,6 +72,18 @@
     height: auto;
     object-fit: contain;
     display: block;
+}
+
+.blog-block.left .image-container,
+.blog-block.right .image-container {
+    flex: 0 1 500px;
+}
+
+.blog-block.left .blog-image,
+.blog-block.right .blog-image {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
 }
 
 
