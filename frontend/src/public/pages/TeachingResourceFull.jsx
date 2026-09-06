@@ -61,7 +61,7 @@ export default function TeachingResourceFull() {
         )}
 
         {/* ISBN */}
-        <Section title="Isbn" content={resource.isbn} classname="centered-section" />        
+        <Section title="Isbn" content={resource.isbn} className="centered-section"/>       
 
         {/* SECTIONS */}
         <Section title="Word List" content={resource.word_list} />
