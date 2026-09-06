@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "../css/display.css";
+import RichTextEditor from "../blogs/RichTextEditor";
 
 function EditTeachingResource() {
   const { slug } = useParams();
@@ -204,11 +205,10 @@ function EditTeachingResource() {
           <div className="form-group">
             <h2>Book Title (Must be Book Title that exists for Image/ISBN lookup)</h2>
 
-            <input
-              type="text"
+            <RichTextEditor className="title-rich"
               value={bookTitle}
-              onChange={(e) =>
-                setBookTitle(e.target.value)
+              onChange={(value) =>
+                setBookTitle(value)
               }
               required
             />
@@ -217,10 +217,10 @@ function EditTeachingResource() {
           <div className="form-group">
             <h2>Word List</h2>
 
-            <textarea
+            <RichTextEditor className="text-area-rich"
               value={wordList}
-              onChange={(e) =>
-                setWordList(e.target.value)
+              onChange={(value) =>
+                setWordList(value)
               }
             />
           </div>
@@ -228,10 +228,10 @@ function EditTeachingResource() {
           <div className="form-group">
             <h2>Activities</h2>
 
-            <textarea
+            <RichTextEditor className="text-area-rich"
               value={activities}
-              onChange={(e) =>
-                setActivities(e.target.value)
+              onChange={(value) =>
+                setActivities(value)
               }
             />
           </div>
@@ -239,10 +239,10 @@ function EditTeachingResource() {
           <div className="form-group">
             <h2>Questions</h2>
 
-            <textarea
+            <RichTextEditor className="text-area-rich"
               value={questions}
-              onChange={(e) =>
-                setQuestions(e.target.value)
+              onChange={(value) =>
+                setQuestions(value)
               }
             />
           </div>
@@ -250,10 +250,10 @@ function EditTeachingResource() {
           <div className="form-group">
             <h2>Supplies</h2>
 
-            <textarea
+            <RichTextEditor className="text-area-rich"
               value={supplies}
-              onChange={(e) =>
-                setSupplies(e.target.value)
+              onChange={(value) =>
+                setSupplies(value)
               }
             />
           </div>
@@ -261,10 +261,10 @@ function EditTeachingResource() {
           <div className="form-group">
             <h2>Objectives</h2>
 
-            <textarea
+            <RichTextEditor className="text-area-rich"
               value={objectives}
-              onChange={(e) =>
-                setObjectives(e.target.value)
+              onChange={(value) =>
+                setObjectives(value)
               }
             />
           </div>
@@ -272,11 +272,10 @@ function EditTeachingResource() {
           <div className="form-group">
             <h2>Procedures</h2>
 
-            <textarea
-              rows="10"
+            <RichTextEditor className="text-area-rich"
               value={procedures}
-              onChange={(e) =>
-                setProcedures(e.target.value)
+              onChange={(value) =>
+                setProcedures(value)
               }
             />
           </div>

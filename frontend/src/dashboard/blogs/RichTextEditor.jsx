@@ -30,6 +30,14 @@ function RichTextEditor({ value, onChange, className }) {
     updateFormatState();
   };
 
+  const handleKeyDown = (e) => {
+    if (e.key === "Tab") {
+      e.preventDefault();
+      document.execCommand("insertText", false, "    ");
+      onChange(editorRef.current.innerHTML);
+    }
+};
+
   return (
     <div className="rich-text-editor">
       <div className="editor-toolbar">
@@ -73,17 +81,17 @@ function RichTextEditor({ value, onChange, className }) {
         <select
           className="rich-text-font"
           onChange={(e) => formatText("fontName", e.target.value)}
-          defaultValue="Comic Sans MS"
+          defaultValue="Alegreya"
         >
           <option value="" disabled>
           Font
           </option>
-          <option value="Comic Sans MS">Comic Sans</option>
           <option value="Alegreya">Alegreya</option>
           <option value="Alegreya Sans">Alegreya Sans</option>
           <option value="Arial">Arial</option>
           <option value="Times New Roman">Times New Roman</option>
           <option value="Impact">Impact</option>
+          <option value="Dancing Script">Dancing Script</option>
         </select>
 
       </div>
@@ -96,6 +104,7 @@ function RichTextEditor({ value, onChange, className }) {
           onChange(e.currentTarget.innerHTML);
           updateFormatState();
         }}
+        onKeyDown={handleKeyDown}
         onKeyUp={updateFormatState}
         onMouseUp={updateFormatState}
       />

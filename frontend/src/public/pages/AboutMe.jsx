@@ -37,7 +37,7 @@ export default function About() {
 
         <div className="about-content">
           <h1>About the Author</h1>
-          <p>{about?.content}</p>
+           <div dangerouslySetInnerHTML={{ __html: about?.content || "" }} />
         </div>
 
       </div>

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import "../css/editor.css";
+import RichTextEditor from "../blogs/RichTextEditor";
 
 export default function AdminAboutMe(){
     const [content, setContent] = useState("");
@@ -70,9 +71,9 @@ export default function AdminAboutMe(){
 
 
             <div className="editor-card">
-            <textarea
+            <RichTextEditor className="text-area-rich"
                 value={content}
-                onChange={(e) => setContent(e.target.value)}
+                onChange={(value) => setContent(value)}
                 rows={10}
                 style={{ width: "100%" }}
             />

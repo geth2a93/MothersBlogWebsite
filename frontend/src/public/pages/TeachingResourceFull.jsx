@@ -48,9 +48,8 @@ export default function TeachingResourceFull() {
       <div className="teaching-container">
 
         {/* TITLE */}
-        <h1 className="teaching-title">
-          {resource.book_title}
-        </h1>
+        <h1 className="teaching-title" dangerouslySetInnerHTML={{ __html: resource.book_title || "" }}/>
+
 
         {/* IMAGE */}
         {resource.book_image_url && (
@@ -67,7 +66,7 @@ export default function TeachingResourceFull() {
         {/* SECTIONS */}
         <Section title="Word List" content={resource.word_list} />
         <Section title="Activities" content={resource.activities} />
-        <Section title="Questions" content={resource.questions} />
+        <Section title="Questions" content={resource.question} />
         <Section title="Supplies" content={resource.supplies} />
         <Section title="Objectives" content={resource.objectives} />
         <Section title="Procedures" content={resource.procedures} />
@@ -102,9 +101,7 @@ function Section({ title, content }) {
   return (
     <div className="teaching-section">
       <h2 className="section-title">{title}</h2>
-      <p className="teaching-text">
-        {content}
-      </p>
+      <div className="teaching-text" dangerouslySetInnerHTML={{ __html: content }}/>
     </div>
   );
 }

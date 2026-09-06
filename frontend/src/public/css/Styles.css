@@ -1,4 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Aboreto&family=Alegreya:wght@400;500;700&family=Alegreya+Sans:wght@400;500;700&family=Cardo:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400;0,700;1,400;1,700&family=Alegreya+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&display=swap');
+
 :root {
   --color-blue: #0F7BA8;
   --color-background: #E6FBFF;

@@ -30,6 +30,7 @@ def create_app():
         "pool_recycle": 300,
     }
 
+    app.config["BACKEND_URL"] = os.getenv("BACKEND_URL")
     app.config["UPLOAD_FOLDER"] = "/var/data/uploads"
     app.config["MAX_CONTENT_LENGTH"] = 8 * 1024 * 1024
     app.config["UPLOAD_EXTENSIONS"] = {"png", "jpg", "jpeg", "webp"}
