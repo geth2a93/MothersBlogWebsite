@@ -1,4 +1,3 @@
-
 /* ========================================
    GENERAL CONTENT
 ======================================== */
@@ -17,21 +16,21 @@
 ======================================== */
 
 .content-title {
-  width: min(87.5rem, 80%);
-  margin: 2.5rem auto;
+  width: min(1400px, 80%);
+  margin: 40px auto;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
   color: var(--color-blue);
-  font-size: 3rem;
+  font-size: 48px;
   font-weight: 600;
 
   text-decoration: underline;
   text-decoration-color: var(--color-blue);
   text-decoration-thickness: 3px;
-  text-underline-offset: 1.125rem;
+  text-underline-offset: 18px;
 }
 
 
@@ -51,14 +50,14 @@
 
 .content-card {
   width: 80%;
-  min-height: 34.375rem;
+  min-height: 550px;
   margin: 0 auto;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
-  gap: 2.5rem;
+  gap: 40px;
 
   border: 1px solid #d7d7d7;
 }
@@ -111,8 +110,8 @@
 ======================================== */
 
 .content-card-text {
-  width: min(40%, 40.625rem);
-  margin-left: 1.5rem;
+  width: min(40%, 650px);
+  margin-left: 24px;
 
   display: flex;
   flex-direction: column;
@@ -132,13 +131,13 @@
 .content-card-text h2 {
   margin-bottom: var(--spacing-md);
 
-  font-size: 2.5rem;
+  font-size: 40px;
 }
 
 .content-card-text p {
   margin-bottom: var(--spacing-sm);
 
-  font-size: 1.2rem;
+  font-size: 19.2px;
   line-height: 1.6;
 }
 
@@ -160,7 +159,7 @@
 
 .content-card-button {
   margin-bottom: var(--spacing-sm);
-  padding: 0.625rem 1.25rem;
+  padding: 10px 20px;
 }
 
 .content-card-button:hover,
@@ -174,8 +173,8 @@
 ======================================== */
 
 .pagination {
-  width: min(87.5rem, 80%);
-  margin: 2.5rem auto;
+  width: min(1400px, 80%);
+  margin: 40px auto;
 
   display: flex;
   justify-content: center;
@@ -185,7 +184,7 @@
 }
 
 .pagination button {
-  padding: 0.625rem 1.125rem;
+  padding: 10px 18px;
 }
 
 .pagination button:disabled {
@@ -198,8 +197,8 @@
 ======================================== */
 
 .book-image-container {
-  width: 25rem;
-  height: 26.25rem;
+  width: 400px;
+  height: 420px;
 }
 
 .book-image {
@@ -214,7 +213,7 @@
 ======================================== */
 
 .blog-image-container {
-  width: 31.25rem;
+  width: 500px;
   aspect-ratio: 16 / 9;
 }
 
@@ -232,7 +231,7 @@
 .blog-card-date {
   margin-top: var(--spacing-xs);
 
-  font-size: 0.8125rem;
+  font-size: 13px;
   opacity: 0.8;
 }
 
@@ -246,18 +245,18 @@
 
   display: flex;
   flex-wrap: wrap;
-  gap: 0.375rem;
+  gap: 6px;
 }
 
 .tag-pill {
-  padding: 0.125rem 0.5rem;
+  padding: 2px 8px;
 
   background-color: var(--color-background);
   color: #000000;
 
   border-radius: 999px;
 
-  font-size: 0.6875rem;
+  font-size: 11px;
 }
 
 
@@ -270,7 +269,7 @@
   .content-card {
     flex-direction: column;
 
-    padding: 2.5rem 1.25rem;
+    padding: 40px 20px;
 
     text-align: center;
   }
@@ -283,6 +282,6 @@
 
   .blog-image-container,
   .book-image-container {
-    width: min(100%, 25rem);
+    width: min(100%, 400px);
   }
 }

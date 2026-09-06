@@ -61,12 +61,17 @@ function Home() {
             <h1>{isBookComingSoon ? "COMING SOON" : "OUT NOW"}</h1>
             
             {book ? ( <h2 dangerouslySetInnerHTML={{ __html: book?.title || "" }}/> ) : ( <h2>No Title available.</h2> )}
+
             {bookDate && (
-            <div className="book-date-section">
-            <h2>{bookDate.label}</h2>
-            <p className="book-date">{bookDate.date}</p>
-            </div>
-            )}
+  <div className="book-date-section">
+    <p className="book-date">
+      <span>{bookDate.label}</span>
+      <span>{bookDate.date}</span>
+    </p>
+  </div>
+)}
+ 
+            
             {book ? ( <p dangerouslySetInnerHTML={{ __html: book?.synopsis || "" }}/> ) : ( <p>No book data available.</p> )}           
 
           <button className="read-more-btn"  onClick={() => navigate(`/books/title/${book.slug}`)} > 
@@ -110,18 +115,14 @@ function Home() {
 
           </div>
 
-           {blog?.title_media ? (
-            <MediaRenderer
-              media={blog.title_media}
-              contentType={blog.url_content_type}
-              title={blog.title}
-              className="home-newest-image"
-            />
-            ) : (
-          <div className="home-newest-image">
-          No Image Available
-        </div>
-      )}
+           <div className="home-newest-image-container">
+  <MediaRenderer
+    media={blog.title_media}
+    contentType={blog.url_content_type}
+    title={blog.title}
+    className="home-newest-image"
+  />
+</div>
 
         </div>
       </section>
