@@ -212,6 +212,14 @@ input, textarea, select, .text-area-rich, .title-rich{
   font-size: 24px;
 }
 
+.title-rich .editor-content {
+  font-size: 24px;
+}
+
+.text-area-rich .editor-content {
+  font-size: 16px;
+}
+
 textarea, .text-area-rich{
   resize: vertical;
   min-height: 300px;

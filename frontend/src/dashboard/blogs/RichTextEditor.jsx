@@ -96,6 +96,44 @@ function RichTextEditor({ value, onChange, className }) {
 
       </div>
 
+      <select
+        className="rich-text-font"
+        onChange={(e) => formatText("fontSize", e.target.value)}
+        defaultValue="3"
+      >
+        <option value="1">10px</option>
+        <option value="2">12px</option>
+        <option value="3">16px</option>
+        <option value="4">18px</option>
+        <option value="5">24px</option>
+        <option value="6">32px</option>
+        <option value="7">48px</option>
+      </select>
+
+      <button
+        className="rich-text-button"
+        type="button"
+        onMouseDown={(e) => e.preventDefault()}
+        onClick={() => formatText("justifyLeft")}>
+        Left
+      </button>
+
+      <button
+        className="rich-text-button"
+        type="button"
+        onMouseDown={(e) => e.preventDefault()}
+        onClick={() => formatText("justifyCenter")}>
+        Center
+      </button>
+
+      <button
+        className="rich-text-button"
+        type="button"
+        onMouseDown={(e) => e.preventDefault()}
+        onClick={() => formatText("justifyRight")}>
+        Right
+      </button>
+
       <div
         ref={editorRef}
         className={`editor-content ${className || ""}`}
