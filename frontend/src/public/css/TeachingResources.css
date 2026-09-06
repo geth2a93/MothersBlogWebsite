@@ -53,6 +53,10 @@
   margin: 25px 0;
 }
 
+.centered-section {
+  text-align: center;
+}
+
 .section-title {
   color: #0F7BA8;
   font-size: 1.6rem;

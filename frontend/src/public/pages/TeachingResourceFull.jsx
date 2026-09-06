@@ -61,7 +61,7 @@ export default function TeachingResourceFull() {
         )}
 
         {/* ISBN */}
-        <Section title="Isbn" content={resource.isbn} />        
+        <Section title="Isbn" content={resource.isbn} classname="centered-section" />        
 
         {/* SECTIONS */}
         <Section title="Word List" content={resource.word_list} />
@@ -95,11 +95,11 @@ export default function TeachingResourceFull() {
   );
 }
 
-function Section({ title, content }) {
+function Section({ title, content,className = "" }) {
   if (!content) return null;
 
   return (
-    <div className="teaching-section">
+    <div className="teaching-section ${classname}">
       <h2 className="section-title">{title}</h2>
       <div className="teaching-text" dangerouslySetInnerHTML={{ __html: content }}/>
     </div>
