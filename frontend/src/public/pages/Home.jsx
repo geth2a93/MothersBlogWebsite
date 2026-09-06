@@ -63,15 +63,13 @@ function Home() {
             {book ? ( <h2 dangerouslySetInnerHTML={{ __html: book?.title || "" }}/> ) : ( <h2>No Title available.</h2> )}
 
             {bookDate && (
-  <div className="book-date-section">
-    <p className="book-date">
-      <span>{bookDate.label}</span>
-      <span>{bookDate.date}</span>
-    </p>
-  </div>
-)}
- 
-            
+              <div className="book-date-section">
+                <p className="book-date">
+                  <span>{bookDate.label}</span>
+                  <span>{bookDate.date}</span>
+                </p>
+              </div>
+            )} 
             {book ? ( <p dangerouslySetInnerHTML={{ __html: book?.synopsis || "" }}/> ) : ( <p>No book data available.</p> )}           
 
           <button className="read-more-btn"  onClick={() => navigate(`/books/title/${book.slug}`)} > 
@@ -97,9 +95,8 @@ function Home() {
 
     {/* Blog */}
       <section className="home-newest">
+
         <div className="home-newest-content">
-        
-          
            <div className="home-newest-text">
              {blog ? (
               <>
@@ -116,14 +113,13 @@ function Home() {
           </div>
 
             <div className="home-newest-image-container">
-  <MediaRenderer
-    media={blog.title_media}
-    contentType={blog.url_content_type}
-    title={blog.title}
-    className="home-newest-image"
-  />
-</div>
-           
+              <MediaRenderer
+                media={blog.title_media}
+                contentType={blog.url_content_type}
+                title={blog.title}
+                className="home-newest-image"
+              />
+            </div>
 
         </div>
       </section>
