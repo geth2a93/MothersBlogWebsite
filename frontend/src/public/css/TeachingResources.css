@@ -53,10 +53,6 @@
   margin: 25px 0;
 }
 
-.centered-section {
-  text-align: center;
-}
-
 .section-title {
   color: #0F7BA8;
   font-size: 1.6rem;
@@ -82,6 +78,10 @@
 .link-item a {
   color: #EA9A28;
   text-decoration: none;
+}
+
+.centered-section {
+  text-align: center;
 }
 
 /* MOBILE */
