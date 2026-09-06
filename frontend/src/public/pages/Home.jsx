@@ -65,8 +65,7 @@ function Home() {
             {bookDate && (
               <div className="book-date-section">
                 <p className="book-date">
-                  <span>{bookDate.label}</span>
-                  <span>{bookDate.date}</span>
+                  <span>{bookDate.label} {bookDate.date}</span>
                 </p>
               </div>
             )} 
