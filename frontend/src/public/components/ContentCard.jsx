@@ -105,7 +105,7 @@ const renderMedia = () => {
         {genre_name?.length > 0 && (
             <div className="book-genres">
                 {genre_name.map((genre_name) => (
-                  <div className="book-genres" key={genre_name}>
+                  <div className="tag-pill" key={genre_name}>
                   {genre_name}
                   </div>
                 ))}

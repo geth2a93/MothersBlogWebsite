@@ -51,15 +51,13 @@
 ======================================== */
 
 .content-card {
-  width: 80%;
+  width: 70%;
   min-height: 550px;
   margin: 0 auto;
 
   display: flex;
   align-items: center;
   justify-content: center;
-
-  gap: 40px;
 
   border: 1px solid #d7d7d7;
 }
@@ -112,8 +110,8 @@
 ======================================== */
 
 .content-card-text {
-  width: min(40%, 650px);
-  margin-left: 24px;
+  width: min(50%, 650px);
+  margin: 10px;
 
   display: flex;
   flex-direction: column;
