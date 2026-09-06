@@ -17,6 +17,9 @@ export function Navbar() {
   const [logo, setLogo] = useState(null);
   const [genreOpen, setGenreOpen] = useState(false);
 
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [mobileBooksOpen, setMobileBooksOpen] = useState(false);
+
   useEffect(() => {
     fetch("/api/website-settings")
       .then(res => res.json())
@@ -35,48 +38,104 @@ export function Navbar() {
   
 
   return (
-    <nav className="navbar">
-      <div className="logo-container">
-        <Link to="/" className="logo-link">
-          <img src={logo} className="logo-image" />
-          <span className="logo">Charlotte Bennardo</span>
+
+    <>
+    
+    <nav className="desktop-navbar">
+        <div className="logo-container">
+          <Link to="/" className="logo-link">
+            <img src={logo} className="logo-image" />
+            <span className="logo">Charlotte Bennardo</span>
+          </Link>
+        </div>
+
+        <ul className="nav-links">
+
+          <li><Link to="/about">About Me</Link></li>
+          <li><Link to="/blog">My Blog</Link></li>
+
+          <li
+            className="dropdown-wrapper"
+            onMouseEnter={() => setGenreOpen(true)}
+            onMouseLeave={() => setGenreOpen(false)}
+          >
+            <Link to="/books" className="books-link">
+              My Books
+              <span className={`dropdown-arrow ${genreOpen ? "open" : ""}`}> ▾ </span>
+            </Link>
+
+            {genreOpen && (
+              <div className="dropdown-menu">
+                {genres.map((genre) => (
+                  <Link
+                    key={genre.id}
+                    to={`/books/${genre.name.replaceAll(" ", "-")}`}
+                  >
+                    {genre.display}
+                  </Link>
+                ))}
+              </div>
+            )}
+          </li>
+          <li><Link to="/teachingresources">Teaching Resources</Link></li>
+        </ul>
+      </nav>
+      
+      <nav className="mobile-navbar">
+      <div className="mobile-navbar-top">
+        <Link to="/" className="mobile-logo-link">
+          <img src={logo} className="mobile-logo-image" />
+          <span className="mobile-logo">Charlotte Bennardo</span>
         </Link>
+
+        <button
+          className="hamburger-button"
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          aria-label="Toggle navigation menu"
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
       </div>
 
-      <ul className="nav-links">
-       
-        <li><Link to="/about">About Me</Link></li>
-        <li><Link to="/blog">My Blog</Link></li>
+      {mobileMenuOpen && (
+        <div className="mobile-menu">
+          <Link to="/about">About Me</Link>
+          <Link to="/blog">My Blog</Link>
 
-        <li
-          className="dropdown-wrapper"
-          onMouseEnter={() => setGenreOpen(true)}
-          onMouseLeave={() => setGenreOpen(false)}
-        >
-          <Link to="/books">My Books</Link>
+          <div className="mobile-books">
+            <button
+              className="mobile-books-button"
+              onClick={() => setMobileBooksOpen(!mobileBooksOpen)}
+            >
+              My Books
+              <span>{mobileBooksOpen ? "▲" : "▼"}</span>
+            </button>
 
-          {genreOpen && (
-            <div className="dropdown-menu">
-              {genres.map((genre) => (
-                <Link
-                  key={genre.id}
-                  to={`/books/${genre.name.replaceAll(" ", "-")}`}
-                >
-                  {genre.display}
-                </Link>
-               ))}
-            </div>
-          )}
-        </li>
+            {mobileBooksOpen && (
+              <div className="mobile-genre-menu">
+                {genres.map((genre) => (
+                  <Link
+                    key={genre.id}
+                    to={`/books/${genre.name.replaceAll(" ", "-")}`}
+                  >
+                    {genre.display}
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
 
-
-
-        <li><Link to="/teachingresources">Teaching Resources</Link></li>
-      </ul>
+          <Link to="/teachingresources">Teaching Resources</Link>
+        </div>
+      )}
     </nav>
+      </>
+
+    
   );
 }
-
 
 
 export function Footer() {
