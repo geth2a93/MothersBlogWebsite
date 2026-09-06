@@ -186,10 +186,6 @@ def new_blog_post():
             db.session.flush()
 
         blog.blog_date = date.fromisoformat(date_upload)
-        if blog.blog_date > datetime.now(ZoneInfo("America/New_York")).date():
-            blog.published = False
-        else:
-            blog.published = True
 
         if title_media_content_type == "none":
             title_media_ownership = True
@@ -307,8 +303,10 @@ def new_blog_post():
 def new_blog_post_preview(slug):
     try:
         p = BlogPost.query.filter_by(slug=slug).first_or_404()
-        p.published = True
-        p.blog_date = datetime.now(ZoneInfo("America/New_York")).date()
+        if p.blog_date > datetime.now(ZoneInfo("America/New_York")).date():
+            p.published = False
+        else:
+            p.published = True
         db.session.commit()
 
         return jsonify({
