@@ -115,7 +115,7 @@ function Home() {
 
           </div>
 
-           <div className="home-newest-image-container">
+            <div className="home-newest-image-container">
   <MediaRenderer
     media={blog.title_media}
     contentType={blog.url_content_type}
@@ -123,6 +123,7 @@ function Home() {
     className="home-newest-image"
   />
 </div>
+           
 
         </div>
       </section>
