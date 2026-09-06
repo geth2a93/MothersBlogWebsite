@@ -649,16 +649,16 @@ body {
 
   .name-input,
   .news-input {
-    width: min(300px, 85vw);
-    height: 40px;
+    width: min(200px, 85vw);
+    height: 30px;
 
     box-sizing: border-box;
     font-size: 0.9rem;
   }
 
   .sign-btn {
-    width: min(140px, 60vw);
-    height: 40px;
+    width: min(100px, 60vw);
+    height: 30px;
     font-size: 0.95rem;
   }
 
@@ -740,14 +740,14 @@ body {
 
   .name-input,
   .news-input {
-    width: min(350px, 90vw);
-    height: 44px;
+    width: min(250px, 90vw);
+    height: 30px;
     font-size: 0.9rem;
   }
 
   .sign-btn {
-    width: 180px;
-    height: 44px;
+    width: 100px;
+    height: 30px;
     font-size: 0.9rem;
   }
   .socials h3 {
@@ -756,7 +756,6 @@ body {
 
   .social-links {
     gap: 17px;
-
     font-size: 1.5rem;
   }
 }
