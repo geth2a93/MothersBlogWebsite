@@ -33,8 +33,6 @@
 }
 
 .blog-post-title {
-    text-align: center;
-
     margin-bottom: 15px;
     color:#0F7BA8;
     font-size: 2.8rem;
@@ -42,12 +40,9 @@
 }
 
 .blog-post-preview {
-    text-align: center;
     font-size: 1.2rem;
-
     margin-top: 20px;
     white-space: pre-line;
-
     font-weight: normal; 
 }
 
@@ -127,7 +122,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    text-align: center;
 }
 
 .blog-block.center .image-container {

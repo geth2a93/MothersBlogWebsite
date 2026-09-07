@@ -72,7 +72,7 @@ export default function TeachingResourceFull() {
         <Section title="Procedures" content={resource.procedures} />
 
         {/* LINKS */}
-        <h3 className="section-title">Videos</h3>
+        <h3 className="section-title">Video and Picture Links</h3>
         {resource.video_links?.map((v, i) => (
           <div key={i} className="link-item">
             <a href={v.video_link} target="_blank">

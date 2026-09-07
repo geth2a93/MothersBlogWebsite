@@ -211,7 +211,7 @@ function AddTeachingResource() {
             />
           </div>
 
-          <h2>Video Links</h2>
+          <h2>Video and Picture Links</h2>
 
           {videos.map((video, index) => (
             <div
