@@ -244,7 +244,7 @@ textarea, .text-area-rich{
   color: #FFEEDE;
 }
 
-.rich-text-color-gray{
+.rich-text-color-gray.active{
   background: #FFEEDE;
   color: #4B4B4B;
 }
@@ -254,7 +254,7 @@ textarea, .text-area-rich{
   color: #FFEEDE;
 }
 
-.rich-text-color-blue{
+.rich-text-color-blue.active{
   background: #FFEEDE;
   color: #0F7BA8;
 }
@@ -264,7 +264,7 @@ textarea, .text-area-rich{
   color: #FFEEDE;
 }
 
-.rich-text-color-black{
+.rich-text-color-black.active{
   background: #FFEEDE;
   color: #000000;
 }
