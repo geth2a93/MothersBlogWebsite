@@ -80,7 +80,7 @@ function RichTextEditor({ value, onChange, className }) {
 
         <button
           type="button"
-          className="rich-text-color-black"
+          className="rich-text-color-blue"
           onMouseDown={(e) => e.preventDefault()}
           onClick={() => formatText("foreColor", "#0F7BA8")}>
           Title Blue
@@ -88,7 +88,7 @@ function RichTextEditor({ value, onChange, className }) {
 
         <button
           type="button"
-          className="rich-text-color-black"
+          className="rich-text-color-gray"
           onMouseDown={(e) => e.preventDefault()}
           onClick={() => formatText("foreColor", "#4B4B4B")}>
           Text Gray

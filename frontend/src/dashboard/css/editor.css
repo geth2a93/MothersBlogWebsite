@@ -239,6 +239,36 @@ textarea, .text-area-rich{
   margin-top: 8px;
 }
 
+.rich-text-color-gray{
+  background: #4B4B4B;
+  color: #FFEEDE;
+}
+
+.rich-text-color-gray{
+  background: #FFEEDE;
+  color: #4B4B4B;
+}
+
+.rich-text-color-blue{
+  background: #0F7BA8;
+  color: #FFEEDE;
+}
+
+.rich-text-color-blue{
+  background: #FFEEDE;
+  color: #0F7BA8;
+}
+
+.rich-text-color-black{
+  background: #000000;
+  color: #FFEEDE;
+}
+
+.rich-text-color-black{
+  background: #FFEEDE;
+  color: #000000;
+}
+
 .tag-pill {
   padding: 6px 10px;
   margin-bottom: 10px;
