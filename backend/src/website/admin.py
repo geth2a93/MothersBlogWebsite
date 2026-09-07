@@ -310,7 +310,7 @@ def new_blog_post_preview(slug):
         db.session.commit()
 
         return jsonify({
-            "message": "Blog post published",
+            "message": "Blog post saved",
             "blog_id": p.id,
             "slug": p.slug,
             "blog_date": p.blog_date.isoformat(),

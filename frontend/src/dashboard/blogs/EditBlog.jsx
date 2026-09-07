@@ -10,6 +10,35 @@ import {
   XEmbed
 } from "react-social-media-embed";
 
+const handlePreview = async () => {
+  try {
+    const formData = buildFormData();
+
+    const res = await fetch(
+      `/admin/editblog/${slug}`,
+      {
+        method: "PUT",
+        credentials: "include",
+        body: formData
+      }
+    );
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      alert(data.error || "Preview failed");
+      return;
+    }
+
+
+    
+    navigate(`/dashboard/blog-preview/${data.slug}`);
+
+  } catch (err) {
+    console.error(err);
+  }
+};
+
 
 const createEmptyBlock = (order = 0) => ({
   order,
@@ -787,10 +816,19 @@ const buildFormData=()=>{
       </div>
     </div>
 
+    <div className="button-container-3">
+      <button
+        className="editor-button-3"
+        onClick={() => { handlePreview(); }}>
+        Preview
+      </button>
+    </div>
+
     <div className = "button-container-3">
       <button   className="editor-button-3" onClick={handleSave}>
           Save Changes
         </button>
     </div> </>
+    
   );
 }
