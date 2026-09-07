@@ -206,19 +206,19 @@ def get_blog_by_slug(slug):
 
 def get_teaching_resources_by_book(slug):
     t = TeachingResource.query.filter_by(slug=slug).first_or_404()
-    b = Book.query.filter_by(title=strip_html(t.book_title)).first_or_404()
+    b = t.book
 
     return {
         "book_title": t.book_title if t.book_title else None,
-        "isbn": b.isbn if b.isbn else None,
+        "isbn": b.isbn if b and b.isbn else None,
         "word_list": t.word_list,
         "activities": t.activities,
         "questions": t.questions,
         "supplies": t.supplies,
         "objectives": t.objectives,
         "procedures": t.procedures,
-        "video_links": [{"video_title": video.video_title, "video_link": video.video_link} for video in t.video_links],
-        "book_links": [{"book_link": bl.book_link, "book_title": bl.book_title} for bl in t.book_links]
+        "video_links": [{"video_title": video.video_title,"video_link": video.video_link} for video in t.video_links],
+        "book_links": [{ "book_link": bl.book_link, "book_title": bl.book_title} for bl in t.book_links]
     }
 
 def get_teaching_resources():
