@@ -225,10 +225,10 @@ def get_teaching_resources():
     data = []
 
     for t in titles:
-        book = Book.query.filter_by(title=t.book_title).first() #find if title is a book title, may not be
+        book = Book.query.filter_by(title=t.book_title).first #find if title is a book title, may not be
 
         data.append({
-            "title": t.book_title,
+            "title": t.book_title if book else None,
             "isbn": book.isbn if book.isbn else None,
             "slug": t.slug,
             "book_image_url": (build_url(book.book_image_url) if book else None),
