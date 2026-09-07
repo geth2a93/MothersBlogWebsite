@@ -232,6 +232,14 @@ textarea, .text-area-rich{
   color: #FFEEDE;
 }
 
+.rich-text-color {
+  width: 35px;
+  height: 35px;
+  padding: 2px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+}
+
 .tag-container {
   display: flex;
   flex-wrap: wrap;
