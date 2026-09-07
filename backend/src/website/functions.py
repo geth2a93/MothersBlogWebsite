@@ -226,14 +226,13 @@ def get_teaching_resources():
     data = []
 
     for t in titles:
-        book = Book.query.filter_by(title=strip_html(t.book_title)).first #find if title is a book title, may not be
-
         data.append({
-            "title": t.book_title if book else None,
-            "isbn": book.isbn if book.isbn else None,
+            "title": t.title,
+            "isbn": t.book.isbn if t.book else None,
             "slug": t.slug,
-            "book_image_url": (build_url(book.book_image_url) if book else None),
+            "book_image_url": (build_url(t.book.book_image_url) if t.book and t.book.book_image_url else None),
         })
+
     return data
 
 def normalize_genre(genre_name):

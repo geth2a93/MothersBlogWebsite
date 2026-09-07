@@ -25,6 +25,12 @@ def url_check(media_content_url, url_content_type):
 def strip_html(html):
     return BeautifulSoup(html or "", "html.parser").get_text(" ", strip=True)
 
+def slugify(text):
+    text = text.lower()
+    text = re.sub(r"[^a-z0-9\s-]", "", text)
+    text = re.sub(r"\s+", "-", text)
+    return text.strip("-")
+
 def generate_unique_slug(model, text):
     text = strip_html(text)
     base_slug = slugify(text)
