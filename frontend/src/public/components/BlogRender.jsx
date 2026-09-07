@@ -98,16 +98,19 @@ console.log("BLOG RENDER BLOCKS:", post?.content_blocks);
           </p>
         )}
 
-        {titleSrc && (
-        <div className="blog-title-media">
-            {renderMedia(titleSrc, titleType, "title-media")}
-        </div>
-        )}
-        
-        {post.ownership === false && post.name_of_owner && (
-          <p className="image-attribution">
-            Image courtesy of {post.name_of_owner}
-          </p>
+        {(titleSrc || (post.ownership === false && post.name_of_owner)) && (
+          <div className="blog-title-media">
+
+          {titleSrc && (
+            renderMedia(titleSrc, titleType, "title-media")
+          )}
+
+          {post.ownership === false && post.name_of_owner && (
+            <p className="image-attribution">
+              Image courtesy of {post.name_of_owner}
+            </p>
+            )}
+          </div>
         )}
 
         {post.preview && (
@@ -131,22 +134,22 @@ console.log("BLOG RENDER BLOCKS:", post?.content_blocks);
               key={block.order}
               className={`blog-block ${block.alignment || "left"}`}
             >
-              {hasMedia && (
-                <div
-                  className="image-container"
-                  style={{
-                  flex: ratio ? (ratio > 1.2 ? 1.6 : 1) : 1
-                   }}
-                >
-                  {renderMedia(src, type, ratioKey)}
+              {(hasMedia || (block.ownership === false && block.name_of_owner)) && (
+              <div
+                className="image-container"
+                style={{flex: ratio ? (ratio > 1.2 ? 1.6 : 1) : 1 }}>
 
-                  {block.ownership === false && block.name_of_owner && (
-                    <p className="image-attribution">
-                      Image courtesy of {block.name_of_owner}
-                    </p>
-                  )}
-                </div>
+              {hasMedia && (
+                renderMedia(src, type, ratioKey)
               )}
+
+              {block.ownership === false && block.name_of_owner && (
+                <p className="image-attribution">
+                  Image courtesy of {block.name_of_owner}
+                </p>
+              )}
+              </div>
+            )}
 
               {(hasTitle || hasText) && (
                 <div className="text-container">
