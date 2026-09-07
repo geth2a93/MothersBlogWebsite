@@ -148,21 +148,19 @@ console.log("BLOG RENDER BLOCKS:", post?.content_blocks);
                 </div>
               )}
 
-              {hasTitle && (
+              {(hasTitle || hasText) && (
                 <div className="text-container">
-                  {block.blocktitle && (
-                    <h2 className="blog-block-title" dangerouslySetInnerHTML={{ __html: block.blocktitle || "" }}/>
-                  )}
-                  </div>
-              )}
+
+              {hasTitle && (
+                <h2 className="blog-block-title" dangerouslySetInnerHTML={{ __html: block.blocktitle || "" }} /> )}
 
               {hasText && (
-                <div className="text-container">
-                  <div className="blog-block-content" dangerouslySetInnerHTML={{ __html: block.content || ""}}/>
+                <div className="blog-block-content" dangerouslySetInnerHTML={{ __html: block.content || "" }} /> )}
+              
                 </div>
               )}
+
             </div>
-          
           );
         })}
 

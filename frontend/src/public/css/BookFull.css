@@ -284,34 +284,23 @@
 
 .review-card {
     position: relative;
-
-    width: 100%;
     max-width: 850px;
-
     margin: 0 auto 25px;
-
-    padding: 30px 40px;
-
+    padding: 45px 40px 30px;
     background: #f9fcfd;
-
     border-left: 4px solid #0F7BA8;
     border-radius: 4px;
-
-    box-shadow:
-        0 2px 8px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
 .review-card::before {
     content: "“";
-
     position: absolute;
-
-    top: 5px;
+    top: 2px;
     left: 15px;
-
     font-family: Georgia, serif;
-    font-size: 4rem;
-
+    font-size: 3rem;
+    line-height: 1;
     color: #9fc2df;
 }
 

@@ -1,6 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400;0,700;1,400;1,700&family=Alegreya+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&display=swap');
 
+* {
+  border: 1px solid red;
+}
 /* ---- Hero Section --------*/
 .hero {
   width: 100%;
@@ -115,11 +118,11 @@
 }
 
 /* ------ date ------------ */
-.book-date-section {
+.coming-soon-date-section {
   width: 100%;
 }
 
-.book-date,
+.coming-soon-date,
 .content-date {
   display: flex;
   align-items: center;
@@ -130,22 +133,22 @@
 /* ------ animations ------------  */
 
 .home-newest-image-container,
-.book-cover-container {
+.coming-soon-cover-container {
   transition: transform 0.35s ease;
 }
 
 .home-newest-image-container:hover,
-.book-cover-container:hover {
+.coming-soon-cover-container:hover {
   transform: translateY(-6px);
 }
 
 .home-newest-image-container:hover .home-newest-image,
-.book-cover-container:hover .coming-soon-image {
+.coming-soon-cover-container:hover .coming-soon-cover-image {
   filter: drop-shadow(0 12px 18px rgba(0, 0, 0, 0.20));
 }
 
 .home-newest-image,
-.coming-soon-image {
+.coming-soon-cover-image {
   transition: filter 0.35s ease;
 }
 
@@ -159,7 +162,7 @@
   background-color: var(--color-accent);
 }
 
-.book-cover-container {
+.coming-soon-cover-container {
   width: 400px;
   min-height: 450px;
 
@@ -172,7 +175,7 @@
   padding: 15px;
 }
 
-.coming-soon-image {
+.coming-soon-cover-image {
   max-width: 100%;
   max-height: 500px;
 
@@ -261,7 +264,7 @@
     font-size: 18px;
   }
 
-  .book-cover-container {
+  .coming-soon-cover-container {
     width: 300px;
     min-height: 400px;
 
@@ -275,7 +278,7 @@
     
   }
 
-  .coming-soon-image {
+  .coming-soon-cover-image {
     max-width: 100%;
     max-height: 400px;
     
@@ -314,7 +317,7 @@
     gap:40px
   }
 
-  .book-cover-container,
+  .coming-soon-cover-container,
   .home-newest-image-container {
   order: 1;
 }
@@ -354,14 +357,14 @@
     line-height: 1.6;
   }
 
-  .book-cover-container {
+  .coming-soon-cover-container {
     width: min(80%, 300px);
     min-height: 0;
 
     padding: 10px;
   }
 
-  .coming-soon-image {
+  .coming-soon-cover-image {
     max-width: 100%;
     max-height: 350px;
   }
@@ -378,7 +381,7 @@
 
 
   .home-newest-image-container:hover,
-  .book-cover-container:hover {
+  .coming-soon-cover-container:hover {
     transform: none;
   }
 }
@@ -422,7 +425,7 @@
     font-size: 16px;
   }
 
-  .book-cover-container {
+  .coming-soon-cover-container {
     width: min(80%, 300px);
   }
 

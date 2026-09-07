@@ -54,43 +54,58 @@ function Home() {
       </section>
 
     {/* Book */}
-      <section className="coming-soon">
-        <div className="coming-soon-content">
-          <div className="coming-soon-text">
+<section className="coming-soon">
+  <div className="coming-soon-content">
 
-            <h1>{isBookComingSoon ? "COMING SOON" : "OUT NOW"}</h1>
-            
-            {book ? ( <h2 dangerouslySetInnerHTML={{ __html: book?.title || "" }}/> ) : ( <h2>No Title available.</h2> )}
+    <div className="coming-soon-text">
 
-            {bookDate && (
-              <div className="book-date-section">
-                <p className="book-date">
-                  <span>{bookDate.label} {bookDate.date}</span>
-                </p>
-              </div>
-            )} 
-            {book ? ( <p dangerouslySetInnerHTML={{ __html: book?.synopsis || "" }}/> ) : ( <p>No book data available.</p> )}           
+      <h1>{isBookComingSoon ? "COMING SOON" : "OUT NOW"}</h1>
 
-          <button className="read-more-btn"  onClick={() => navigate(`/books/title/${book.slug}`)} > 
-            Read More </button>
-          </div>
-          
-          <div className="book-cover-container">
-          {book?.image ? (
-            <img
-              src={book?.image}
-              alt={book?.title}
-              className="coming-soon-image"
-            />
-          ) : (
-            <div className="coming-soon-placeholder">
-              No Image Available
-            </div>
-          )}
-          </div>
-          
+      {book ? (
+        <h2 dangerouslySetInnerHTML={{ __html: book?.title || "" }} />
+      ) : (
+        <h2>No Title available.</h2>
+      )}
+
+      {bookDate && (
+        <div className="coming-soon-date-section">
+          <p className="coming-soon-date">
+            <span>{bookDate.label} {bookDate.date}</span>
+          </p>
         </div>
-      </section>
+      )}
+
+      {book ? (
+        <p dangerouslySetInnerHTML={{ __html: book?.synopsis || "" }} />
+      ) : (
+        <p>No book data available.</p>
+      )}
+
+      <button
+        className="read-more-btn"
+        onClick={() => navigate(`/books/title/${book.slug}`)}
+      >
+        Read More
+      </button>
+
+    </div>
+
+    <div className="coming-soon-cover-container">
+      {book?.image ? (
+        <img
+          src={book.image}
+          alt={book.title}
+          className="coming-soon-cover-image"
+        />
+      ) : (
+        <div className="coming-soon-cover-placeholder">
+          No Image Available
+        </div>
+      )}
+    </div>
+
+  </div>
+</section>
 
     {/* Blog */}
       <section className="home-newest">
