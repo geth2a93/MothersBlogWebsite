@@ -10,36 +10,6 @@ import {
   XEmbed
 } from "react-social-media-embed";
 
-const handlePreview = async () => {
-  try {
-    const formData = buildFormData();
-
-    const res = await fetch(
-      `/admin/editblog/${slug}`,
-      {
-        method: "PUT",
-        credentials: "include",
-        body: formData
-      }
-    );
-
-    const data = await res.json();
-
-    if (!res.ok) {
-      alert(data.error || "Preview failed");
-      return;
-    }
-
-
-    
-    navigate(`/dashboard/blog-preview/${data.slug}`);
-
-  } catch (err) {
-    console.error(err);
-  }
-};
-
-
 const createEmptyBlock = (order = 0) => ({
   order,
   title_of_block: "",
@@ -483,6 +453,33 @@ const buildFormData=()=>{
     );
     return formData;
   };
+
+  const handlePreview = async () => {
+  try {
+    const formData = buildFormData();
+
+    const res = await fetch(
+      `/admin/editblog/${slug}`,
+      {
+        method: "PUT",
+        credentials: "include",
+        body: formData
+      }
+    );
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      alert(data.error || "Preview failed");
+      return;
+    }
+        
+    navigate(`/dashboard/blog-preview/${data.slug}`);
+
+  } catch (err) {
+    console.error(err);
+  }
+};
 
   const handleSave = async () => {
   const formData = buildFormData();
