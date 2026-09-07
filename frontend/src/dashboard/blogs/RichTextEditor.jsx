@@ -38,6 +38,17 @@ function RichTextEditor({ value, onChange, className }) {
     }
 };
 
+const removeAllFormatting = () => {
+  editorRef.current.focus();
+
+  const text = editorRef.current.innerText;
+
+  editorRef.current.innerText = text;
+
+  onChange(editorRef.current.innerHTML);
+  updateFormatState();
+};
+
   return (
     <div className="rich-text-editor">
       <div className="editor-toolbar">
@@ -73,7 +84,7 @@ function RichTextEditor({ value, onChange, className }) {
           className="rich-text-button"
           type="button"
           onMouseDown={(e) => e.preventDefault()}
-          onClick={() => formatText("removeFormat")}
+          onClick={removeAllFormatting}
         >
           Normal
         </button>
