@@ -113,6 +113,7 @@ class TeachingResource(db.Model):
     objectives = db.Column(db.Text, nullable=True)
     procedures = db.Column(db.Text, nullable=True)
 
+    book_id = db.Column(db.Integer, db.ForeignKey("book.id"), nullable=True)
     book = db.relationship("Book", backref="teaching_resources")
     video_links = db.relationship('TeachingResourceVideoLink', backref='resource', lazy=True)
     book_links = db.relationship('TeachingResourceBookLink', backref='resource', lazy=True)
