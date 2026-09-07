@@ -66,6 +66,12 @@ export default function AdminEditBlog() {
   }
 };
 
+const stripHtml = (html) => {
+  const div = document.createElement("div");
+  div.innerHTML = html;
+  return div.textContent || div.innerText || "";
+};
+
   const handleDelete = async (slug) => {
     const confirmed = window.confirm(
       `Delete "${slug}"? This cannot be undone.`
@@ -93,6 +99,7 @@ export default function AdminEditBlog() {
       console.error(err);
       alert("Failed to delete blog");
     }
+    
   };
 
   return (
@@ -134,7 +141,9 @@ export default function AdminEditBlog() {
               <tbody>
                 {blogs.map((blog) => (
                   <tr key={blog.id}>
-                    <td className="display-title" dangerouslySetInnerHTML={{ __html: blog.title || "" }}/>
+                    <td className="display-title">
+                      {stripHtml(blog.title || "")}
+                    </td>
 
                     <td>
                       {blog.date_created}
