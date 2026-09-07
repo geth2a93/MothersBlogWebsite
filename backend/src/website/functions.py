@@ -227,7 +227,7 @@ def get_teaching_resources():
 
     for t in titles:
         data.append({
-            "title": t.title,
+            "title": t.book_title,
             "isbn": t.book.isbn if t.book else None,
             "slug": t.slug,
             "book_image_url": (build_url(t.book.book_image_url) if t.book and t.book.book_image_url else None),
