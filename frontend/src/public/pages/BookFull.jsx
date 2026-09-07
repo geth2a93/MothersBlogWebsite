@@ -4,7 +4,6 @@ import { formatBookDate } from "../components/dateHelper.js";
 import "../css/BookFull.css";
 
 export default function BookDetail() {
-  const { title } = useParams();
   const { slug } = useParams();
   const [book, setBook] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -58,6 +57,18 @@ export default function BookDetail() {
         {/* TITLE */}
         <h1 className="book-title" dangerouslySetInnerHTML={{ __html: book.title || "" }}/>
 
+
+        {/* PUBLISH DATE */}
+          {book.date_displayed && (() => {
+            const bookDate = formatBookDate(book.date_added);
+
+            return (
+              <div className="book-date-section">
+                <h2>{bookDate.label} {bookDate.date}</h2>
+              </div>
+            );
+          })()}
+
         <div className="book-info-box">
 
         {/* LEFT: COVER */}
@@ -70,26 +81,18 @@ export default function BookDetail() {
 
           {/* GENRES */}
           {book.genre_name?.length > 0 && (
-            <div className="book-genres">
-                {book.genre_name.map((genre_name) => (
-                  <div className="tag-pill" key={genre_name}>
-                  {genre_name}
-                  </div>
-                ))}
+            <div className="book-genres-section">
+    <h2>Genres</h2>
+
+    <div className="book-genres">
+        {book.genre_name.map((genre_name) => (
+            <div className="genre-pill" key={genre_name}>
+                {genre_name}
             </div>
+        ))}
+    </div>
+</div>
           )}
-
-          {/* PUBLISH DATE */}
-          {book.date_displayed && (() => {
-            const bookDate = formatBookDate(book.date_added);
-
-            return (
-              <div className="book-date-section">
-                <h2>{bookDate.label}</h2>
-                <p className="book-date">{bookDate.date}</p>
-              </div>
-            );
-          })()}
 
           {/* SYNOPSIS */}
           <div className="book-synopsis-section">
@@ -101,64 +104,101 @@ export default function BookDetail() {
         </div>
 
         {book.awards?.length > 0 && (
-          <section>
-             <div className="book-awards-section">
-              <h2>Awards</h2>
-              </div>
-                <div className="awards-container">
-            {book.awards.map((a, index) => (
-              <div key={index} className="award-card">
+  <section className="book-awards-section">
+    <h2>Awards</h2>
 
-                {a.award_url && (
-                  <img
-                    src={a.award_url}
-                    alt={a.award_title}
-                    className="award-image"
-                  />
-                )}
+    <div className="awards-container">
+      {book.awards.map((a, index) => (
+        <div key={index} className="award-card">
 
-                {a.award_title && (
-                  <p className="award-title">
-                    {a.award_title}
-                  </p>
-                )}
-
-              </div>
-            ))}
-          </div>
-          
-          </section>
+          {a.award_url && (
+            <img
+              src={a.award_url}
+              alt={a.award_title}
+              className="award-image"
+            />
           )}
+
+          {a.award_title && (
+            <p className="award-title">
+              {a.award_title}
+            </p>
+          )}
+
+        </div>
+      ))}
+    </div>
+  </section>
+)}
 
         {/* REVIEWS */}
 {book.reviews?.length > 0 && (
-  <section>
-    <h3 className="section-title">Reviews</h3>
+  <section className="review-section">
+    <h2 className="section-title">Reviews</h2>
 
     {book.reviews.map((r) => (
-      <div key={r.id} className="buy-link-card">
-        <div className="review-author" dangerouslySetInnerHTML={{ __html: r.name || "" }}/>
-        <div className="review-author" dangerouslySetInnerHTML={{ __html: r.title || "" }}/>
-        <div className="review-content" dangerouslySetInnerHTML={{ __html: r.content || "" }}/>
-        <div className="review-rating">{r.rating}</div>
-        <div className="review-url">{r.link_url}</div>
-      </div>
+      <div key={r.id} className="review-card">
+
+    {r.name && (
+        <div
+            className="review-author"
+            dangerouslySetInnerHTML={{ __html: r.name }}
+        />
+    )}
+
+    {r.title && (
+        <div
+            className="review-title"
+            dangerouslySetInnerHTML={{ __html: r.title }}
+        />
+    )}
+
+    {r.content && (
+        <div
+            className="review-content"
+            dangerouslySetInnerHTML={{ __html: r.content }}
+        />
+    )}
+
+    {r.rating && (
+        <div className="review-rating">
+            ★ {r.rating}
+        </div>
+    )}
+
+    {r.link_url && (
+        <a
+            href={r.link_url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="review-url"
+        >
+            Read full review →
+        </a>
+    )}
+</div>
     ))}
   </section>
 )}
 
 {book.buy_links?.length > 0 && (
-  <section>
-    <h3 className="section-title">Buy Now</h3>
+  <section className="buy-section">
+    <h2 className="section-title">Buy the Book</h2>
 
     {book.buy_links.map((link, index) => (
-      <div key={index} className="review-card">
-        <a href={link.url} target="_blank" rel="noopener noreferrer" className="buy-link-site-name">{link.name}</a>
+      <div key={index} className="buy-link-card">
+        <a
+          href={link.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="buy-link-site-name"
+        >
+          {link.name} →
+        </a>
       </div>
     ))}
   </section>
 )}
-
       </div>
     </div>
   );

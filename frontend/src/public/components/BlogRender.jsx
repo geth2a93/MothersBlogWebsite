@@ -136,7 +136,7 @@ console.log("BLOG RENDER BLOCKS:", post?.content_blocks);
                   className="image-container"
                   style={{
                   flex: ratio ? (ratio > 1.2 ? 1.6 : 1) : 1
-                  }}
+                   }}
                 >
                   {renderMedia(src, type, ratioKey)}
 

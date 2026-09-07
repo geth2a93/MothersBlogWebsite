@@ -249,14 +249,17 @@
 }
 
 .tag-pill {
-  padding: 2px 8px;
+  padding: 5px 8px;
 
   background-color: var(--color-background);
   color: #000000;
 
   border-radius: 999px;
+  border: solid 1px;
+  border-color: #9fc2df;
 
   font-size: 11px;
+
 }
 
 
