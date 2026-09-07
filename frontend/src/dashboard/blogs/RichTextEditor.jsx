@@ -78,13 +78,29 @@ function RichTextEditor({ value, onChange, className }) {
           Normal
         </button>
 
-        <input
-          type="text"
-          className="rich-text-color"
-          placeholder="#000000"
-          defaultValue="#000000"
-          onChange={(e) => formatText("foreColor", e.target.value)}
-        />
+        <button
+          type="button"
+          className="rich-text-color-black"
+          onMouseDown={(e) => e.preventDefault()}
+          onClick={() => formatText("foreColor", "#0F7BA8")}>
+          Title Blue
+        </button>
+
+        <button
+          type="button"
+          className="rich-text-color-black"
+          onMouseDown={(e) => e.preventDefault()}
+          onClick={() => formatText("foreColor", "#4B4B4B")}>
+          Text Gray
+        </button>
+
+        <button
+          type="button"
+          className="rich-text-color-black"
+          onMouseDown={(e) => e.preventDefault()}
+          onClick={() => formatText("foreColor", "#000000")}>
+          Black
+        </button>
 
         <select
           className="rich-text-font"
