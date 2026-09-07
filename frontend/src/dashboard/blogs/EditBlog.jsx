@@ -474,7 +474,7 @@ const buildFormData=()=>{
       return;
     }
         
-    navigate(`/dashboard/blog-preview/${data.slug}`);
+    navigate(`/dashboard/blog-preview/${slug}`);
 
   } catch (err) {
     console.error(err);
@@ -816,7 +816,7 @@ const buildFormData=()=>{
     <div className="button-container-3">
       <button
         className="editor-button-3"
-        onClick={() => { handlePreview(); }}>
+        onClick={handlePreview}>
         Preview
       </button>
     </div>
