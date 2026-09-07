@@ -474,7 +474,7 @@ const buildFormData=()=>{
       return;
     }
         
-    navigate(`/dashboard/blog-preview/${slug}`);
+    navigate(`/dashboard/blog-preview/${data.slug}`);
 
   } catch (err) {
     console.error(err);

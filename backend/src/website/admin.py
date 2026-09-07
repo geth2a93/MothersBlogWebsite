@@ -386,7 +386,8 @@ def edit_blog(slug):
             return jsonify({"error": "Invalid content type for title media"}), 400
 
         blog.title_media_content_type = title_media_content_type
-        blog.slug = generate_unique_slug(BlogPost, title)
+        if data.get("title"):
+            blog.slug = generate_unique_slug(BlogPost, title)
 
         Tags.query.filter_by(blog_id=blog.id).delete()
 
@@ -462,7 +463,7 @@ def edit_blog(slug):
 
         db.session.commit()
 
-        return jsonify({"message": "Success"}), 200
+        return jsonify({"message": "Success", "slug": blog.slug}), 200
     
     except Exception as e:
         db.session.rollback()
