@@ -2,6 +2,7 @@ from .models import *
 from flask import request
 import re
 from bs4 import BeautifulSoup
+from admin_functions import strip_html
 
 def build_url(path):
     if not path:
@@ -205,10 +206,10 @@ def get_blog_by_slug(slug):
 
 def get_teaching_resources_by_book(slug):
     t = TeachingResource.query.filter_by(slug=slug).first_or_404()
-    b = Book.query.filter_by(title=t.book_title).first_or_404()
+    b = Book.query.filter_by(title=strip_html(t.book_title)).first_or_404()
 
     return {
-        "book_title": t.book_title,
+        "book_title": t.book_title if t.book_title else None,
         "isbn": b.isbn if b.isbn else None,
         "word_list": t.word_list,
         "activities": t.activities,
@@ -225,7 +226,7 @@ def get_teaching_resources():
     data = []
 
     for t in titles:
-        book = Book.query.filter_by(title=t.book_title).first #find if title is a book title, may not be
+        book = Book.query.filter_by(title=strip_html(t.book_title)).first #find if title is a book title, may not be
 
         data.append({
             "title": t.book_title if book else None,
