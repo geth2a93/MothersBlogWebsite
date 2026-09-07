@@ -208,10 +208,6 @@ input, textarea, select, .text-area-rich, .title-rich{
   padding: 0;
 }
 
-.title-rich{
-  font-size: 24px;
-}
-
 .title-rich .editor-content {
   font-size: 24px;
 }

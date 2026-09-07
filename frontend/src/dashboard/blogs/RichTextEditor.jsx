@@ -78,6 +78,13 @@ function RichTextEditor({ value, onChange, className }) {
           Normal
         </button>
 
+        <input
+          type="color"
+          className="rich-text-color"
+          onChange={(e) => formatText("foreColor", e.target.value)}
+          defaultValue="#000000"
+        />
+
         <select
           className="rich-text-font"
           onChange={(e) => formatText("fontName", e.target.value)}
