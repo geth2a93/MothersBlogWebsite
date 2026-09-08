@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "../css/editor.css";
-import RichTextEditor from "./RichTextEditor";
+import RichTextEditor, { RichTextToolbar } from "./RichTextEditor";
 
 import {
   InstagramEmbed,
@@ -150,6 +150,7 @@ const renderMedia = (
 export default function EditBlog(){
   const {slug}=useParams();
   const navigate=useNavigate();
+  const [activeEditor, setActiveEditor] = useState(null);
 
   const [blog,setBlog]=useState(null);
   const [loading,setLoading]=useState(true);
@@ -523,6 +524,7 @@ const buildFormData=()=>{
   if(loading){
 
     return (
+      
       <div className="editor-container">
 
         <h2>
@@ -536,6 +538,8 @@ const buildFormData=()=>{
 
   return (
     <>
+    <RichTextToolbar activeEditor={activeEditor} />
+
     <div className="editor-container">
       <h1>Edit Blog</h1>
 
@@ -544,13 +548,17 @@ const buildFormData=()=>{
 
         <RichTextEditor className="title-rich"
           value={blog.title}
-          onChange={(value) => updateBlog("title", value)}/>
+          onChange={(value) => updateBlog("title", value)}
+          onFocus={(editor) => setActiveEditor(editor)}
+        />
 
         <h2>Title Content</h2>
 
         <RichTextEditor className="text-area-rich"
           value={blog.preview}
-          onChange={(value)=> updateBlog("preview", value)}/>
+          onChange={(value)=> updateBlog("preview", value)}
+          onFocus={(editor) => setActiveEditor(editor)}
+        />
 
         <h2>Publishing Date</h2>
 
@@ -695,6 +703,7 @@ const buildFormData=()=>{
       onChange={(value) =>
         updateBlockField(index, "title_of_block", value)
       }
+      onFocus={(editor) => setActiveEditor(editor)}
     />
 
     <h2>Content Block Content</h2>
@@ -704,6 +713,7 @@ const buildFormData=()=>{
       onChange={(value) =>
         updateBlockField(index, "content", value)
       }
+      onFocus={(editor) => setActiveEditor(editor)}
     />
 
     <h2>Content Block Allignment</h2>

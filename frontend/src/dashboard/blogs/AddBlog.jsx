@@ -406,17 +406,17 @@ return (
         onFocus={(editor) => setActiveEditor(editor)}
       />
       
-<h2>Publishing Date</h2>
-<input
-  type="date"
-  value={blog.publish_date}
-  onChange={(e) =>
-    setBlog(prev => ({
-      ...prev,
-      publish_date: e.target.value
-    }))
-  }
-/>
+      <h2>Publishing Date</h2>
+
+      <input type="date"
+        value={blog.publish_date}
+        onChange={(e) =>
+          setBlog(prev => ({
+            ...prev,
+            publish_date: e.target.value
+          }))
+        }
+      />
 
 <h2>Tags</h2>
   <input value={tagInput}
