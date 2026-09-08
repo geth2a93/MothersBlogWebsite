@@ -507,6 +507,7 @@ const addGenre = () => {
             key={index}
             className="editor-container-alt"
           >
+            <h3>Reviewer Name</h3>
             <RichTextEditor className="title-rich"
               value={review.name}
               onChange={(value) => updateReview(index, {
@@ -516,6 +517,7 @@ const addGenre = () => {
               onFocus={(editor) => setActiveEditor(editor)}
             />
 
+            <h3>Reviewer Title</h3>
             <RichTextEditor className="title-rich"
               value={review.title}
               onChange={(value) => updateReview(index, {
@@ -525,6 +527,7 @@ const addGenre = () => {
               onFocus={(editor) => setActiveEditor(editor)}
             />
 
+            <h3>Review</h3>
             <RichTextEditor className="text-area-rich"
               value={review.content}
               onChange={(value) => updateReview(index, {
@@ -534,6 +537,7 @@ const addGenre = () => {
               onFocus={(editor) => setActiveEditor(editor)}
             />
 
+            <h3>Reviewer Url</h3>
             <input
               placeholder="Review URL"
               value={review.link_url}
@@ -541,7 +545,7 @@ const addGenre = () => {
                 ...review,
                 link_url: e.target.value
               })} />
-
+      
             <select
               value={review.rating ?? ""}
               onChange={(e) => updateReview(index, {
