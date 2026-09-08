@@ -36,7 +36,7 @@
   color: #0F7BA8;
 }
 
-.editor-card h3 {
+.editor-container-alt h3 {
   font-family: "Alegreya", serif;
   font-size: 18px;
   color: #0F7BA8;
@@ -91,7 +91,6 @@
   margin: 10px auto 5px;
   font-family: "Alegreya", serif;
   font-size: 22px;
-
 }
 
 .editor-container p {
