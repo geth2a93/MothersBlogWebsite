@@ -36,6 +36,13 @@
   color: #0F7BA8;
 }
 
+.editor-card h3 {
+  font-family: "Alegreya", serif;
+  font-size: 18px;
+  color: #0F7BA8;
+  margin-bottom: 10px;
+}
+
 /* New End */
 
 .editor-container {
