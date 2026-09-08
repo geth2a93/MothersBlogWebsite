@@ -5,12 +5,23 @@ function RichTextToolbar({ activeEditor }) {
 	const [boldActive, setBoldActive] = useState(false);
   const [italicActive, setItalicActive] = useState(false);
   const [underlineActive, setUnderlineActive] = useState(false);
+  const [fontSize, setFontSize] = useState("3");
   
   const updateFormatState = () => {
     setBoldActive(document.queryCommandState("bold"));
     setItalicActive(document.queryCommandState("italic"));
     setUnderlineActive(document.queryCommandState("underline"));
   };
+
+  useEffect(() => {
+  if (!activeEditor) return;
+
+  if (activeEditor.classList.contains("title-rich")) {
+    setFontSize("5");
+  } else if (activeEditor.classList.contains("text-area-rich")) {
+    setFontSize("3");
+  }
+}, [activeEditor]);
   
   const formatText = (command, value = null) => {
     if (!activeEditor) return;
@@ -113,8 +124,11 @@ function RichTextToolbar({ activeEditor }) {
 
       <select
         className="rich-text-font"
-        onChange={(e) => formatText("fontSize", e.target.value)}
-        defaultValue="3"
+        value={fontSize}
+        onChange={(e) => {
+        setFontSize(e.target.value);
+        formatText("fontSize", e.target.value);
+      }}
       >
         <option value="1">10px</option>
         <option value="2">12px</option>
