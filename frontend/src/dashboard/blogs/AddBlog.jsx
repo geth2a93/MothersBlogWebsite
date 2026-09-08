@@ -368,8 +368,8 @@ const handlePublish = async () => {
 
 return (
   <>
+    <RichTextToolbar activeEditor={activeEditor} />
     <div className="editor-container">
-
        <button className="clear-button" 
       onClick={() => { localStorage.clear(); window.location.href = "/dashboard/add-blog"; 
       alert("Local storage cleared"); }}> 
@@ -379,22 +379,22 @@ return (
       
       <h1>New Blog</h1>
 
-      <RichTextToolbar activeEditor={activeEditor} />
 
       <div className="editor-card">
+        <h2>Blog Title</h2>
 
-      <RichTextEditor className="title-rich"
-        value={blog.title}
-        onChange={(value) =>
-          setBlog((prev) => ({
-            ...prev,
-            title: value
-          }))
-        }
-        onFocus={(editor) => setActiveEditor(editor)}
-      />
-      
-    <div>
+        <RichTextEditor className="title-rich"
+          value={blog.title}
+          onChange={(value) =>
+            setBlog((prev) => ({
+              ...prev,
+              title: value
+            }))
+          }
+          onFocus={(editor) => setActiveEditor(editor)}/>
+
+      <h2>Title Content</h2>
+
       <RichTextEditor className="text-area-rich"
         value={blog.preview}
         onChange={(value) =>
@@ -405,9 +405,8 @@ return (
         }
         onFocus={(editor) => setActiveEditor(editor)}
       />
-      <h2>Publishing Date</h2>
-    </div>
-
+      
+<h2>Publishing Date</h2>
 <input
   type="date"
   value={blog.publish_date}
