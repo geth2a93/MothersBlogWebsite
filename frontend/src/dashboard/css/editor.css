@@ -29,6 +29,13 @@
   color: #0F7BA8;
 }
 
+.editor-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: white;
+}
+
 /* New End */
 
 .editor-container {

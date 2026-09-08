@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "../css/editor.css";
-import RichTextEditor from "./RichTextEditor";
+import RichTextEditor, { RichTextToolbar } from "./RichTextEditor";
 
 const createEmptyBlock = (order = 0) => ({
   order,
@@ -52,6 +52,7 @@ const defaultBlog = {
 export default function NewBlog() {
   const navigate = useNavigate();
   const [tagInput, setTagInput] = useState("");
+  const [activeEditor, setActiveEditor] = useState(null);
 
   const [blog, setBlog] = useState(() => {
   const saved =
@@ -346,8 +347,7 @@ const handlePublish = async () => {
     );
 
     const data = await res.json();
-    console.log("POST OBJECT:", post);
-    console.log("POST ID:", post?.id);
+
     if (!res.ok) {
       alert(data.error || "Publish failed");
       return;
@@ -376,7 +376,10 @@ return (
         Clear Form 
       </button>
       
+      
       <h1>New Blog</h1>
+
+      <RichTextToolbar activeEditor={activeEditor} />
 
       <div className="editor-card">
 
@@ -388,6 +391,7 @@ return (
             title: value
           }))
         }
+        onFocus={(editor) => setActiveEditor(editor)}
       />
       
     <div>
@@ -399,6 +403,7 @@ return (
             preview: value
           }))
         }
+        onFocus={(editor) => setActiveEditor(editor)}
       />
       <h2>Publishing Date</h2>
     </div>
@@ -515,6 +520,7 @@ return (
                 title_of_block: value
               })
             }
+            onFocus={(editor) => setActiveEditor(editor)}
           />
 
           <h2>Content Block Content</h2>
@@ -527,6 +533,7 @@ return (
                 content: value
               })
             }
+            onFocus={(editor) => setActiveEditor(editor)}
           />
 
           <h2>Content Block Alignment</h2>
