@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../css/editor.css";
-import RichTextEditor from "../blogs/RichTextEditor";
+import RichTextEditor, { RichTextToolbar } from "../blogs/RichTextEditor";
 
 const emptyBook = {
   title: "",
@@ -25,6 +25,7 @@ export default function NewBook() {
   const [book, setBook] = useState(emptyBook);
   const [genreInput, setGenreInput] = useState("");
   const [availableGenres, setAvailableGenres] = useState([]);
+  const [activeEditor, setActiveEditor] = useState(null);
 
   useEffect(() => {
   fetch("/api/genres")
@@ -354,6 +355,8 @@ const addGenre = () => {
   };
 
   return (
+    <>
+    <RichTextToolbar activeEditor={activeEditor} />
     <div className="editor-container">
       <h1>New Book</h1>
 
@@ -362,7 +365,9 @@ const addGenre = () => {
 
         <RichTextEditor className="title-rich"
           value={book.title}
-          onChange={(value) => updateBook("title",value)} />
+          onChange={(value) => updateBook("title",value)}
+          onFocus={(editor) => setActiveEditor(editor)}
+        />
         <h2>ISBN</h2>
 
         <input
@@ -374,7 +379,9 @@ const addGenre = () => {
 
         <RichTextEditor className="text-area-rich"
           value={book.synopsis}
-          onChange={(value) => updateBook("synopsis", value)} />
+          onChange={(value) => updateBook("synopsis", value)}
+          onFocus={(editor) => setActiveEditor(editor)}
+        />
 
         <div className="date-row">
           <div>
@@ -505,21 +512,27 @@ const addGenre = () => {
               onChange={(value) => updateReview(index, {
                 ...review,
                 name: value
-              })} />
+              })} 
+              onFocus={(editor) => setActiveEditor(editor)}
+            />
 
             <RichTextEditor className="title-rich"
               value={review.title}
               onChange={(value) => updateReview(index, {
                 ...review,
                 title: value
-              })} />
+              })}
+              onFocus={(editor) => setActiveEditor(editor)}
+            />
 
             <RichTextEditor className="text-area-rich"
               value={review.content}
               onChange={(value) => updateReview(index, {
                 ...review,
                 content: value
-              })} />
+              })}
+              onFocus={(editor) => setActiveEditor(editor)}
+            />
 
             <input
               placeholder="Review URL"
@@ -609,5 +622,6 @@ const addGenre = () => {
         Add Book
      </button> 
       </div>
+       </>
   );
 }

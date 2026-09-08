@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "../css/display.css";
-import RichTextEditor from "../blogs/RichTextEditor";
+import RichTextEditor, { RichTextToolbar } from "../blogs/RichTextEditor";
 
 function EditTeachingResource() {
   const { slug } = useParams();
   const navigate = useNavigate();
 
+  const [activeEditor, setActiveEditor] = useState(null);
   const [bookTitle, setBookTitle] = useState("");
   const [wordList, setWordList] = useState("");
   const [activities, setActivities] = useState("");
@@ -190,6 +191,8 @@ function EditTeachingResource() {
   }
 
   return (
+    <>
+    <RichTextToolbar activeEditor={activeEditor} />
     <div className="editor-container">
         <h1>Edit Teaching Resource</h1>
         <div className="editor-card">
@@ -211,7 +214,9 @@ function EditTeachingResource() {
                 setBookTitle(value)
               }
               required
+              onFocus={(editor) => setActiveEditor(editor)}
             />
+
           </div>
 
           <div className="form-group">
@@ -222,7 +227,9 @@ function EditTeachingResource() {
               onChange={(value) =>
                 setWordList(value)
               }
+              onFocus={(editor) => setActiveEditor(editor)}
             />
+
           </div>
 
           <div className="form-group">
@@ -233,7 +240,9 @@ function EditTeachingResource() {
               onChange={(value) =>
                 setActivities(value)
               }
+              onFocus={(editor) => setActiveEditor(editor)}
             />
+
           </div>
 
           <div className="form-group">
@@ -244,7 +253,9 @@ function EditTeachingResource() {
               onChange={(value) =>
                 setQuestions(value)
               }
+              onFocus={(editor) => setActiveEditor(editor)}
             />
+
           </div>
 
           <div className="form-group">
@@ -255,7 +266,9 @@ function EditTeachingResource() {
               onChange={(value) =>
                 setSupplies(value)
               }
+              onFocus={(editor) => setActiveEditor(editor)}
             />
+
           </div>
 
           <div className="form-group">
@@ -266,7 +279,9 @@ function EditTeachingResource() {
               onChange={(value) =>
                 setObjectives(value)
               }
+              onFocus={(editor) => setActiveEditor(editor)}
             />
+
           </div>
 
           <div className="form-group">
@@ -277,7 +292,9 @@ function EditTeachingResource() {
               onChange={(value) =>
                 setProcedures(value)
               }
+              onFocus={(editor) => setActiveEditor(editor)}
             />
+
           </div>
 
           <h2>Video and Picture Links</h2>
@@ -397,6 +414,7 @@ function EditTeachingResource() {
         </form>
       </div>
     </div>
+    </>
   );
 }
 

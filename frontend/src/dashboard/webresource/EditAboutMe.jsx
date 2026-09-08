@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import "../css/editor.css";
-import RichTextEditor from "../blogs/RichTextEditor";
+import RichTextEditor, { RichTextToolbar } from "../blogs/RichTextEditor";
 
 export default function AdminAboutMe(){
     const [content, setContent] = useState("");
     const [image, setImage] = useState(null);
+    const [activeEditor, setActiveEditor] = useState(null);
 
     const [preview, setPreview] = useState("");
     const [message, setMessage] = useState("");
@@ -66,7 +67,9 @@ export default function AdminAboutMe(){
     };
 
     return (
-         <div className="editor-container">
+        <>
+        <RichTextToolbar activeEditor={activeEditor} />
+        <div className="editor-container">
             <h1>Admin About Me</h1>
 
 
@@ -76,6 +79,7 @@ export default function AdminAboutMe(){
                 onChange={(value) => setContent(value)}
                 rows={10}
                 style={{ width: "100%" }}
+                onFocus={(editor) => setActiveEditor(editor)}
             />
 
             <input type="file" accept="image/*" onChange={handleImageChange} />
@@ -97,5 +101,6 @@ export default function AdminAboutMe(){
             {message && <p>{message}</p>}
         </div>
         </div>
+        </>
         );
     };

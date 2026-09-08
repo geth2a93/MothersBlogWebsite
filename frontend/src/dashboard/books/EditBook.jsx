@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "../css/editor.css";
-import RichTextEditor from "../blogs/RichTextEditor";
+import RichTextEditor, { RichTextToolbar } from "../blogs/RichTextEditor";
 
 const normalizeBook = (data) => ({
   id: data.id,
@@ -46,6 +46,7 @@ buy_links: (data.buy_links || []).map(link => ({
 
 export default function EditBook(){
 const navigate=useNavigate();
+const [activeEditor, setActiveEditor] = useState(null);
 
 const updateBook = (field, value) => {
     setBook(prev => ({
@@ -338,6 +339,7 @@ if (loading || !book) {
 
 return (
   <>
+  <RichTextToolbar activeEditor={activeEditor} />
   <div className="editor-container">
     <h1>Edit Book</h1>
 
@@ -347,7 +349,9 @@ return (
 
       <RichTextEditor className="title-rich"
         value={book.title}
-        onChange={(value) => updateBook("title", value)}/>
+        onChange={(value) => updateBook("title", value)}
+        onFocus={(editor) => setActiveEditor(editor)}
+      />
 
       <h2>ISBN</h2>
 
@@ -365,6 +369,7 @@ return (
         onChange={(value) =>
           updateBook("synopsis", value)
         }
+        onFocus={(editor) => setActiveEditor(editor)}
       />
 
       <div className="date-row">
@@ -507,13 +512,16 @@ return (
             value={review.name}
             onChange={(value) =>
               updateReview(index, {...review, name: value})
-            }/>
+            }
+            onFocus={(editor) => setActiveEditor(editor)}
+          />
 
           <RichTextEditor className="title-rich"
             value={review.title}
             onChange={(value) =>
               updateReview(index, {...review,title: value})
             }
+            onFocus={(editor) => setActiveEditor(editor)}
           />
 
           <RichTextEditor className="text-area-rich"
@@ -524,6 +532,7 @@ return (
                 content: value
               })
             }
+            onFocus={(editor) => setActiveEditor(editor)}
           />
 
           <input
