@@ -379,8 +379,8 @@ def edit_blog(slug):
                 if error:
                     return jsonify({"error": error}), 400
                 blog.title_media_content_url = title_media_content_url
-            blog.ownership = title_media_ownership
-            blog.name = title_media_owner_name
+            blog.title_media_ownership = title_media_ownership
+            blog.title_media_owner_name = title_media_owner_name
 
         else:
             return jsonify({"error": "Invalid content type for title media"}), 400
