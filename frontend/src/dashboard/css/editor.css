@@ -30,6 +30,10 @@ textarea, .text-area-rich{
   font-size: 20px;
 }
 
+ .title-rich{
+  font-size: 32px;
+ }
+
 .rich-text-button {
   background: #FFEEDE;
   color: #26a3d4;
