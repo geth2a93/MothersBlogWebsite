@@ -2,6 +2,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&display=swap');
 
 
+/* ========================================
+   TEACHING PAGE
+======================================== */
+
 .teaching-page {
   width: 100%;
   min-height: 100vh;
@@ -11,7 +15,13 @@
   display: flex;
   justify-content: center;
 
+  box-sizing: border-box;
 }
+
+
+/* ========================================
+   TEACHING CONTAINER
+======================================== */
 
 .teaching-container {
   width: 100%;
@@ -21,84 +31,294 @@
 
   padding: 55px;
 
+  box-sizing: border-box;
+
   box-shadow:
     0 -3px 10px rgba(0, 0, 0, 0.15),
     0 3px 10px rgba(0, 0, 0, 0.15);
 }
 
-/* TITLE */
+
+/* ========================================
+   TITLE
+======================================== */
+
 .teaching-title {
   text-align: center;
+
   color: #0F7BA8;
 
   font-size: 2.8rem;
-  margin-bottom: 25px;
+
+  margin: 0 0 25px;
 }
 
-/* COVER */
+
+/* ========================================
+   COVER
+======================================== */
+
 .teaching-cover {
   display: block;
 
-  margin: 0 auto 40px auto;
+  margin: 0 auto 40px;
 
-  max-width: 350px;
   width: 100%;
+  max-width: 350px;
 
-  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  height: auto;
+
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+
   border-radius: 6px;
 }
 
-/* SECTIONS */
+
+/* ========================================
+   SECTIONS
+======================================== */
+
 .teaching-section {
   margin: 25px 0;
 }
 
+
+/* ========================================
+   SECTION TITLE
+======================================== */
+
 .section-title {
   color: #0F7BA8;
+
   font-size: 1.6rem;
 
-  margin: 25px 0 10px 0;
+  margin: 25px 0 10px;
 
   text-align: center;
 }
 
+
+/* ========================================
+   TEXT
+======================================== */
+
 .teaching-text {
   font-size: 1.2rem;
+
   line-height: 1.6;
 
   white-space: pre-wrap;
 }
 
-/* LINKS */
+
+/* ========================================
+   LINKS
+======================================== */
+
 .link-item {
   margin: 10px 0;
+
   text-align: center;
 }
 
 .link-item a {
   color: #EA9A28;
+
   text-decoration: none;
 }
+
+.link-item a:hover {
+  text-decoration: underline;
+}
+
+
+/* ========================================
+   CENTERED SECTIONS
+======================================== */
 
 .centered-section .teaching-text {
   text-align: center;
 }
 
-/* MOBILE */
-@media (max-width: 900px) {
-  .content-card {
-    flex-direction: column;
-    padding: 40px 20px;
-  }
 
-  .content-card-text {
-    margin-left: 0;
-    align-items: center;
-    text-align: center;
-    width: 100%;
+/* ========================================
+   HALF / TABLET VIEW
+======================================== */
+
+@media (max-width: 1200px) {
+
+  .teaching-page {
+    padding: 50px 20px;
   }
 
   .teaching-container {
-    padding: 20px;
+    max-width: 900px;
+
+    padding: 40px;
+  }
+
+  .teaching-title {
+    font-size: 2.4rem;
+  }
+
+  .teaching-cover {
+    max-width: 300px;
+
+    margin-bottom: 30px;
+  }
+
+  .section-title {
+    font-size: 1.45rem;
+  }
+
+  .teaching-text {
+    font-size: 1.1rem;
+    line-height: 1.55;
+  }
+}
+
+
+/* ========================================
+   SMALL TABLET / HALF VIEW
+======================================== */
+
+@media (max-width: 900px) and (min-width: 601px) {
+
+  .teaching-page {
+    padding: 35px 15px;
+  }
+
+  .teaching-container {
+    max-width: 750px;
+
+    padding: 30px;
+  }
+
+  .teaching-title {
+    font-size: 2.1rem;
+
+    margin-bottom: 20px;
+  }
+
+  .teaching-cover {
+    max-width: 275px;
+
+    margin-bottom: 30px;
+  }
+
+  .teaching-section {
+    margin: 20px 0;
+  }
+
+  .section-title {
+    font-size: 1.35rem;
+
+    margin: 20px 0 8px;
+  }
+
+  .teaching-text {
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+
+  .link-item {
+    margin: 8px 0;
+  }
+}
+
+
+/* ========================================
+   MOBILE
+======================================== */
+
+@media (max-width: 600px) {
+
+  .teaching-page {
+    padding: 20px 10px;
+  }
+
+  .teaching-container {
+    width: 100%;
+
+    padding: 25px 18px;
+  }
+
+  .teaching-title {
+    font-size: 1.9rem;
+
+    line-height: 1.2;
+
+    margin-bottom: 20px;
+  }
+
+  .teaching-cover {
+    max-width: 250px;
+
+    margin-bottom: 25px;
+  }
+
+  .teaching-section {
+    margin: 20px 0;
+  }
+
+  .section-title {
+    font-size: 1.3rem;
+
+    line-height: 1.3;
+
+    margin: 20px 0 8px;
+  }
+
+  .teaching-text {
+    font-size: 1rem;
+
+    line-height: 1.5;
+  }
+
+  .link-item {
+    margin: 8px 0;
+
+    overflow-wrap: anywhere;
+  }
+
+  .link-item a {
+    font-size: 0.95rem;
+  }
+}
+
+
+/* ========================================
+   SMALL PHONES
+======================================== */
+
+@media (max-width: 400px) {
+
+  .teaching-page {
+    padding: 15px 8px;
+  }
+
+  .teaching-container {
+    padding: 20px 14px;
+  }
+
+  .teaching-title {
+    font-size: 1.7rem;
+  }
+
+  .teaching-cover {
+    max-width: 220px;
+  }
+
+  .section-title {
+    font-size: 1.2rem;
+  }
+
+  .teaching-text {
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+
+  .link-item a {
+    font-size: 0.9rem;
   }
 }
