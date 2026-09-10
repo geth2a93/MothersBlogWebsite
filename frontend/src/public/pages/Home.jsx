@@ -40,8 +40,9 @@ function Home() {
   : null;
 
   return (
+    
     <div className="app">
-
+      <title>Charlotte Bennardo</title>
       {/* Hero Banner */}
       <section className="hero">
         {banner_image ? (
