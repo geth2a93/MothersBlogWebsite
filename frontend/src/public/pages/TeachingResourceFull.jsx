@@ -54,6 +54,8 @@ export default function TeachingResourceFull() {
         {/* IMAGE */}
         {resource.book_image_url && (
           <img
+            loading="lazy"
+            decoding="async"
             src={resource.book_image_url}
             alt={resource.book_title}
             className="teaching-cover"

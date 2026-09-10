@@ -29,6 +29,8 @@ const renderMedia = () => {
         <img
           src={title_media}
           alt={title}
+          loading="lazy"
+          decoding="async"
           onLoad={() => setMediaLoaded(true)}
           className={`content-card-image ${
             type === "book" ? "book-image" : "blog-image"} ${

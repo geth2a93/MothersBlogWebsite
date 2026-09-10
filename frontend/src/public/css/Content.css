@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400;0,700;1,400;1,700&family=Alegreya+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&display=swap');
+
 /* ========================================
    GENERAL CONTENT
 ======================================== */
@@ -52,14 +53,18 @@
 
 .content-card {
   width: 70%;
-  min-height: 550px;
+  min-height: 500px;
   margin: 0 auto;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
+  gap: 40px;
+  padding: 40px;
+
   border: 1px solid #d7d7d7;
+  box-sizing: border-box;
 }
 
 
@@ -69,9 +74,10 @@
 
 .content-card-image-container {
   width: 45%;
+  max-width: 600px;
   aspect-ratio: 3 / 2;
 
-  flex-shrink: 0;
+  flex-shrink: 1;
   overflow: hidden;
 
   display: flex;
@@ -110,13 +116,18 @@
 ======================================== */
 
 .content-card-text {
-  width: min(50%, 650px);
-  margin: 10px;
+  flex: 1;
+  min-width: 0;
+  max-width: 650px;
 
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
+}
+
+.content-card-title {
+  margin-top: 0;
 }
 
 .content-card-title a {
@@ -259,7 +270,99 @@
   border-color: #9fc2df;
 
   font-size: 11px;
+}
 
+
+/* ========================================
+   HALF / TABLET VIEW
+======================================== */
+
+@media (max-width: 1200px) {
+
+  .content-card {
+    width: 85%;
+    min-height: 450px;
+
+    gap: 25px;
+    padding: 30px;
+  }
+
+  .content-card-image-container {
+    width: 42%;
+    max-width: 450px;
+  }
+
+  .content-card-text {
+    width: 50%;
+  }
+
+  .content-card-title {
+    font-size: 32px;
+  }
+
+  .content-card-text p {
+    font-size: 17px;
+    line-height: 1.5;
+  }
+
+  .content-card-button {
+    padding: 9px 18px;
+  }
+
+  .tag-pill {
+    font-size: 10px;
+    padding: 4px 7px;
+  }
+}
+
+
+/* ========================================
+   SMALL TABLET / HALF VIEW
+======================================== */
+
+@media (max-width: 900px) and (min-width: 601px) {
+
+  .content-card {
+    width: 92%;
+    min-height: 400px;
+
+    gap: 20px;
+    padding: 25px;
+  }
+
+  .content-card-image-container {
+    width: 40%;
+    aspect-ratio: 4 / 3;
+  }
+
+  .content-card-text {
+    width: 55%;
+  }
+
+  .content-card-title {
+    font-size: 28px;
+    line-height: 1.2;
+  }
+
+  .content-card-text p {
+    font-size: 16px;
+    line-height: 1.45;
+  }
+
+  .content-card-button {
+    padding: 8px 16px;
+    font-size: 14px;
+  }
+
+  .tag-container,
+  .book-genres {
+    gap: 4px;
+  }
+
+  .tag-pill {
+    padding: 4px 6px;
+    font-size: 9px;
+  }
 }
 
 
@@ -267,24 +370,87 @@
    MOBILE
 ======================================== */
 
-@media (max-width: 900px) {
+@media (max-width: 600px) {
 
   .content-card {
+    width: 92%;
+    min-height: 0;
+
     flex-direction: column;
 
-    padding: 40px 20px;
+    gap: 20px;
+    padding: 25px 18px;
 
     text-align: center;
   }
 
-  .content-card-text {
-    align-items: center;
+  .content-card-image-container {
     width: 100%;
-    margin-left: 0;
+    max-width: 400px;
+
+    aspect-ratio: 3 / 2;
+
+    flex-shrink: 0;
   }
 
-  .blog-image-container,
-  .book-image-container {
-    width: min(100%, 400px);
+  .content-card-text {
+    width: 100%;
+    max-width: none;
+
+    align-items: center;
+  }
+
+  .content-card-title {
+    margin: 0 0 8px;
+
+    font-size: 27px;
+    line-height: 1.2;
+  }
+
+  .content-card-text p {
+    font-size: 16px;
+    line-height: 1.5;
+  }
+
+  .blog-card-date {
+    font-size: 12px;
+  }
+
+  .content-card-button {
+    padding: 9px 18px;
+    font-size: 14px;
+  }
+
+  .tag-container,
+  .book-genres {
+    justify-content: center;
+  }
+}
+
+
+/* ========================================
+   SMALL PHONES
+======================================== */
+
+@media (max-width: 400px) {
+
+  .content-card {
+    width: 94%;
+
+    padding: 20px 14px;
+
+    gap: 15px;
+  }
+
+  .content-card-image-container {
+    max-width: 100%;
+  }
+
+  .content-card-title {
+    font-size: 24px;
+  }
+
+  .content-card-text p {
+    font-size: 15px;
   }
 }

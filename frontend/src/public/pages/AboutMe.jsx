@@ -29,6 +29,8 @@ export default function About() {
         {about?.author_image && (
           <div className="about-image">
             <img
+              loading="lazy"
+              decoding="async"
               src={about.author_image}
               alt="Author"
             />

@@ -35,6 +35,8 @@ console.log("BLOG RENDER BLOCKS:", post?.content_blocks);
           <img
             src={src}
             alt=""
+            loading="lazy"
+            decoding="async"
             className="blog-image"
             onLoad={(e) => handleImageLoad(e, ratioKey)}
           />
