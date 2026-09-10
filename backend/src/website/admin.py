@@ -1124,7 +1124,7 @@ def display_all_videos():
 
 @admin.route("/deletevideo/<int:id>", methods=["DELETE"])
 @login_required
-def delete_resource(id):
+def delete_video(id):
     video = Videos.query.filter_by(id=id).first_or_404()
     try:
         db.session.delete(video)
