@@ -81,7 +81,7 @@ function NewVideo() {
         throw new Error(data.error || "Failed to add video");
       }
 
-      navigate("/dashboard/videos");
+      navigate("/dashboard/video");
     } catch (err) {
       console.error(err);
       setError(err.message);
