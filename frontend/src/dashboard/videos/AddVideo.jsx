@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../css/editor.css";
-import RichTextEditor, { RichTextToolbar } from "./RichTextEditor";
+import RichTextEditor, { RichTextToolbar } from "../blogs/RichTextEditor";
 
 const defaultVideo = {
   id: null,
