@@ -85,6 +85,20 @@ teaching: {
   slug: item.slug,
   link: `/teachingresources/${item.slug}`
 })
+},
+
+video: {
+  title: "Video",
+  endpoint: "/api/videos",
+  itemKey: null,
+
+  mapItem: (item) => ({
+  id: item.id,
+  title: item.title,
+  title_media: item.video_url,
+  preview: item.content,
+  url_content_type: item.url_content_type
+})
 }
 
 };
