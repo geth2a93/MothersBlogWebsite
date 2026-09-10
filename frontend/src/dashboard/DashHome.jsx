@@ -28,6 +28,12 @@ export default function AdminHome() {
                     description: "Manage teaching materials.",
                     path: "/dashboard/display-teaching",
                 },
+                {
+                    icon: "📖",
+                    title: "Videos",
+                    description: "Manage videos",
+                    path: "/dashboard/video",
+                },
             ],
         },
         {

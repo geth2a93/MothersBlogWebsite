@@ -68,7 +68,7 @@ function DisplayVideos() {
       <h1>Videos</h1>
 
       <div>
-        <button onClick={() =>navigate( `/dashboard/addvideo`)}
+        <button onClick={() =>navigate( `/dashboard/newvideo`)}
          className="add-button"> + Add Video  </button>
       </div>
       
