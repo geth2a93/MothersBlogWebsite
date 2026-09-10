@@ -10,6 +10,10 @@ function Home() {
   const navigate = useNavigate();
 
   useEffect(() => {
+  document.title = "Charlotte Bennardo";
+}, []);
+
+  useEffect(() => {
     fetch("/api/")
       .then((res) => res.json())
       .then((data) => {
@@ -42,7 +46,6 @@ function Home() {
   return (
     
     <div className="app">
-      <title>Charlotte Bennardo</title>
       {/* Hero Banner */}
       <section className="hero">
         {banner_image ? (
