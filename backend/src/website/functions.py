@@ -276,6 +276,7 @@ def get_videos():
     
     for v in videos:
         data.append({
+            "id": v.id if v.id else None,
             "title": v.title if v.title else None,
             "content": v.content  if v.content else None,
             "video_url": v.video_url,
@@ -283,3 +284,14 @@ def get_videos():
         })
     
     return data
+
+def get_videos_by_id(id):
+    video = Videos.query.filter_by(id=id).first_or_404()
+    return{
+            "id": video.id if video.id else None,
+            "title": video.title if video.title else None,
+            "content": video.content  if video.content else None,
+            "video_url": video.video_url,
+            "video_url_type": video.video_url_type
+        }
+    

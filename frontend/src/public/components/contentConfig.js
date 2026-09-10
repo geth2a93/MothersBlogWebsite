@@ -97,7 +97,8 @@ video: {
   title: item.title,
   title_media: item.video_url,
   preview: item.content,
-  url_content_type: item.url_content_type
+  url_content_type: item.video_url_type,
+  link: `/videos/${item.id}`
 })
 }
 

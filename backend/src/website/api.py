@@ -28,9 +28,15 @@ def home():
         "banner_image": build_url(site_images.banner_image_url) if site_images.banner_image_url else None
     })
 
+#videos
+
 @api.route("/videos", methods=["GET"])
 def videos():
     return jsonify(get_videos())
+
+@api.route("/videos/<int:id>", methods=["GET"])
+def videos(id):
+    return jsonify(get_videos_by_id(id))
 
 #blog routes
 

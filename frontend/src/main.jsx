@@ -18,6 +18,7 @@ import BookDetail from './public/pages/BookFull.jsx'
 import TeachingResourceFull from './public/pages/TeachingResourceFull.jsx'
 import ContentListPage from "./public/components/ContentListPage.jsx";
 import VideoList from "./public/pages/VideoList.jsx";
+import VideoList from "./public/pages/VideoFull.jsx";
 
 import AdminHome from "./dashboard/DashHome.jsx";
 import AdminAboutMe from "./dashboard/webresource/EditAboutMe.jsx";
@@ -66,6 +67,7 @@ createRoot(document.getElementById("root")).render(
         <Route path="/teachingresources/:slug" element={<TeachingResourceFull />} />
 
         <Route path="/videos" element={<VideoList />} />
+        <Route path="/videos/:id" element={<VideoFull />} />
       </Route>
 
       <Route path="/login" element={<Login />} />
