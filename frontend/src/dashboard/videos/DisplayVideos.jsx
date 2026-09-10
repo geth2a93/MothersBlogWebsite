@@ -93,7 +93,7 @@ function DisplayVideos() {
                     <button className="edit-button"
                       onClick={() =>
                         navigate(
-                          `/dashboard/editvideo/${resource.id}`
+                          `/dashboard/video-edit/${resource.id}`
                           )
                       }
                     >
