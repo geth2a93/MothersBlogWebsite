@@ -270,18 +270,18 @@ def truncate_html(html, max_length):
 
     return text[:max_length] + "..."
 
-def get_videos():
-    videos = Videos.query.order_by(Videos.id.asc()).all()
+def get_videos(page):
+    pagination = Videos.query.order_by(Videos.id.asc()).paginate(page=page, per_page=per_page, error_out=False)
     data = []
-    
-    for v in videos:
-        data.append({
-            "id": v.id if v.id else None,
-            "title": v.title if v.title else None,
-            "content": v.content  if v.content else None,
-            "video_url": v.video_url,
-            "video_url_type": v.video_url_type
-        })
+    if pagination:
+        for v in pagination.items:
+            data.append({
+                "id": v.id if v.id else None,
+                "title": v.title if v.title else None,
+                "content": v.content  if v.content else None,
+                "video_url": v.video_url,
+                "video_url_type": v.video_url_type
+            })
     
     return data
 

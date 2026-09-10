@@ -32,7 +32,8 @@ def home():
 
 @api.route("/videos", methods=["GET"])
 def videos():
-    return jsonify(get_videos())
+    page = request.args.get("page", 1, type=int)
+    return jsonify(get_videos(page))
 
 @api.route("/videos/<int:id>", methods=["GET"])
 def videos_full(id):

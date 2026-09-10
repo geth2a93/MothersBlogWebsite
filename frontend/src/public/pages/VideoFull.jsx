@@ -50,26 +50,32 @@ export default function VideoFull() {
     switch (video.video_url_type) {
       case "youtube":
         return (
+          <div className="embed-wrapper">
           <YouTubeEmbed
             url={video.video_url}
             width="100%"
           />
+          </div>
         );
 
       case "instagram":
         return (
+          <div className="embed-wrapper">
           <InstagramEmbed
             url={video.video_url}
             width="100%"
           />
+          </div>
         );
 
       case "facebook":
         return (
+          <div className="embed-wrapper">
           <FacebookEmbed
             url={video.video_url}
             width="100%"
           />
+          </div>
         );
 
 
@@ -108,11 +114,12 @@ export default function VideoFull() {
   }
 
   return (
-    <div className="content-page">
+    <div className="blog-post-page">
+      <div className="blog-post-container">
 
       {video.title && (
         <h1
-          className="content-title"
+          className="blog-post-title"
           dangerouslySetInnerHTML={{
             __html: video.title,
           }}
@@ -121,7 +128,7 @@ export default function VideoFull() {
 
       {video.content && (
         <div
-          className="content-text"
+          className="blog-post-preview"
           dangerouslySetInnerHTML={{
             __html: video.content,
           }}
@@ -131,7 +138,7 @@ export default function VideoFull() {
       <div className="video-full-container">
         {renderVideo()}
       </div>
-
+      </div>
     </div>
   );
 }
