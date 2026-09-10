@@ -35,7 +35,7 @@ def videos():
     return jsonify(get_videos())
 
 @api.route("/videos/<int:id>", methods=["GET"])
-def videos(id):
+def videos_full(id):
     return jsonify(get_videos_by_id(id))
 
 #blog routes
