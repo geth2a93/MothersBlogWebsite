@@ -1120,7 +1120,7 @@ def edit_teaching_resource(slug):
 @login_required
 def display_all_videos():
     videos = Videos.query.order_by(Videos.id.asc()).all()
-    return jsonify({ "resources": [{"title": v.title, "slug": v.video_url} for v in videos]})
+    return jsonify({ "resources": [{"id": v.id, "title": v.title, "url": v.video_url} for v in videos]})
 
 @admin.route("/deletevideo/<int:id>", methods=["DELETE"])
 @login_required
