@@ -4,6 +4,7 @@ import "../css/AboutMe.css";
 export default function About() {
   const [about, setAbout] = useState(null);
   const [loading, setLoading] = useState(true);
+  
 
   useEffect(() => {
     fetch("/api/aboutme")
@@ -27,7 +28,8 @@ export default function About() {
   }
 
   return (
-    <div className="about-page">
+      <div className={`about-page ${!loading ? "loaded" : ""}`}>
+
 
       <div className="about-container">
         {about?.author_image && (

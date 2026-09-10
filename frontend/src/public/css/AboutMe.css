@@ -5,6 +5,14 @@
     background: #E6FBFF;
     min-height: 100vh;
     padding: 80px 5%;
+
+    opacity: 0;
+    transition: opacity 0.4s ease;
+
+}
+
+.about-page.loaded {
+  opacity: 1;
 }
 
 .about-container {

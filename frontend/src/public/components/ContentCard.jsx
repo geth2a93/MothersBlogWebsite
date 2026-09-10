@@ -81,8 +81,20 @@ const renderMedia = () => {
   const showMediaOnly = hasMedia && !hasText;
 
   useEffect(() => {
-   setMediaLoaded(false);
-  }, [title_media, url_content_type]);
+  if (!title_media) {
+    setMediaLoaded(false);
+    return;
+  }
+
+  const img = new Image();
+  img.src = title_media;
+
+  if (img.complete) {
+    setMediaLoaded(true);
+  } else {
+    setMediaLoaded(false);
+  }
+}, [title_media, url_content_type]);
 
   return (
     <div className="content-card" style={{ backgroundColor }}>

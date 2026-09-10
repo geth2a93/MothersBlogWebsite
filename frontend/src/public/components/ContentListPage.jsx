@@ -12,6 +12,7 @@ export default function ContentListPage({ type, genre }) {
   const [items, setItems] = useState([]);
   const [page, setPage] = useState(1);
   const [hasNext, setHasNext] = useState(false);
+  const [contentLoaded, setContentLoaded] = useState(false);
 
   useEffect(() => {
   document.title = "Charlotte Bennardo";
@@ -40,8 +41,11 @@ useEffect(() => {
       }
 
       setItems(rawItems.map(config.mapItem));
-
       setHasNext(data.has_next ?? false);
+      setContentLoaded(true);
+    })
+      .catch(error => {
+      console.error("Failed to load content:", error);
     });
 }, [page, type, genre]);
 
@@ -55,7 +59,7 @@ const itemsToRender = [...items];
         {config.title}
       </h1>
 
-      <div className="content-list">
+      <div className={`content-list ${contentLoaded ? "loaded" : ""}`}>
 
         {itemsToRender.map((item, index) => (
           <ContentCard
@@ -80,7 +84,7 @@ const itemsToRender = [...items];
       
 
 
-      <div className="pagination">
+      <div className={`pagination ${contentLoaded ? "loaded" : ""}`}>
         
         <button
           onClick={() => setPage(p => Math.max(p - 1, 1))}

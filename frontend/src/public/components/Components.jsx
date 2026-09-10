@@ -229,14 +229,14 @@ export function Footer() {
 
 export default function Layout() {
   return (
-    <>
+    <div className="site-layout">
       <Navbar />
 
-      <main>
+      <main className="site-main">
         <Outlet />
       </main>
 
       <Footer />
-    </>
+      </div>
   );
 }

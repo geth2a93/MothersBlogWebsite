@@ -3,8 +3,18 @@
 
 /* {
   border: 1px solid red;
+} */
+
+.app {
+  opacity: 0;
+  transition: opacity 1.2s ease;
 }
----- Hero Section --------*/
+
+.app.loaded {
+  opacity: 1;
+}
+
+/* ---- Hero Section --------*/
 .hero {
   width: 100%;
   margin: 0 auto;
@@ -22,6 +32,21 @@
   height: auto;
 
   object-fit: contain;
+}
+
+.hero-image {
+  display: block;
+  width: 100%;
+  height: auto;
+
+  object-fit: contain;
+
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+.hero-image.loaded {
+  opacity: 1;
 }
 
 

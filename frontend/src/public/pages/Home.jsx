@@ -7,6 +7,7 @@ import "../css/Home.css"
 function Home() {
   const [homeData, setHomeData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [heroLoaded, setHeroLoaded] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -19,10 +20,12 @@ function Home() {
       .then((data) => {
         setHomeData(data);
         setLoading(false);
+        setHeroLoaded(false)
       })
       .catch((err) => {
         console.error(err);
         setLoading(false);
+        setHeroLoaded(false)
       });
   }, []);
 
@@ -44,18 +47,23 @@ function Home() {
   : null;
 
   return (
-    
-    <div className="app">
+    <div className={`app ${!loading ? "loaded" : ""}`}>
+
       {/* Hero Banner */}
       <section className="hero">
-        {banner_image ? (
-          <img src={banner_image} alt="Website Banner" className="hero-image" />
-        ) : (
-          <div className="hero-placeholder">
-            No banner available.
-          </div>
-        )}
-      </section>
+  {banner_image ? (
+    <img
+      src={banner_image}
+      alt="Website Banner"
+      className={`hero-image ${heroLoaded ? "loaded" : ""}`}
+      onLoad={() => setHeroLoaded(true)}
+    />
+  ) : (
+    <div className="hero-placeholder">
+      No banner available.
+    </div>
+  )}
+</section>
 
     {/* Book */}
 <section className="coming-soon">
