@@ -42,9 +42,9 @@ import DisplayTeachingResources from './dashboard/teaching/DisplayTeach.jsx';
 import AddTeachingResource from './dashboard/teaching/AddTeach.jsx';
 import EditTeachingResource from './dashboard/teaching/EditTeach.jsx';
 
-import AdminEditVideos from "./dashboard/DisplayVideos.jsx";
-import EditVideo from "./dashboard/EditVideo.jsx";
-import NewVideo from './dashboard/books/AddVideo.jsx';
+import AdminEditVideos from "./dashboard/videos/DisplayVideos.jsx";
+import EditVideo from "./dashboard/videos/EditVideo.jsx";
+import NewVideo from './dashboard/videos/AddVideo.jsx';
 
 
 
