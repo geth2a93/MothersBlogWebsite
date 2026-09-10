@@ -78,6 +78,7 @@ export function Navbar() {
             )}
           </li>
           <li><Link to="/teachingresources">Teaching Resources</Link></li>
+          <li><Link to="/videos">Videos</Link></li>
         </ul>
       </nav>
       
