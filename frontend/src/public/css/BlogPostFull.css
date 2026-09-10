@@ -124,6 +124,14 @@
     align-items: center;
 }
 
+.blog-block.no-image {
+    display: block;
+}
+
+.blog-block.no-image .text-container {
+    width: 100%;
+}
+
 .blog-block.center .image-container {
     width: 100%;
     max-width: 800px;

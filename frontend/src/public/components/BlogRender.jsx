@@ -132,9 +132,10 @@ console.log("BLOG RENDER BLOCKS:", post?.content_blocks);
           const hasTitle = !!block.blocktitle;
 
           return (
-            <div
-              key={block.order}
-              className={`blog-block ${block.alignment || "left"}`}
+            <div key={block.order}
+              className={`blog-block ${block.alignment || "left"} ${
+              !hasMedia ? "no-image" : ""
+              }`}
             >
               {(hasMedia || (block.ownership === false && block.name_of_owner)) && (
               <div
