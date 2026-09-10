@@ -91,6 +91,7 @@ video: {
   title: "Video",
   endpoint: "/api/videos",
   itemKey: null,
+  paginate: true,
 
   mapItem: (item) => ({
   id: item.id,

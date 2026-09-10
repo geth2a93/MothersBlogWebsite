@@ -75,9 +75,11 @@ def get_all_books(page, per_page=5):
                 "date_displayed": b.publish_date_displayed
             })
 
-    return {"data": data,
+    return {
+        "data": data,
         "has_next": pagination.has_next,
-        "page": page}
+        "page": page
+        }
 
 def get_books_by_genre(genre, page, per_page=5):  # all books in the genre
     pagination = Book.query.join(Book.genres).filter(Genre.genre == genre, Book.published == True).order_by(Book.publish_date.desc()).paginate(page=page, per_page=per_page, error_out=False)
@@ -97,9 +99,11 @@ def get_books_by_genre(genre, page, per_page=5):  # all books in the genre
             "date_displayed": b.publish_date_displayed
         })
 
-    return {"data": data,
+    return {
+        "data": data,
         "has_next": pagination.has_next,
-        "page": page}
+        "page": page
+        }
 
 def get_books_by_title(slug, published):
 
