@@ -17,7 +17,7 @@ import BooksGenreWrapper from './public/pages/BooksGenre.jsx'
 import BookDetail from './public/pages/BookFull.jsx'
 import TeachingResourceFull from './public/pages/TeachingResourceFull.jsx'
 import ContentListPage from "./public/components/ContentListPage.jsx";
-import VideoList from "./public/pages/videolist.jsx";
+import VideoList from "./public/pages/VideoList.jsx";
 
 import AdminHome from "./dashboard/DashHome.jsx";
 import AdminAboutMe from "./dashboard/webresource/EditAboutMe.jsx";
