@@ -20,6 +20,10 @@ export default function BlogPostFull() {
             });
     }, [slug]);
 
+    useEffect(() => {
+        document.title = "blog.title";
+    }, []);
+
     if (loading) {
         return <p>Loading...</p>;
     }

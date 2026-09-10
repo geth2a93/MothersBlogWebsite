@@ -49,6 +49,20 @@ function RichTextToolbar({ activeEditor }) {
   if (url) {
     document.execCommand("createLink", false, url);
   }
+  const selection = window.getSelection();
+  if (selection.rangeCount > 0) {
+    let node = selection.anchorNode;
+
+    if (node.nodeType === Node.TEXT_NODE) {
+      node = node.parentElement;
+    }
+
+    if (node && node.tagName === "A") {
+      node.style.color = "blue";
+      node.style.fontWeight = "bold";
+      node.style.textDecoration = "underline";
+    }
+  }
 };
   
   return (

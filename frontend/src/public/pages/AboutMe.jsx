@@ -18,6 +18,10 @@ export default function About() {
       });
   }, []);
 
+  useEffect(() => {
+  document.title = "Charlotte Bennardo";
+}, []);
+
   if (loading) {
     return <div className="about-page">Loading...</div>;
   }

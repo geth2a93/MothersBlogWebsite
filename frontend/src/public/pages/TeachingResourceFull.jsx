@@ -10,6 +10,10 @@ export default function TeachingResourceFull() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+  document.title = "Charlotte Bennardo";
+}, []);
+
+  useEffect(() => {
     fetch(`/api/teachingresources/${slug}`)
       .then(res => {
         if (!res.ok) throw new Error(res.status);

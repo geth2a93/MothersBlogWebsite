@@ -17,6 +17,7 @@ import BooksGenreWrapper from './public/pages/BooksGenre.jsx'
 import BookDetail from './public/pages/BookFull.jsx'
 import TeachingResourceFull from './public/pages/TeachingResourceFull.jsx'
 import ContentListPage from "./public/components/ContentListPage.jsx";
+import VideoList from "./public/pages/videolist.jsx";
 
 import AdminHome from "./dashboard/DashHome.jsx";
 import AdminAboutMe from "./dashboard/webresource/EditAboutMe.jsx";
@@ -41,6 +42,12 @@ import DisplayTeachingResources from './dashboard/teaching/DisplayTeach.jsx';
 import AddTeachingResource from './dashboard/teaching/AddTeach.jsx';
 import EditTeachingResource from './dashboard/teaching/EditTeach.jsx';
 
+import AdminEditVideos from "./dashboard/DisplayVideos.jsx";
+import EditVideo from "./dashboard/EditVideo.jsx";
+import NewVideo from './dashboard/books/AddVideo.jsx';
+
+
+
 createRoot(document.getElementById("root")).render(
   <BrowserRouter>
     <Routes>
@@ -57,6 +64,8 @@ createRoot(document.getElementById("root")).render(
 
         <Route path="/teachingresources" element={<ContentListPage type="teaching" />} />
         <Route path="/teachingresources/:slug" element={<TeachingResourceFull />} />
+
+        <Route path="/videos" element={<VideoList />} />
       </Route>
 
       <Route path="/login" element={<Login />} />
@@ -90,6 +99,10 @@ createRoot(document.getElementById("root")).render(
       <Route path="display-teaching" element={<DisplayTeachingResources />} />
       <Route path="add-teaching" element={<AddTeachingResource />} />
       <Route path="edit-teaching/:slug" element={<EditTeachingResource />} />
+
+      <Route path="video" element={<AdminEditVideos />} />
+      <Route path="video-edit/:id" element={<EditVideo />} />
+      <Route path="newvideo" element={<NewVideo />} />
     </Route>
     </Routes>
   </BrowserRouter>

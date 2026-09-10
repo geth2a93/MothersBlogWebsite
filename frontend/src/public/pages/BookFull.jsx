@@ -9,6 +9,10 @@ export default function BookDetail() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    document.title = "book.title";
+  }, []);
+
+  useEffect(() => {
     setLoading(true);
 
     fetch(`/api/books/title/${slug}`)

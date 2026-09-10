@@ -339,7 +339,13 @@ def edit_blog(slug):
         if not title:
             return jsonify({"error": "No title"}), 400
 
+        old_title = strip_html(blog.title)
+        new_title = strip_html(title)
+        if new_title != old_title:
+            blog.slug = generate_unique_slug(BlogPost, title)
+
         blog.title = title
+
         blog.title_text_content = data.get("preview", blog.title_text_content)
 
         date_upload = data.get("date", blog.blog_date)
@@ -386,8 +392,6 @@ def edit_blog(slug):
             return jsonify({"error": "Invalid content type for title media"}), 400
 
         blog.title_media_content_type = title_media_content_type
-        if data.get("title"):
-            blog.slug = generate_unique_slug(BlogPost, title)
 
         Tags.query.filter_by(blog_id=blog.id).delete()
 
@@ -1111,3 +1115,81 @@ def edit_teaching_resource(slug):
     db.session.commit()
 
     return jsonify({"message": f'Teaching resource  "{resource.book_title}" edited'}), 201
+
+@admin.route("/displayallvideos", methods=["GET"])
+@login_required
+def display_all_videos():
+    videos = Videos.query.order_by(Videos.id.asc()).all()
+    return jsonify({ "resources": [{"title": v.title, "slug": v.video_url} for v in videos]})
+
+@admin.route("/deletevideo/<int:id>", methods=["DELETE"])
+@login_required
+def delete_resource(id):
+    video = Videos.query.filter_by(id=id).first_or_404()
+    try:
+        db.session.delete(video)
+        db.session.commit()
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": str(e)}), 400   
+
+    return jsonify({"message": "Video deleted"}), 200 
+
+@admin.route("/addvideo/", methods=["POST"])
+@login_required
+def add_video():
+    try:
+        title = request.form.get("video_title", "").strip()
+        content = request.form.get("content", "").strip()
+        video_url_type = request.form.get("url_type")
+        if not video_url_type:
+            return jsonify({"error": "Missing Video Type"}), 400
+        video_url = request.form.get("url")
+        if not video_url:
+            return jsonify({"error": "Missing Video Url"}), 400
+        video = Videos(title=title, content=content, video_url_type=video_url_type, video_url=video_url)
+        db.session.add(video)
+        db.session.commit()
+    
+        
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": str(e)}), 400   
+    
+    return jsonify({"message": f'Video resource  "{video.id}" added'}), 201
+
+
+@admin.route("/editvideo/<int:id>", methods=["PUT", "GET"])
+@login_required
+def edit_video(id):
+    video = Videos.query.filter_by(id=id).first_or_404()
+    if request.method == "GET":
+        return{ 
+            "title": video.title if video.title else None,
+            "content": video.content  if video.content else None,
+            "video_url": video.video_url,
+            "video_url_type": video.video_url_type
+        }
+    
+    try:
+        title = request.form.get("video_title", "").strip()
+        content = request.form.get("content", "").strip()
+        video_url_type = request.form.get("url_type")
+        if not video_url_type:
+            return jsonify({"error": "Missing Video Type"}), 400
+        video_url = request.form.get("url")
+        if not video_url:
+            return jsonify({"error": "Missing Video Url"}), 400
+        video.title = title
+        video.content = content
+        video.video_url_type = video_url_type
+        video.video_url = video_url
+        db.session.commit()
+        
+            
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": str(e)}), 400   
+        
+    return jsonify({"message": f'Video resource  "{video.id}" editted'}), 200
+

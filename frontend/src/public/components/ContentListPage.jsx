@@ -13,6 +13,10 @@ export default function ContentListPage({ type, genre }) {
   const [page, setPage] = useState(1);
   const [hasNext, setHasNext] = useState(false);
 
+  useEffect(() => {
+  document.title = "Charlotte Bennardo";
+}, []);
+
 useEffect(() => {
   const endpoint =
     typeof config.endpoint === "function"

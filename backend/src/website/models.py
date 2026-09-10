@@ -19,6 +19,12 @@ class AboutMe(db.Model):
     updated_at = db.Column(db.DateTime)
     photo_url = db.Column(db.String(200))
 
+class Videos(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.Text, nullable=True) 
+    content = db.Column(db.Text, nullable=True) 
+    video_url = db.Column(db.Text, nullable=False) 
+    video_url_type = db.Column(db.Text, nullable=False)
 #Blog 
    
 class BlogPost(db.Model):

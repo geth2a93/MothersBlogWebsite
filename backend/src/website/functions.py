@@ -269,3 +269,17 @@ def truncate_html(html, max_length):
         return html
 
     return text[:max_length] + "..."
+
+def get_videos():
+    videos = Videos.query.order_by(Videos.id.asc()).all()
+    data = []
+    
+    for v in videos:
+        data.append({
+            "title": v.title if v.title else None,
+            "content": v.content  if v.content else None,
+            "video_url": v.video_url,
+            "video_url_type": v.video_url_type
+        })
+    
+    return data
