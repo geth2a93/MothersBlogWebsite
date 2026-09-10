@@ -270,7 +270,7 @@ def truncate_html(html, max_length):
 
     return text[:max_length] + "..."
 
-def get_videos(page):
+def get_videos(page, per_page=5):
     pagination = Videos.query.order_by(Videos.id.asc()).paginate(page=page, per_page=per_page, error_out=False)
     data = []
     if pagination:
@@ -283,7 +283,11 @@ def get_videos(page):
                 "video_url_type": v.video_url_type
             })
     
-    return data
+    return {
+        "data": data,
+        "has_next": pagination.has_next,
+        "page": page
+        }
 
 def get_videos_by_id(id):
     video = Videos.query.filter_by(id=id).first_or_404()
