@@ -42,6 +42,14 @@ function RichTextToolbar({ activeEditor }) {
 
     activeEditor.dispatchEvent(new Event("input", { bubbles: true }));
   };
+
+  const addLink = () => {
+  const url = prompt("Enter URL:");
+
+  if (url) {
+    document.execCommand("createLink", false, url);
+  }
+};
   
   return (
     <div className="editor-toolbar">
@@ -164,6 +172,14 @@ function RichTextToolbar({ activeEditor }) {
         onClick={() => formatText("justifyRight")}
       >
         Right
+      </button>
+
+      <button
+        type="button"
+        onMouseDown={(e) => e.preventDefault()}
+        onClick={addLink}
+      >
+        🔗 Link
       </button>
 
     </div>
