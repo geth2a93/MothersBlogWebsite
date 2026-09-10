@@ -159,7 +159,7 @@ function NewVideo() {
 
           <button
             type="button"
-            onClick={() => navigate("/dashboard/videos")}
+            onClick={() => navigate("/dashboard/video")}
           >
             Cancel
           </button>
