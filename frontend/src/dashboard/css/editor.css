@@ -3,16 +3,247 @@
 @import url('https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400;0,700;1,400;1,700&family=Alegreya+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&display=swap');
 
-/*rich text*/
+/* =========================
+   Rich Text Editor
+   ========================= */
 
 .editor-toolbar {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: white;
+
+  display: flex;
+  align-items: center;
+
+  width: 100%;
+  min-height: 46px;
+
+  background: #ffffff;
+  border: 1px solid #cfd8dc;
+  border-radius: 8px;
+
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+
+  overflow: hidden;
 }
 
-input, textarea, select, .text-area-rich, .title-rich{
+
+/* Small header on the left */
+
+.editor-toolbar-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  flex-shrink: 0;
+
+  padding: 5px 8px;
+
+  background: #f7fbfc;
+  border-right: 1px solid #d9e2e5;
+}
+
+.editor-toolbar-title {
+  font-family: "Alegreya Sans", sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #4b4b4b;
+}
+
+
+/* Collapse button */
+
+.editor-collapse-button {
+  width: 26px;
+  height: 26px;
+
+  padding: 0;
+  margin: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: none;
+  border-radius: 5px;
+
+  background: #e6fbff;
+  color: #0f7ba8;
+
+  cursor: pointer;
+
+  font-size: 11px;
+  line-height: 1;
+
+  transition:
+    background 0.15s ease,
+    transform 0.15s ease;
+}
+
+.editor-collapse-button:hover {
+  background: #d5f5fc;
+}
+
+.editor-collapse-button:active {
+  transform: scale(0.94);
+}
+
+
+/* Toolbar controls */
+
+.editor-toolbar-controls {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+
+  flex: 1;
+
+  padding: 6px 8px;
+
+  overflow-x: auto;
+  overflow-y: hidden;
+
+  white-space: nowrap;
+
+  scrollbar-width: thin;
+}
+
+
+/* Make all toolbar buttons compact */
+
+.editor-toolbar button {
+  height: 32px;
+
+  padding: 4px 9px;
+
+  border: 1px solid #d5dfe2;
+  border-radius: 5px;
+
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 500;
+
+  cursor: pointer;
+
+  flex-shrink: 0;
+
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    transform 0.1s ease;
+}
+
+.editor-toolbar button:hover {
+  border-color: #9dbbc5;
+}
+
+.editor-toolbar button:active {
+  transform: translateY(1px);
+}
+
+
+/* Existing button colors */
+
+.rich-text-button {
+  background: #ffeede;
+  color: #26a3d4;
+}
+
+.rich-text-button.active {
+  background: #26a3d4;
+  color: #ffeede;
+}
+
+
+/* Color buttons */
+
+.rich-text-color-gray {
+  background: #4b4b4b;
+  color: #ffeede;
+}
+
+.rich-text-color-gray.active {
+  background: #ffeede;
+  color: #4b4b4b;
+}
+
+.rich-text-color-blue {
+  background: #0f7ba8;
+  color: #ffeede;
+}
+
+.rich-text-color-blue.active {
+  background: #ffeede;
+  color: #0f7ba8;
+}
+
+.rich-text-color-black {
+  background: #000000;
+  color: #ffeede;
+}
+
+.rich-text-color-black.active {
+  background: #ffeede;
+  color: #000000;
+}
+
+
+/* Select menus */
+
+.rich-text-font-size {
+  width: 65px;
+  height: 32px;
+  padding: 4px 6px;
+
+  border: 1px solid #cfd8dc;
+  border-radius: 5px;
+
+  background: #ffffff;
+  color: #4b4b4b;
+
+  font-family: inherit;
+  font-size: 14px;
+
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+
+/* Vertical separators */
+
+.toolbar-divider {
+  width: 1px;
+  height: 24px;
+
+  margin: 0 3px;
+
+  background: #d9e2e5;
+
+  flex-shrink: 0;
+}
+
+
+/* Collapsed state */
+
+.editor-toolbar.collapsed {
+  min-height: 40px;
+}
+
+.editor-toolbar.collapsed .editor-toolbar-header {
+  width: 100%;
+  justify-content: space-between;
+
+  border-right: none;
+}
+
+
+/* Your existing editor inputs */
+
+input,
+textarea,
+select,
+.text-area-rich,
+.title-rich {
   width: 100%;
   padding: 10px;
   margin-top: 8px;
@@ -24,57 +255,16 @@ input, textarea, select, .text-area-rich, .title-rich{
   background: #fff;
 }
 
-textarea, .text-area-rich{
+textarea,
+.text-area-rich {
   resize: vertical;
   min-height: 300px;
   font-size: 20px;
 }
 
- .title-rich{
+.title-rich {
   font-size: 32px;
- }
-
-.rich-text-button {
-  background: #FFEEDE;
-  color: #26a3d4;
 }
-
-.rich-text-button.active {
-  background: #26a3d4;
-  color: #FFEEDE;
-}
-
-.rich-text-color-gray{
-  background: #4B4B4B;
-  color: #FFEEDE;
-}
-
-.rich-text-color-gray.active{
-  background: #FFEEDE;
-  color: #4B4B4B;
-}
-
-.rich-text-color-blue{
-  background: #0F7BA8;
-  color: #FFEEDE;
-}
-
-.rich-text-color-blue.active{
-  background: #FFEEDE;
-  color: #0F7BA8;
-}
-
-.rich-text-color-black{
-  background: #000000;
-  color: #FFEEDE;
-}
-
-.rich-text-color-black.active{
-  background: #FFEEDE;
-  color: #000000;
-}
-
-/*rich text*/
 
 .date-row { 
   display: flex;

@@ -131,15 +131,18 @@ function EditVideo() {
   }
 
   return (
+    <>
+    <RichTextToolbar activeEditor={activeEditor} />
     <div className="editor-container">
       <h1>Edit Video</h1>
 
-      <RichTextToolbar activeEditor={activeEditor} />
-
+    
       <form onSubmit={handleSubmit}>
 
         {/* Title */}
-        <label>Title</label>
+
+        <div className="editor-card">
+        <h2>Title</h2>
 
         <RichTextEditor
           className="title-rich"
@@ -149,7 +152,7 @@ function EditVideo() {
         />
 
         {/* Content */}
-        <label>Content</label>
+        <h2>Content</h2>
 
         <RichTextEditor
           className="text-area-rich"
@@ -159,9 +162,7 @@ function EditVideo() {
         />
 
         {/* Video Platform */}
-        <label htmlFor="video-type">
-          Video Platform
-        </label>
+         <h2>Video Platform</h2>
 
         <select
           id="video-type"
@@ -175,9 +176,7 @@ function EditVideo() {
         </select>
 
         {/* Video URL */}
-        <label htmlFor="video-url">
-          Video URL
-        </label>
+         <h2>Video URL</h2>
 
         <input
           id="video-url"
@@ -208,9 +207,10 @@ function EditVideo() {
             Cancel
           </button>
         </div>
-
+        </div>
       </form>
     </div>
+    </>
   );
 }
 
