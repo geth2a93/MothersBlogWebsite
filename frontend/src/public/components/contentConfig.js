@@ -88,7 +88,7 @@ teaching: {
 },
 
 video: {
-  title: "Video",
+  title: "Videos",
   endpoint: "/api/videos",
   itemKey: null,
   paginate: true,
