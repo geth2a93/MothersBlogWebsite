@@ -68,7 +68,7 @@ function RichTextToolbar({ activeEditor }) {
       }
 
       if (node && node.tagName === "A") {
-        node.style.color = "blue";
+        node.style.color = "#26a3d4";
         node.style.fontWeight = "bold";
         node.style.textDecoration = "underline";
       }
