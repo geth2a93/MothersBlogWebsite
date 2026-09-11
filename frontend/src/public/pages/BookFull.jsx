@@ -10,10 +10,10 @@ export default function BookDetail() {
 
   useEffect(() => {
   const temp = document.createElement("div");
-  temp.innerHTML = book.title || "";
+  temp.innerHTML = book?.title || "";
 
   document.title = temp.textContent || temp.innerText || "";
-}, []);
+}, [book?.title]);
 
   useEffect(() => {
     setLoading(true);
