@@ -9,8 +9,11 @@ export default function BookDetail() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    document.title = "book.title";
-  }, []);
+  const temp = document.createElement("div");
+  temp.innerHTML = book.title || "";
+
+  document.title = temp.textContent || temp.innerText || "";
+}, []);
 
   useEffect(() => {
     setLoading(true);
