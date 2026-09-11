@@ -167,7 +167,7 @@ function RichTextToolbar({ activeEditor }) {
           </select>
 
           <select
-            className="rich-text-font"
+             className="rich-text-font-size"
             value={fontSize}
             onChange={(e) => {
               setFontSize(e.target.value);

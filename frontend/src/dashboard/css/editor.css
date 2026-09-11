@@ -27,6 +27,73 @@
   overflow: hidden;
 }
 
+/* Toolbar buttons */
+.editor-toolbar button {
+  height: 38px;
+  padding: 5px 13px;
+
+  border: 1px solid #d5dfe2;
+  border-radius: 6px;
+
+  font-family: inherit;
+  font-size: 20px;
+  font-weight: 500;
+
+  cursor: pointer;
+  flex-shrink: 0;
+
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    transform 0.1s ease;
+}
+
+.editor-toolbar button:hover {
+  border-color: #9dbbc5;
+}
+
+
+.editor-toolbar-controls {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+
+  flex: 1;
+
+  padding: 7px 10px;
+
+  overflow-x: auto;
+  overflow-y: hidden;
+
+  white-space: nowrap;
+
+  scrollbar-width: thin;
+}
+.editor-toolbar button:active {
+  transform: translateY(1px);
+}
+
+/* Font + font size selection boxes */
+.rich-text-font {
+  width: 100px;
+  height: 34px;
+  padding: 4px 6px;
+
+  border: 1px solid #cfd8dc;
+  border-radius: 5px;
+
+  background: #ffffff;
+  color: #4b4b4b;
+
+  font-family: inherit;
+  font-size: 20px; /* increase this */
+  
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+
+
 
 /* Small header on the left */
 
@@ -45,7 +112,7 @@
 
 .editor-toolbar-title {
   font-family: "Alegreya Sans", sans-serif;
-  font-size: 14px;
+  font-size: 20px;
   font-weight: 600;
   color: #4b4b4b;
 }
@@ -94,6 +161,7 @@
 .editor-toolbar-controls {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 5px;
 
   flex: 1;
@@ -111,35 +179,6 @@
 
 /* Make all toolbar buttons compact */
 
-.editor-toolbar button {
-  height: 32px;
-
-  padding: 4px 9px;
-
-  border: 1px solid #d5dfe2;
-  border-radius: 5px;
-
-  font-family: inherit;
-  font-size: 14px;
-  font-weight: 500;
-
-  cursor: pointer;
-
-  flex-shrink: 0;
-
-  transition:
-    background 0.15s ease,
-    border-color 0.15s ease,
-    transform 0.1s ease;
-}
-
-.editor-toolbar button:hover {
-  border-color: #9dbbc5;
-}
-
-.editor-toolbar button:active {
-  transform: translateY(1px);
-}
 
 
 /* Existing button colors */
@@ -191,9 +230,9 @@
 /* Select menus */
 
 .rich-text-font-size {
-  width: 65px;
-  height: 32px;
-  padding: 4px 6px;
+  width: 58px;
+  height: 34px;
+  padding: 4px 5px;
 
   border: 1px solid #cfd8dc;
   border-radius: 5px;
@@ -202,12 +241,11 @@
   color: #4b4b4b;
 
   font-family: inherit;
-  font-size: 14px;
+  font-size: 20px; /* increase this */
 
   cursor: pointer;
   flex-shrink: 0;
 }
-
 
 /* Vertical separators */
 
@@ -251,7 +289,7 @@ select,
   border-radius: 8px;
   border: 1px solid #cfd8dc;
   font-family: inherit;
-  font-size: 16px;
+  font-size: 18px;
   background: #fff;
 }
 
