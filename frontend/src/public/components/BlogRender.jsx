@@ -28,7 +28,7 @@ console.log("BLOG RENDER BLOCKS:", post?.content_blocks);
 
 useEffect(() => {
   const temp = document.createElement("div");
-  temp.innerHTML = BlogRender.title || "";
+  temp.innerHTML = post.title || "";
 
   document.title = temp.textContent || temp.innerText || "";
 }, []);
