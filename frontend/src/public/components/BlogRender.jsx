@@ -26,9 +26,12 @@ console.log("BLOG RENDER BLOCKS:", post?.content_blocks);
     }));
   };
 
-  useEffect(() => {
-    document.title = BlogRender.title;
-  }, []);
+useEffect(() => {
+  const temp = document.createElement("div");
+  temp.innerHTML = BlogRender.title || "";
+
+  document.title = temp.textContent || temp.innerText || "";
+}, []);
 
   const renderMedia = (src, type, ratioKey) => {
     if (!src) return null;
