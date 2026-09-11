@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { formatBookDate, formatDate } from "./dateHelper.js";
 import {
   InstagramEmbed,
@@ -27,7 +27,7 @@ console.log("BLOG RENDER BLOCKS:", post?.content_blocks);
   };
 
   useEffect(() => {
-    document.title = title;
+    document.title = BlogRender.title;
   }, []);
 
   const renderMedia = (src, type, ratioKey) => {
