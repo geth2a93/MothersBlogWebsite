@@ -20,8 +20,11 @@ export default function BlogPostFull() {
             });
     }, [slug]);
 
-    useEffect(() => {
-        document.title = "blog.title";
+   useEffect(() => {
+    const temp = document.createElement("div");
+    temp.innerHTML = book.title || "";
+
+    document.title = temp.textContent || temp.innerText || "";
     }, []);
 
     if (loading) {
