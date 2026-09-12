@@ -2,7 +2,6 @@ from .models import *
 from flask import request
 import re
 from bs4 import BeautifulSoup
-from .admin_functions import strip_html
 
 def build_url(path):
     if not path:
