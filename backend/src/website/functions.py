@@ -301,4 +301,32 @@ def get_videos_by_id(id):
             "video_url": video.video_url,
             "video_url_type": video.video_url_type
         }
+
+def site_map():
+    base_url = "https://charlottebennardo.com"
+    urls = [
+        f"{base_url}/",
+        f"{base_url}/about",
+        f"{base_url}/books",
+        f"{base_url}/blog",
+        f"{base_url}/teaching-resources",
+    ]
+
+    blogs = BlogPost.query.filter_by(published=True).all()
+    for blog in blogs:
+        urls.append(f"{base_url}/blog/{blog.slug}")
+
+    books = Book.query.filter_by(published=True).all()
+    for book in books:
+        urls.append(f"{base_url}/books/title/{book.slug}")
     
+    sitemap_xml = '<?xml version="1.0" encoding="UTF-8"?>\n'
+    sitemap_xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+    
+    for url in urls:
+        sitemap_xml += f"  <url>\n"
+        sitemap_xml += f"    <loc>{url}</loc>\n"
+        sitemap_xml += f"  </url>\n"
+    
+    sitemap_xml += "</urlset>"
+    return sitemap_xml
