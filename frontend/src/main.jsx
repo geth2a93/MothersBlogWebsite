@@ -46,7 +46,7 @@ import EditTeachingResource from './dashboard/teaching/EditTeach.jsx';
 import AdminEditVideos from "./dashboard/videos/DisplayVideos.jsx";
 import EditVideo from "./dashboard/videos/EditVideo.jsx";
 import NewVideo from './dashboard/videos/AddVideo.jsx';
-
+import NotFound from "./public/pages/NotFound";
 
 
 createRoot(document.getElementById("root")).render(
@@ -68,6 +68,7 @@ createRoot(document.getElementById("root")).render(
 
         <Route path="/videos" element={<VideoList />} />
         <Route path="/videos/:id" element={<VideoFull />} />
+        <Route path="*" element={<NotFound />} />
       </Route>
 
       <Route path="/login" element={<Login />} />

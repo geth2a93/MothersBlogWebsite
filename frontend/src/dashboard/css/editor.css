@@ -159,8 +159,8 @@
 /* Toolbar controls */
 
 .editor-toolbar-controls {
-  display: flex;
   align-items: center;
+  display: flex;
   justify-content: center;
   gap: 5px;
 
