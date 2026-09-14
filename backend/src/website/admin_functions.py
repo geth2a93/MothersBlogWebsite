@@ -80,16 +80,16 @@ def scheduler():
                 subscriber_email(email.id)
                 email.sent = True
 
-    blogs = BlogPost.query.order_by(BlogPost.blog_date.desc()).all()
+    blogs = BlogPost.query.filter_by(published=False).order_by(BlogPost.blog_date.desc()).all()
     if blogs:
         for blog in blogs:
-            if blog.blog_date.date() == today:
+            if blog.blog_date == today:
                 set_blog_to_publish(blog.slug)
 
-    books = Book.query.order_by(Book.publish_date.desc()).all()
+    books = Book.query.filter_by(published=False).order_by(Book.publish_date.desc()).all()
     if books:
         for book in books:
-            if book.publish_date.date() == today:
+            if book.publish_date == today:
                 set_book_to_publish(book.title)
 
 def set_blog_to_publish(slug):

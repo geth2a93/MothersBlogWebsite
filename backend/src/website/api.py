@@ -1,4 +1,4 @@
-from flask import Blueprint, send_from_directory, request, jsonify, current_app
+from flask import Blueprint, send_from_directory, request, jsonify, current_app, Response
 from .models import AboutMe
 from .functions import *
 
@@ -142,4 +142,8 @@ def add_subscriber():
 @api.route("/uploads/emails/<path:filename>")
 def uploaded_file(filename):
     return send_from_directory(current_app.config["UPLOAD_FOLDER"], filename)
+
+@api.route("/sitemap.xml", methods=["GET"])
+def sitemap():
+    return Response(site_map(), mimetype="application/xml")
 
