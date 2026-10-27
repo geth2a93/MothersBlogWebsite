@@ -14,3 +14,4 @@ Flask-Login
 psycopg2-binary
 tzdata
 beautifulsoup4
+certifi>=2026.10.19
