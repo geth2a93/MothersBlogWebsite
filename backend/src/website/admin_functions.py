@@ -76,7 +76,7 @@ def scheduler():
     today = datetime.now(ZoneInfo("America/New_York")).date()
     if emails:
         for email in emails:
-            if email.date_to_send.date() == today and not email.sent:
+            if email.date_to_send == today and not email.sent:
                 subscriber_email(email.id)
                 email.sent = True
 
